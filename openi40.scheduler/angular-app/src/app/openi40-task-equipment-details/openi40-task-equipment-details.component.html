@@ -1,0 +1,166 @@
+<p-panel header="Setup equipment" [toggleable]="false" >
+  <div *ngIf="task?.setupEquip?false:true">
+    No available informations
+  </div>
+  <p-table  [value]="task?.setupEquip?.machine"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+
+        [paginator]="false"
+        [filterDelay]="0"  >
+
+        <ng-template pTemplate="header">
+            <tr >
+
+                <th pSortableColumn="code">machine code </th>
+                <th pSortableColumn="description">machine description </th>
+                <th pSortableColumn="startDateTime">start at</th>
+                <th pSortableColumn="endDateTime">end at</th>
+                <th style="width: 8rem"></th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-rc>
+            <tr >
+
+                <td>
+                  {{rc.code}}
+                </td>
+                <td>
+                  {{rc.description}}
+              </td>
+              <td>
+                  {{rc.startDateTime | date: 'short'}}
+              </td>
+              <td>
+                  {{rc.endDateTime | date: 'short'}}
+              </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No machine reservation infos</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-table  [value]="task?.setupEquip?.secondaries"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+
+        [paginator]="false"
+        [filterDelay]="0"  >
+
+        <ng-template pTemplate="header">
+            <tr >
+
+                <th pSortableColumn="code">resource code </th>
+                <th pSortableColumn="description">resource description</th>
+                <th pSortableColumn="startDateTime">start at</th>
+                <th pSortableColumn="endDateTime">end at</th>
+                <th style="width: 8rem"></th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-rc>
+            <tr >
+
+                <td>
+                  {{rc.code}}
+                </td>
+                <td>
+                  {{rc.description}}
+              </td>
+              <td>
+                  {{rc.startDateTime | date: 'short'}}
+              </td>
+              <td>
+                  {{rc.endDateTime | date: 'short'}}
+              </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No resources</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>
+<p-panel header="Work equipment" [toggleable]="false" *ngIf="task?.workEquip">
+  <div *ngIf="task?.workEquip?false:true">
+    No available informations
+  </div>
+  <p-table  [value]="task?.workEquip?.machine"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+
+        [paginator]="false"
+        [filterDelay]="0"  >
+
+        <ng-template pTemplate="header">
+            <tr >
+
+                <th pSortableColumn="code">machine code </th>
+                <th pSortableColumn="description">machine description </th>
+                <th pSortableColumn="startDateTime">start at</th>
+                <th pSortableColumn="endDateTime">end at</th>
+                <th style="width: 8rem"></th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-rc>
+            <tr >
+
+                <td>
+                  {{rc.code}}
+                </td>
+                <td>
+                  {{rc.description}}
+              </td>
+              <td>
+                  {{rc.startDateTime | date: 'short'}}
+              </td>
+              <td>
+                  {{rc.endDateTime | date: 'short'}}
+              </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No machine reservation infos</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    <p-table  [value]="task?.workEquip?.secondaries"  dataKey="id" styleClass="p-datatable-customers" [rowHover]="true"
+
+        [paginator]="false"
+        [filterDelay]="0"  >
+
+        <ng-template pTemplate="header">
+            <tr >
+
+                <th pSortableColumn="code">resource code </th>
+                <th pSortableColumn="description">resource description</th>
+                <th pSortableColumn="startDateTime">start at</th>
+                <th pSortableColumn="endDateTime">end at</th>
+                <th style="width: 8rem"></th>
+            </tr>
+
+        </ng-template>
+        <ng-template pTemplate="body" let-rc>
+            <tr >
+
+                <td>
+                  {{rc.code}}
+                </td>
+                <td>
+                  {{rc.description}}
+              </td>
+              <td>
+                  {{rc.startDateTime | date: 'short'}}
+              </td>
+              <td>
+                  {{rc.endDateTime | date: 'short'}}
+              </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No resources</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-panel>

@@ -1,0 +1,1532 @@
+{
+	"dataSourceName": "ARBALETE-DEMO",
+	"dataSetName": "ARBALETE-COMPANY",
+	"dataSetVariant": "DEFAULT",
+	"code": "ARBALETE-COMPANY",
+	"description": "Florida Keys Arbaletes company",
+	"timesheetMetaInfoCode": "DEFAULT",
+	"schedulingWindow": {
+		"startDateTime": "2020-12-01T00:00:00",
+		"endDateTime": "2021-06-01T23:59:59"
+	},
+	"timesheetMetaInfos": [
+		{
+			"code": "DEFAULT",
+			"description": "Default company calendar",
+			"workingTimeRules": [
+				{
+					"dayOfWeek": 2,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 2,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 3,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 3,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 4,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 4,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 5,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 5,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 6,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 6,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				}
+			],
+			"exceptionRules": [
+				{
+					"working": false,
+					"startPeriod": "2020-12-08T00:00:00",
+					"endPeriod": "2020-12-09T00:00:00"
+				},
+				{
+					"working": false,
+					"startPeriod": "2020-12-24T00:00:00",
+					"endPeriod": "2020-12-26T00:00:00"
+				},
+				{
+					"working": false,
+					"startPeriod": "2020-12-31T00:00:00",
+					"endPeriod": "2021-01-07T00:00:00"
+				}
+			]
+		},
+		{
+			"code": "HEATING-CHAMBER-CALENDAR-MODEL",
+			"description": "Heating chamber calendar model",
+			"workingTimeRules": [
+				{
+					"dayOfWeek": 1,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 2,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 3,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 4,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 5,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 6,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				},
+				{
+					"dayOfWeek": 7,
+					"startTime": "00:00:00",
+					"endTime": "24:00:00"
+				}
+			],
+			"exceptionRules": []
+		}
+	],
+	"companies": [
+		{
+			"code": "ACOMPANY001",
+			"description": "Florida keys Arbaletes"
+		}
+	],
+	"plants": [
+		{
+			"code": "STB001",
+			"description": "Sugarlof Plant",
+			"productiveCompanyCode": "ACOMPANY001"
+		}
+	],
+	"departments": [
+		{
+			"code": "PRD001",
+			"description": "Production department",
+			"plantCode": "STB001"
+		}
+	],
+	"products": [
+		{
+			"code": "MAHOGANY160x40x5",
+			"description": "Mahogany table 160x40x5 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "MAHOGANY130x40x5",
+			"description": "Mahogany piece 130x40x5 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "MAHOGANY30x40x5",
+			"description": "Mahogany piece 30x40x5 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "MAHOGANY130x1.5x5",
+			"description": "Mahogany strip 130x1.5x5 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "MAHOGANY10x10x5",
+			"description": "Mahogany strip for handle 10x10x5 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "EPOXY001",
+			"description": "Bicomponent epoxy glue",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "DARKBROWN001",
+			"description": "Dark brown paint",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "DARKGREEN001",
+			"description": "Dark green paint",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "POLYURETHANE001",
+			"description": "Transparent poliyrethanic paint",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "WAFER130x6x5",
+			"description": "Mahogany laminated 130x6x5 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "BARRELL95",
+			"description": "Raw speargun barrel 95 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "CAMOSPEARGUNBARREL95",
+			"description": "Camo speargun barrel 95 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "HANDLE001",
+			"description": "Raw speargun handle",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "RAWSPEARGUN95",
+			"description": "Raw speargun assembled 95 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "INOXCLIP001",
+			"description": "Inox wire clip",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "INOXREEL001",
+			"description": "Inox reel",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "TRIGGER001",
+			"description": "Inox trigger mechanism",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "RUBBERBAND58CM",
+			"description": "Rubber band 58 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SHAFT130CM",
+			"description": "Shaft 130 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SCREW001",
+			"description": "Inox m4 screw",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "CAMOSPEARGUN95",
+			"description": "Camo speargun assembled 95 cm",
+			"averageMinPurchaseQty": 10,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		}
+	],
+	"secondaryResourcesGroup": [
+		{
+			"code": "EMPLOYEE",
+			"description": "General manifactury employee",
+			"departmentCode": "PRD001",
+			"resourcesNumber": 5
+		},
+		{
+			"code": "CNC-EXPERTS",
+			"description": "Cnc specialized employees",
+			"departmentCode": "PRD001",
+			"resourcesNumber": 5
+		},
+		{
+			"code": "HC-SLOTS",
+			"description": "Heating chamber slots",
+			"departmentCode": "PRD001",
+			"resourcesNumber": 30,
+			"timesheetMetaInfoCode": "DEFAULT"
+		},
+		{
+			"code": "WOOD-CLAMPS",
+			"description": "Wood clamps",
+			"departmentCode": "PRD001",
+			"resourcesNumber": 80,
+			"timesheetMetaInfoCode": "DEFAULT"
+		}
+	],
+	"workcenters": [
+		{
+			"code": "CUTTING-WKC",
+			"description": "Cut workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "LAMINATION-WKC",
+			"description": "Lamination workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "HEATING-WKC",
+			"description": "Heating workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "CNC-WKC",
+			"description": "Cnc workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "SANDPAPERING-WKC",
+			"description": "Wood finish workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "PAINTING-WKC",
+			"description": "Painting workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "COATING-WKC",
+			"description": "Coating workcenter",
+			"departmentCode": "PRD001"
+		},
+		{
+			"code": "ASSEMBLY-WKC",
+			"description": "Assembly workcenter",
+			"departmentCode": "PRD001"
+		}
+	],
+	"machines": [
+		{
+			"code": "SAWMACHINE-01",
+			"description": "Circular saw 01",
+			"workCenterCode": "CUTTING-WKC"
+		},
+		{
+			"code": "SAWMACHINE-02",
+			"description": "Circular saw  02",
+			"workCenterCode": "CUTTING-WKC"
+		},
+		{
+			"code": "SAWMACHINE-03",
+			"description": "Circular saw  03",
+			"workCenterCode": "CUTTING-WKC"
+		},
+		{
+			"code": "LAMINATION-WORKBENCH-01",
+			"description": "Lamination workbench 01",
+			"workCenterCode": "LAMINATION-WKC"
+		},
+		{
+			"code": "LAMINATION-WORKBENCH-02",
+			"description": "Lamination workbench 02",
+			"workCenterCode": "LAMINATION-WKC"
+		},
+		{
+			"code": "LAMINATION-WORKBENCH-03",
+			"description": "Lamination workbench 03",
+			"workCenterCode": "LAMINATION-WKC"
+		},
+		{
+			"code": "CNC-01",
+			"description": "Cnc machine 01",
+			"workCenterCode": "CNC-WKC"
+		},
+		{
+			"code": "CNC-02",
+			"description": "Cnc machine 02",
+			"workCenterCode": "CNC-WKC"
+		},
+		{
+			"code": "CNC-03",
+			"description": "Cnc machine 03",
+			"workCenterCode": "CNC-WKC"
+		},
+		{
+			"code": "HEATING-CHAMBER",
+			"description": "Heating chamber",
+			"workCenterCode": "HEATING-WKC",
+			"infiniteCapacity": true,
+			"timesheetMetaInfoCode": "DEFAULT"
+		},
+		{
+			"code": "SANDPAPER-01",
+			"description": "Sand paper workbench 01",
+			"workCenterCode": "SANDPAPERING-WKC"
+		},
+		{
+			"code": "SANDPAPER-02",
+			"description": "Sand paper workbench 02",
+			"workCenterCode": "SANDPAPERING-WKC"
+		},
+		{
+			"code": "SANDPAPER-03",
+			"description": "Sand paper workbench 03",
+			"workCenterCode": "SANDPAPERING-WKC"
+		},
+		{
+			"code": "PAINTCOMPRESSOR-01",
+			"description": "Paint compressor 01",
+			"workCenterCode": "PAINTING-WKC"
+		},
+		{
+			"code": "PAINTCOMPRESSOR-02",
+			"description": "Paint compressor 02",
+			"workCenterCode": "PAINTING-WKC"
+		},
+		{
+			"code": "PAINTCOMPRESSOR-03",
+			"description": "Paint compressor 03",
+			"workCenterCode": "PAINTING-WKC"
+		},
+		{
+			"code": "ASSEMBLY-01",
+			"description": "Assembly workbench 01",
+			"workCenterCode": "ASSEMBLY-WKC"
+		},
+		{
+			"code": "ASSEMBLY-02",
+			"description": "Assembly workbench 02",
+			"workCenterCode": "ASSEMBLY-WKC"
+		},
+		{
+			"code": "ASSEMBLY-03",
+			"description": "Assembly workbench 03",
+			"workCenterCode": "ASSEMBLY-WKC"
+		},
+		{
+			"code": "COATING-01",
+			"description": "Coating workbench 01",
+			"workCenterCode": "COATING-WKC"
+		},
+		{
+			"code": "COATING-02",
+			"description": "Coating workbench 02",
+			"workCenterCode": "COATING-WKC"
+		},
+		{
+			"code": "COATING-03",
+			"description": "Coating workbench 03",
+			"workCenterCode": "COATING-WKC"
+		}
+	],
+	"cycleModels": [
+		{
+			"code": "CYCLE-MAHOGANY130x40x5",
+			"description": "Cutting MAHOGANY130x40x5 piece",
+			"productCode": "MAHOGANY130x40x5",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-MAHOGANY130x40x5-001",
+					"description": "Cutting mahogany piece 130x40x5",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-MAHOGANY130x40x5-001-MAHOGANY160x40x5",
+							"description": "",
+							"warehouseCode": "WH001",
+							"requiredProductCode": "MAHOGANY160x40x5",
+							"useCoefficient": 0.8125,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CUTTING-WKC",
+							"setupTime": 1,
+							"machineTime": 5,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-MAHOGANY30x40x5",
+			"description": "Cutting MAHOGANY30x40x5 piece",
+			"productCode": "MAHOGANY30x40x5",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-MAHOGANY30x40x5-001",
+					"description": "Cutting mahogany piece 130x40x5",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-MAHOGANY30x40x5-001-MAHOGANY160x40x5",
+							"description": "",
+							"requiredProductCode": "MAHOGANY160x40x5",
+							"useCoefficient": 0.1875,
+							"warehouseCode": "WH001",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CUTTING-WKC",
+							"setupTime": 1,
+							"machineTime": 5,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-MAHOGANY130x1.5x5",
+			"description": "Cutting MAHOGANY130x1.5x5 strips",
+			"productCode": "MAHOGANY130x1.5x5",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-MAHOGANY130x1.5x5-001",
+					"description": "Cutting mahogany lamination strips",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-MAHOGANY130x1.5x5-001-MAHOGANY130x40x5",
+							"description": "",
+							"requiredProductCode": "MAHOGANY130x40x5",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.0375,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CUTTING-WKC",
+							"setupTime": 5,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-MAHOGANY10x10x5",
+			"description": "Cutting mahogany raw handle part",
+			"productCode": "MAHOGANY10x10x5",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"plantCode": "STB001",
+			"operations": [
+				{
+					"code": "OP-CYCLE-MAHOGANY10x10x5-001",
+					"description": "Cnc shaping BARREL95",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-MAHOGANY10x10x5-001-MAHOGANY30x40x5",
+							"description": "",
+							"requiredProductCode": "MAHOGANY30x40x5",
+							"useCoefficient": 0.333,
+							"warehouseCode": "WH001",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CUTTING-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-WAFER130x6x5",
+			"description": "Cycle for wafer 130x6x5 lamination",
+			"productCode": "WAFER130x6x5",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-WAFER130x6x5-001",
+					"description": "Operation for wafer 130x6x5 lamination preparation",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-WAFER130x6x5-001-EPOXY001",
+							"description": "",
+							"requiredProductCode": "EPOXY001",
+							"useCoefficient": 0.3,
+							"warehouseCode": "WH001",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-WAFER130x6x5-001-MAHOGANY130x1.5x5",
+							"description": "",
+							"requiredProductCode": "MAHOGANY130x1.5x5",
+							"warehouseCode": "WH001",
+							"useCoefficient": 4,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "LAMINATION-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								},
+								{
+									"secondaryResourceGroupCode": "WOOD-CLAMPS",
+									"useType": "PROPORTIONAL",
+									"qty": 6,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-WAFER130x6x5-002",
+					"description": "Wafer 130x6x5 lamination epoxy glue action waiting in heating chamber",
+					"sequenceCode": "002",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "HEATING-WKC",
+							"setupTime": 10,
+							"machineTime": 1440,
+							"machineTimeSpec": "TIME4OPERATION",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP"
+								},
+								{
+									"secondaryResourceGroupCode": "HC-SLOTS",
+									"useType": "PROPORTIONAL",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-BARRELL95",
+			"description": "Cycle for barrel 95 cm cnc forming",
+			"productCode": "BARRELL95",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-BARRELL95-001",
+					"description": "Cnc shaping BARREL95",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-BARRELL95-001-WAFER130x6x5",
+							"description": "",
+							"requiredProductCode": "WAFER130x6x5",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CNC-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-HANDLE001",
+			"description": "Cycle for handle cnc forming",
+			"productCode": "HANDLE001",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "CYCLE-HANDLE001-001",
+					"description": "Cnc shaping HANDLE001",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "CYCLE-HANDLE001-001",
+							"description": "",
+							"requiredProductCode": "MAHOGANY10x10x5",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "CNC-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "CNC-EXPERTS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-CAMOSPEARGUNBARREL95",
+			"description": "Cycle for camo speargun barrel assembly and finishing",
+			"productCode": "CAMOSPEARGUNBARREL95",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-001",
+					"description": "Handle and barrel assembly",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-001-HANDLE001",
+							"description": "",
+							"requiredProductCode": "HANDLE001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-001-BARRELL95",
+							"description": "",
+							"requiredProductCode": "BARRELL95",
+							"useCoefficient": 1,
+							"warehouseCode": "WH001",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-001-EPOXY001",
+							"description": "",
+							"requiredProductCode": "EPOXY001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "ASSEMBLY-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-002",
+					"description": "Handle and barrel waiting in heating chamber",
+					"sequenceCode": "002",
+					
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "HEATING-WKC",
+							"setupTime": 10,
+							"machineTime": 720,
+							"machineTimeSpec": "TIME4OPERATION",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP"
+								},
+								{
+									"secondaryResourceGroupCode": "HC-SLOTS",
+									"useType": "PROPORTIONAL",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-003",
+					"description": "Assembled raw barrel sandpapering",
+					"sequenceCode": "003",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SANDPAPERING-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-004",
+					"description": "Assembled raw barrel painting",
+					"sequenceCode": "004",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-004-DARKBROWN001",
+							"description": "",
+							"requiredProductCode": "DARKBROWN001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.2,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-004-DARKGREEN001",
+							"description": "",
+							"requiredProductCode": "DARKGREEN001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.2,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "PAINTING-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-005",
+					"description": "Assembled raw barrel painting essication",
+					"sequenceCode": "005",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "HEATING-WKC",
+							"setupTime": 10,
+							"machineTime": 720,
+							"machineTimeSpec": "TIME4OPERATION",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP"
+								},
+								{
+									"secondaryResourceGroupCode": "HC-SLOTS",
+									"useType": "PROPORTIONAL",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-006",
+					"description": "Assembled raw barrel epoxy surface painting",
+					"sequenceCode": "006",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-006-EPOXY001",
+							"description": "",
+							"requiredProductCode": "EPOXY001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.2,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "COATING-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-007",
+					"description": "Assembled raw barrel epoxy essication",
+					"sequenceCode": "007",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "HEATING-WKC",
+							"setupTime": 10,
+							"machineTime": 720,
+							"machineTimeSpec": "TIME4OPERATION",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP"
+								},
+								{
+									"secondaryResourceGroupCode": "HC-SLOTS",
+									"useType": "PROPORTIONAL",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-008",
+					"description": "Assembled raw barrel polyurethane surface painting",
+					"sequenceCode": "008",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-006-POLYURETHANE001",
+							"description": "",
+							"requiredProductCode": "POLYURETHANE001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 0.2,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "COATING-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-CAMOSPEARGUNBARREL95-009",
+					"description": "Assembled raw barrel polyurethane essication",
+					"sequenceCode": "009",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "HEATING-WKC",
+							"setupTime": 10,
+							"machineTime": 1440,
+							"machineTimeSpec": "TIME4OPERATION",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP"
+								},
+								{
+									"secondaryResourceGroupCode": "HC-SLOTS",
+									"useType": "PROPORTIONAL",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-CAMOSPEARGUN95",
+			"description": "CAMOSPEARGUN95 final assembly",
+			"productCode": "CAMOSPEARGUN95",
+			"plantCode": "STB001",
+			"warehouseCode": "WH001",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CAMOSPEARGUN95-001",
+					"description": "Cutting mahogany lamination strips",
+					"sequenceCode": "001",
+					"bomItems": [
+						{
+							"code": "OP-CAMOSPEARGUN95-001-INOXCLIP001",
+							"description": "",
+							"requiredProductCode": "INOXCLIP001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-INOXREEL001",
+							"description": "",
+							"requiredProductCode": "INOXREEL001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-RUBBERBAND58CM",
+							"description": "",
+							"requiredProductCode": "RUBBERBAND58CM",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-TRIGGER001",
+							"description": "",
+							"requiredProductCode": "TRIGGER001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-SHAFT130CM",
+							"description": "",
+							"requiredProductCode": "SHAFT130CM",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-SCREW001",
+							"description": "",
+							"requiredProductCode": "SCREW001",
+							"warehouseCode": "WH001",
+							"useCoefficient": 4,
+							"consumingBatchQty": 4.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+							
+						},
+						{
+							"code": "OP-CAMOSPEARGUN95-001-CAMOSPEARGUNBARREL95",
+							"description": "",
+							"requiredProductCode": "CAMOSPEARGUNBARREL95",
+							"warehouseCode": "WH001",
+							"useCoefficient": 1,
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "ASSEMBLY-WKC",
+							"setupTime": 10,
+							"machineTime": 30,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"salesOrders": [
+		{
+			"code": "ORD001-2020",
+			"plantCode": "STB001",
+			"description": "",
+			"orderType": "SALES",
+			"orderLines": [
+				{
+					"code": "ORD001-2020/001",
+					"orderCode": "ORD001-2020",
+					"plantCode": "STB001",
+					"warehouseCode": "WH001",
+					"askedDeliveryDate": "2021-01-10T10:00:00",
+					"productCode": "CAMOSPEARGUN95",
+					"residualQty": 1,
+					"completedQty": 0,
+					"totalQty": 1,
+					"explodeWorkOrders": true,
+					"color": "#b3ff99"
+				}
+			]
+		},
+		{
+			"code": "ORD002-2020",
+			"plantCode": "STB001",
+			"description": "",
+			"orderType": "SALES",
+			"orderLines": [
+				{
+					"code": "ORD002-2020/001",
+					"orderCode": "ORD001-2020",
+					"plantCode": "STB001",
+					"warehouseCode": "WH001",
+					"askedDeliveryDate": "2021-01-15T10:00:00",
+					"productCode": "CAMOSPEARGUN95",
+					"residualQty": 2,
+					"completedQty": 0,
+					"totalQty": 2,
+					"explodeWorkOrders": true,
+					"color": "#ff9999"
+				}
+			]
+		}
+	],
+	"purchaseOrders": [
+		{
+			"code": "PORD001-2020",
+			"plantCode": "STB001",
+			"description": "",
+			"orderType": "PURCHASE",
+			"orderLines": [
+				{
+					"code": "PORD001-2020/001",
+					"orderCode": "PORD001-2020",
+					"plantCode": "STB001",
+					"warehouseCode": "WH001",
+					"askedDeliveryDate": "2020-01-07T12:00:00",
+					"productCode": "EPOXY001",
+					"residualQty": 1000,
+					"completedQty": 0,
+					"totalQty": 1000
+				}
+			]
+		}
+	],
+	"warehouses": [
+		{
+			"code": "WH001",
+			"plantCode": "STB001",
+			"description": "Warehouse 001"
+		}
+	],
+	"stockInventories": [
+		{
+			"code": "INVENTORY001",
+			"productCode": "MAHOGANY160x40x5",
+			"description": "Mahogany table 16x40x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY001A",
+			"productCode": "MAHOGANY130x40x5",
+			"description": "Mahogany strip 130x40x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY001B",
+			"productCode": "MAHOGANY30x40x5",
+			"description": "Mahogany strip 30x40x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY002",
+			"productCode": "MAHOGANY130x1.5x5",
+			"description": "Mahogany strip 130x1.5x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY003",
+			"productCode": "MAHOGANY10x10x5",
+			"description": "Mahogany strip for handle 10x10x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY004",
+			"productCode": "EPOXY001",
+			"description": "Bicomponent epoxy glue",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY005",
+			"productCode": "DARKBROWN001",
+			"description": "Dark brown paint",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY006",
+			"productCode": "DARKGREEN001",
+			"description": "Dark green paint",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY007",
+			"productCode": "POLYURETHANE001",
+			"description": "Transparent poliyrethanic paint",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY008",
+			"productCode": "WAFER130x6x5",
+			"description": "Mahogany laminated 130x6x5 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY009",
+			"productCode": "BARRELL95",
+			"description": "Raw speargun barrel 95 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY010",
+			"productCode": "CAMOSPEARGUNBARREL95",
+			"description": "Camo speargun barrel 95 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY011",
+			"productCode": "HANDLE001",
+			"description": "Raw speargun handle",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY012",
+			"productCode": "RAWSPEARGUN95",
+			"description": "Raw speargun assembled 95 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		},
+		{
+			"code": "INVENTORY013",
+			"productCode": "INOXCLIP001",
+			"description": "Inox wire clip",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY014",
+			"productCode": "INOXREEL001",
+			"description": "Inox reel",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY015",
+			"productCode": "TRIGGER001",
+			"description": "Inox triggher mechanism",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY016",
+			"productCode": "RUBBERBAND58CM",
+			"description": "Rubber band 58 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY017",
+			"productCode": "SHAFT130CM",
+			"description": "Shaft 130 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY018",
+			"productCode": "SCREW001",
+			"description": "Inox m4 screw",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "INVENTORY019",
+			"productCode": "CAMOSPEARGUN95",
+			"description": "Camo speargun assembled 95 cm",
+			"warehouseCode": "WH001",
+			"physicalStockQuantity": 0
+		}
+	]
+}

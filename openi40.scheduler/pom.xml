@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40</groupId>
+		<artifactId>parent</artifactId>
+		<version>00.00.01BC</version>
+	</parent>
+	<groupId>com.openi40.scheduler</groupId>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>Common</module>
+		<module>Model</module>
+		<module>SchedulerKernelArchitecture</module>
+		<module>Engine</module>
+		<module>Engine.Standalone</module>
+		<module>ApsDataCache</module>
+		<module>Client.RestApi</module>
+		<module>Client.Model</module>		
+		<module>Model.Daos</module>
+		<module>MapperModules</module>		
+		<module>angular-app</module>
+		<module>InputChannels</module>
+		<module>Input.Model</module>
+		<module>CommonDatamodel</module>		
+		<module>Output.Model</module>
+		<module>Output.Channels</module>
+		<module>InputOutputConfig</module>
+	</modules>
+</project>

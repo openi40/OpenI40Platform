@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40</groupId>
+		<artifactId>parent</artifactId>
+		<version>00.00.01BC</version>
+	</parent>
+	<groupId>com.openi40.platform</groupId>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+	</dependencies>
+	<modules>
+		<module>Persistence.Input.Channel</module>
+		<module>openi40.app</module>
+		<module>Persistence.Output.Channel</module>
+		<module>Persistence.Config</module>
+		<module>openi40.persistence.server</module>
+		<module>openi40.dbmodel</module>
+		<module>openi40.dbmodel.repositories</module>
+		<module>openi40.dbmodel.integration.app</module>
+		<module>openi40.generical.dbintegration</module>
+	</modules>
+</project>

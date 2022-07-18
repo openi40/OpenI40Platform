@@ -1,0 +1,7 @@
+<h1>Choose a datasource to work with</h1>
+<ul>
+  <li *ngFor="let item of dataSetEntries">
+      <button [routerLink]="'/openi40-dataset-homepage'" [queryParams]="{dataSourceName: item.dataSourceName,dataSetName:item.dataSetName,dataSetVariant: item.dataSetVariant}" class="btn">{{item.description}}</button>
+
+  </li>
+</ul>

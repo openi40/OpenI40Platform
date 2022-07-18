@@ -1,0 +1,9 @@
+/.classpath
+target/
+*.class
+.project
+.classpath
+.settings/
+.sts4-cache/
+*.log
+logs/

@@ -1,0 +1,23 @@
+
+<p-chart [data]="data" [options]="options" type="bar" height="450px" (onDataSelect)="selectData($event)">
+
+</p-chart>
+<p-chart [data]="dailyWarehouse" [options]="options" type="bar" height="450px" >
+
+</p-chart>
+<!--
+<p-table [value]="data.datasets">
+  <ng-template pTemplate="header">
+      <tr>
+
+          <th></th><th  *ngFor="let label of data.labels; index as i">{{label}}</th>
+
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-row>
+      <tr>
+        <td style="color:{{row.backgroundColor}}">{{row.label}}</td><td *ngFor="let val of row.data; index as i">{{val}}</td>
+      </tr>
+  </ng-template>
+</p-table>
+-->

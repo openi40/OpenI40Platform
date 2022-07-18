@@ -1,0 +1,40 @@
+RestApiConfig:
+  useWebSocket: false 
+server:
+  port: 8081
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    contextPath: /openi40-restserver
+spring:
+  profiles:    active:      - "server.rest.api"
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+hibernate.cache.use_second_level_cache: false        
+ 
+#spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.hikari.connectionTimeout: 20000
+spring.datasource.hikari.maximumPoolSize: 5
+spring.datasource.username: postgres
+spring.datasource.password: <password>
+spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
+com.openi40.scheduler.apsdatasources:
+        sources:
+          -
+            dataSourceName: REST-LINK
+            dataImporterId: dbImporter
+com.openi40.platform.dbchannels:
+        useJpaStreaming: false
+        batchingSize: 1000
+        configs:
+          -            
+           dataSourceName: REST-LINK
+           dataSetName: REST-DATASET
+           dataSetVariant: DEFAULT
+           dataSourceDescription: Data loaded from rest via db

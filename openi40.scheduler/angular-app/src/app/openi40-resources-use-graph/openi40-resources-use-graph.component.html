@@ -1,0 +1,22 @@
+<p-treeTable *ngIf="root?true:false" [value]="root" >
+  <ng-template pTemplate="header">
+    <tr>
+        <th>Resources use</th>
+    </tr>
+</ng-template>
+
+<ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+  <tr>
+      <td>
+          <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+          {{rowData.label}}
+          <div *ngIf="rowData.graphData">
+            <p-chart [data]="rowData.graphData" type="bar" height="450px"></p-chart>
+
+          </div>
+      </td>
+
+  </tr>
+</ng-template>
+
+</p-treeTable>

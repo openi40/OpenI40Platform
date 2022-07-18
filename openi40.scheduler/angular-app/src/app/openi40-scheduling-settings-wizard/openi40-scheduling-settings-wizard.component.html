@@ -1,0 +1,161 @@
+<p-card *ngIf="firstPage === true">
+  <ng-template pTemplate="title">
+    Work orders scheduling set settings</ng-template
+  >
+  <ng-template pTemplate="subtitle">
+    Choose scheduling set algorithm & advanced settings
+  </ng-template>
+  <ng-template pTemplate="content">
+    <p-fieldset legend="Algorithm selection">
+      <p-selectButton
+        [options]="schedulingAlgorithms"
+        [(ngModel)]="apsAction.algorithmType"
+        placeholder="Select the algorithm"
+      ></p-selectButton>
+    </p-fieldset>
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Task ordering options"
+      [selected]="true"
+        ><p-orderList [value]="apsAction.options.sortOptions">
+          <ng-template let-item pTemplate="item">
+            <div>
+              <label
+                class="p-col-10 p-mb-10 p-md-10 p-mb-md-10"
+                title="{{ item.longDescription }}"
+                >{{ item.description }}</label
+              >
+              <p-selectButton
+                [options]="[
+                  { value: 'ASC', label: 'Ascending' },
+                  { value: 'DESC', label: 'Descending' }
+                ]"
+                [(ngModel)]="item.sortDirection"
+              ></p-selectButton>
+            </div>
+          </ng-template> </p-orderList
+      ></p-accordionTab>
+      <p-accordionTab header="Optimization options" [selected]="true">
+        <p-orderList [value]="apsAction.options.schedulingPrioritiesOptions">
+          <ng-template let-item pTemplate="item">
+            <div>
+              <label title="{{ item.longDescription }}">{{
+                item.description
+              }}</label>
+            </div>
+          </ng-template>
+        </p-orderList></p-accordionTab
+      >
+      <p-accordionTab header="Material management options" [selected]="true"
+        ><div class="p-fluid">
+          <div
+            class="p-field p-grid"
+            *ngFor="
+              let strategyHolder of apsAction.options
+                .supplyResolutionStrategies;
+              index as i
+            "
+          >
+            <label for="firstname" class="p-col-10 p-mb-10 p-md-10 p-mb-md-10">
+              {{ strategyHolder.strategy.description }}
+            </label>
+            <div class="p-col-2 p-md-2">
+              <p-selectButton
+                [options]="[
+                  { value: true, label: 'on' },
+                  { value: false, label: 'off' }
+                ]"
+                [(ngModel)]="strategyHolder.enabled"
+                *ngIf="strategyHolder.strategy.userCanDisable"
+              ></p-selectButton>
+            </div>
+          </div></div
+      ></p-accordionTab>
+    </p-accordion>
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="p-grid p-nogutter p-justify-between">
+      <p-button
+        label="Close"
+        (onClick)="close()"
+        icon="pi pi-angle-left"
+      ></p-button>
+      <p-button *ngIf="apsAction.workOrders && apsAction.workOrders.length>0"
+        label="Save and apply"
+        (onClick)="saveAndApply($event)"
+        icon="pi pi-angle-left"
+        styleClass="p-button-success"
+      ></p-button>
+      <p-button
+        label="Go to work orders choice"
+        (onClick)="goToAdvancedSettings()"
+        icon="pi pi-angle-right"
+        iconPos="right"
+        styleClass="p-button-success"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-card>
+<p-card *ngIf="secondPage === true">
+  <ng-template pTemplate="title">
+    Work orders scheduling set editing</ng-template
+  >
+  <ng-template pTemplate="subtitle">
+    Choose work orders
+  </ng-template>
+  <ng-template pTemplate="content">
+    <p-fieldset legend="Work orders to schedule">
+      <p-pickList [source]="workOrderFreeList" [target]="apsAction.workOrders">
+        <ng-template let-item pTemplate="item">
+          <div>
+            {{ item.code }} {{item.description}}
+          </div>
+        </ng-template>
+      </p-pickList>
+    </p-fieldset>
+
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="p-grid p-nogutter p-justify-between">
+      <p-button
+        label="Back to algorithm & advanced settings"
+        (onClick)="goFirstPage()"
+        icon="pi pi-angle-left"
+      ></p-button>
+      <p-button
+        label="Save & apply"
+        (onClick)="saveAndApply($event)"
+        icon="pi pi-angle-right"
+        iconPos="right"
+        styleClass="p-button-success"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-card>
+<p-card *ngIf="addedWorkOrders && addedWorkOrders.length>0">
+  <ng-template pTemplate="title">
+    Work orders selection corrected</ng-template
+  >
+  <ng-template pTemplate="subtitle">
+    Automatically added work orders
+  </ng-template>
+  <ng-template pTemplate="content">
+  <ul>
+    <li *ngFor="let wo of addedWorkOrders">
+      {{ wo.code }} {{wo.description}}
+    </li>
+  </ul>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="p-grid p-nogutter p-justify-between">
+
+      <p-button
+        label="Save & apply"
+        (onClick)="endWizard()"
+        icon="pi pi-angle-right"
+        iconPos="right"
+        styleClass="p-button-success"
+      ></p-button>
+    </div>
+  </ng-template>
+</p-card>

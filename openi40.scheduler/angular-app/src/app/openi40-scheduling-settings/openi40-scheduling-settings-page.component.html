@@ -1,0 +1,22 @@
+  <p class="p-m-0">
+    <p-tabView [(activeIndex)]="tabIndex" (onClose)="handleClose($event)" (onChange)="changedTab($event)">
+      <p-tabPanel *ngFor="let action of apsData.schedulingSets; index as i" header="Scheduling set Nr. {{ (i+1) }}" [closable]="true" >
+        <ng-template pTemplate="content">
+          <openi40-scheduling-settings [apsData]="apsData" [apsAction]="action" (apsDataChange)="apsDataChangeEvent($event)" [schedulingAdvancedMode]="schedulingAdvancedMode"></openi40-scheduling-settings>
+        </ng-template>
+      </p-tabPanel>
+    </p-tabView>
+
+  </p>
+
+  <span class="p-buttonset" >
+    <p-button *ngIf="canCreateSchedulingSet" icon="pi" label="New scheduling set" class="p-button-text" (click)="doNewSchedulingSetEditing($event)"></p-button>
+  </span>
+  <div *ngIf="editingVisible">
+  <p-dialog header="Creating new scheduling set" [(visible)]="editingVisible" [modal]="true" [style]="{ width: '50vw' }" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <openi40-scheduling-settings-wizard [apsData]="apsData" [apsAction]="editedSchedulingSet" (closeEvent)="closeSchedulingSetEditing($event)" (apsDataChange)="apsDataChangeEvent($event)" [schedulingAdvancedMode]="schedulingAdvancedMode">
+
+    </openi40-scheduling-settings-wizard>
+
+  </p-dialog>
+</div>

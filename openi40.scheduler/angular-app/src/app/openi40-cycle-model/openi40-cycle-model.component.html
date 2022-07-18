@@ -1,0 +1,51 @@
+<div *ngIf="cycleModel ? true : false">
+  <p-panel header="Cycle infos">
+    <div class="p-fluid">
+      <div class="p-field p-grid">
+        <label for="code" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">code</label>
+        <div class="p-col-12 p-md-10">
+          {{ cycleModel.code }}
+        </div>
+      </div>
+      <div class="p-field p-grid">
+        <label for="description" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+          >description</label
+        >
+        <div class="p-col-12 p-md-10">
+          {{ cycleModel.description }}
+        </div>
+      </div>
+      <div class="p-field p-grid">
+        <label for="productCode" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+          >product code</label
+        >
+        <div class="p-col-12 p-md-10">
+          {{ cycleModel.productCode }}
+        </div>
+      </div>
+      <div class="p-field p-grid">
+        <label for="plantCode" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+          >plant code</label
+        >
+        <div class="p-col-12 p-md-10">
+          {{ cycleModel.plantCode }}
+        </div>
+      </div>
+    </div>
+
+    <p-accordion
+      [multiple]="true"
+      title="Operations"
+      *ngFor="let operation of cycleModel.operations; index as i"
+    >
+      <p-accordionTab
+        header="{{ operation.sequenceCode }} {{ operation.description }}"
+        [selected]="operation.code === highlightOperationModelCode"
+      >
+        <openi40-operation-model
+          [operationModel]="operation"
+        ></openi40-operation-model>
+      </p-accordionTab>
+    </p-accordion>
+  </p-panel>
+</div>

@@ -1,0 +1,11 @@
+/.classpath
+target/
+*.class
+.project
+.classpath
+.settings/
+.sts4-cache/
+.externalToolBuilders/
+*.log
+logs/
+com.openi40/openi40.scheduler.SpringBootEnvironment/tmlog.lck

@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40.scheduler</groupId>
+		<artifactId>parent</artifactId>
+		<version>00.00.01BC</version>
+		
+	</parent>
+	<artifactId>SchedulerKernelArchitecture</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>Common</artifactId>
+			<version>${global.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.12</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.google.auto.service/auto-service -->
+		<dependency>
+			<groupId>org.kohsuke.metainf-services</groupId>
+			<artifactId>metainf-services</artifactId>
+			<version>1.1</version>
+			<optional>true</optional>
+		</dependency>
+
+	</dependencies>
+</project>

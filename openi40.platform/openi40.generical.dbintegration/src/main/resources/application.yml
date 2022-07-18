@@ -1,0 +1,159 @@
+server:
+  port: 8084
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    contextPath: /openi40-dbintegration
+spring:
+  profiles:    active:      - "server.rest.api"
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+hibernate.cache.use_second_level_cache: false        
+ 
+spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.hikari.connectionTimeout: 20000
+spring.datasource.hikari.maximumPoolSize: 5
+spring.datasource.username: postgres
+spring.datasource.password: <password>
+spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40TEST 
+com.openi40.generical.dbmetadata:
+                            schemaName: public
+                            importedEntities:
+                                - 
+                                  entityName: OI40_DELETED_ENTRIES
+                                  tableName: oi40_deleted_entries
+                                -
+                                  entityName: TimesheetMetaInfo
+                                  tableName: tsheet_meta
+                                -
+                                  entityName: TimesheetMetaInfoExceptionRule
+                                  tableName: tsheet_meta_exc_rule
+                                -
+                                  entityName: TimesheetMetaInfoWorkingTimeRule
+                                  tableName: tsheet_meta_working_time_rule
+                                -
+                                  entityName: ProductiveCompany
+                                  tableName: prdive_company
+                                -
+                                  entityName: Plant
+                                  tableName: plant
+                                -
+                                  entityName: Department
+                                  tableName: dept
+                                -
+                                  entityName: WorkCenter
+                                  tableName: work_center
+                                  
+                                -
+                                  entityName: Warehouse
+                                  tableName: whouse
+                                -
+                                  entityName: Machine
+                                  tableName: mac
+                                -
+                                  entityName: ResourceGroup
+                                  tableName: resource_group
+                                -
+                                  entityName: SecondaryResource
+                                  tableName: rc
+                                -
+                                  entityName: Product
+                                  tableName: prd
+                                -
+                                  entityName: PlantProductSetting
+                                  tableName: plant_prd_setting
+                                -
+                                  entityName: ProductiveCompanyProductSetting
+                                  tableName: prdive_company_prd_setting
+                                -
+                                  entityName: WarehouseProductSetting
+                                  tableName: whouse_prd_setting
+                                  
+                                -
+                                  entityName: Partner
+                                  tableName: partner
+                                -
+                                  entityName: StockSupply
+                                  tableName: stock_supply
+                                -
+                                  entityName: CycleModel
+                                  tableName: cycle_model
+                                -
+                                  entityName: OperationModel
+                                  tableName: op_model
+                                -
+                                  entityName: OperationEquipmentSpecification
+                                  tableName: op_equip_spec
+                                -
+                                  entityName: MachineEquipmentSpecification
+                                  tableName: mac_equip_spec
+                                -
+                                  entityName: MachinePriority
+                                  tableName: mac_priority                                  
+                                -
+                                  entityName: BomItemModel
+                                  tableName: bom_item_model
+                                -
+                                  entityName: SecondaryResourceUseSpecification
+                                  tableName: rc_use_spec
+                                -
+                                  entityName: CoProductItem
+                                  tableName: co_prd_item
+                                -
+                                  entityName: ApsWindow
+                                  tableName: aps_window
+                                -
+                                  entityName: ChangeoverMatrixItem
+                                  tableName: chng_over_matrix_item
+ 
+                                -
+                                  entityName: PurchaseOrder
+                                  tableName: purch_order
+                                -
+                                  entityName: PurchaseOrderLine
+                                  tableName: purch_order_line
+                                -
+                                  entityName: SalesOrder
+                                  tableName: sales_order
+                                -
+                                  entityName: SalesOrderLine
+                                  tableName: sales_order_line
+                                -
+                                  entityName: Task
+                                  tableName: task
+                                -
+                                  entityName: TaskRelation
+                                  tableName: task_relation
+                                  
+                                -
+                                  entityName: TaskProductionMaterialReservation
+                                  tableName: task_picklist
+                                -
+                                  entityName: TaskPurchaseMaterialReservation
+                                  tableName: purchase_picklist
+                                -
+                                  entityName: TaskResourceReservation
+                                  tableName: rc_group_reserv
+                                -
+                                  entityName: TaskStockMaterialReservation
+                                  tableName: whouse_picklist
+                                -
+                                  entityName: WorkOrder
+                                  tableName: work_order
+                                -
+                                  entityName: Pegging
+                                  tableName: pegging
+                                  
+                                -
+                                  entityName: ApsSchedulingSet
+                                  tableName: scheduling_set
+                                -
+                                  entityName: ScheduledWorkOrder
+                                  tableName: scheduled_wo
+                                  

@@ -1,0 +1,70 @@
+RestApiConfig:
+  useWebSocket: false 
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    contextPath: /openi40
+spring:
+  profiles:    active:      - "client.rest.api"
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+  
+#com.openi40.scheduler.apsdatasources:
+#        sources:
+#          -
+#            dataSourceName: ARBALETE-DEMO
+#            dataImporterId: demosImporter
+#          -
+#            dataSourceName: SS-COMPANY-DEMO
+#            dataImporterId: demosImporter1
+        #sourceMixers:
+#          -
+#            dataSourceName: SPEARFISHING-HOLDING
+#            dataSetName: SPEARFISHING-HOLDING
+#            dataSetVariant: DEFAULT
+#            description: Spearfishing holding company
+#            joined:
+#              -
+#                dataSourceName: ARBALETE-DEMO
+#                dataSetName: ARBALETE-COMPANY
+#                dataSetVariant: DEFAULT
+#              -
+#                dataSourceName: SS-COMPANY-DEMO
+#                dataSetName: STAINLESS-STEEL-COMPANY
+#                dataSetVariant: DEFAULT                 
+              
+            
+com.openi40.scheduler.apsinputchannels:
+      jsonFileInputs:
+          -
+            dataSourceName: ARBALETE-DEMO
+            dataImporterId: demosImporter
+            dataSetName: ARBALETE-COMPANY
+            dataSetVariant: DEFAULT
+            description: 'Florida Keys Arbaletes company'
+            baseFolder: demosource
+            createURIByEntityName: false
+            hasIncrementalUpdates: false
+            singleApsInputUri: ArbaleteCompany.json    
+          -
+            dataSourceName: SS-COMPANY-DEMO
+            dataImporterId: demosImporter1
+            dataSetName: STAINLESS-STEEL-COMPANY
+            dataSetVariant: DEFAULT
+            description: 'Florida Keys sport stainless steel company'
+            baseFolder: demosource
+            createURIByEntityName: false
+            hasIncrementalUpdates: false
+            singleApsInputUri: StainlessSteelCompany.json  
+
+                
+                                                              
+

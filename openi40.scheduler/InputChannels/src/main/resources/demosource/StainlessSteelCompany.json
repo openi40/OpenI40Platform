@@ -1,0 +1,1340 @@
+{
+	"dataSourceName": "SS-COMPANY-DEMO",
+	"dataSetName": "STAINLESS-STEEL-COMPANY",
+	"dataSetVariant": "DEFAULT",
+	"code": "STAINLESS-STEEL-COMPANY",
+	"description": "Florida Keys sport stainless steel company",
+	"timesheetMetaInfoCode": "DEFAULT",
+	"schedulingWindow": {
+		"startDateTime": "2020-12-01T00:00:00",
+		"endDateTime": "2021-06-01T23:59:59"
+	},
+	"timesheetMetaInfos": [
+		{
+			"code": "DEFAULT",
+			"description": "Default company calendar",
+			"workingTimeRules": [
+				{
+					"dayOfWeek": 2,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 2,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 3,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 3,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 4,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 4,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 5,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 5,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				},
+				{
+					"dayOfWeek": 6,
+					"startTime": "08:00:00",
+					"endTime": "13:00:00"
+				},
+				{
+					"dayOfWeek": 6,
+					"startTime": "14:00:00",
+					"endTime": "19:00:00"
+				}
+			],
+			"exceptionRules": [
+				{
+					"working": false,
+					"startPeriod": "2020-12-08T00:00:00",
+					"endPeriod": "2020-12-09T00:00:00"
+				},
+				{
+					"working": false,
+					"startPeriod": "2020-12-24T00:00:00",
+					"endPeriod": "2020-12-26T00:00:00"
+				},
+				{
+					"working": false,
+					"startPeriod": "2020-12-31T00:00:00",
+					"endPeriod": "2021-01-07T00:00:00"
+				}
+			]
+		}
+	],
+	"companies": [
+		{
+			"code": "ACOMPANY002",
+			"description": "Florida keys sport stainless steel company"
+		}
+	],
+	"plants": [
+		{
+			"code": "STB002",
+			"description": "Sugarlof Stainless steel Plant",
+			"productiveCompanyCode": "ACOMPANY002"
+		}
+	],
+	"departments": [
+		{
+			"code": "PRD002",
+			"description": "Production department",
+			"plantCode": "STB002"
+		}
+	],
+	"products": [
+		{
+			"code": "INOXCLIP001",
+			"description": "Inox wire clip",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "INOXREEL001",
+			"description": "Inox reel",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316SHEET600x600x3mm",
+			"description": "Aisi 316 sheet 600 x 600 x 3mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SANDVICKSPINE7x1.5mm",
+			"description": "Sandvick spine 7 x 1.5 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SANDVICKSHEET600x600x1mm",
+			"description": "Aisi 316 sheet 600 x 600 x 1mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SANDVICKSHAFTWING001",
+			"description": "Sandvick shaft wing",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316BAR500x50x15mm",
+			"description": "Aisi 316 bar 500 x 50 x 15 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SANDVIKROUNDBAR1500x7mm",
+			"description": "Stainless steel sandwick round bar 1500 x 7 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SANDVIKROUNDBAR20x3mm",
+			"description": "Stainless steel sandwick round bar 20 x 3 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316ROUNDBAR200x4mm",
+			"description": "Stainless steel aisi316 round bar 200 x 4 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316SPINE15x4mm",
+			"description": "Stainless steel aisi316 spine 15 x 4 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316SPINE60x4mm",
+			"description": "Stainless steel aisi316 spine 60 x 4 mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "AISI316SQUARE50x50x3mm",
+			"description": "Stainless steel aisi316 square 50x50x3mm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "FIRINGLEVER001",
+			"description": "Inox trigger mechanism firing lever",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SHAFTHOLDER002",
+			"description": "Inox trigger mechanism shaft holder",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "TRIGGER001",
+			"description": "Inox trigger mechanism",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SHAFT130CM",
+			"description": "Shaft 130 cm",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": true,
+			"canBePurchasedByScheduler": false,
+			"leadTimeDays": 7
+		},
+		{
+			"code": "SCREW001",
+			"description": "Inox m4 screw",
+			"averageMinPurchaseQty": 120,
+			"canBeProducedByScheduler": false,
+			"canBePurchasedByScheduler": true,
+			"leadTimeDays": 7
+		}
+	],
+	"secondaryResourcesGroup": [
+		{
+			"code": "EMPLOYEE-SS",
+			"description": "General manifactury employee",
+			"departmentCode": "PRD002",
+			"resourcesNumber": 15
+		},
+		{
+			"code": "WELDING-EXPERTS",
+			"description": "Cnc specialized employees",
+			"departmentCode": "PRD002",
+			"resourcesNumber": 5
+		}
+	],
+	"workcenters": [
+		{
+			"code": "SS-LASER-CUTTING-WKC",
+			"description": "Stainless steel laser cutting workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-MITER-SAW-WKC",
+			"description": "Miter saw stations workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-DRILLING-WKC",
+			"description": "Drilling workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-CNC-WKC",
+			"description": "Stainless steel cnc workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-BENDING-WKC",
+			"description": "Stainless steel Bending workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-ASSEMBLY-WKC",
+			"description": "Stainless steel assembly workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-TURNING-WKC",
+			"description": "Turning workcenter",
+			"departmentCode": "PRD002"
+		},
+		{
+			"code": "SS-WELDING-WKC",
+			"description": "Stainless steel welding workcenter",
+			"departmentCode": "PRD002"
+		}
+	],
+	"machines": [
+		{
+			"code": "SS-LASERCUTMACHINE-01",
+			"description": "Laser cut machine 01",
+			"workCenterCode": "SS-LASER-CUTTING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-LASERCUTMACHINE-02",
+			"description": "Laser cut machine  02",
+			"workCenterCode": "SS-LASER-CUTTING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-LASERCUTMACHINE-03",
+			"description": "Laser cut machine  03",
+			"workCenterCode": "SS-LASER-CUTTING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-TURNING-WKC-01",
+			"description": "Turning machine 01",
+			"workCenterCode": "SS-TURNING-WKC"
+		},
+		{
+			"code": "SS-TURNING-WKC-02",
+			"description": "Turning cut machine  02",
+			"workCenterCode": "SS-TURNING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-TURNING-WKC-03",
+			"description": "Turning cut machine  03",
+			"workCenterCode": "SS-TURNING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-MITER-SAW-WKC-01",
+			"description": "Miter saw workstation 01",
+			"workCenterCode": "SS-MITER-SAW-WKC"
+		},
+		{
+			"code": "SS-MITER-SAW-WKC-02",
+			"description": "Miter saw workstation 02",
+			"workCenterCode": "SS-MITER-SAW-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-MITER-SAW-WKC-03",
+			"description": "Miter saw workstation 03",
+			"workCenterCode": "SS-MITER-SAW-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-DRILLING-01",
+			"description": "Drill station 01",
+			"workCenterCode": "SS-DRILLING-WKC"
+		},
+		{
+			"code": "SS-DRILLING-02",
+			"description": "Drill station 02",
+			"workCenterCode": "SS-DRILLING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-DRILLING-03",
+			"description": "Drill station 03",
+			"workCenterCode": "SS-DRILLING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-BENDING-01",
+			"description": "Bending machine 01",
+			"workCenterCode": "SS-BENDING-WKC"
+		},
+		{
+			"code": "SS-BENDING-02",
+			"description": "Bending machine  02",
+			"workCenterCode": "SS-BENDING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-BENDING-03",
+			"description": "Bending machine  03",
+			"workCenterCode": "SS-BENDING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-CNC-01",
+			"description": "Metal cnc machine 01",
+			"workCenterCode": "SS-CNC-WKC"
+		},
+		{
+			"code": "SS-CNC-02",
+			"description": "Metal cnc machine 02",
+			"workCenterCode": "SS-CNC-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-CNC-03",
+			"description": "Metal cnc machine 03",
+			"workCenterCode": "SS-CNC-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-ASSEMBLY-01",
+			"description": "Assembly workbench 01",
+			"workCenterCode": "SS-ASSEMBLY-WKC"
+		},
+		{
+			"code": "SS-ASSEMBLY-02",
+			"description": "Assembly workbench 02",
+			"workCenterCode": "SS-ASSEMBLY-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-ASSEMBLY-03",
+			"description": "Assembly workbench 03",
+			"workCenterCode": "SS-ASSEMBLY-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-WELDING-01",
+			"description": "Welding station 01",
+			"workCenterCode": "SS-WELDING-WKC"
+		},
+		{
+			"code": "SS-WELDING-02",
+			"description": "Welding station 02",
+			"workCenterCode": "SS-WELDING-WKC",
+			"disabled": false
+		},
+		{
+			"code": "SS-WELDING-03",
+			"description": "Welding station 03",
+			"workCenterCode": "SS-WELDING-WKC",
+			"disabled": false
+		}
+	],
+	"cycleModels": [
+		{
+			"code": "CYCLE-AISI316SQUARE50x50x3mm",
+			"description": "Cutting AISI316SQUARE50x50x3mm piece",
+			"productCode": "AISI316SQUARE50x50x3mm",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-AISI316SQUARE50x50x3mm-001",
+					"description": "Cutting square aisi316 piece 50x50x3 mm",
+					"sequenceCode": "001",
+					"cycleCode":"CYCLE-AISI316SQUARE50x50x3mm",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-AISI316SQUARE50x50x3mm-001-AISI316SHEET600x600x3mm",
+							"description": "",
+							"requiredProductCode": "AISI316SHEET600x600x3mm",
+							"useCoefficient": 0.01,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-LASER-CUTTING-WKC",
+							"setupTime": 10,
+							"machineTime": 1,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-TRIGGER001",
+			"description": "Trigger mechanism TRIGGER001 maching",
+			"productCode": "TRIGGER001",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-TRIGGER001-001",
+					"description": "Cutting 15x30mm window in SQUARE50x50x3mm",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-TRIGGER001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-TRIGGER001-001-AISI316SQUARE50x50x3mm",
+							"description": "Cutting 15x30mm window in SQUARE50x50x3mm",
+							"requiredProductCode": "AISI316SQUARE50x50x3mm",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-LASER-CUTTING-WKC",
+							"setupTime": 1,
+							"machineTime": 1,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-TRIGGER001-002",
+					"description": "Bending piece to be 17x15x17 mm",
+					"sequenceCode": "002",
+					"cycleCode": "CYCLE-TRIGGER001",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-BENDING-WKC",
+							"setupGroupCode": "TRIGGER001-BENDING",
+							"setupTime": 11,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-TRIGGER001-002",
+					"description": "4 drills of 4mm for spine insertions",
+					"sequenceCode": "003",
+					"cycleCode": "CYCLE-TRIGGER001",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-DRILLING-WKC",
+							"setupTime": 1,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-TRIGGER001-003",
+					"description": "Trigger mechanism assembly",
+					"sequenceCode": "004",
+					"cycleCode": "CYCLE-TRIGGER001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-TRIGGER001-003-AISI316SPINE15x4mm",
+							"description": "Spines for trigger mechanism assembly",
+							"requiredProductCode": "AISI316SPINE15x4mm",
+							"useCoefficient": 2,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-TRIGGER001-003-AISI316SPINE60x4mm",
+							"description": "Spines for trigger mechanism assembly with the gun",
+							"requiredProductCode": "AISI316SPINE60x4mm",
+							"useCoefficient": 2,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-TRIGGER001-003-FIRINGLEVER001",
+							"description": "Firing lever for trigger mechanism",
+							"requiredProductCode": "FIRINGLEVER001",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-TRIGGER001-003-SHAFTHOLDER002",
+							"description": "Shaft holder piece",
+							"requiredProductCode": "SHAFTHOLDER002",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-ASSEMBLY-WKC",
+							"setupTime": 1,
+							"machineTime": 5,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-FIRINGLEVER001",
+			"description": "Cnc machining FIRINGLEVER001 piece",
+			"productCode": "FIRINGLEVER001",
+			"warehouseCode": "WH002",
+			"plantCode": "STB002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-FIRINGLEVER001-001",
+					"description": "Cutting firing lever",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-FIRINGLEVER001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-FIRINGLEVER001-001-AISI316BAR500x50x15mm",
+							"description": "",
+							"requiredProductCode": "AISI316BAR500x50x15mm",
+							"useCoefficient": 0.025,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-CNC-WKC",
+							"setupTime": 10,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-AISI316SPINE15x4mm",
+			"description": "Cutting AISI316SPINE15x4mm piece",
+			"productCode": "AISI316SPINE15x4mm",
+			"warehouseCode": "WH002",
+			"plantCode": "STB002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-AISI316SPINE15x4mm-001",
+					"description": "Cutting AISI316SPINE15x4mm",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-AISI316SPINE15x4mm",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-AISI316SPINE15x4mm-001-AISI316ROUNDBAR200x4mm",
+							"description": "",
+							"requiredProductCode": "AISI316ROUNDBAR200x4mm",
+							"useCoefficient": 0.076923,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-MITER-SAW-WKC",
+							"setupTime": 3,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-AISI316SPINE60x4mm",
+			"description": "Cutting AISI316SPINE60x4mm piece",
+			"productCode": "AISI316SPINE60x4mm",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-AISI316SPINE60x4mm-001",
+					"description": "Cutting AISI316SPINE60x4mm",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-AISI316SPINE60x4mm",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-AISI316SPINE60x4mm-001-AISI316ROUNDBAR200x4mm",
+							"description": "",
+							"requiredProductCode": "AISI316ROUNDBAR200x4mm",
+							"useCoefficient": 0.333,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-MITER-SAW-WKC",
+							"setupTime": 3,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-SHAFTHOLDER002",
+			"description": "Cutting SHAFTHOLDER002 piece",
+			"productCode": "SHAFTHOLDER002",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-SHAFTHOLDER002-001",
+					"description": "Shaping shaft holder",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-SHAFTHOLDER002",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-SHAFTHOLDER002-001-AISI316BAR500x50x15mm",
+							"description": "",
+							"requiredProductCode": "AISI316BAR500x50x15mm",
+							"useCoefficient": 0.025,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-CNC-WKC",
+							"setupTime": 10,
+							"machineTime": 3,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-SANDVICKSHAFTWING001",
+			"description": "Making shaft wing ",
+			"productCode": "SANDVICKSHAFTWING001",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-SANDVICKSHAFTWING001-001",
+					"description": "Cutting sandvick sheet",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-SANDVICKSHAFTWING001",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-SANDVICKSHAFTWING001-001-SANDVICKSHEET600x600x1mm",
+							"description": "",
+							"requiredProductCode": "SANDVICKSHEET600x600x1mm",
+							"useCoefficient": 0.002,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-LASER-CUTTING-WKC",
+							"setupTime": 10,
+							"machineTime": 13,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SANDVICKSHAFTWING001-002",
+					"description": "Bending sandvick piece to obtain raw wing",
+					"sequenceCode": "002",
+					"cycleCode": "CYCLE-SANDVICKSHAFTWING001",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-BENDING-WKC",
+							"setupGroupCode": "SHAFTWING-BENDING",
+							"setupTime": 10,
+							"machineTime": 7,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SANDVICKSHAFTWING001-003",
+					"description": "Drilling raw wing for spine insertion",
+					"sequenceCode": "003",
+					"cycleCode": "CYCLE-SANDVICKSHAFTWING001",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-DRILLING-WKC",
+							"setupTime": 10,
+							"machineTime": 17,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"code": "CYCLE-SHAFT130CM",
+			"description": "Producing SHAFT130CM",
+			"productCode": "SHAFT130CM",
+			"plantCode": "STB002",
+			"warehouseCode": "WH002",
+			"defaultProductCycle": true,
+			"operations": [
+				{
+					"code": "OP-CYCLE-SHAFT130CM-001",
+					"description": "Trunkating SANDVIKROUNDBAR1500x7mm for 130 cm length",
+					"sequenceCode": "001",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-SHAFT130CM-001-SANDVIKROUNDBAR1500x7mm",
+							"description": "",
+							"requiredProductCode": "SANDVIKROUNDBAR1500x7mm",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-MITER-SAW-WKC",
+							"setupTime": 10,
+							"machineTime": 17,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SHAFT130CM-002",
+					"description": "Making sharp point",
+					"sequenceCode": "002",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-TURNING-WKC",
+							"setupTime": 10,
+							"machineTime": 11,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SHAFT130CM-003",
+					"description": "Cutting fins",
+					"sequenceCode": "003",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-SHAFT130CM-003-SANDVIKROUNDBAR20x3mm",
+							"description": "",
+							"requiredProductCode": "SANDVIKROUNDBAR20x3mm",
+							"useCoefficient": 0.2,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-MITER-SAW-WKC",
+							"setupTime": 10,
+							"machineTime": 5,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SHAFT130CM-004",
+					"description": "Welding fins to raw shaft",
+					"sequenceCode": "004",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-WELDING-WKC",
+							"setupTime": 10,
+							"machineTime": 17,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "WELDING-EXPERTS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SHAFT130CM-005",
+					"description": "Drilling line and blade holes",
+					"sequenceCode": "005",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-DRILLING-WKC",
+							"setupTime": 10,
+							"machineTime": 9,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				},
+				{
+					"code": "OP-CYCLE-SHAFT130CM-006",
+					"description": "Assembly shaft wing and shaft together",
+					"sequenceCode": "006",
+					"cycleCode": "CYCLE-SHAFT130CM",
+					"bomItems": [
+						{
+							"code": "OP-CYCLE-SHAFT130CM-006-SANDVICKSHAFTWING001",
+							"description": "",
+							"requiredProductCode": "SANDVICKSHAFTWING001",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						},
+						{
+							"code": "OP-CYCLE-SHAFT130CM-006-SANDVICKSPINE7x1.5mm",
+							"description": "",
+							"requiredProductCode": "SANDVICKSPINE7x1.5mm",
+							"useCoefficient": 1,
+							"warehouseCode": "WH002",
+							"consumingBatchQty": 1.0,
+							"consumingBatchTransferType": "CONTINUOUS"
+						}
+					],
+					"consumingBatchQty": 1.0,
+					"consumingBatchTransferType": "CONTINUOUS",
+					"producingBatchQty": 1.0,
+					"producingBatchTransferType": "CONTINUOUS",
+					"equipmentSpecifications": [
+						{
+							"workCenterCode": "SS-ASSEMBLY-WKC",
+							"setupTime": 10,
+							"machineTime": 11,
+							"machineTimeSpec": "TIME4PIECE",
+							"secondaryResourcesSpecs": [
+								{
+									"secondaryResourceGroupCode": "EMPLOYEE-SS",
+									"useType": "CONSTANT",
+									"qty": 1,
+									"usedTime": "SETUP_WORK"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"salesOrders": [
+		{
+			"code": "SS/ORD003-2020",
+			"plantCode": "STB002",
+			"description": "",
+			"orderType": "SALES",
+			"orderLines": [
+				{
+					"code": "SS/ORD003-2020/001",
+					"orderCode": "SS/ORD003-2020",
+					"plantCode": "STB002",
+					"warehouseCode": "WH002",
+					"askedDeliveryDate": "2020-12-06T10:00:00",
+					"productCode": "TRIGGER001",
+					"residualQty": 150,
+					"completedQty": 0,
+					"totalQty": 150,
+					"explodeWorkOrders": true,
+					"color": "rgb(57, 252, 64)"
+				},
+				{
+					"code": "SS/ORD003-2020/002",
+					"orderCode": "SS/ORD003-2020",
+					"plantCode": "STB002",
+					"warehouseCode": "WH002",
+					"askedDeliveryDate": "2020-12-10T10:00:00",
+					"productCode": "SHAFT130CM",
+					"residualQty": 3,
+					"completedQty": 0,
+					"totalQty": 3,
+					"explodeWorkOrders": true,
+					"color": "#00b399"
+				},
+				{
+					"code": "SS/ORD003-2020/003",
+					"orderCode": "SS/ORD003-2020",
+					"plantCode": "STB002",
+					"warehouseCode": "WH002",
+					"askedDeliveryDate": "2020-12-10T10:00:00",
+					"productCode": "SANDVICKSHAFTWING001",
+					"residualQty": 3,
+					"completedQty": 0,
+					"totalQty": 3,
+					"explodeWorkOrders": false,
+					"color": "#00b399"
+				}
+			]
+		},
+		{
+			"code": "SS/ORD004-2020",
+			"plantCode": "STB002",
+			"description": "",
+			"orderType": "SALES",
+			"orderLines": [
+				{
+					"code": "SS/ORD004-2020/001",
+					"orderCode": "SS/ORD004-2020",
+					"plantCode": "STB002",
+					"warehouseCode": "WH002",
+					"askedDeliveryDate": "2020-12-09T10:00:00",
+					"productCode": "TRIGGER001",
+					"residualQty": 200,
+					"completedQty": 0,
+					"totalQty": 200,
+					"explodeWorkOrders": true,
+					"color": "rgb(166, 57, 252)"
+				},
+				{
+					"code": "SS/ORD004-2020/002",
+					"orderCode": "SS/ORD004-2020",
+					"plantCode": "STB002",
+					"warehouseCode": "WH002",
+					"askedDeliveryDate": "2020-12-11T10:00:00",
+					"productCode": "SHAFT130CM",
+					"residualQty": 30,
+					"completedQty": 0,
+					"totalQty": 30,
+					"explodeWorkOrders": true,
+					"color": "#3992FC"
+				}
+			]
+		}
+	],
+	"changeOverMatrix": [
+		{
+			"code":"TRIGGER001-BENDING-TO-TRIGGER001-BENDING",
+			"description":"Changeover from trigger to trigger bending, same equipment, just 1 Minutes",
+			"setupGroupCodeFrom": "TRIGGER001-BENDING",
+			"setupGroupCodeTo": "TRIGGER001-BENDING",
+			"workCenterCode": "SS-BENDING-WKC",
+			"setupTime": 1.0
+		},
+		{
+			"code":"SHAFTWING-BENDING-TO-SHAFTWING-BENDING",
+			"description":"Changeover from trigger to trigger bending, same equipment, just 1 Minutes",
+			"setupGroupCodeFrom": "SHAFTWING-BENDING",
+			"setupGroupCodeTo": "SHAFTWING-BENDING",
+			"workCenterCode": "SS-BENDING-WKC",
+			"setupTime": 1.0
+		},
+		{
+			"code":"TRIGGER001-BENDING-TO-SHAFTWING-BENDING",
+			"description":"Changeover from trigger to shaft wing, not same equipment, 5 Minutes",
+			"setupGroupCodeFrom": "TRIGGER001-BENDING",
+			"setupGroupCodeTo": "SHAFTWING-BENDING",
+			"workCenterCode": "SS-BENDING-WKC",
+			"setupTime": 5.0
+		},
+		{
+			"code":"SHAFTWING-BENDING-TO-TRIGGER001-BENDING",
+			"description":"Changeover from shaft wing to trigger bending, same equipment, just 3 Minutes",
+			"setupGroupCodeFrom": "SHAFTWING-BENDING",
+			"setupGroupCodeTo": "TRIGGER001-BENDING",
+			"workCenterCode": "SS-BENDING-WKC",
+			"setupTime": 3.0
+		}
+	],
+	"purchaseOrders": [],
+	"warehouses": [
+		{
+			"code": "WH002",
+			"plantCode": "STB002",
+			"description": "Warehouse 00A"
+		}
+	],
+	"stockInventories": [
+		{
+			"code": "SSINVENTORY001",
+			"productCode": "AISI316SHEET600x600x3mm",
+			"description": "Aisi316 sheet AISI316SHEET600x600x3mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY002",
+			"productCode": "AISI316BAR500x50x15mm",
+			"description": "Aisi316 bar AISI316BAR500x50x15mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY003",
+			"productCode": "AISI316ROUNDBAR200x4mm",
+			"description": "Aisi316 round bar AISI316ROUNDBAR200x4mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY004",
+			"productCode": "SANDVIKROUNDBAR1500x7mm",
+			"description": "Sandvik round bar SANDVIKROUNDBAR1500x7mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY005",
+			"productCode": "SANDVIKROUNDBAR20x3mm",
+			"description": "Sandvik round bar SANDVIKROUNDBAR20x3mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY006",
+			"productCode": "SANDVICKSHEET600x600x1mm",
+			"description": "Sandvick sheet 600x600x1mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		},
+		{
+			"code": "SSINVENTORY007",
+			"productCode": "SANDVICKSPINE7x1.5mm",
+			"description": "Sandvick sping 7x1.5 mm",
+			"warehouseCode": "WH002",
+			"physicalStockQuantity": 1000
+		}
+	]
+}

@@ -1,0 +1,25 @@
+<p-accordion [multiple]="true">
+  <p-accordionTab *ngFor="let product of products; index as i" header="{{ product.code }} {{ product.description }}">
+    <ng-template pTemplate="content">
+      <openi40-material-product-planning
+      [apsData]="apsData"
+      [product]="product"
+    ></openi40-material-product-planning>
+    </ng-template>
+</p-accordionTab></p-accordion>
+<!--
+<ul>
+  <li
+    *ngFor="let product of products; index as i"
+    (click)="product.opened = product.opened === true ? false : true"
+  >
+    {{ product.code }} {{ product.description }}
+    <div *ngIf="product.opened === true">
+      <openi40-material-product-planning
+        [apsData]="apsData"
+        [product]="product"
+      ></openi40-material-product-planning>
+    </div>
+  </li>
+</ul>
+-->

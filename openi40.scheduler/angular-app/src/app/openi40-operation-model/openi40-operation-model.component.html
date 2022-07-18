@@ -1,0 +1,81 @@
+<p-panel header="Anagraphic infos">
+  <div class="p-fluid">
+    <div class="p-field p-grid">
+      <label for="code" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">code</label>
+      <div class="p-col-12 p-md-10">
+        {{ operationModel.code }}
+      </div>
+    </div>
+    <div class="p-field p-grid">
+      <label for="description" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" >description</label>
+      <div class="p-col-12 p-md-10">
+        {{ operationModel.description }}
+      </div>
+    </div>
+    <div class="p-field p-grid">
+      <label for="sequenceCode" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" >sequence code</label>
+      <div class="p-col-12 p-md-10">
+        {{ operationModel.sequenceCode}}
+      </div>
+    </div>
+    <div class="p-field p-grid">
+      <label for="plant code" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0" >plant code</label>
+      <div class="p-col-12 p-md-10">
+        {{ operationModel.plantCode}}
+      </div>
+    </div>
+  </div>
+</p-panel>
+<p-panel header="Bill of material" *ngIf="operationModel.bomItems && operationModel.bomItems.length && operationModel.bomItems.length>0">
+  <p-table [value]="operationModel.bomItems">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Product code</th>
+        <th>Use coefficient</th>
+        <th>Picking warehouse</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-bomItem>
+      <tr>
+        <td>{{ bomItem.requiredProductCode }}</td>
+        <td>{{ bomItem.useCoefficient }}</td>
+        <td>{{ bomItem.warehouseCode }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </p-panel>
+  <p-panel header="Equipment configuration">
+
+    <p-table [value]="operationModel.equipmentSpecifications">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Work center</th>
+          <th>Setup time</th>
+          <th>Work time</th>
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-equip>
+        <tr>
+          <td>{{ equip.workCenterCode }}</td>
+          <td>{{ equip.setupTime }} min.</td>
+          <td>{{ equip.machineTime}}
+            <!--'TIME4OPERATION_MACHINESPECIFIC' | 'PIECE4HOUR' | 'TIME4PIECE_MACHINESPECIFIC' | 'TIME4OPERATION' | 'PIECE4HOUR_MACHINESPECIFIC' | 'TIME4PIECE'-->
+            <span *ngIf="equip.machineTimeSpec?true:false">
+              <span *ngIf="equip.machineTimeSpec=='TIME4PIECE'">
+                  minute/pz
+              </span>
+              <span *ngIf="equip.machineTimeSpec=='PIECE4HOUR'">
+                pz/hour
+              </span>
+              <span *ngIf="equip.machineTimeSpec=='TIME4OPERATION'">
+                minutes
+              </span>
+            </span>
+
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </p-panel>

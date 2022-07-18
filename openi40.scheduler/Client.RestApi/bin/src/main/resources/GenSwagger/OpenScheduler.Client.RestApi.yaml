@@ -1,0 +1,263 @@
+---
+swagger: "2.0"
+info:
+  version: "00.00.01BC"
+  title: "OpenScheduler API"
+paths:
+  ApsCommand/add/{dataSetId}/{variantId}:
+    post:
+      operationId: "addAction"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/GenericApsActionDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  ApsCommand/refresh/{dataSetId}/{variantId}:
+    get:
+      operationId: "refresh"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  ApsCommand/schedule/{dataSetId}/{variantId}:
+    get:
+      operationId: "schedule"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  ApsCommand/scheduleAll/{dataSetId}/{variantId}/{algorithmType}:
+    get:
+      operationId: "scheduleAll"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "algorithmType"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  ApsDataList/list:
+    get:
+      operationId: "get"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DataSetEntry"
+  bryntum/gantt/ApsCommand/add/{dataSetId}/{variantId}:
+    post:
+      operationId: "addAction"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/GenericApsActionDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/gantt/ApsCommand/refresh/{dataSetId}/{variantId}:
+    get:
+      operationId: "refresh"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/gantt/ApsCommand/schedule/{dataSetId}/{variantId}:
+    get:
+      operationId: "schedule"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/gantt/ApsCommand/scheduleAll/{dataSetId}/{variantId}/{algorithmType}:
+    get:
+      operationId: "scheduleAll"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "algorithmType"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/scheduler/ApsCommand/add/{dataSetId}/{variantId}:
+    post:
+      operationId: "addAction"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          $ref: "#/definitions/GenericApsActionDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/scheduler/ApsCommand/refresh/{dataSetId}/{variantId}:
+    get:
+      operationId: "refresh"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/scheduler/ApsCommand/schedule/{dataSetId}/{variantId}:
+    get:
+      operationId: "schedule"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+  bryntum/scheduler/ApsCommand/scheduleAll/{dataSetId}/{variantId}/{algorithmType}:
+    get:
+      operationId: "scheduleAll"
+      parameters:
+      - name: "dataSetId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "variantId"
+        in: "path"
+        required: true
+        type: "string"
+      - name: "algorithmType"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+definitions:
+  DataSetEntry:
+    type: "object"
+    properties:
+      dataSetName:
+        type: "string"
+      dataSetVariant:
+        type: "string"
+      description:
+        type: "string"
+  GenericApsActionDto:
+    type: "object"
+    properties:
+      algorithmType:
+        type: "string"

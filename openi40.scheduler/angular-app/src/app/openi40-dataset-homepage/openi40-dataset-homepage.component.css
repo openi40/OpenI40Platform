@@ -1,0 +1,173 @@
+.rc_item {
+
+  display: block;
+  font-family: Arial;
+  fill: transparent;
+  font-size: 12px;
+  border: 1px solid #00dd00;
+  text-transform: uppercase;
+}
+
+.rc_label {
+
+  display: block;
+  font-family: Arial;
+  font-size: 12px;
+  border: 1px solid #ff0000;
+  text-transform: uppercase;
+
+}
+
+.timeCell {
+  display: block;
+  font-family: Arial;
+  font-size: 12px;
+  border: 1px solid #00ff00;
+  text-align: center;
+  fill: #040404;
+}
+
+.gantt {
+  display: block;
+}
+
+.timesheet {
+  display: block;
+}
+
+.verticalLine {
+  stroke: black;
+  stroke-opacity: 0.2;
+  stroke-dasharray: 3;
+}
+
+.horizontalLine {
+  stroke: black;
+  stroke-opacity: 0.2;
+}
+
+.setupStyle {
+  display: block;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  font-family: Arial;
+  font-size: 12px;
+  border: 1px dotted #fff;
+}
+
+.setupStyle:hover {
+  display: block;
+  fill: rgb(246, 124, 10);
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  font-family: Arial;
+  font-size: 12px;
+
+  border: 1px dotted #fff;
+}
+
+.workStyle {
+  display: block;
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  font-family: Arial;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.workStyle:hover {
+  display: block;
+  fill: rgb(223, 246, 10);
+  stroke: rgb(255, 255, 255);
+  stroke-width: 1;
+  font-family: Arial;
+  font-size: 12px;
+}
+
+.TaskToTaskEdgeConnectorGuiItem {
+  fill: none;
+  stroke: rgb(0, 0, 0,1);
+  stroke-width: 1px;
+  opacity: 60;
+}
+
+.WarehouseToTaskConnectorGuiItem {
+  fill: none;
+  stroke: rgb(0,0,0,1);
+  stroke-width: 1px;
+}
+.TaskToDemandConnectorGuiItem {
+  fill: none;
+  stroke: rgb(0,0,0,1);
+  stroke-width: 1px;
+}
+
+.WarehouseTimesheetGuiItem {
+  fill: rgb(250, 188, 188);
+
+  /*stroke: blue;*/
+  stroke-width: 1px;
+  background-color: #dfdbe5;
+}
+
+
+.DemandTimesheetGuiItem {
+  fill: rgb(174, 243, 183);
+  /*stroke: blue;*/
+  stroke-width: 1px;
+  background-color: #dfdbe5;
+}
+
+.WorkOrderProjectGuiItem-label {
+  display: block;
+  font-family: Arial;
+  font-size: 12px;
+}
+
+.TaskGuiItem-label {
+
+  display: block;
+  font-family: Arial;
+  font-size: 14px;
+  /*dominant-baseline:middle;
+  text-anchor: middle;*/
+
+}
+.MachineGuiItem {
+  opacity: 60%;
+}
+.horizontalRect{
+  opacity: 0.8;
+}
+.timeRect{
+  fill: white;
+  stroke: #2196F3;
+  stroke-width: 1.5px;
+}
+.treeItemCtrl{
+  fill: #2196F3;
+  stroke: #2196F3;
+  stroke-width: 1px;
+  border: #2196F3;
+}
+.WorkCenterGuiItem {
+  font-weight: bold;
+}
+.PlantGuiItem {
+  font-weight: bold;
+}
+.DepartmentGuiItem {
+  font-weight: bold;
+}
+.ProductiveCompanyGuiItem {
+  font-weight: bold;
+}
+.WorkOrderTreeProductiveCompanyGuiItem {
+  font-weight: bold;
+}
+.WorkOrderTreePlantGuiItem{
+  font-weight: bold;
+}
+.WorkOrderTreeWorkOrderGuiItem{
+  font-weight: bold;
+}
