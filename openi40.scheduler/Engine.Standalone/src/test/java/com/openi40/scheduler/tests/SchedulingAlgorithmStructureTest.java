@@ -375,9 +375,9 @@ public class SchedulingAlgorithmStructureTest {
 		if (avoidDuplicates.containsKey(task.getId()))
 			return;
 		for (ApsMessage msg : task.getMessages()) {
-			if (msg.getMsgLevel() == ApsMessageLevel.UNSCHEDULABLE_CONDITION) {
-				LOGGER.warn(msg.getMessageDescription());
-			}
+
+			LOGGER.warn(msg.getMessageDescription());
+
 		}
 		double duration = task.getWorkPhaseExecution().getDurationMinutes();
 		double setup = task.getSetupPhaseExecution().getDurationMinutes();
@@ -451,7 +451,7 @@ public class SchedulingAlgorithmStructureTest {
 		Product product = productDao.findByCode(finalOrderProductCode, apsData); // Reset all orders
 		for (ProductiveCompany pc : apsData.getProductiveCompanies()) {
 			for (Plant plant : pc.getPlants()) {
-				//Resetting all orders
+				// Resetting all orders
 				plant.getSalesOrders().clear();
 				plant.getPurchaseOrders().clear();
 				plant.getWorkOrders().clear();
@@ -461,7 +461,7 @@ public class SchedulingAlgorithmStructureTest {
 				salesOrder.setCompanyCode(pc.getCode());
 				salesOrder.setPlantCode(plant.getCode());
 				salesOrder.setDepartmentCode(plant.getDepartments().get(0).getCode());
-				//Adding a huge qty order  
+				// Adding a huge qty order
 				SalesOrderLine sline = new SalesOrderLine(apsData);
 				sline.setCode("LINE0001");
 				sline.setCompanyCode(pc.getCode());
@@ -472,7 +472,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setTotalQty(100);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
-				plant.getSalesOrders().add(salesOrder);				
+				plant.getSalesOrders().add(salesOrder);
 			}
 		}
 		// I Modify the required qty for this simple cycle
@@ -485,8 +485,87 @@ public class SchedulingAlgorithmStructureTest {
 		StockSupply stockSupply = stockSupplyDao.findByCode(stockSupplyId, apsData);
 		stockSupply.setQtyTotal(0);
 		stockSupply.setInfiniteCapacity(true);
-		//Reinitialize data and recreate work orders ecc...
-		IApsDataManager dataManager=this.ComponentFactory.create(IApsDataManager.class,apsData,apsData);
+		// Reinitialize data and recreate work orders ecc...
+		IApsDataManager dataManager = this.ComponentFactory.create(IApsDataManager.class, apsData, apsData);
+		dataManager.beforeScheduling(apsData);
+		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+	}
+
+	@Test
+	public void testStainlessSteelCompanyWithMinMaxProductionBounds()
+			throws ApsDataCacheException, DataModelDaoException {
+		String dataSourceName = "SS-COMPANY-DEMO";
+		String dataSetName = "STAINLESS-STEEL-COMPANY";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		String finalOrderProductCode = "AISI316SQUARE50x50x3mm";
+		Product product = productDao.findByCode(finalOrderProductCode, apsData); // Reset all orders
+		String complexProductCode="TRIGGER001";
+		Product complexProduct = productDao.findByCode(complexProductCode, apsData);
+		for (ProductiveCompany pc : apsData.getProductiveCompanies()) {
+			for (Plant plant : pc.getPlants()) {
+				// Resetting all orders
+				plant.getSalesOrders().clear();
+				plant.getPurchaseOrders().clear();
+				plant.getWorkOrders().clear();
+				SalesOrder salesOrder = new SalesOrder(apsData);
+				salesOrder.setCode("ORDER0001");
+				salesOrder.setDescription("Infinite capacity test order");
+				salesOrder.setCompanyCode(pc.getCode());
+				salesOrder.setPlantCode(plant.getCode());
+				salesOrder.setDepartmentCode(plant.getDepartments().get(0).getCode());
+				// Adding an order line with minimum and maximum assigned production bounds
+				// dates
+				SalesOrderLine sline = new SalesOrderLine(apsData);
+				sline.setCode("LINE0001");
+				sline.setCompanyCode(pc.getCode());
+				sline.setPlantCode(plant.getCode());
+				sline.setWarehouseCode("WH002");
+				sline.setPlannedDeliveryDate(Timestamp.valueOf("2021-06-01 23:59:59"));
+				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-01-12 08:59:59"));
+				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-02-08 23:59:59"));
+				sline.setProduct(product);
+				sline.setTotalQty(1);
+				sline.setExplodeWorkOrders(true);
+				salesOrder.getOrderLines().add(sline);
+				sline = new SalesOrderLine(apsData);
+				sline.setCode("LINE0002");
+				sline.setCompanyCode(pc.getCode());
+				sline.setPlantCode(plant.getCode());
+				sline.setWarehouseCode("WH002");
+				sline.setPlannedDeliveryDate(Timestamp.valueOf("2021-06-01 23:59:59"));
+				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
+				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-18 23:59:59"));
+				sline.setProduct(product);
+				sline.setTotalQty(1);
+				sline.setExplodeWorkOrders(true);
+				salesOrder.getOrderLines().add(sline);
+				sline = new SalesOrderLine(apsData);
+				sline.setCode("LINE0003");
+				sline.setCompanyCode(pc.getCode());
+				sline.setPlantCode(plant.getCode());
+				sline.setWarehouseCode("WH002");
+				sline.setPlannedDeliveryDate(Timestamp.valueOf("2021-06-01 23:59:59"));
+				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
+				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-30 23:59:59"));
+				sline.setProduct(complexProduct);
+				sline.setTotalQty(1);
+				sline.setExplodeWorkOrders(true);
+				salesOrder.getOrderLines().add(sline);
+				plant.getSalesOrders().add(salesOrder);
+			}
+		}
+		// I Modify the required qty for this simple cycle
+		String bomCode = "OP-CYCLE-AISI316SQUARE50x50x3mm-001-AISI316SHEET600x600x3mm";
+		BomItemModel bomItem = bomItemDao.findByCode(bomCode, apsData);
+		bomItem.setQty(1000.0);
+		// Set to 0 quantity a the inventory and to infiniteCapacity on a required
+		// material
+		String stockSupplyId = "SSINVENTORY001";
+		StockSupply stockSupply = stockSupplyDao.findByCode(stockSupplyId, apsData);
+		stockSupply.setQtyTotal(10000);
+		// Reinitialize data and recreate work orders ecc...
+		IApsDataManager dataManager = this.ComponentFactory.create(IApsDataManager.class, apsData, apsData);
 		dataManager.beforeScheduling(apsData);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}

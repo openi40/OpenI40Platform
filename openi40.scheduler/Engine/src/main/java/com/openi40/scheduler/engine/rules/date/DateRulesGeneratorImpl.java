@@ -16,6 +16,7 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.EndDateTimeAlignment;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
+import com.openi40.scheduler.common.utils.DateUtil;
 
 /**
  * 
@@ -47,10 +48,12 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 		}
 
 		DateRule windowMinimumBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
-				Rule.ConstraintPriority.MANDATORY, task.getContext().getSchedulingWindow().getStartDateTime(),
+				Rule.ConstraintPriority.MANDATORY,
+				DateUtil.discretize(task.getContext().getSchedulingWindow().getStartDateTime()),
 				StartDateTimeAlignment.START_AFTER_START_ASAP, null, TimeSegmentType.SETUP_TIME);
 		DateRule windowMaximumBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
-				Rule.ConstraintPriority.MANDATORY, task.getContext().getSchedulingWindow().getEndDateTime(), null,
+				Rule.ConstraintPriority.MANDATORY,
+				DateUtil.discretize(task.getContext().getSchedulingWindow().getEndDateTime()), null,
 				EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
 		windowMinimumBound.setUnmetConstraintMessage(
 				new ApsMessage(this, ApsMessageConstrants.WINDOW_DATE_START_DATE_CONSTRAINT_NOT_MET, environment));
@@ -60,7 +63,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 		dateRules.add(windowMaximumBound);
 		if (task.getMinProductionDateConstraint() != null) {
 			DateRule MinimumProductionBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
-					Rule.ConstraintPriority.MANDATORY, task.getMinProductionDateConstraint(),
+					Rule.ConstraintPriority.MANDATORY, DateUtil.discretize(task.getMinProductionDateConstraint()),
 					StartDateTimeAlignment.START_AFTER_START_ASAP, null, TimeSegmentType.SETUP_TIME);
 			dateRules.add(MinimumProductionBound);
 			windowMinimumBound.setUnmetConstraintMessage(new ApsMessage(this,
@@ -68,7 +71,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 		}
 		if (task.getMaxProductionDateConstraint() != null) {
 			DateRule MaximumProductionBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
-					Rule.ConstraintPriority.MANDATORY, task.getMaxProductionDateConstraint(), null,
+					Rule.ConstraintPriority.MANDATORY, DateUtil.discretize(task.getMaxProductionDateConstraint()), null,
 					EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
 			dateRules.add(MaximumProductionBound);
 			MaximumProductionBound.setUnmetConstraintMessage(new ApsMessage(this,

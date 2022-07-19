@@ -58,7 +58,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 		if (cycleModel != null) {
 
 			wo = createWorkOrder(cycleModel, plant, orderCode, salesOrderLineCode, rootSalesOrderWorkOrder, qty,
-					deliveryDateTime, createDependencyWorkOrders, simulated, color, context, null, null);
+					deliveryDateTime, createDependencyWorkOrders, simulated, color, context,
+					minProductionDateConstraint, maxProductionDateConstraint);
 		} else {
 			throw new OpenI40Exception("Item TaskModel not found for " + productToProduce.getCode());
 		}
@@ -81,7 +82,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 										+ nChild,
 								parentWorkOrder.getSalesOrderLineCode(), false, requiredMaterial.getRequiredQty(),
 								parentWorkOrder.getAskedDeliveryDateTime(), createDependencyWorkOrder, simulated,
-								parentWorkOrder.getColor(), context, null, null);
+								parentWorkOrder.getColor(), context, parentWorkOrder.getMinProductionDateConstraint(),
+								parentWorkOrder.getMaxProductionDateConstraint());
 						nChild++;
 						// Create pegging only with first created work order because it is the one
 						// suppliyng the actual by algorithm
