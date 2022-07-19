@@ -1,5 +1,6 @@
 package com.openi40.scheduler.output.model.orders;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.openi40.scheduler.output.model.OutputDto;
@@ -28,7 +29,8 @@ public class WorkOrderOutputDto extends OutputDto {
 	protected String color = null;
 	private String cycleCode = null;
 	private boolean rootSalesOrderWorkOrder = false;
-
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	public WorkOrderOutputDto() {
 
 	}

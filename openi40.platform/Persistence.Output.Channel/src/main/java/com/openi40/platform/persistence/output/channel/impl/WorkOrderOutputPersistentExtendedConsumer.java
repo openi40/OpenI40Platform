@@ -64,8 +64,8 @@ public class WorkOrderOutputPersistentExtendedConsumer extends AbstractPersisten
 
 	}
 
-	static String updateSQL = "update work_order set color=?,del_date=?,start_execution_date=?,end_execution_date=?,modified_ts=?,total_qty=?,cycle_code=? where code=?";
-	static String insertSQL = "insert into work_order (code,description,plant_code,prd_code,color,del_date,start_execution_date,end_execution_date,sales_order_line_code,modified_ts,total_qty,cycle_code,root_task) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	static String updateSQL = "update work_order set color=?,del_date=?,start_execution_date=?,end_execution_date=?,modified_ts=?,total_qty=?,cycle_code=?,min_prd_date=?,max_prd_date=? where code=?";
+	static String insertSQL = "insert into work_order (code,description,plant_code,prd_code,color,del_date,start_execution_date,end_execution_date,sales_order_line_code,modified_ts,total_qty,cycle_code,root_task,min_prd_date,max_prd_date) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 	@Override
 	protected void save(List<WorkOrderOutputDto> list) {
@@ -94,7 +94,18 @@ public class WorkOrderOutputPersistentExtendedConsumer extends AbstractPersisten
 					update.setTimestamp(5, ts);
 					update.setDouble(6, dto.getTotalQty());
 					update.setString(7, dto.getCycleCode());
-					update.setString(8, dto.getCode());
+					if (dto.getMinProductionDateConstraint() != null) {
+						update.setTimestamp(8, new Timestamp(dto.getMinProductionDateConstraint().getTime()));
+					} else {
+						update.setNull(8, java.sql.Types.TIMESTAMP);
+					}
+					if (dto.getMaxProductionDateConstraint() != null) {
+
+						update.setTimestamp(9, new Timestamp(dto.getMaxProductionDateConstraint().getTime()));
+					} else {
+						update.setNull(9, java.sql.Types.TIMESTAMP);
+					}
+					update.setString(10, dto.getCode());
 					int howMany = update.executeUpdate();
 					if (howMany == 0) {
 						insert.clearParameters();
@@ -120,6 +131,17 @@ public class WorkOrderOutputPersistentExtendedConsumer extends AbstractPersisten
 						insert.setDouble(11, dto.getTotalQty());
 						insert.setString(12, dto.getCycleCode());
 						insert.setBoolean(13, dto.isRootSalesOrderWorkOrder());
+						if (dto.getMinProductionDateConstraint() != null) {
+							insert.setTimestamp(14, new Timestamp(dto.getMinProductionDateConstraint().getTime()));
+						} else {
+							insert.setNull(14, java.sql.Types.TIMESTAMP);
+						}
+						if (dto.getMaxProductionDateConstraint() != null) {
+
+							insert.setTimestamp(15, new Timestamp(dto.getMaxProductionDateConstraint().getTime()));
+						} else {
+							insert.setNull(15, java.sql.Types.TIMESTAMP);
+						}
 						insert.execute();
 					}
 				}

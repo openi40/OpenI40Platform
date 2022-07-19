@@ -22,19 +22,21 @@ import com.openi40.scheduler.model.material.ItemConsumed;
 import com.openi40.scheduler.model.material.ItemProducedMetaInfo;
 import com.openi40.scheduler.model.material.Product;
 import com.openi40.scheduler.model.orders.Pegging;
+import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.ITasksVisitor;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
 import com.openi40.scheduler.model.tasks.TaskVisitUtil;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -44,7 +46,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 
 	public List<WorkOrder> createWorkOrder(Product productToProduce, Plant plant, String orderCode,
 			String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime,
-			boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context) {
+			boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context,
+			Date minProductionDateConstraint, Date maxProductionDateConstraint) {
 		if (productToProduce == null)
 			throw new OpenI40Exception("No product passed");
 		List<WorkOrder> wo = null;
@@ -55,7 +58,7 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 		if (cycleModel != null) {
 
 			wo = createWorkOrder(cycleModel, plant, orderCode, salesOrderLineCode, rootSalesOrderWorkOrder, qty,
-					deliveryDateTime, createDependencyWorkOrders, simulated, color, context);
+					deliveryDateTime, createDependencyWorkOrders, simulated, color, context, null, null);
 		} else {
 			throw new OpenI40Exception("Item TaskModel not found for " + productToProduce.getCode());
 		}
@@ -78,7 +81,7 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 										+ nChild,
 								parentWorkOrder.getSalesOrderLineCode(), false, requiredMaterial.getRequiredQty(),
 								parentWorkOrder.getAskedDeliveryDateTime(), createDependencyWorkOrder, simulated,
-								parentWorkOrder.getColor(), context);
+								parentWorkOrder.getColor(), context, null, null);
 						nChild++;
 						// Create pegging only with first created work order because it is the one
 						// suppliyng the actual by algorithm
@@ -229,7 +232,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 
 	public List<WorkOrder> createWorkOrder(CycleModel cycleModel, Plant plant, String orderCode,
 			String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime,
-			boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context) {
+			boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context,
+			Date minProductionDateConstraint, Date maxProductionDateConstraint) {
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Begin WorkOrderGeneratorImpl.createWorkOrder(..)", "");
 		if (LOGGER.isDebugEnabled())
@@ -247,6 +251,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 		workOrder.setPlantCode(plant.getCode());
 		workOrder.setAskedDeliveryDateTime(deliveryDateTime);
 		workOrder.setRootSalesOrderWorkOrder(rootSalesOrderWorkOrder);
+		workOrder.setMinProductionDateConstraint(minProductionDateConstraint);
+		workOrder.setMaxProductionDateConstraint(maxProductionDateConstraint);
 		ITaskGenerator schedulableTaskBuilder = this.componentsFactory.create(ITaskGenerator.class,
 				cycleModel.getRootOperation(), context);
 		Task rootTask = schedulableTaskBuilder.generateWorkOrderTasks(workOrder, context);
@@ -274,5 +280,21 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<WorkOrder> createWorkOrder(SalesOrderLine orderLine, Plant plant) {
+		Product productToProduce = orderLine.getProduct();
+		String orderCode = orderLine.getCode();
+		double qty = orderLine.getResidualQty();
+		Date deliveryDateTime = orderLine.getAskedDeliveryDate();
+		boolean createDependencyWorkOrders = true;
+		boolean simulated = false;
+		List<WorkOrder> wos = this.createWorkOrder(productToProduce, plant, orderCode, orderLine.getCode(), true, qty,
+				deliveryDateTime, createDependencyWorkOrders, simulated, orderLine.getColor(), plant.getContext(),
+				orderLine.getMinProductionDateConstraint(), orderLine.getMaxProductionDateConstraint());
+
+		plant.getWorkOrders().addAll(wos);
+		return wos;
 	}
 }

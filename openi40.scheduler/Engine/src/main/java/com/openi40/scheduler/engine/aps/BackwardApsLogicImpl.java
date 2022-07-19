@@ -54,7 +54,7 @@ public class BackwardApsLogicImpl extends AbstractApsLogic implements IBackwardA
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		RegenerateTaskConstraints(task);
+		regenerateTaskConstraints(task);
 		Date initDateTime = EntityObject.getContext().getSchedulingWindow().getStartDateTime();
 		Date endDateTime = EntityObject.getContext().getSchedulingWindow().getEndDateTime();
 		boolean parentIsOK = true;
@@ -87,7 +87,7 @@ public class BackwardApsLogicImpl extends AbstractApsLogic implements IBackwardA
 			task.setDecisionGraphItem(constraintsSolutionCoordinator.doPlanSupervision(task, EntityObject,
 					(observer != null ? observer.getConstraintSolutionListener() : null), SetupTimeRange, WorkTimeRange,
 					ApsLogicDirection.BACKWARD));
-			task.setSuccessfullyScheduled(VerifyAllConstraints(task, observer));
+			task.setSuccessfullyScheduled(verifyAllConstraints(task, observer));
 
 		}
 		if (observer != null && observer.getObserver() != null) {

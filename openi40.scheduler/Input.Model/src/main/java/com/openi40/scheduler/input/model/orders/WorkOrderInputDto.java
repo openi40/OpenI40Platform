@@ -21,7 +21,8 @@ import com.openi40.scheduler.input.model.material.ProductInputDto;
  */
 @MappedSuperclass
 public class WorkOrderInputDto extends InputDto {
-
+	private Date minProductionDateConstraint=null;
+	private Date maxProductionDateConstraint=null;
 	private String salesOrderLineCode = null;
 	private Date startExecutionDate = null;
 	private Date endExecutionDate = null;
@@ -122,5 +123,21 @@ public class WorkOrderInputDto extends InputDto {
 
 	public void setRootSalesOrderWorkOrder(Boolean rootSalesOrderWorkOrder) {
 		this.rootSalesOrderWorkOrder = rootSalesOrderWorkOrder;
+	}
+
+	public Date getMinProductionDateConstraint() {
+		return minProductionDateConstraint;
+	}
+
+	public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+		this.minProductionDateConstraint = minProductionDateConstraint;
+	}
+
+	public Date getMaxProductionDateConstraint() {
+		return maxProductionDateConstraint;
+	}
+
+	public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+		this.maxProductionDateConstraint = maxProductionDateConstraint;
 	}
 }

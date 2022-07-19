@@ -35,7 +35,9 @@ import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
 @AttributeOverride(name = "salesOrderLineCode", column = @Column(name = "sales_order_line_code")),
 @AttributeOverride(name = "startExecutionDate", column = @Column(name = "start_execution_date")),
 @AttributeOverride(name = "rootSalesOrderWorkOrder", column = @Column(name = "root_task")),
-@AttributeOverride(name = "totalQty", column = @Column(name = "total_qty"))
+@AttributeOverride(name = "totalQty", column = @Column(name = "total_qty")),
+@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
 })
 public class WorkOrder extends WorkOrderInputDto{
 @Id

@@ -1064,3 +1064,12 @@ CREATE TABLE OI40_DELETED_ENTRIES (
 );
 -- 15/07/2022
 ALTER TABLE stock_supply add column infinite_capacity boolean;
+-- 19/07/2022
+ALTER TABLE task add column min_prd_date timestamp;
+ALTER TABLE task add column max_prd_date timestamp;
+ALTER TABLE purch_order_line add column min_prd_date timestamp;
+ALTER TABLE purch_order_line add column max_prd_date timestamp;
+ALTER TABLE sales_order_line add column min_prd_date timestamp;
+ALTER TABLE sales_order_line add column max_prd_date timestamp;
+ALTER TABLE work_order add column min_prd_date timestamp;
+ALTER TABLE work_order add column max_prd_date timestamp;

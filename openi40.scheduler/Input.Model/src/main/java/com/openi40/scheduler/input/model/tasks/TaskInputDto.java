@@ -48,7 +48,8 @@ public class TaskInputDto extends InputDto {
 	protected double setupTime=0.0;
 	protected double workTime=0.0;
 	protected String setupGroupCode=null;
-	
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	@Transient
 	protected List<TaskResourceReservationInputDto> resourcesReservations = new ArrayList<>();
 
@@ -251,6 +252,22 @@ public class TaskInputDto extends InputDto {
 
 	public void setSetupGroupCode(String setupGroupCode) {
 		this.setupGroupCode = setupGroupCode;
+	}
+
+	public Date getMinProductionDateConstraint() {
+		return minProductionDateConstraint;
+	}
+
+	public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+		this.minProductionDateConstraint = minProductionDateConstraint;
+	}
+
+	public Date getMaxProductionDateConstraint() {
+		return maxProductionDateConstraint;
+	}
+
+	public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+		this.maxProductionDateConstraint = maxProductionDateConstraint;
 	}
 
 	

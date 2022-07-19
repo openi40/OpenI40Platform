@@ -16,13 +16,14 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.EndDateTimeAlignment;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -34,7 +35,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 		Map<String, Object> environment = new HashMap<String, Object>();
 		environment.put("task", task);
 		String algoType = task.getParentSchedulingSet().getAlgorithmType();
-		
+
 		List<DateRule> dateRules = new ArrayList<DateRule>();
 		if (task.getAskedDeliveryDateTime() != null) {
 			DateRule dateConstraintRule = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
@@ -44,6 +45,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 					new ApsMessage(this, ApsMessageConstrants.DELIVERY_DATE_CONSTRAINT_NOT_MET, environment));
 			dateRules.add(dateConstraintRule);
 		}
+
 		DateRule windowMinimumBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
 				Rule.ConstraintPriority.MANDATORY, task.getContext().getSchedulingWindow().getStartDateTime(),
 				StartDateTimeAlignment.START_AFTER_START_ASAP, null, TimeSegmentType.SETUP_TIME);
@@ -56,6 +58,22 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 				new ApsMessage(this, ApsMessageConstrants.WINDOW_DATE_END_DATE_CONSTRAINT_NOT_MET, environment));
 		dateRules.add(windowMinimumBound);
 		dateRules.add(windowMaximumBound);
+		if (task.getMinProductionDateConstraint() != null) {
+			DateRule MinimumProductionBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
+					Rule.ConstraintPriority.MANDATORY, task.getMinProductionDateConstraint(),
+					StartDateTimeAlignment.START_AFTER_START_ASAP, null, TimeSegmentType.SETUP_TIME);
+			dateRules.add(MinimumProductionBound);
+			windowMinimumBound.setUnmetConstraintMessage(new ApsMessage(this,
+					ApsMessageConstrants.MIN_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET, environment));
+		}
+		if (task.getMaxProductionDateConstraint() != null) {
+			DateRule MaximumProductionBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
+					Rule.ConstraintPriority.MANDATORY, task.getMaxProductionDateConstraint(), null,
+					EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
+			dateRules.add(MaximumProductionBound);
+			MaximumProductionBound.setUnmetConstraintMessage(new ApsMessage(this,
+					ApsMessageConstrants.MAX_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET, environment));
+		}
 		return dateRules;
 	}
 

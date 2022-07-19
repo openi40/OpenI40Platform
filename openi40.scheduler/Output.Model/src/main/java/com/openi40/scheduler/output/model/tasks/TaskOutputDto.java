@@ -39,6 +39,8 @@ public class TaskOutputDto extends OutputDto {
 	protected double setupTime=0.0;
 	protected double workTime=0.0;
 	protected String setupGroupCode=null;
+	protected Timestamp minProductionDateConstraint=null;
+	protected Timestamp maxProductionDateConstraint=null;
 	@Data
 	public static class SecondaryReservation {
 		public SecondaryReservation() {

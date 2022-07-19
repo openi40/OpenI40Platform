@@ -52,7 +52,9 @@ import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
 		@AttributeOverride(name = "setupTime", column = @Column(name = "setup_time")),
 		@AttributeOverride(name = "workTime", column = @Column(name = "work_time")),
 		@AttributeOverride(name = "setupGroupCode", column = @Column(name = "setup_group_code")),
-		@AttributeOverride(name = "askedDeliveryDateTime", column = @Column(name = "asked_del_time"))
+		@AttributeOverride(name = "askedDeliveryDateTime", column = @Column(name = "asked_del_time")),
+		@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+		@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
 
 })
 public class Task extends TaskInputDto {

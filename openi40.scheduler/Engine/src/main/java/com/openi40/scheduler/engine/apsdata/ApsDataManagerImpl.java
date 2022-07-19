@@ -88,18 +88,7 @@ public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDa
 										if (workOrders == null || workOrders.isEmpty()) {
 											IWorkOrderGenerator workOrderGenerator = this.componentsFactory
 													.create(IWorkOrderGenerator.class, context, context);
-											Product productToProduce = orderLine.getProduct();
-											String orderCode = orderLine.getCode();
-											double qty = orderLine.getResidualQty();
-											Date deliveryDateTime = orderLine.getAskedDeliveryDate();
-											boolean createDependencyWorkOrders = true;
-											boolean simulated = false;
-											List<WorkOrder> wos = workOrderGenerator.createWorkOrder(productToProduce,
-													plant, orderCode, orderLine.getCode(), true, qty,
-													deliveryDateTime, createDependencyWorkOrders, simulated,
-													orderLine.getColor(), context);
-											
-											plant.getWorkOrders().addAll(wos);
+											workOrders=workOrderGenerator.createWorkOrder(orderLine, plant);
 										}
 									} catch (DataModelDaoException e) {
 										throw new RuntimeException("Problem accessing workOrders search", e);

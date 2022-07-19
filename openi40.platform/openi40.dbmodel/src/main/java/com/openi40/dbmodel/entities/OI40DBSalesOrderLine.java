@@ -43,7 +43,9 @@ import lombok.Data;
 @AttributeOverride(name = "residualQty", column = @Column(name = "residual_qty")),
 @AttributeOverride(name = "totalQty", column = @Column(name = "total_qty")),
 @AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
-@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
+@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
+@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
 })
 @Data
 public class OI40DBSalesOrderLine extends OI40DBBaseEntity implements Serializable{
@@ -61,4 +63,6 @@ public class OI40DBSalesOrderLine extends OI40DBBaseEntity implements Serializab
 	protected Date askedDeliveryDate = null;
 	protected Date plannedDeliveryDate = null;
 	protected String lineStatus = null;
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 }

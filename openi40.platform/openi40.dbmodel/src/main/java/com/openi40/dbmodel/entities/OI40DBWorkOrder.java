@@ -35,7 +35,9 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "startExecutionDate", column = @Column(name = "start_execution_date")),
 		@AttributeOverride(name = "rootSalesOrderWorkOrder", column = @Column(name = "root_task")),
 		@AttributeOverride(name = "totalQty", column = @Column(name = "total_qty")),
-		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
+		@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+		@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))})
 public class OI40DBWorkOrder extends OI40DBBaseEntity implements Serializable {
 	private String salesOrderLineCode = null;
 	private Date startExecutionDate = null;
@@ -48,4 +50,6 @@ public class OI40DBWorkOrder extends OI40DBBaseEntity implements Serializable {
 	protected String color = null;
 	private String cycleCode = null;
 	protected Boolean rootSalesOrderWorkOrder = null;
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 }

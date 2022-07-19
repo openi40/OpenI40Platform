@@ -103,7 +103,8 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected double qtyProduced = 0.0;
 	protected Integer customPriority = 0;
 	protected String color = null;
-
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	public double getQtyResidual() {
 		return qtyTotal > qtyProduced ? qtyTotal - qtyProduced : 0.0;
 	}

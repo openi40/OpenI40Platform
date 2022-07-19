@@ -32,5 +32,6 @@ public abstract class AbstractOrderLine extends OutputDto {
 	protected Date askedDeliveryDate = null;
 	protected Date plannedDeliveryDate = null;
 	protected String lineStatus = null;
-	
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 }

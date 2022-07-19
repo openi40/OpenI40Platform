@@ -38,7 +38,9 @@ import com.openi40.scheduler.input.model.orders.PurchaseOrderLineInputDto;
 @AttributeOverride(name = "productCode", column = @Column(name = "prd_code")),
 @AttributeOverride(name = "residualQty", column = @Column(name = "residual_qty")),
 @AttributeOverride(name = "totalQty", column = @Column(name = "total_qty")),
-@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code"))
+@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
+@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
 })
 public class PurchaseOrderLine extends PurchaseOrderLineInputDto{
 @Id

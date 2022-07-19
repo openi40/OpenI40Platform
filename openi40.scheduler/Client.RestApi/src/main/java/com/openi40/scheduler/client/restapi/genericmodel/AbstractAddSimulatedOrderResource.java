@@ -46,7 +46,7 @@ public class AbstractAddSimulatedOrderResource extends AbstractBaseResource {
 		IWorkOrderGenerator workOrderGenerator = getComponentFactory().create(IWorkOrderGenerator.class, apsData, apsData);
 		Plant plant = plantDao.findByCode(plantCode, apsData);
 		Product product = productDao.findByCode(itemCode, apsData);
-		List<WorkOrder> workOrders = workOrderGenerator.createWorkOrder(product, plant, workOrderCode, null, false, qty, deliveryDateTime, true, true, "CA00BF", apsData);
+		List<WorkOrder> workOrders = workOrderGenerator.createWorkOrder(product, plant, workOrderCode, null, false, qty, deliveryDateTime, true, true, "CA00BF", apsData, null, null);
 		plant.getWorkOrders().addAll(workOrders);
 		if (schedule) {
 			if (schedulingActionToApply < apsData.getSchedulingSets().size() && schedulingActionToApply >= 0) {

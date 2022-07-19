@@ -49,7 +49,7 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		RegenerateTaskConstraints(task);
+		regenerateTaskConstraints(task);
 
 		boolean allChildsOk = true;
 		int nChilds = 0;
@@ -78,7 +78,7 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 					(observer != null ? observer.getConstraintSolutionListener() : null), SetupTimeRange, WorkTimeRange,
 					ApsLogicDirection.FORWARD));
 
-			task.setSuccessfullyScheduled(VerifyAllConstraints(task, observer));
+			task.setSuccessfullyScheduled(verifyAllConstraints(task, observer));
 		} else {
 			task.setSuccessfullyScheduled(false);
 

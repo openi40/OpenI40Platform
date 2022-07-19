@@ -57,8 +57,8 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 
 	}
 
-	static String insertSQL = "insert into task(code,description,cycle_code,op_code,work_order_code,work_center_code,modified_ts,pred_mac_code,scheduled_mac_code, forced_mac_code,start_preparation,end_preparation,start_execution,end_execution,successfully_scheduled,success_scheduled,work_order_root,sequence_code,equip_spec_code,asked_del_time,sales_line_code,qty_total,qty_produced,custom_priority,setup_time,work_time,setup_group_code) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-	static String updateSQL = "update task set description=?,cycle_code=?,op_code=?,work_order_code=?,work_center_code=?,modified_ts=?,pred_mac_code=?,scheduled_mac_code=?, forced_mac_code=?,start_preparation=?,end_preparation=?,start_execution=?,end_execution=?,successfully_scheduled=?,success_scheduled=?,equip_spec_code=?,asked_del_time=?,sales_line_code=?,qty_total=?,qty_produced=?,custom_priority=?,setup_time=?,work_time=?,setup_group_code=? where code=?";
+	static String insertSQL = "insert into task(code,description,cycle_code,op_code,work_order_code,work_center_code,modified_ts,pred_mac_code,scheduled_mac_code, forced_mac_code,start_preparation,end_preparation,start_execution,end_execution,successfully_scheduled,success_scheduled,work_order_root,sequence_code,equip_spec_code,asked_del_time,sales_line_code,qty_total,qty_produced,custom_priority,setup_time,work_time,setup_group_code,min_prd_date,max_prd_date) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	static String updateSQL = "update task set description=?,cycle_code=?,op_code=?,work_order_code=?,work_center_code=?,modified_ts=?,pred_mac_code=?,scheduled_mac_code=?, forced_mac_code=?,start_preparation=?,end_preparation=?,start_execution=?,end_execution=?,successfully_scheduled=?,success_scheduled=?,equip_spec_code=?,asked_del_time=?,sales_line_code=?,qty_total=?,qty_produced=?,custom_priority=?,setup_time=?,work_time=?,setup_group_code=?,min_prd_date=?,max_prd_date=? where code=?";
 
 	@Override
 	protected void initialize() {
@@ -111,7 +111,9 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 					update.setDouble(22, task.getSetupTime());
 					update.setDouble(23, task.getWorkTime());
 					update.setString(24, task.getSetupGroupCode());
-					update.setString(25, task.getCode());
+					assignTS(update, 25, task.getMinProductionDateConstraint());
+					assignTS(update, 26, task.getMaxProductionDateConstraint());
+					update.setString(27, task.getCode());
 					int howMany = update.executeUpdate();
 					if (howMany == 0) {
 						insert.clearParameters();
@@ -144,6 +146,8 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 						insert.setDouble(25, task.getSetupTime());
 						insert.setDouble(26, task.getWorkTime());
 						insert.setString(27, task.getSetupGroupCode());
+						assignTS(insert, 28, task.getMinProductionDateConstraint());
+						assignTS(insert, 29, task.getMaxProductionDateConstraint());
 						insert.executeUpdate();
 					}
 

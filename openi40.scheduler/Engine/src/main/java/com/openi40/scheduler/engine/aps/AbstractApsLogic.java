@@ -80,7 +80,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		ApsData context = action.getContext();
 		ApsLogicOptions options = action.getOptions();
 		IEnvironment environment = action.getContext();
-		List<Task> tasks = CreateCustomOrderedTaskList(action);
+		List<Task> tasks = createCustomOrderedTaskList(action);
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Listing Tasks order for action:" + action.getId());
 			for (Task task : tasks) {
@@ -133,7 +133,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 	 * @param sAction
 	 * @return
 	 */
-	protected List<Task> CreateCustomOrderedTaskList(ApsSchedulingSet sAction) {
+	protected List<Task> createCustomOrderedTaskList(ApsSchedulingSet sAction) {
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Begin CreateCustomOrderedTaskList(..) Custom ordering ScheduledTask(s)", "");
 		ITasksSort tasksSort = this.componentsFactory.create(ITasksSort.class, sAction, sAction.getContext());
@@ -160,14 +160,14 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 	 * 
 	 * @param task
 	 */
-	protected void RegenerateTaskConstraints(Task task) {
+	protected void regenerateTaskConstraints(Task task) {
 		if (!task.isLocked()) {
 			IRuleBuilder constraintBuilder = this.componentsFactory.create(IRuleBuilder.class, task, task.getContext());
 			constraintBuilder.rebuildRules(task);
 		}
 	}
 
-	protected final void ApplyPlanOperations(PlanGraphItem outNode) {
+	protected final void applyPlanOperations(PlanGraphItem outNode) {
 
 		for (Plan plan : outNode.getPlans()) {
 			if (plan.getChoosed() != null) {
@@ -180,7 +180,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		}
 	}
 
-	protected final void UndoPlanOperations(Plan plan) {
+	protected final void undoPlanOperations(Plan plan) {
 
 		if (plan.getChoosed() != null) {
 			for (IOperation operation : plan.getChoosed().getOperations()) {
@@ -192,14 +192,14 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 
 	}
 
-	protected final void UndoPlanOperations(PlanGraphItem outNode) {
+	protected final void undoPlanOperations(PlanGraphItem outNode) {
 
 		for (Plan plan : outNode.getPlans()) {
-			UndoPlanOperations(plan);
+			undoPlanOperations(plan);
 		}
 	}
 
-	protected final boolean AreAllPlansSatisfactory(PlanGraphItem outNode) {
+	protected final boolean areAllPlansSatisfactory(PlanGraphItem outNode) {
 		boolean allConstraintsAreMet = true;
 		for (Plan plan : outNode.getPlans()) {
 			boolean thisConstraintIsMet = false;
@@ -215,7 +215,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		return allConstraintsAreMet;
 	}
 
-	protected boolean VerifyAllConstraints(Task task, ApsLogicNotifiedObjects notifiedObject) {
+	protected boolean verifyAllConstraints(Task task, ApsLogicNotifiedObjects notifiedObject) {
 		boolean allConstraintsOk = true;
 		for (int i = 0; i < task.getConstraintRules().size(); i++) {
 			Rule constraintRule = task.getConstraintRules().get(i);
@@ -260,10 +260,10 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		return allConstraintsOk;
 	}
 
-	private void UndoAllNodes(PlanGraphItem root) {
+	private void undoAllNodes(PlanGraphItem root) {
 		List<PlanGraphItem> childs = root.getChilds();
 		for (PlanGraphItem childNode : childs) {
-			UndoAllNodes(childNode);
+			undoAllNodes(childNode);
 		}
 
 		for (Plan plan : root.getPlans()) {
@@ -279,10 +279,10 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 
 	}
 
-	private void UndoUnallocableNodes(PlanGraphItem root) {
+	private void undoUnallocableNodes(PlanGraphItem root) {
 		List<PlanGraphItem> childs = root.getChilds();
 		for (PlanGraphItem childNode : childs) {
-			UndoUnallocableNodes(childNode);
+			undoUnallocableNodes(childNode);
 		}
 		if (!root.getTask().isSuccessfullyScheduled()) {
 			for (Plan plan : root.getPlans()) {

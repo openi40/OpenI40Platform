@@ -70,7 +70,8 @@ public class WorkOrder extends AbstractWorkOrder {
 			task.setParentSchedulingSet(action);
 		}
 	}
-
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	private boolean rootSalesOrderWorkOrder=false;
 	private Date askedDeliveryDateTime=null;
 	protected String color = null;

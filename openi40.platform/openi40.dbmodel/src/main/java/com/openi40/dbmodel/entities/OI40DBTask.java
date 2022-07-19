@@ -50,7 +50,9 @@ import lombok.Data;
 		@AttributeOverride(name = "workTime", column = @Column(name = "work_time")),
 		@AttributeOverride(name = "setupGroupCode", column = @Column(name = "setup_group_code")),
 		@AttributeOverride(name = "askedDeliveryDateTime", column = @Column(name = "asked_del_time")),
-		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
+		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
+		@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
+		@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
 
 })
 @Data
@@ -74,5 +76,7 @@ public class OI40DBTask extends OI40DBBaseEntity implements Serializable {
 	protected Double setupTime = null;
 	protected Double workTime = null;
 	protected String setupGroupCode = null;
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 
 }

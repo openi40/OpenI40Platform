@@ -35,6 +35,8 @@ public abstract class AbstractOrderLine extends InputDto {
 	protected double totalQty = 0.0;
 	protected double residualQty = 0.0;
 	protected double completedQty = 0.0;
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	protected Date askedDeliveryDate = null;
 	protected Date plannedDeliveryDate = null;
 	protected String lineStatus = null;
@@ -125,5 +127,17 @@ public abstract class AbstractOrderLine extends InputDto {
 	}
 	public void setColor(String color) {
 		this.color = color;
+	}
+	public Date getMinProductionDateConstraint() {
+		return minProductionDateConstraint;
+	}
+	public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+		this.minProductionDateConstraint = minProductionDateConstraint;
+	}
+	public Date getMaxProductionDateConstraint() {
+		return maxProductionDateConstraint;
+	}
+	public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+		this.maxProductionDateConstraint = maxProductionDateConstraint;
 	}
 }

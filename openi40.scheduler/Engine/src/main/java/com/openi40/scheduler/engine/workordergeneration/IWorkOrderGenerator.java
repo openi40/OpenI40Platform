@@ -9,6 +9,7 @@ import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.companystructure.Plant;
 import com.openi40.scheduler.model.cycle.CycleModel;
 import com.openi40.scheduler.model.material.Product;
+import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;
 /**
  * 
@@ -41,9 +42,11 @@ public interface IWorkOrderGenerator extends IBusinessLogic<ApsData> {
 	 * @param simulated
 	 * @param color TODO
 	 * @param context
+	 * @param minProductionDateConstraint TODO
+	 * @param maxProductionDateConstraint TODO
 	 * @return
 	 */
-	List<WorkOrder> createWorkOrder(Product productToProduce, Plant plant, String orderCode, String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime, boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context);
+	List<WorkOrder> createWorkOrder(Product productToProduce, Plant plant, String orderCode, String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime, boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context, Date minProductionDateConstraint, Date maxProductionDateConstraint);
 
 	/**
 	 * Creates work order(s) using specified Cycle (TaskModel)
@@ -58,8 +61,12 @@ public interface IWorkOrderGenerator extends IBusinessLogic<ApsData> {
 	 * @param simulated
 	 * @param color TODO
 	 * @param context
+	 * @param minProductionDateConstraint TODO
+	 * @param maxProductionDateConstraint TODO
 	 * @return
 	 */
-	List<WorkOrder> createWorkOrder(CycleModel cycleModel, Plant plant, String orderCode, String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime, boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context);
-
+	List<WorkOrder> createWorkOrder(CycleModel cycleModel, Plant plant, String orderCode, String salesOrderLineCode, boolean rootSalesOrderWorkOrder, double qty, Date deliveryDateTime, boolean createDependencyWorkOrders, boolean simulated, String color, ApsData context, Date minProductionDateConstraint, Date maxProductionDateConstraint);
+	
+	
+	List<WorkOrder> createWorkOrder(SalesOrderLine line,Plant plant);
 }
