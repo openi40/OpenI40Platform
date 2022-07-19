@@ -3,4 +3,4 @@
 Visit http://openi40.org/ site to know more about this project.
 ![OpenI40 schedule screen](http://openi40.org/wp-content/uploads/2022/06/resources-gantt.png)
 This project is in alpha version (technical preview). 
-Download first demo on: https://github.com/openi40/OpenI40Platform/releases/tag/0.0.1-alpha
+Download first demo on: https://github.com/openi40/OpenI40Platform/releases/tag/v0.0.1-alpha
