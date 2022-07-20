@@ -34,7 +34,7 @@
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</root>
-	<logger name="com.openi40.scheduler.inputchannels.streaminputs.handlers" level="debug" additivity="false">
+	<logger name="com.openi40.scheduler.inputchannels.streaminputs.handlers" level="info" additivity="false">
 	<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</logger>
@@ -60,7 +60,7 @@
 		<appender-ref ref="Console" />
 	</logger>
 	<logger name="com.openi40.scheduler.model.material.timeline"
-		level="debug" additivity="false">
+		level="info" additivity="false">
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</logger>
