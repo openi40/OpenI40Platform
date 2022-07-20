@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -84,10 +84,12 @@ export class SchedulerWorkOrdersGanttDirective implements OnInit,AfterViewInit,O
     this.endRefresh.emit(this);
   }
   ngOnInit(): void {
-    this.showApsData();
+    //this.showApsData();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.showApsData();
+    if (changes.apsData ) {
+      this.showApsData();
+    }
   }
   @Input("taskClick")   taskClick=(controller: TaskController, _event: Event) =>{
 

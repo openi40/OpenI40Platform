@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -20,61 +20,70 @@ treeMultipliers.push(10000000);
 treeMultipliers.push(100000);
 treeMultipliers.push(1000);
 export class TimesheetSearchStructure {
-  private constructor(protected xSlotWidth:number) {
+  private constructor(protected xSlotWidth: number) {
 
   }
-  public static build(dataItem:TimesheetDto,graphicConfig:Openi40GraphicConfiguration):TimesheetSearchStructure{
-    let currentSearchStructure:TimesheetSearchStructure =null;
+  public static build(dataItem: TimesheetDto, graphicConfig: Openi40GraphicConfiguration): TimesheetSearchStructure {
+    let currentSearchStructure: TimesheetSearchStructure = null;
 
     if (dataItem) {
-      let slotCounter:number=0;
-      currentSearchStructure=new TimesheetSearchStructure(graphicConfig.dimensions.timeCellWidth);
-      for (var i = 0; dataItem.years[i]; i++) {
-        const year = dataItem.years[i];
-        for (var j = 0; year.quarters[j]; j++) {
-          const quarter = year.quarters[j];
-          for (var u = 0; quarter.months[u]; u++) {
-            const month = quarter.months[u];
-            for (var v = 0; month.days[v]; v++) {
-              const day = month.days[v];
-              let currentEntry:TimesheetSearchStructureItem=null;
-              if (graphicConfig.configurationName==="DAY"){
-                currentEntry=currentSearchStructure.addTimeSegment(day);
-                currentEntry.xLeft=slotCounter * graphicConfig.dimensions.timeCellWidth;
-                currentEntry.xWidth=graphicConfig.dimensions.timeCellWidth;
-                slotCounter++;
-              }
-              for(var j=0;day.turns[j];j++){
-                const turn=day.turns[j];
-                if (graphicConfig.configurationName==="TURN"){
-                  currentEntry=currentSearchStructure.addTimeSegment(turn);
-                  currentEntry.startDate=turn.startShortDate;
-                  currentEntry.endDate=turn.endShortDate;
-                  currentEntry.startTime=turn.startShortTime;
-                  currentEntry.endTime=turn.endShortTime;
-                  currentEntry.xLeft=slotCounter * graphicConfig.dimensions.timeCellWidth;
-                  currentEntry.xWidth=graphicConfig.dimensions.timeCellWidth;
-                  slotCounter++;
-                }
-                for (var y = 0; turn.hours[y]; y++) {
-                  const hour = turn.hours[y];
-                  if (graphicConfig.configurationName==="HOUR"){
-                    currentEntry=currentSearchStructure.addTimeSegment(hour);
-                    currentEntry.startDate=hour.startShortDate;
-                    currentEntry.endDate=hour.endShortDate;
-                    currentEntry.startTime=hour.startShortTime;
-                    currentEntry.endTime=hour.endShortTime;
-                    currentEntry.xLeft=slotCounter * graphicConfig.dimensions.timeCellWidth;
-                    currentEntry.xWidth=graphicConfig.dimensions.timeCellWidth;
-                    slotCounter++;
-                  }
-                  currentEntry.effectiveAvailableTime+=(hour.utcEndDateTime-hour.utcStartDateTime)/(60.0*1000.0);
-                }
-              }
+      let slotCounter: number = 0;
+      currentSearchStructure = new TimesheetSearchStructure(graphicConfig.dimensions.timeCellWidth);
+      if (dataItem.years) {
+        dataItem.years.forEach(year => {
+          if (year.quarters) {
+            year.quarters.forEach(quarter => {
+              if (quarter.months) {
+                quarter.months.forEach(month => {
+                  if (month.days) {
+                    month.days.forEach(day => {
 
-            }
+                      let currentEntry: TimesheetSearchStructureItem = null;
+                      if (graphicConfig.configurationName === "DAY") {
+                        currentEntry = currentSearchStructure.addTimeSegment(day);
+                        currentEntry.xLeft = slotCounter * graphicConfig.dimensions.timeCellWidth;
+                        currentEntry.xWidth = graphicConfig.dimensions.timeCellWidth;
+                        slotCounter++;
+                      }
+                      if (day.turns) {
+                        day.turns.forEach(turn => {
+
+                          if (graphicConfig.configurationName === "TURN") {
+                            currentEntry = currentSearchStructure.addTimeSegment(turn);
+                            currentEntry.startDate = turn.startShortDate;
+                            currentEntry.endDate = turn.endShortDate;
+                            currentEntry.startTime = turn.startShortTime;
+                            currentEntry.endTime = turn.endShortTime;
+                            currentEntry.xLeft = slotCounter * graphicConfig.dimensions.timeCellWidth;
+                            currentEntry.xWidth = graphicConfig.dimensions.timeCellWidth;
+                            slotCounter++;
+                          }
+                          if (turn.hours) {
+                            turn.hours.forEach(hour => {
+
+                              if (graphicConfig.configurationName === "HOUR") {
+                                currentEntry = currentSearchStructure.addTimeSegment(hour);
+                                currentEntry.startDate = hour.startShortDate;
+                                currentEntry.endDate = hour.endShortDate;
+                                currentEntry.startTime = hour.startShortTime;
+                                currentEntry.endTime = hour.endShortTime;
+                                currentEntry.xLeft = slotCounter * graphicConfig.dimensions.timeCellWidth;
+                                currentEntry.xWidth = graphicConfig.dimensions.timeCellWidth;
+                                slotCounter++;
+                              }
+                              currentEntry.effectiveAvailableTime += (hour.utcEndDateTime - hour.utcStartDateTime) / (60.0 * 1000.0);
+                            });
+                          }
+                        });
+                      }
+
+                    });
+                  }
+                });
+              }
+            });
           }
-        }
+        });
       }
     }
     return currentSearchStructure;
@@ -88,13 +97,13 @@ export class TimesheetSearchStructure {
     for (var m = 0; treeMultipliers[m]; m++) {
       var dividendo: number = treeMultipliers[m];
       let indice = Math.floor(utcValue / dividendo);
-      if (!previusLevelObject.searchMap) previusLevelObject.searchMap=new Map();
+      if (!previusLevelObject.searchMap) previusLevelObject.searchMap = new Map();
       if (!previusLevelObject.searchMap.has(indice)) {
         let item: TimesheetSearchStructureItem = new TimesheetSearchStructureItem();
         item.utcStartDateTime = utcValue;
         item.utcEndDateTime = utcValue;
-        item.xWidth=this.xSlotWidth;
-        item.xLeft=0;
+        item.xWidth = this.xSlotWidth;
+        item.xLeft = 0;
         if (m < treeMultipliers.length - 1) {
           item.array = new Array();
         }
@@ -148,24 +157,24 @@ export class TimesheetSearchStructure {
 
     return previusLevelObject;
   }
-  public getStartSegment(utcValue:number):TimesheetSearchStructureItem{
-    let _entry:TimesheetSearchStructureItem=this.getEntry(utcValue);
+  public getStartSegment(utcValue: number): TimesheetSearchStructureItem {
+    let _entry: TimesheetSearchStructureItem = this.getEntry(utcValue);
     if (!_entry) {
-      let _vals=this.entriesStartRawMap.ceilingEntry(utcValue);
-      if (_vals) _entry=_vals[1];
+      let _vals = this.entriesStartRawMap.ceilingEntry(utcValue);
+      if (_vals) _entry = _vals[1];
     }
     return _entry;
   }
-  public getEndSegment(utcValue:number):TimesheetSearchStructureItem{
-    let _entry:TimesheetSearchStructureItem=this.getEntry(utcValue);
+  public getEndSegment(utcValue: number): TimesheetSearchStructureItem {
+    let _entry: TimesheetSearchStructureItem = this.getEntry(utcValue);
     if (!_entry) {
-      let _vals=this.entriesStartRawMap.floorEntry(utcValue);
-      if (_vals) _entry=_vals[1];
+      let _vals = this.entriesStartRawMap.floorEntry(utcValue);
+      if (_vals) _entry = _vals[1];
     }
     return _entry;
   }
   private searchRecursive(item: TimesheetSearchStructureItem, utcValue: number): TimesheetSearchStructureItem {
-    let retValue: TimesheetSearchStructureItem =null;
+    let retValue: TimesheetSearchStructureItem = null;
     if (item.array) {
       for (var i = 0; !retValue && item.array && i < item.array.length; i++) {
         retValue = this.searchRecursive(item.array[i], utcValue);
@@ -187,32 +196,32 @@ export class TimesheetSearchStructure {
     }
     return retValue;
   }
- private entriesStartRawMap:TreeMap<number,TimesheetSearchStructureItem>=new TreeMap<number,TimesheetSearchStructureItem>();
- private entriesEndRawMap:TreeMap<number,TimesheetSearchStructureItem>=new TreeMap<number,TimesheetSearchStructureItem>();
- private addTimeSegment(hour: { utcStartDateTime?: number; utcEndDateTime?: number; id?:string;description?:string,code?:string}):TimesheetSearchStructureItem {
+  private entriesStartRawMap: TreeMap<number, TimesheetSearchStructureItem> = new TreeMap<number, TimesheetSearchStructureItem>();
+  private entriesEndRawMap: TreeMap<number, TimesheetSearchStructureItem> = new TreeMap<number, TimesheetSearchStructureItem>();
+  private addTimeSegment(hour: { utcStartDateTime?: number; utcEndDateTime?: number; id?: string; description?: string, code?: string }): TimesheetSearchStructureItem {
     var utcStartDateTime = hour.utcStartDateTime;
     var utcEndDateTime = hour.utcEndDateTime;
-    let _entry=new TimesheetSearchStructureItem();
-    _entry.utcStartDateTime=hour.utcStartDateTime;
-    _entry.utcEndDateTime=hour.utcEndDateTime;
-    _entry.code=hour.code;
-    _entry.id=hour.id;
-    _entry.description=hour.description;
+    let _entry = new TimesheetSearchStructureItem();
+    _entry.utcStartDateTime = hour.utcStartDateTime;
+    _entry.utcEndDateTime = hour.utcEndDateTime;
+    _entry.code = hour.code;
+    _entry.id = hour.id;
+    _entry.description = hour.description;
     this.buildEntry(utcStartDateTime).startSlot = _entry;
     this.buildEntry(utcEndDateTime).endSlot = _entry;
     this.timeSlotsArray.push(_entry);
-    this.entriesEndRawMap.set(_entry.utcEndDateTime,_entry);
-    this.entriesStartRawMap.set(_entry.utcStartDateTime,_entry);
+    this.entriesEndRawMap.set(_entry.utcEndDateTime, _entry);
+    this.entriesStartRawMap.set(_entry.utcStartDateTime, _entry);
     return _entry;
   }
-  public getXTimeCoord(utcTime:number) {
-    let _entry=this.getEntry(utcTime);
+  public getXTimeCoord(utcTime: number) {
+    let _entry = this.getEntry(utcTime);
     if (!_entry) {
       //Management of "out of calendar" X values
       //let _floorEntry=this.entriesStartRawMap.floorEntry(utcTime);
       //let _ceilingEntry=this.entriesEndRawMap.ceilingEntry(utcTime);
-      let _floorEntry=this.entriesEndRawMap.floorEntry(utcTime);
-      let _ceilingEntry=this.entriesStartRawMap.ceilingEntry(utcTime);
+      let _floorEntry = this.entriesEndRawMap.floorEntry(utcTime);
+      let _ceilingEntry = this.entriesStartRawMap.ceilingEntry(utcTime);
       if (_floorEntry && _ceilingEntry) {
         //let timeSlot={utcStartDateTime: _floorEntry[1].utcStartDateTime, utcEndDateTime: _ceilingEntry[1].utcEndDateTime, xWidth:((_ceilingEntry[1].xLeft+_ceilingEntry[1].xWidth)-_floorEntry[1].xLeft),xLeft:_floorEntry[1].xLeft};
         //return this.calculateXCoordinata(timeSlot,utcTime);
@@ -220,18 +229,18 @@ export class TimesheetSearchStructure {
       }
     }
     if (_entry) {
-      return this.calculateXCoordinata(_entry,utcTime);
-    }else return -1;
+      return this.calculateXCoordinata(_entry, utcTime);
+    } else return -1;
   }
-  public calculateXCoordinata(timeSlot:{ utcStartDateTime?: number; utcEndDateTime?: number; xWidth?:number;xLeft?:number}, utcTime:number):number {
-		return (timeSlot.xLeft + this.calculateXOffset(timeSlot, utcTime));
+  public calculateXCoordinata(timeSlot: { utcStartDateTime?: number; utcEndDateTime?: number; xWidth?: number; xLeft?: number }, utcTime: number): number {
+    return (timeSlot.xLeft + this.calculateXOffset(timeSlot, utcTime));
   }
-  private calculateXOffset (timeSlot:{ utcStartDateTime?: number; utcEndDateTime?: number; xWidth?:number}, utcTime:number) {
-		let offset = 0;
-		let fullWidth = (timeSlot.xWidth);
-		let utcWidth = (timeSlot.utcEndDateTime - timeSlot.utcStartDateTime);
-		let utcOffset = (utcTime - timeSlot.utcStartDateTime);
-		offset = (fullWidth * (utcOffset / utcWidth));
-		return offset;
+  private calculateXOffset(timeSlot: { utcStartDateTime?: number; utcEndDateTime?: number; xWidth?: number }, utcTime: number) {
+    let offset = 0;
+    let fullWidth = (timeSlot.xWidth);
+    let utcWidth = (timeSlot.utcEndDateTime - timeSlot.utcStartDateTime);
+    let utcOffset = (utcTime - timeSlot.utcStartDateTime);
+    offset = (fullWidth * (utcOffset / utcWidth));
+    return offset;
   }
 }
