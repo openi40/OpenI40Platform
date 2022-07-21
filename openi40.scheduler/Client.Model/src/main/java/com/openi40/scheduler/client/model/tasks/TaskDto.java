@@ -28,6 +28,8 @@ public class TaskDto extends ClientDto {
 	protected boolean successfullyScheduled = false;
 	protected boolean workOrderRootTask=false;
 	protected Date askedDeliveryDateTime=null;
+	protected Date minProductionDateConstraint=null;
+	protected Date maxProductionDateConstraint=null;
 	protected String workCenterCode = null;
 	protected String cycleCode=null;
 	protected String operationCode=null;

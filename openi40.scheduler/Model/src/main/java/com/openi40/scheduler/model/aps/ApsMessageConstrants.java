@@ -64,7 +64,7 @@ public class ApsMessageConstrants {
 			ApsMessageCategory.CONSTRAINT_UNSATISFIED, ApsMessageLevel.UNSCHEDULABLE_CONDITION,
 			"MIN_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET",
 			"The  task ${task.workOrderCode}/${task.sequenceCode} out of begin scheduling time after ${task.minProductionDateConstraint}");
-	public static final ApsMessageConstrants MAX_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET = new ApsMessageConstrants(
+	public static final ApsMessageConstrants MAX_PRODUCTION_END_DATE_CONSTRAINT_NOT_MET = new ApsMessageConstrants(
 			ApsMessageCategory.CONSTRAINT_UNSATISFIED, ApsMessageLevel.UNSCHEDULABLE_CONDITION,
 			"MAX_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET",
 			"The  task ${task.workOrderCode}/${task.sequenceCode} out of end scheduling time before ${task.minProductionDateConstraint}");

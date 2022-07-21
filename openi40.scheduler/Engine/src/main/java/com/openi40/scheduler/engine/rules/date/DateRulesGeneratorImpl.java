@@ -74,8 +74,8 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 					Rule.ConstraintPriority.MANDATORY, DateUtil.discretize(task.getMaxProductionDateConstraint()), null,
 					EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
 			dateRules.add(MaximumProductionBound);
-			MaximumProductionBound.setUnmetConstraintMessage(new ApsMessage(this,
-					ApsMessageConstrants.MAX_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET, environment));
+			MaximumProductionBound.setUnmetConstraintMessage(
+					new ApsMessage(this, ApsMessageConstrants.MAX_PRODUCTION_END_DATE_CONSTRAINT_NOT_MET, environment));
 		}
 		return dateRules;
 	}
