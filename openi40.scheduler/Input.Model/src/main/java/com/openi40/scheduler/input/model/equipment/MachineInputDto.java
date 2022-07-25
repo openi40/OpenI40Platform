@@ -21,6 +21,7 @@ public class MachineInputDto extends BaseTimesheetManagedInputDTO {
 	
 	private String workCenterCode=null;
 	private boolean disabled=false;
+	private String availability = null;
 	@ObjectReferenceConstraint(containerType = ApsInputData.class,referencedType = WorkCenterInputDto.class,nullable = false)
 	public String getWorkCenterCode() {
 		return workCenterCode;
@@ -36,5 +37,13 @@ public class MachineInputDto extends BaseTimesheetManagedInputDTO {
 
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
 	}
 }

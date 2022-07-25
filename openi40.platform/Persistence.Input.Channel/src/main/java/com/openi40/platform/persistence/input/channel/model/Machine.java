@@ -28,7 +28,8 @@ import com.openi40.scheduler.input.model.equipment.MachineInputDto;
 @AttributeOverride(name = "infiniteCapacity", column = @Column(name = "infinite_capacity")),
 @AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 @AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
-@AttributeOverride(name = "workCenterCode", column = @Column(name = "work_center_code"))
+@AttributeOverride(name = "workCenterCode", column = @Column(name = "work_center_code")),
+@AttributeOverride(name = "availability", column = @Column(name = "availability"))
 })
 public class Machine extends MachineInputDto{
 @Id

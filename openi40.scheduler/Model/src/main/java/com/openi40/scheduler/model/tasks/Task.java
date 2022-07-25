@@ -26,13 +26,14 @@ import com.openi40.scheduler.model.time.TimeSegmentsGroup;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -62,6 +63,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected String predefinedMachineCode = null;
 	protected String forcedMachineCode = null;
 	protected Date askedDeliveryDateTime = null;
+	protected TaskStatus status = TaskStatus.NOT_YET_EXECUTED;
 	@Setter(value = AccessLevel.NONE)
 	protected List<TaskEdge> childTasks = createCleanChild(this, "ChildTasks", TaskEdge.class);
 
@@ -103,8 +105,13 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected double qtyProduced = 0.0;
 	protected Integer customPriority = 0;
 	protected String color = null;
-	protected Date minProductionDateConstraint=null;
-	protected Date maxProductionDateConstraint=null;
+	protected Date minProductionDateConstraint = null;
+	protected Date maxProductionDateConstraint = null;
+	protected Date acquiredStartSetup = null;
+	protected Date acquiredEndSetup = null;
+	protected Date acquiredStartWork = null;
+	protected Date acquiredEndWork = null;
+
 	public double getQtyResidual() {
 		return qtyTotal > qtyProduced ? qtyTotal - qtyProduced : 0.0;
 	}
@@ -167,7 +174,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	@Override
 	public void resetSchedulingData() {
 		if (getProduction() != null) {
-			getProduction().setAvailabilityDateTime(null);		
+			getProduction().setAvailabilityDateTime(null);
 		}
 		setSuccessfullyScheduled(false);
 		getMessages().clear();
@@ -190,8 +197,6 @@ public class Task extends AbstractPlantRelatedApsObject
 		if (getProduction() != null) {
 			getProduction().resetSchedulingData();
 		}
-		
-		
 
 	}
 

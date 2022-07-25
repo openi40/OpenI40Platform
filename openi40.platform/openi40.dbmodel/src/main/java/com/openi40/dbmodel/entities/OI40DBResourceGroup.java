@@ -34,4 +34,5 @@ import lombok.Data;
 public class OI40DBResourceGroup extends OI40DBBaseTimesheetManaged implements Serializable {
 	private String departmentCode=null;	
 	private Integer resourcesNumber=null;
+	
 }

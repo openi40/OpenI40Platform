@@ -28,7 +28,8 @@ import com.openi40.scheduler.input.model.equipment.SecondaryResourceInputDto;
 @AttributeOverride(name = "infiniteCapacity", column = @Column(name = "infinite_capacity")),
 @AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 @AttributeOverride(name = "resourceGroupCode", column = @Column(name = "resource_group_code")),
-@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code"))
+@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
+@AttributeOverride(name = "availability", column = @Column(name = "availability"))
 })
 public class SecondaryResource extends SecondaryResourceInputDto{
 @Id

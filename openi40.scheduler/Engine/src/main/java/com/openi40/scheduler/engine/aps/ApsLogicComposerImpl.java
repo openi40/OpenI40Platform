@@ -11,28 +11,48 @@ import org.slf4j.LoggerFactory;
 import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.messages.handling.IApsMessagesHandler;
+import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
+import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
+import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.companystructure.Plant;
 import com.openi40.scheduler.model.companystructure.ProductiveCompany;
+import com.openi40.scheduler.model.messages.AbstractBaseMessage;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
- * Scheduling engine implementation, re-runs all algorithms in tasks groups with
- * planned options
+ *         Scheduling engine implementation, re-runs all algorithms in tasks
+ *         groups with planned options
  */
 @DefaultImplementation(implemented = IApsLogicComposer.class, entityClass = ApsData.class)
 public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IApsLogicComposer {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsLogicComposerImpl.class);
+
+	public void handleMessage(AbstractBaseMessage message, ApsData context, ApsLogicNotifiedObjects observer)
+			throws ApsMessageValidationException, ApsMessageManagementException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin handleMessage(...)");
+		}
+		IApsMessagesHandler handler = this.componentsFactory.create(IApsMessagesHandler.class, message, context);
+		ApsMessageManagementResponse response = handler.handleMessage(message, context);
+		if (response.isReschedule()) {
+			schedule(context, observer);
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End handleMessage(...)");
+		}
+	}
 
 	public void schedule(ApsData EntityObject, ApsLogicNotifiedObjects observer) {
 		long ts = System.currentTimeMillis();
@@ -83,10 +103,10 @@ public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IAps
 				}
 			}
 		}
-		List<WorkOrder> unscheduled=new ArrayList<>(unscheduledWorkOrder.values());
+		List<WorkOrder> unscheduled = new ArrayList<>(unscheduledWorkOrder.values());
 		for (ApsSchedulingSet apsSet : schedulingSets) {
-			IApsLogic scheduler = this.componentsFactory.create(IApsLogic.class, apsSet,apsData);
-			ApsSchedulingSet fixedApsSet=scheduler.autoSetTasks(apsSet,unscheduled,apsData);
+			IApsLogic scheduler = this.componentsFactory.create(IApsLogic.class, apsSet, apsData);
+			ApsSchedulingSet fixedApsSet = scheduler.autoSetTasks(apsSet, unscheduled, apsData);
 			outSets.add(fixedApsSet);
 		}
 		return outSets;
