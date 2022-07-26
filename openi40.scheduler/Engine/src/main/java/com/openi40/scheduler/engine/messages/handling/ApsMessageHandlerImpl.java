@@ -1,7 +1,6 @@
 package com.openi40.scheduler.engine.messages.handling;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 

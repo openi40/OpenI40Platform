@@ -27,7 +27,17 @@ import com.openi40.scheduler.model.messages.ISecondaryResourceRelatedMessage;
 import com.openi40.scheduler.model.messages.ITaskRelatedMessage;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskStatus;
-
+/**
+ * 
+ * This code is part of the OpenI40 open source advanced production scheduler
+ * platform suite, have look to its licencing options.
+ * Web site: http://openi40.org/  
+ * Github: https://github.com/openi40/OpenI40Platform
+ * We hope you enjoy implementing new amazing projects with it.
+ * @author architectures@openi40.org
+ *
+ * @param <MsgType>
+ */
 public abstract class AbstractSpecializedMessageHandler<MsgType extends AbstractBaseMessage>
 		implements IBaseMessagesHandler<MsgType> {
 	private Class<MsgType> messageType = null;
@@ -48,9 +58,39 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	@Override
 	public ApsMessageManagementResponse handleMessage(MsgType msg, ApsData context)
 			throws ApsMessageValidationException, ApsMessageManagementException {
+		// Validate received task/machine/secondary resource codes &
+		// actual task/machine/secondary resource state coherence versus the received
+		// message
 		MessageRelatedObjects contextObjects = this.basicMessageValidation(msg, context);
+		// Custom validation
 		this.contextObjectAwareMessageValidation(contextObjects, msg, context);
-		return this.apply(contextObjects, msg, context);
+		// Validate system (machine/task/secondary resources) state VS received message
+		// the system rejects messages not in the acceptable finite state machine
+		// state/received messages
+		// combination expressed from stateMachineGraphService
+		this.validateSystemStateVsReceivedMessage(contextObjects, msg, context);
+		// Change the system status on received message coherently with state machine
+		// logic
+		this.changeSystemStateOnReceivedMessage(contextObjects, msg, context);
+		// Custom data assignations based on specific received event
+		return this.messageSemanticDependentSystemStateChange(contextObjects, msg, context);
+	}
+
+	protected void changeSystemStateOnReceivedMessage(
+			AbstractSpecializedMessageHandler<MsgType>.MessageRelatedObjects contextObjects, MsgType msg,
+			ApsData context) {
+		TaskStatus nextTaskState = this.stateMachineGraphService.getNextTaskState(msg);
+		ReservableObjectAvailability nextMachineState = this.stateMachineGraphService.getNextMachineStates(msg);
+		if (nextTaskState != null && contextObjects.task != null) {
+			contextObjects.task.setStatus(nextTaskState);
+		}
+		if (nextMachineState != null && contextObjects.machine != null) {
+			contextObjects.machine.setAvailability(nextMachineState);
+		}
+		if (nextMachineState != null && contextObjects.resource != null) {
+			contextObjects.resource.setAvailability(nextMachineState);
+		}
+
 	}
 
 	/******
@@ -124,9 +164,10 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 		}
 
 	}
+
 	/**********************************************************************************************
-	 * Verifies message data coherence (task,machine,secondary resources codes), tests also incoming
-	 * message coherence to the finitestatemachine expressed with the IMessagesManagementStateMachineGraphService
+	 * Verifies message data coherence (task,machine,secondary resources codes),
+	 * 
 	 * @param message
 	 * @param context
 	 * @return
@@ -231,6 +272,24 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 			}
 		}
 
+		if (!messages.isEmpty()) {
+			throw new ApsMessageValidationException(messages, "validation of message=>" + message.getCode());
+		}
+		return relateds;
+	}
+
+	/**
+	 * Tests incoming message coherence to the finitestatemachine expressed with the
+	 * IMessagesManagementStateMachineGraphService
+	 * 
+	 * @param relateds
+	 * @param message
+	 * @param context
+	 * @throws ApsMessageValidationException
+	 */
+	protected void validateSystemStateVsReceivedMessage(MessageRelatedObjects relateds, MsgType message,
+			ApsData context) throws ApsMessageValidationException {
+		List<MessageHandlingErrorMessage> messages = new ArrayList<MessageHandlingErrorMessage>();
 		ReservableObjectAvailability[] prerequisiteMachineStates = this.stateMachineGraphService
 				.getPrerequisiteMachineStates(message);
 		if (prerequisiteMachineStates != null && prerequisiteMachineStates.length > 0) {
@@ -251,18 +310,18 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 		if (!messages.isEmpty()) {
 			throw new ApsMessageValidationException(messages, "validation of message=>" + message.getCode());
 		}
-		return relateds;
 	}
 
 	/*******
-	 * Applies data transformation on ApsData coherently with received message
+	 * Reports specific updates on machine/task/secondary resource/ApsData
+	 * coherently with received message
 	 * 
 	 * @param msg
 	 * @param context
 	 * @return
 	 * @throws ApsMessageManagementException
 	 */
-	protected abstract ApsMessageManagementResponse apply(MessageRelatedObjects contextObjects, MsgType message,
+	protected abstract ApsMessageManagementResponse messageSemanticDependentSystemStateChange(MessageRelatedObjects contextObjects, MsgType message,
 			ApsData context) throws ApsMessageManagementException;
 
 	@Override

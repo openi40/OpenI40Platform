@@ -25,7 +25,7 @@ public class MessagesManagementStateMachineGraphServiceImpl extends AbstractSpec
 	}
 
 	@Override
-	protected ApsMessageManagementResponse apply(
+	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<AbstractMachineStatusMessage>.MessageRelatedObjects contextObjects,
 			AbstractMachineStatusMessage message, ApsData context) throws ApsMessageManagementException {
 		// TODO Auto-generated method stub

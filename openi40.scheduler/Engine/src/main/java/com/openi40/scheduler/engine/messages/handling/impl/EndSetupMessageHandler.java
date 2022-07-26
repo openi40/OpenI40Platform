@@ -7,7 +7,6 @@ import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementRespon
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.EndSetupMessage;
-import com.openi40.scheduler.model.messages.StartSetupMessage;
 
 @Service
 public class EndSetupMessageHandler extends AbstractSpecializedMessageHandler<EndSetupMessage> {
@@ -26,7 +25,7 @@ public class EndSetupMessageHandler extends AbstractSpecializedMessageHandler<En
 	}
 
 	@Override
-	protected ApsMessageManagementResponse apply(
+	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<EndSetupMessage>.MessageRelatedObjects contextObjects,
 			EndSetupMessage message, ApsData context) throws ApsMessageManagementException {
 		// TODO Auto-generated method stub

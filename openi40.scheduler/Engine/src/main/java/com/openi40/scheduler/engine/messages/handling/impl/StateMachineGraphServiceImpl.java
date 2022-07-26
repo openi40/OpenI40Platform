@@ -6,12 +6,16 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.openi40.scheduler.model.ReservableObjectAvailability;
+import com.openi40.scheduler.model.messages.AbortTaskMessage;
 import com.openi40.scheduler.model.messages.AbstractBaseMessage;
+import com.openi40.scheduler.model.messages.OutOfOrderMachineMessage;
 import com.openi40.scheduler.model.messages.EndSetupMessage;
 import com.openi40.scheduler.model.messages.EndWorkMessage;
+import com.openi40.scheduler.model.messages.PauseTaskMessage;
 import com.openi40.scheduler.model.messages.StartSetupMessage;
 import com.openi40.scheduler.model.messages.StartWorkMessage;
 import com.openi40.scheduler.model.messages.TaskProductionUpdateMessage;
+import com.openi40.scheduler.model.messages.UnderMantainmentMachineMessage;
 import com.openi40.scheduler.model.tasks.TaskStatus;
 
 @Service
@@ -59,6 +63,25 @@ public class StateMachineGraphServiceImpl implements IMessagesManagementStateMac
 				new ReservableObjectAvailability[] { ReservableObjectAvailability.EXECUTING_WORK });
 		taskNextState.put(EndWorkMessage.class, TaskStatus.EXECUTED);
 		machineNextState.put(EndWorkMessage.class, ReservableObjectAvailability.AVAILABLE);
+		// AbortTaskMessage
+		taskStatePrerequisites.put(AbortTaskMessage.class,
+				new TaskStatus[] { TaskStatus.EXECUTING_WORK, TaskStatus.NOT_YET_EXECUTED, TaskStatus.EXECUTING_SETUP,
+						TaskStatus.EXECUTING_WORK, TaskStatus.SETUP_DONE, TaskStatus.PAUSED });
+		taskNextState.put(AbortTaskMessage.class, TaskStatus.ABORTED);
+		// PauseTaskMessage
+		taskStatePrerequisites.put(PauseTaskMessage.class,
+				new TaskStatus[] { TaskStatus.EXECUTING_WORK, TaskStatus.EXECUTING_SETUP, TaskStatus.SETUP_DONE });
+		machineStatePrerequisites.put(PauseTaskMessage.class,
+				new ReservableObjectAvailability[] { ReservableObjectAvailability.EXECUTING_WORK,
+						ReservableObjectAvailability.EXECUTING_SETUP, ReservableObjectAvailability.SETUP_DONE });
+		taskNextState.put(PauseTaskMessage.class, TaskStatus.PAUSED);
+		machineNextState.put(PauseTaskMessage.class, ReservableObjectAvailability.PAUSED);
+		// UnderMantainmentMessage
+		machineStatePrerequisites.put(UnderMantainmentMachineMessage.class, ReservableObjectAvailability.values());
+		machineNextState.put(UnderMantainmentMachineMessage.class, ReservableObjectAvailability.UNDER_MANTAINMENT);
+		// BrokenMachineMessage
+		machineStatePrerequisites.put(OutOfOrderMachineMessage.class, ReservableObjectAvailability.values());
+		machineNextState.put(OutOfOrderMachineMessage.class, ReservableObjectAvailability.OUT_OF_ORDER);
 
 	}
 

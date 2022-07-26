@@ -6,7 +6,6 @@ import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementExcept
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
-import com.openi40.scheduler.model.messages.StartSetupMessage;
 import com.openi40.scheduler.model.messages.StartWorkMessage;
 @Service
 public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<StartWorkMessage> {
@@ -25,7 +24,7 @@ public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<S
 	}
 
 	@Override
-	protected ApsMessageManagementResponse apply(
+	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<StartWorkMessage>.MessageRelatedObjects contextObjects,
 			StartWorkMessage message, ApsData context) throws ApsMessageManagementException {
 		// TODO Auto-generated method stub
