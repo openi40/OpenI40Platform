@@ -19,7 +19,7 @@ public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<S
 	protected void contextObjectAwareMessageValidation(
 			AbstractSpecializedMessageHandler<StartWorkMessage>.MessageRelatedObjects contextObjects,
 			StartWorkMessage message, ApsData context) throws ApsMessageValidationException {
-		// TODO Auto-generated method stub
+		checkAcquiredMachineCodeCoherency(contextObjects, message);
 
 	}
 
@@ -27,8 +27,11 @@ public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<S
 	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<StartWorkMessage>.MessageRelatedObjects contextObjects,
 			StartWorkMessage message, ApsData context) throws ApsMessageManagementException {
-		// TODO Auto-generated method stub
-		return null;
+		contextObjects.task.setAcquiredStartWork(message.getMessageTimestamp());
+		contextObjects.task.setLocked(true);
+		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
+		response.setReschedule(true);
+		return response;
 	}
 
 }

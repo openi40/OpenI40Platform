@@ -27,13 +27,14 @@ import com.openi40.scheduler.model.messages.ISecondaryResourceRelatedMessage;
 import com.openi40.scheduler.model.messages.ITaskRelatedMessage;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskStatus;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  * @param <MsgType>
@@ -53,6 +54,27 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 
 	public AbstractSpecializedMessageHandler(Class<MsgType> messageType) {
 
+	}
+
+	protected void checkAcquiredMachineCodeCoherency(MessageRelatedObjects contextObjects, MsgType message) throws ApsMessageValidationException {
+		List<MessageHandlingErrorMessage> errors = new ArrayList<MessageHandlingErrorMessage>();
+		if (message instanceof IMachineRelatedMessage && message instanceof ITaskRelatedMessage) {
+			IMachineRelatedMessage mrmsg=(IMachineRelatedMessage) message;
+			if (contextObjects.task.getAcquiredMachineCode() == null
+					|| contextObjects.task.getAcquiredMachineCode().trim().length() == 0) {
+				contextObjects.task.setAcquiredMachineCode(mrmsg.getMachineCode());
+			} else if (!contextObjects.task.getAcquiredMachineCode().equals(mrmsg.getMachineCode())) {
+				MessageHandlingErrorMessage emsg = new MessageHandlingErrorMessage();
+				emsg.setErrorCode(CHANGED_MACHINE_CODE_ERROR);
+				emsg.setErrorMsg("You cannot change machineCode from " + contextObjects.task.getAcquiredMachineCode()
+						+ " to " + mrmsg.getMachineCode() + " in task:" + contextObjects.task.getCode()
+						+ " with status=>" + contextObjects.task.getStatus().name());
+				errors.add(emsg);
+			}
+		}
+		if (!errors.isEmpty()) {
+			throw new ApsMessageValidationException(errors, "checkAcquiredMachineCodeCoherency");
+		}
 	}
 
 	@Override
@@ -115,6 +137,8 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	public static final String UNKNOWN_SECONDARY_RESOURCE_STATE_ERROR = "UNKNOWN_SECONDARY_RESOURCE_STATE_ERROR";
 	public final static String INCOMPATIBLE_TASK_STATE_ERROR = "INCOMPATIBLE_TASK_STATE_ERROR";
 	public final static String INCOMPATIBLE_MACHINE_STATE_ERROR = "INCOMPATIBLE_MACHINE_STATE_ERROR";
+	public final static String NULL_MESSAGE_TIMESTAMP_ERROR = "NULL_MESSAGE_TIMESTAMP_ERROR";
+	public final static String CHANGED_MACHINE_CODE_ERROR = "CHANGED_MACHINE_CODE_ERROR";
 
 	protected class MessageRelatedObjects {
 		public Task task = null;
@@ -177,6 +201,12 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 			throws ApsMessageValidationException {
 		MessageRelatedObjects relateds = new MessageRelatedObjects();
 		List<MessageHandlingErrorMessage> messages = new ArrayList<MessageHandlingErrorMessage>();
+		if (message.getMessageTimestamp() == null) {
+			MessageHandlingErrorMessage msg = new MessageHandlingErrorMessage();
+			msg.setErrorCode(NULL_MESSAGE_TIMESTAMP_ERROR);
+			msg.setErrorMsg("Null messageTimestamp code in msg with code " + message.getCode());
+			messages.add(msg);
+		}
 		if (message instanceof ITaskRelatedMessage) {
 			ITaskRelatedMessage taskRelated = (ITaskRelatedMessage) message;
 			String code = taskRelated.getTaskCode();
@@ -321,8 +351,9 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	 * @return
 	 * @throws ApsMessageManagementException
 	 */
-	protected abstract ApsMessageManagementResponse messageSemanticDependentSystemStateChange(MessageRelatedObjects contextObjects, MsgType message,
-			ApsData context) throws ApsMessageManagementException;
+	protected abstract ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
+			MessageRelatedObjects contextObjects, MsgType message, ApsData context)
+			throws ApsMessageManagementException;
 
 	@Override
 	public Class<MsgType> getHandledType() {

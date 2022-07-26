@@ -20,7 +20,7 @@ public class EndSetupMessageHandler extends AbstractSpecializedMessageHandler<En
 	protected void contextObjectAwareMessageValidation(
 			AbstractSpecializedMessageHandler<EndSetupMessage>.MessageRelatedObjects contextObjects,
 			EndSetupMessage message, ApsData context) throws ApsMessageValidationException {
-		// TODO Auto-generated method stub
+		checkAcquiredMachineCodeCoherency(contextObjects, message);
 
 	}
 
@@ -28,8 +28,11 @@ public class EndSetupMessageHandler extends AbstractSpecializedMessageHandler<En
 	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<EndSetupMessage>.MessageRelatedObjects contextObjects,
 			EndSetupMessage message, ApsData context) throws ApsMessageManagementException {
-		// TODO Auto-generated method stub
-		return null;
+		contextObjects.task.setAcquiredEndSetup(message.getMessageTimestamp());
+		contextObjects.task.setLocked(true);
+		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
+		response.setReschedule(true);
+		return response;
 	}
 
 }

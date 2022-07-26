@@ -111,6 +111,8 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected Date acquiredEndSetup = null;
 	protected Date acquiredStartWork = null;
 	protected Date acquiredEndWork = null;
+	protected Date acquiredProductionUpdate=null;
+	protected String acquiredMachineCode = null;
 
 	public double getQtyResidual() {
 		return qtyTotal > qtyProduced ? qtyTotal - qtyProduced : 0.0;
@@ -212,5 +214,7 @@ public class Task extends AbstractPlantRelatedApsObject
 		} else
 			return super.equals(o);
 	}
+	
+	
 
 }

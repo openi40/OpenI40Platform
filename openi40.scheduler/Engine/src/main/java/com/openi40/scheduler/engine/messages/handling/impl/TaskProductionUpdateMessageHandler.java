@@ -20,7 +20,7 @@ public class TaskProductionUpdateMessageHandler extends AbstractSpecializedMessa
 	protected void contextObjectAwareMessageValidation(
 			AbstractSpecializedMessageHandler<TaskProductionUpdateMessage>.MessageRelatedObjects contextObjects,
 			TaskProductionUpdateMessage message, ApsData context) throws ApsMessageValidationException {
-		// TODO Auto-generated method stub
+		checkAcquiredMachineCodeCoherency(contextObjects, message);
 
 	}
 
@@ -28,8 +28,22 @@ public class TaskProductionUpdateMessageHandler extends AbstractSpecializedMessa
 	protected ApsMessageManagementResponse messageSemanticDependentSystemStateChange(
 			AbstractSpecializedMessageHandler<TaskProductionUpdateMessage>.MessageRelatedObjects contextObjects,
 			TaskProductionUpdateMessage message, ApsData context) throws ApsMessageManagementException {
-		// TODO Auto-generated method stub
-		return null;
+		if (contextObjects.task.getAcquiredProductionUpdate() == null
+				|| contextObjects.task.getAcquiredProductionUpdate().before(message.getMessageTimestamp())) {
+			contextObjects.task.setAcquiredProductionUpdate(message.getMessageTimestamp());
+		}
+		if (message.isIncremental()) {
+			double produced = contextObjects.task.getQtyProduced() + message.getProduced();
+			contextObjects.task.setQtyProduced(produced);
+		} else {
+			double produced = message.getProduced();
+			contextObjects.task.setQtyProduced(produced);
+		}
+		contextObjects.task.setLocked(true);
+		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
+		response.setReschedule(true);
+		return response;
+
 	}
 
 }
