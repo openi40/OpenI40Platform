@@ -2,6 +2,8 @@ package com.openi40.scheduler.model.aps;
 
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
+
+import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -12,7 +14,9 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
  * @author architectures@openi40.org
  *
  */
+@Data
 public class ApsWindow extends TimeSegment {
+	protected Integer realtimePlanningDays=null;
 	public ApsWindow(ApsData ownerContext) {
 		super(TimeSegmentType.SCHEDULING_WINDOW, ownerContext);
 	}

@@ -42,6 +42,7 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	protected String timesheetMetaInfoCode = null;
 	protected Timesheet timesheet = null;
 	protected boolean infiniteCapacity = false;
+	protected boolean realtime=false;
 
 	
 

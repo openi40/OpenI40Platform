@@ -12,6 +12,7 @@ import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.messages.handling.IApsMessagesHandler;
+import com.openi40.scheduler.engine.realtime.IRealTimeDataManager;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
@@ -39,44 +40,36 @@ import com.openi40.scheduler.model.tasks.Task;
 public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IApsLogicComposer {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsLogicComposerImpl.class);
 
-	public void handleMessage(AbstractBaseMessage message, ApsData context, ApsLogicNotifiedObjects observer)
-			throws ApsMessageValidationException, ApsMessageManagementException {
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin handleMessage(...)");
-		}
-		IApsMessagesHandler handler = this.componentsFactory.create(IApsMessagesHandler.class, message, context);
-		ApsMessageManagementResponse response = handler.handleMessage(message, context);
-		if (response.isReschedule()) {
-			schedule(context, observer);
-		}
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End handleMessage(...)");
-		}
-	}
 
-	public void schedule(ApsData EntityObject, ApsLogicNotifiedObjects observer) {
+	public void schedule(ApsData apsData, ApsLogicNotifiedObjects observer) {
 		long ts = System.currentTimeMillis();
 		LOGGER.info("Begin ApsLogicComposerImpl.schedule(...)");
+
 		long ts1 = System.currentTimeMillis();
-		EntityObject.resetSchedulingData();
+		apsData.resetSchedulingData();
 		boolean scheduled = true;
-		IApsDataManager dataManager = this.componentsFactory.create(IApsDataManager.class, EntityObject, EntityObject);
+		IApsDataManager dataManager = this.componentsFactory.create(IApsDataManager.class, apsData, apsData);
 		// Initialize data structures if not yet done
-		if (!EntityObject.isInitialized()) {
-			dataManager.initialize(EntityObject);
+		if (!apsData.isInitialized()) {
+			dataManager.initialize(apsData);
 		}
-		dataManager.beforeScheduling(EntityObject);
+		dataManager.beforeScheduling(apsData);
+		if (apsData.isRealtime()) {
+			IRealTimeDataManager realTimeDataManager = this.componentsFactory.create(IRealTimeDataManager.class,
+					apsData, apsData);
+			realTimeDataManager.actualize(apsData);
+		}
 		LOGGER.info("Cleared scheduling data in " + ((System.currentTimeMillis() - ts1) / 1000) + " sec");
-		for (ApsSchedulingSet apsAction : EntityObject.getSchedulingSets()) {
+		for (ApsSchedulingSet apsAction : apsData.getSchedulingSets()) {
 			IApsLogic apsLogic = componentsFactory.create(IApsLogic.class, apsAction.getAlgorithmType(), apsAction,
-					EntityObject);
+					apsData);
 			apsAction.setAlgorithmDirection(apsLogic.getDirection());
 			LOGGER.info("Scheduling => " + apsAction.getAlgorithmType());
 			apsLogic.schedule(apsAction, observer);
 			scheduled = scheduled && apsAction.isScheduled();
 		}
 		LOGGER.info("End ApsLogicComposerImpl.schedule(...) sec=" + ((System.currentTimeMillis() - ts) / 1000));
-		EntityObject.debugLogging();
+		apsData.debugLogging();
 	}
 
 	@Override
