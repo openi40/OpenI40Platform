@@ -53,13 +53,14 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	IMessagesManagementStateMachineGraphService stateMachineGraphService;
 
 	public AbstractSpecializedMessageHandler(Class<MsgType> messageType) {
-
+		this.messageType = messageType;
 	}
 
-	protected void checkAcquiredMachineCodeCoherency(MessageRelatedObjects contextObjects, MsgType message) throws ApsMessageValidationException {
+	protected void checkAcquiredMachineCodeCoherency(MessageRelatedObjects contextObjects, MsgType message)
+			throws ApsMessageValidationException {
 		List<MessageHandlingErrorMessage> errors = new ArrayList<MessageHandlingErrorMessage>();
 		if (message instanceof IMachineRelatedMessage && message instanceof ITaskRelatedMessage) {
-			IMachineRelatedMessage mrmsg=(IMachineRelatedMessage) message;
+			IMachineRelatedMessage mrmsg = (IMachineRelatedMessage) message;
 			if (contextObjects.task.getAcquiredMachineCode() == null
 					|| contextObjects.task.getAcquiredMachineCode().trim().length() == 0) {
 				contextObjects.task.setAcquiredMachineCode(mrmsg.getMachineCode());
@@ -149,11 +150,11 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	private void verifyValidMachineStates(ReservableObjectAvailability validStates[], MsgType message,
 			MessageRelatedObjects contextObjects, ApsData context) throws ApsMessageValidationException {
 		List<MessageHandlingErrorMessage> msgs = new ArrayList<MessageHandlingErrorMessage>();
-		boolean erroneousMachineState = false;
+		boolean correctMachineState = false;
 		for (int i = 0; i < validStates.length; i++) {
-			erroneousMachineState = erroneousMachineState || validStates[i] == contextObjects.machine.getAvailability();
+			correctMachineState = correctMachineState || validStates[i] == contextObjects.machine.getAvailability();
 		}
-		if (erroneousMachineState) {
+		if (!correctMachineState) {
 			MessageHandlingErrorMessage errmessage = new MessageHandlingErrorMessage();
 			errmessage.setErrorCode(INCOMPATIBLE_MACHINE_STATE_ERROR);
 			errmessage.setErrorMsg("Incompatible machine " + contextObjects.machine.getAvailability().name()
@@ -169,11 +170,11 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	private void verifyValidTaskStates(TaskStatus validStates[], MsgType message, MessageRelatedObjects contextObjects,
 			ApsData context) throws ApsMessageValidationException {
 		List<MessageHandlingErrorMessage> msgs = new ArrayList<MessageHandlingErrorMessage>();
-		boolean erroneousTaskState = false;
+		boolean correctTaskState = false;
 		for (int i = 0; i < validStates.length; i++) {
-			erroneousTaskState = erroneousTaskState || validStates[i] == contextObjects.task.getStatus();
+			correctTaskState = correctTaskState || validStates[i] == contextObjects.task.getStatus();
 		}
-		if (erroneousTaskState) {
+		if (!correctTaskState) {
 			MessageHandlingErrorMessage errmessage = new MessageHandlingErrorMessage();
 			errmessage.setErrorCode(INCOMPATIBLE_TASK_STATE_ERROR);
 			errmessage.setErrorMsg("Incompatible state " + contextObjects.task.getStatus().name()

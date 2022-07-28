@@ -31,7 +31,7 @@ public class ApsMessageHandlerImpl extends BusinessLogic<AbstractBaseMessage> im
 	Map<Class<? extends AbstractBaseMessage>, AbstractSpecializedMessageHandler> handlersMap = new HashMap<Class<? extends AbstractBaseMessage>, AbstractSpecializedMessageHandler>();
 
 	public ApsMessageHandlerImpl(
-			@Autowired List<AbstractSpecializedMessageHandler<? extends AbstractBaseMessage>> handlers) {
+			@Autowired List<AbstractSpecializedMessageHandler> handlers) {
 		if (handlers != null) {
 			for (AbstractSpecializedMessageHandler abstractSpecializedMessageHandler : handlers) {
 				this.handlersMap.put(abstractSpecializedMessageHandler.getHandledType(),
@@ -50,7 +50,7 @@ public class ApsMessageHandlerImpl extends BusinessLogic<AbstractBaseMessage> im
 		if (handler == null) {
 			String textmsg = "The AbstractSpecializedMessageHandler for " + msg.getClass().getName()
 					+ " is not implemented";
-			throw new OpenI40Exception("");
+			throw new OpenI40Exception(textmsg);
 		}
 		ApsMessageManagementResponse response = handler.handleMessage(msg, context);
 		if (LOGGER.isDebugEnabled()) {
