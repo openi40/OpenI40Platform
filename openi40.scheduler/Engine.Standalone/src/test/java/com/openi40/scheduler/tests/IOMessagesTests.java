@@ -103,14 +103,41 @@ public class IOMessagesTests {
 				+ (task.getStatus() != null ? task.getStatus().name() : "null"), task.getStatus(), state);
 	}
 
-	private void checkChoosedMachinCoherency(String taskCode, String machineCode) {
-		// TODO: IMPLEMENT THIS METHOD ONCE SCHEDULING ACTS MESSAGES COMMANDS COHERENTLY
+	private void checkChoosedMachinCoherency(String taskCode, String machineCode, ApsData data)
+			throws DataModelDaoException {
+		Task task = taskDao.findByCode(taskCode, data);
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated", task.getEquipment());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getExecution());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getExecution().getResource());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getExecution().getResource().getChoosenEquipment());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated", task.getEquipment());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getPreparation());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getPreparation().getResource());
+		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
+				task.getEquipment().getPreparation().getResource().getChoosenEquipment());
+
+		Assert.assertEquals(
+				"Expected setup machine=>" + machineCode + " but found=> "
+						+ task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode(),
+				task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode(), machineCode);
+		Assert.assertEquals(
+				"Expected working machine=>" + machineCode + " but found=> "
+						+ task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode(),
+				task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode(), machineCode);
+
 	}
 
 	@Test
 	public void correctMessagesFlowTest() throws ApsDataCacheException, DataModelDaoException {
 
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		apsData.setProductionControlEnabled(true);
+		;
 		setScheduleAllWorkOrders(apsData, ApsLogics.FORWARD_APS);
 		IApsLogicComposer composer = ComponentFactory.create(IApsLogicComposer.class, apsData, apsData);
 		composer.schedule(apsData, null);
@@ -127,7 +154,7 @@ public class IOMessagesTests {
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.EXECUTING_SETUP);
 		checkTaskState(taskCode, apsData, TaskStatus.EXECUTING_SETUP);
-		checkChoosedMachinCoherency(taskCode, machineCode);
+		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 
 		EndSetupMessage endSetupMessage = new EndSetupMessage(apsData);
 		endSetupMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:05:59"));
@@ -137,7 +164,7 @@ public class IOMessagesTests {
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.SETUP_DONE);
 		checkTaskState(taskCode, apsData, TaskStatus.SETUP_DONE);
-		checkChoosedMachinCoherency(taskCode, machineCode);
+		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 
 		StartWorkMessage startWorkMessage = new StartWorkMessage(apsData);
 		startWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:06:59"));
@@ -147,7 +174,7 @@ public class IOMessagesTests {
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.EXECUTING_WORK);
 		checkTaskState(taskCode, apsData, TaskStatus.EXECUTING_WORK);
-		checkChoosedMachinCoherency(taskCode, machineCode);
+		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 		for (int i = 1; i <= 9; i++) {
 			TaskProductionUpdateMessage produpdate = new TaskProductionUpdateMessage(apsData);
 			produpdate.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:1" + i + ":59"));
@@ -157,7 +184,7 @@ public class IOMessagesTests {
 			checkApsMessageResponse(response);
 			checkMachineState(machineCode, apsData, ReservableObjectAvailability.EXECUTING_WORK);
 			checkTaskState(taskCode, apsData, TaskStatus.EXECUTING_WORK);
-			checkChoosedMachinCoherency(taskCode, machineCode);
+			checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 		}
 		EndWorkMessage endWorkMessage = new EndWorkMessage(apsData);
 		endWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:10:59"));
@@ -167,7 +194,7 @@ public class IOMessagesTests {
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.AVAILABLE);
 		checkTaskState(taskCode, apsData, TaskStatus.EXECUTED);
-		checkChoosedMachinCoherency(taskCode, machineCode);
+		// checkChoosedMachinCoherency(taskCode, machineCode,apsData);
 
 		LOGGER.info("Executed in " + (System.currentTimeMillis() - timestamp) + " ms");
 

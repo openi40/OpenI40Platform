@@ -29,7 +29,6 @@ public class EndSetupMessageHandler extends AbstractSpecializedMessageHandler<En
 			AbstractSpecializedMessageHandler<EndSetupMessage>.MessageRelatedObjects contextObjects,
 			EndSetupMessage message, ApsData context) throws ApsMessageManagementException {
 		contextObjects.task.setAcquiredEndSetup(message.getMessageTimestamp());
-		contextObjects.task.setLocked(true);
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
 		return response;

@@ -40,12 +40,13 @@ import com.openi40.scheduler.model.tasks.Task;
 public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IApsLogicComposer {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsLogicComposerImpl.class);
 
-
 	public void schedule(ApsData apsData, ApsLogicNotifiedObjects observer) {
 		long ts = System.currentTimeMillis();
 		LOGGER.info("Begin ApsLogicComposerImpl.schedule(...)");
 
 		long ts1 = System.currentTimeMillis();
+		// Resets all data model prior to scheduling releasing all non-locked
+		// Resources, materials ecc..
 		apsData.resetSchedulingData();
 		boolean scheduled = true;
 		IApsDataManager dataManager = this.componentsFactory.create(IApsDataManager.class, apsData, apsData);
@@ -58,6 +59,12 @@ public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IAps
 			IRealTimeDataManager realTimeDataManager = this.componentsFactory.create(IRealTimeDataManager.class,
 					apsData, apsData);
 			realTimeDataManager.actualize(apsData);
+		}
+		if (apsData.isProductionControlEnabled()) {
+			IApsProductionControlSchedulerController productionSchedulingController = componentsFactory
+					.create(IApsProductionControlSchedulerController.class, apsData, apsData);
+			productionSchedulingController.prepareSchedulingData(apsData);
+
 		}
 		LOGGER.info("Cleared scheduling data in " + ((System.currentTimeMillis() - ts1) / 1000) + " sec");
 		for (ApsSchedulingSet apsAction : apsData.getSchedulingSets()) {

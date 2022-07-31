@@ -36,7 +36,6 @@ public class StartSetupMessageHandler extends AbstractSpecializedMessageHandler<
 		
 		
 		contextObjects.task.setAcquiredStartSetup(message.getMessageTimestamp());
-		contextObjects.task.setLocked(true);
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
 		return response;

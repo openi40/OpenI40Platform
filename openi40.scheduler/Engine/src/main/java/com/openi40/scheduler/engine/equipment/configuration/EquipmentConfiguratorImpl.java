@@ -29,13 +29,14 @@ import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
 import com.openi40.scheduler.model.equipment.TaskProcessInfo;
 import com.openi40.scheduler.model.equipment.UseModel;
 import com.openi40.scheduler.model.tasks.Task;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -201,7 +202,7 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 						modelInfo.setTaskMetaInfo(model.getTaskMetaInfo());
 
 					}
-				} else {					
+				} else {
 					TaskEquipmentModelInfo modelInfo = new TaskEquipmentModelInfo(action.getContext());
 					modelInfo.setCode(model.getCode());
 					modelInfo.setPreparationModel(model.getPreparationModel());
@@ -212,6 +213,7 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 				}
 			}
 		}
+		
 		return outList;
 	}
 

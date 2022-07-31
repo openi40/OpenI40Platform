@@ -28,7 +28,6 @@ public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<S
 			AbstractSpecializedMessageHandler<StartWorkMessage>.MessageRelatedObjects contextObjects,
 			StartWorkMessage message, ApsData context) throws ApsMessageManagementException {
 		contextObjects.task.setAcquiredStartWork(message.getMessageTimestamp());
-		contextObjects.task.setLocked(true);
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
 		return response;

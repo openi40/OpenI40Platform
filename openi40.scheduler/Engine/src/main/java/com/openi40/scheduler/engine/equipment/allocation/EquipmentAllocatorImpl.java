@@ -20,13 +20,14 @@ import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -79,9 +80,12 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 						componentsFactory, context);
 				// if forced machine code is set than reduce the list of machines to try only to
 				// that one
-				if (task.getForcedMachineCode() != null && task.getForcedMachineCode().trim().length() > 0) {
+				String forcedMachine = task.getAcquiredMachineCode() != null
+						&& task.getAcquiredMachineCode().trim().length() > 0 ? task.getAcquiredMachineCode()
+								: task.getForcedMachineCode();
+				if (forcedMachine != null && forcedMachine.trim().length() > 0) {
 					machines.removeIf((machine) -> {
-						return !machine.getCode().equals(task.getForcedMachineCode());
+						return !machine.getCode().equals(forcedMachine);
 					});
 				}
 				for (Machine resourceOption : machines) {
@@ -99,8 +103,9 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 
 			}
 		}
-		if (LOGGER.isDebugEnabled()) {			
-			LOGGER.debug("End EquipmentAllocatorImpl.calculateAllocations(..) returning  " + results.size() + " possible allocations");
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End EquipmentAllocatorImpl.calculateAllocations(..) returning  " + results.size()
+					+ " possible allocations");
 		}
 		return results;
 	}

@@ -39,7 +39,6 @@ public class TaskProductionUpdateMessageHandler extends AbstractSpecializedMessa
 			double produced = message.getProduced();
 			contextObjects.task.setQtyProduced(produced);
 		}
-		contextObjects.task.setLocked(true);
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
 		return response;

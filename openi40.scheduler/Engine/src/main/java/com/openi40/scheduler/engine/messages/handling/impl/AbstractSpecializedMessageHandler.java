@@ -140,6 +140,7 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	public final static String INCOMPATIBLE_MACHINE_STATE_ERROR = "INCOMPATIBLE_MACHINE_STATE_ERROR";
 	public final static String NULL_MESSAGE_TIMESTAMP_ERROR = "NULL_MESSAGE_TIMESTAMP_ERROR";
 	public final static String CHANGED_MACHINE_CODE_ERROR = "CHANGED_MACHINE_CODE_ERROR";
+	public final static String NOT_PRODUCTION_CONTROL_ENABLED_ERROR="NOT_PRODUCTION_CONTROL_ENABLED_ERROR";
 
 	protected class MessageRelatedObjects {
 		public Task task = null;
@@ -202,6 +203,12 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 			throws ApsMessageValidationException {
 		MessageRelatedObjects relateds = new MessageRelatedObjects();
 		List<MessageHandlingErrorMessage> messages = new ArrayList<MessageHandlingErrorMessage>();
+		if (!context.isProductionControlEnabled()) {
+			MessageHandlingErrorMessage msg = new MessageHandlingErrorMessage();
+			msg.setErrorCode(NOT_PRODUCTION_CONTROL_ENABLED_ERROR);
+			msg.setErrorMsg("This data set=> " + context.getDataSourceName()+"/"+context.getDataSetName()+"/"+context.getDataSetVariant()+" has productionMessagesEnabled=false");
+			messages.add(msg);
+		}
 		if (message.getMessageTimestamp() == null) {
 			MessageHandlingErrorMessage msg = new MessageHandlingErrorMessage();
 			msg.setErrorCode(NULL_MESSAGE_TIMESTAMP_ERROR);
