@@ -50,11 +50,11 @@ public class Task extends AbstractPlantRelatedApsObject
 			return Visited;
 		}
 
-		public void OnEdge(TaskEdge edge) {
+		public void onEdge(TaskEdge edge) {
 
 		}
 
-		public void OnNode(Task task) {
+		public void onNode(Task task) {
 			getVisited().add(task);
 		}
 	}

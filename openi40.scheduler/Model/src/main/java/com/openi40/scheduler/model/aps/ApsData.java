@@ -1,6 +1,7 @@
 package com.openi40.scheduler.model.aps;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,7 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	protected boolean infiniteCapacity = false;
 	protected boolean realtime = false;
 	protected boolean productionControlEnabled = false;
+	protected Date actualDateTime = null;
 
 	private HashMap<String, Object> schedulingUtilCache = new HashMap<>();
 	private boolean active = false;

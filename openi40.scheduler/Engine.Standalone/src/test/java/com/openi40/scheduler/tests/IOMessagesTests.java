@@ -136,8 +136,7 @@ public class IOMessagesTests {
 	public void correctMessagesFlowTest() throws ApsDataCacheException, DataModelDaoException {
 
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
-		apsData.setProductionControlEnabled(true);
-		;
+		apsData.setProductionControlEnabled(true);		
 		setScheduleAllWorkOrders(apsData, ApsLogics.FORWARD_APS);
 		IApsLogicComposer composer = ComponentFactory.create(IApsLogicComposer.class, apsData, apsData);
 		composer.schedule(apsData, null);

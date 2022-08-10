@@ -10,7 +10,7 @@ package com.openi40.scheduler.model.tasks;
  *
  */
 public interface ITasksVisitor {
-	void OnNode(Task task);
+	void onNode(Task task);
 
-	void OnEdge(TaskEdge edge);
+	void onEdge(TaskEdge edge);
 }

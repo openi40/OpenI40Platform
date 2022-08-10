@@ -54,19 +54,19 @@ public class TaskVisitUtil {
 				|| (task.getWorkOrder() != null && ownerOrder != null && task.getWorkOrder().equals(ownerOrder));
 		if (sameHierarchy) {
 			if (visitType == TreeVisitType.NODES_FIRST) {
-				visitor.OnNode(task);
+				visitor.onNode(task);
 			}
 			for (TaskEdge edge : task.getChildTasks()) {
 				if (visitType == TreeVisitType.NODES_FIRST) {
-					visitor.OnEdge(edge);
+					visitor.onEdge(edge);
 				}
 				doTasksTreeVisit(edge.getProducerTask(), ownerOrder, visitor, visitType);
 				if (visitType == TreeVisitType.LEAFS_FIRST) {
-					visitor.OnEdge(edge);
+					visitor.onEdge(edge);
 				}
 			}
 			if (visitType == TreeVisitType.LEAFS_FIRST) {
-				visitor.OnNode(task);
+				visitor.onNode(task);
 			}
 		}
 	}
@@ -112,13 +112,13 @@ public class TaskVisitUtil {
 		doTasksTreeVisit(task, parentWorkOrder, new ITasksVisitor() {
 
 			@Override
-			public void OnNode(Task task) {
+			public void onNode(Task task) {
 				tasks.add(task);
 
 			}
 
 			@Override
-			public void OnEdge(TaskEdge edge) {
+			public void onEdge(TaskEdge edge) {
 
 			}
 		}, TreeVisitType.NODES_FIRST);

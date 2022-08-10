@@ -3,6 +3,7 @@ package com.openi40.scheduler.engine.realtime;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.model.aps.ApsData;
@@ -21,6 +22,7 @@ import com.openi40.scheduler.model.aps.ApsWindow;
 @DefaultImplementation(implemented = IRealTimeDataManager.class, entityClass = ApsData.class)
 public class RealtimDataManagerImpl extends BusinessLogic<ApsData> implements IRealTimeDataManager {
 	public final Integer REALTIME_PLANNING_DAYS = 60;
+	public final Integer REALTIME_PLANNING_PAST_DAYS = 10;
 
 	public RealtimDataManagerImpl() {
 
@@ -38,10 +40,20 @@ public class RealtimDataManagerImpl extends BusinessLogic<ApsData> implements IR
 			if (data.getSchedulingWindow().getRealtimePlanningDays() == null) {
 				data.getSchedulingWindow().setRealtimePlanningDays(REALTIME_PLANNING_DAYS);
 			}
+			if (data.getSchedulingWindow().getRealtimePlanningPastDays() == null) {
+				data.getSchedulingWindow().setRealtimePlanningPastDays(REALTIME_PLANNING_PAST_DAYS);
+			}
 			GregorianCalendar calendar = new GregorianCalendar();
-			data.getSchedulingWindow().setStartDateTime(calendar.getTime());
-			calendar.add(GregorianCalendar.DAY_OF_YEAR, data.getSchedulingWindow().getRealtimePlanningDays());
-			data.getSchedulingWindow().setEndDateTime(calendar.getTime());
+			data.setActualDateTime(DateUtil.discretize(calendar.getTime()));
+			calendar.set(GregorianCalendar.HOUR_OF_DAY, 0);
+			calendar.set(GregorianCalendar.MINUTE, 0);
+			calendar.set(GregorianCalendar.SECOND, 0);
+			calendar.set(GregorianCalendar.MILLISECOND, 0);
+			calendar.add(GregorianCalendar.DAY_OF_YEAR, -data.getSchedulingWindow().getRealtimePlanningPastDays());
+			data.getSchedulingWindow().setStartDateTime(DateUtil.discretize(calendar.getTime()));
+			calendar.add(GregorianCalendar.DAY_OF_YEAR, data.getSchedulingWindow().getRealtimePlanningDays()
+					+ data.getSchedulingWindow().getRealtimePlanningPastDays());
+			data.getSchedulingWindow().setEndDateTime(DateUtil.discretize(calendar.getTime()));
 		}
 
 	}
