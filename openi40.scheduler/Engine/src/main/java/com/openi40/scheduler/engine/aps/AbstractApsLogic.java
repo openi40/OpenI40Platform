@@ -14,13 +14,13 @@ import com.openi40.scheduler.common.aps.IOperation;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.material.IMaterialTimeLineManager;
-import com.openi40.scheduler.engine.productionmonitoring.IProductionMonitoringScheduler;
-import com.openi40.scheduler.engine.productionmonitoring.ProductionMonitoringUtil;
 import com.openi40.scheduler.engine.rules.IRuleBuilder;
 import com.openi40.scheduler.engine.rules.IRulePlanSolver;
 import com.openi40.scheduler.engine.rules.date.IDatePlanSolver;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
+import com.openi40.scheduler.engine.rules.planner.IPlanner;
+import com.openi40.scheduler.engine.rules.planner.ProductionMonitoringUtil;
 import com.openi40.scheduler.engine.rules.tasksrelation.ITasksRelationsPlanSolver;
 import com.openi40.scheduler.engine.taskssort.ITasksSort;
 import com.openi40.scheduler.engine.taskssort.SorterHelper;
@@ -102,9 +102,9 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 			// able to calculate task status according to received production monitoring
 			// updates
 			if (ProductionMonitoringUtil.isUnderProduction(task)) {
-				IProductionMonitoringScheduler productionMonitoringScheduler = this.componentsFactory
-						.create(IProductionMonitoringScheduler.class, task, context);
-				decisionNode = productionMonitoringScheduler.schedule(task, action, observer);
+				IPlanner planner = this.componentsFactory.create(IPlanner.class, action, context);
+				decisionNode = planner.doProductionSupervision(task, action,
+						observer != null ? observer.getConstraintSolutionListener() : null, getDirection());
 			} else {
 				// let extended class implement the single task scheduling policy
 				decisionNode = schedule(task, action, observer);

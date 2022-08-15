@@ -12,17 +12,17 @@ import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  *
- * Coordinates constraint solutions to make the task execution match an
- * identified time range coherently with scheduling policies (minimum
- * setup/minimum execution time......). Used from the scheduling algorithm to
- * try positioning a task in time.
+ *         Coordinates constraint solutions to make the task execution match an
+ *         identified time range coherently with scheduling policies (minimum
+ *         setup/minimum execution time......). Used from the scheduling
+ *         algorithm to try positioning a task in time.
  */
 @BusinessInterface(entityClass = ApsSchedulingSet.class)
 public interface IPlanner extends IBusinessLogic<ApsSchedulingSet> {
@@ -35,8 +35,20 @@ public interface IPlanner extends IBusinessLogic<ApsSchedulingSet> {
 	 * @param constraintSolutionListener TODO
 	 * @param SetupTimeRange
 	 * @param WorkTimeRange
-	 * @param direction TODO
+	 * @param direction                  TODO
 	 */
 
-	PlanGraphItem doPlanSupervision(Task task, ApsSchedulingSet action, IRuleSolutionListener constraintSolutionListener, TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange, ApsLogicDirection direction);
+	PlanGraphItem doPlanSupervision(Task task, ApsSchedulingSet action,
+			IRuleSolutionListener constraintSolutionListener, TimeSegmentRequirement SetupTimeRange,
+			TimeSegmentRequirement WorkTimeRange, ApsLogicDirection direction);
+	/**
+	 * Coordinates constraints solution according to production realtime informations
+	 * @param task
+	 * @param action
+	 * @param constraintSolutionListener
+	 * @param direction
+	 * @return
+	 */
+	PlanGraphItem doProductionSupervision(Task task, ApsSchedulingSet action,
+			IRuleSolutionListener constraintSolutionListener, ApsLogicDirection direction);
 }

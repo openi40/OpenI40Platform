@@ -24,6 +24,8 @@ import com.openi40.scheduler.engine.rules.date.IDatePlanSolver;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
 import com.openi40.scheduler.engine.rules.tasksrelation.ITasksRelationsPlanSolver;
+import com.openi40.scheduler.engine.setuptime.ISetupTimeLogic;
+import com.openi40.scheduler.engine.worktime.IWorkTimeLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
@@ -46,17 +48,21 @@ import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
+import com.openi40.scheduler.model.tasks.TaskStatus;
+import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
+import com.openi40.scheduler.model.time.TimeSegmentType;
 
 import lombok.Data;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -79,8 +85,6 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			outRange.setEndDateTime(newConditionRange.getEndDateTime());
 		}
 	}
-
-	
 
 	public PlanGraphItem doPlanSupervision(Task task, ApsSchedulingSet action,
 			IRuleSolutionListener constraintSolutionListener, TimeSegmentRequirement SetupTimeRangeSpec,
@@ -118,15 +122,16 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 				break;
 			}
 		}
-		IResourcesAllocator allocator=componentsFactory.create(IResourcesAllocator.class,task,action.getContext());
-		ResourcesCombination activeCombination =allocator.elaborateAllocation(equipmentPlans, materialPlans, task, SetupTimeRange, WorkTimeRange, action, direction, constraintSolutionListener);
-		if (activeCombination != null) {		
+		IResourcesAllocator allocator = componentsFactory.create(IResourcesAllocator.class, task, action.getContext());
+		ResourcesCombination activeCombination = allocator.elaborateAllocation(equipmentPlans, materialPlans, task,
+				SetupTimeRange, WorkTimeRange, action, direction, constraintSolutionListener);
+		if (activeCombination != null) {
 			task.setEquipment(activeCombination.getEquipmentAllocationOption().getPlanned());
 			TaskEquipmentInfo equipment = task.getEquipment();
 			task.getSetupPhaseExecution().Add(equipment.getPreparation().getEquipmentEventsGroup());
 			task.getWorkPhaseExecution().Add(equipment.getExecution().getEquipmentEventsGroup());
 			allocator.reserveResources(activeCombination);
-			
+
 			Machine machine = equipment.getExecution().getResource().getChoosenEquipment();
 			// Rotate task equipment stack for changeover evaluation
 			switch (direction) {
@@ -162,7 +167,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			}
 		} else {
 			if (constraintSolutionListener != null) {
-				
+
 			}
 			LOGGER.warn("Combination between material and equipment not found!");
 		}
@@ -172,9 +177,6 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		return decisionNode;
 	}
 
-	
-
-	
 	protected <PlanSuperType extends Plan> List<PlanSuperType> filterPlansByType(PlanGraphItem decisionNode,
 			Class<PlanSuperType> type) {
 		List<PlanSuperType> outPlans = new ArrayList<PlanSuperType>();
@@ -203,8 +205,8 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			for (DateRule rule : dateRules) {
 				IDatePlanSolver businessCompo = this.componentsFactory.create(IDatePlanSolver.class, rule,
 						task.getParentSchedulingSet());
-				DateChoice solvingPlan = businessCompo.createPlan(rule,
-						rule.getTargetTask().getParentSchedulingSet(), direction);
+				DateChoice solvingPlan = businessCompo.createPlan(rule, rule.getTargetTask().getParentSchedulingSet(),
+						direction);
 				outNode.getPlans().add(solvingPlan);
 			}
 			List<MaterialRule> materialConstraintRules = CollectionUtil.getInstance()
@@ -240,5 +242,62 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			LOGGER.debug("End DefaultTaskScheduleCoordinator.InitializeConstraintsSolutionPlans(..)",
 					"task.id=>" + task.getId());
 		return outNode;
+	}
+
+	@Override
+	public PlanGraphItem doProductionSupervision(Task task, ApsSchedulingSet schedulingSet,
+			IRuleSolutionListener constraintSolutionListener, ApsLogicDirection direction) {
+		if (!ProductionMonitoringUtil.isUnderProduction(task)) {
+			throw new IllegalStateException("The task =>" + task.getCode()
+					+ " is not in under production state so it can't be managed by " + this.getClass().getName());
+		}
+		TaskStatus actualStatus = task.getStatus();
+		Date startSetupDateTime = task.getAcquiredStartSetup();
+		Date endSetupDateTime = task.getAcquiredEndSetup();
+		Date startWorkDateTime = task.getAcquiredStartWork();
+		Date endWorkDateTime = task.getAcquiredEndWork();
+		double toBeProduced = task.getQtyResidual();
+		String usedMachine = task.getAcquiredMachineCode();
+		TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
+		setupRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+		setupRequirement.setStartDateTime(startSetupDateTime);
+		setupRequirement.setEndDateTime(endSetupDateTime);
+		TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
+		workRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+		workRequirement.setStartDateTime(startWorkDateTime);
+		workRequirement.setEndDateTime(endWorkDateTime);
+		TaskEquipmentInfo taskEquipmentInfo = null;
+		ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
+				schedulingSet.getContext());
+		IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
+				schedulingSet.getContext());
+		switch (actualStatus) {
+		case EXECUTING_SETUP: {
+			// using startSetupDateTime and calculate setup time
+			double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
+			//first calculate potential period of setupTime
+			//use the  setupStartDateTime+setupTime as setupRequirement if not in realtime mode
+			//use the maximum between setupStartDateTime+setupTime and actualDateTime as maximum setup bound
+
+		}
+			break;
+		case SETUP_DONE: {
+		}
+			break;
+		case EXECUTING_WORK: {
+		}
+			break;
+		case EXECUTED: {
+
+		}
+			break;
+		case ABORTED: {
+		}
+			break;
+		case PAUSED: {
+		}
+			break;
+		}
+		return null;
 	}
 }

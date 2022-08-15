@@ -1,4 +1,4 @@
-package com.openi40.scheduler.engine.productionmonitoring;
+package com.openi40.scheduler.engine.rules.planner;
 
 import com.openi40.scheduler.common.utils.EnumUtil;
 import com.openi40.scheduler.model.tasks.Task;
