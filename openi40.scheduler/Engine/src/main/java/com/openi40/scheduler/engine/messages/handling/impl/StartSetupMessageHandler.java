@@ -38,6 +38,7 @@ public class StartSetupMessageHandler extends AbstractSpecializedMessageHandler<
 		contextObjects.task.setAcquiredStartSetup(message.getMessageTimestamp());
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
+		contextObjects.task.setAcquiredSetupUsedResources(message.getUsedResources());
 		return response;
 	}
 

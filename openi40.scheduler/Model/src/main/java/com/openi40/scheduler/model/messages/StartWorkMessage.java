@@ -1,6 +1,11 @@
 package com.openi40.scheduler.model.messages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.openi40.scheduler.model.aps.ApsData;
+
+import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,8 +16,9 @@ import com.openi40.scheduler.model.aps.ApsData;
  * @author architectures@openi40.org
  *
  */
+@Data
 public class StartWorkMessage extends TaskContextMessage {
-
+	private List<UsedSecondaryResourcesInfo> usedResources=new ArrayList<UsedSecondaryResourcesInfo>();
 	public StartWorkMessage(ApsData context) {
 		super(context);
 		

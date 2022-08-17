@@ -9,11 +9,15 @@ import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.user.UserDestinationMessageHandler;
 
 import com.openi40.scheduler.common.utils.CollectionUtil;
 import com.openi40.scheduler.common.utils.DateUtil;
+import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.equipment.configuration.IEquipmentConfigurator;
 import com.openi40.scheduler.engine.resallocator.IResourcesAllocator;
 import com.openi40.scheduler.engine.resallocator.ResourcesCombination;
 import com.openi40.scheduler.engine.rules.IRuleBuilder;
@@ -31,8 +35,12 @@ import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
 import com.openi40.scheduler.model.aps.ApsLogicOptions.SchedulingPriorities;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
+import com.openi40.scheduler.model.dao.DataModelDaoException;
+import com.openi40.scheduler.model.dao.IMachineDao;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.material.SupplyReservation;
 import com.openi40.scheduler.model.planning.Plan;
 import com.openi40.scheduler.model.planning.PlanChoice;
@@ -244,6 +252,9 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		return outNode;
 	}
 
+	@Autowired
+	IMachineDao machineDao;
+
 	@Override
 	public PlanGraphItem doProductionSupervision(Task task, ApsSchedulingSet schedulingSet,
 			IRuleSolutionListener constraintSolutionListener, ApsLogicDirection direction) {
@@ -257,7 +268,18 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		Date startWorkDateTime = task.getAcquiredStartWork();
 		Date endWorkDateTime = task.getAcquiredEndWork();
 		double toBeProduced = task.getQtyResidual();
-		String usedMachine = task.getAcquiredMachineCode();
+		String usedMachineCode = task.getAcquiredMachineCode();
+		if (usedMachineCode == null)
+			throw new IllegalStateException("The task =>" + task.getCode()
+					+ " is under production state but it does not carry a machineCode!!");
+		Machine usedMachine = null;
+		try {
+			usedMachine = machineDao.findByCode(usedMachineCode, task.getContext());
+		} catch (DataModelDaoException e) {
+			String msg = "Problem in IMachineDao use for task " + task.getCode();
+			LOGGER.error(msg, e);
+			throw new OpenI40Exception(msg, e);
+		}
 		TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
 		setupRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
 		setupRequirement.setStartDateTime(startSetupDateTime);
@@ -266,37 +288,63 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		workRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
 		workRequirement.setStartDateTime(startWorkDateTime);
 		workRequirement.setEndDateTime(endWorkDateTime);
-		TaskEquipmentInfo taskEquipmentInfo = null;
-		ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
-				schedulingSet.getContext());
-		IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
-				schedulingSet.getContext());
-		switch (actualStatus) {
-		case EXECUTING_SETUP: {
-			// using startSetupDateTime and calculate setup time
-			double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
-			//first calculate potential period of setupTime
-			//use the  setupStartDateTime+setupTime as setupRequirement if not in realtime mode
-			//use the maximum between setupStartDateTime+setupTime and actualDateTime as maximum setup bound
 
-		}
-			break;
-		case SETUP_DONE: {
-		}
-			break;
-		case EXECUTING_WORK: {
-		}
-			break;
-		case EXECUTED: {
+		TaskEquipmentModelInfo taskEquipmentModel = null;
 
+		if (task.getSampledTaskEquipmentInfo() != null) {
+			taskEquipmentModel = task.getSampledTaskEquipmentInfo().getMetaInfo();
+		} else {
+			for (TaskEquipmentModelInfo option : task.getMetaInfo().getEquipmentModelOptions().getEquipmentModels()) {
+				List<Machine> machines = option.getPreparationModel().getResource().getGroup().getResources();
+				for (Machine machine : machines) {
+					if (machine == usedMachine) {
+						taskEquipmentModel = option;
+					}
+				}
+			}
 		}
-			break;
-		case ABORTED: {
+		if (taskEquipmentModel == null) {
+			throw new OpenI40Exception("No taskEquiment metaInfo in treatment of task=>" + task.getCode());
 		}
-			break;
-		case PAUSED: {
-		}
-			break;
+		IEquipmentConfigurator equipmentConfigurator = this.componentsFactory.create(IEquipmentConfigurator.class,
+				task.getMetaInfo().getEquipmentModelOptions(), task.getContext());
+		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateConfigurations(taskEquipmentModel,
+				usedMachine, schedulingSet.getOptions(), task, task.getContext(), task.getSampledTaskEquipmentInfo(),
+				task.getAcquiredSetupUsedResources(), task.getAcquiredWorkUsedResources());
+		for (TaskEquipmentInfo taskEquipmentInfo : potentialEquipments) {
+			ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
+					schedulingSet.getContext());
+			IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
+					schedulingSet.getContext());
+			switch (actualStatus) {
+			case EXECUTING_SETUP: {
+				// using startSetupDateTime and calculate setup time
+				double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
+				// first calculate potential period of setupTime
+				// use the setupStartDateTime+setupTime as setupRequirement if not in realtime
+				// mode
+				// use the maximum between setupStartDateTime+setupTime and actualDateTime as
+				// maximum setup bound
+
+			}
+				break;
+			case SETUP_DONE: {
+			}
+				break;
+			case EXECUTING_WORK: {
+			}
+				break;
+			case EXECUTED: {
+
+			}
+				break;
+			case ABORTED: {
+			}
+				break;
+			case PAUSED: {
+			}
+				break;
+			}
 		}
 		return null;
 	}

@@ -102,6 +102,8 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	protected void changeSystemStateOnReceivedMessage(
 			AbstractSpecializedMessageHandler<MsgType>.MessageRelatedObjects contextObjects, MsgType msg,
 			ApsData context) {
+		// Lock resources because we are processing production messages
+		contextObjects.task.setProductionLock(true);
 		TaskStatus nextTaskState = this.stateMachineGraphService.getNextTaskState(msg);
 		ReservableObjectAvailability nextMachineState = this.stateMachineGraphService.getNextMachineStates(msg);
 		if (nextTaskState != null && contextObjects.task != null) {
@@ -140,7 +142,7 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 	public final static String INCOMPATIBLE_MACHINE_STATE_ERROR = "INCOMPATIBLE_MACHINE_STATE_ERROR";
 	public final static String NULL_MESSAGE_TIMESTAMP_ERROR = "NULL_MESSAGE_TIMESTAMP_ERROR";
 	public final static String CHANGED_MACHINE_CODE_ERROR = "CHANGED_MACHINE_CODE_ERROR";
-	public final static String NOT_PRODUCTION_CONTROL_ENABLED_ERROR="NOT_PRODUCTION_CONTROL_ENABLED_ERROR";
+	public final static String NOT_PRODUCTION_CONTROL_ENABLED_ERROR = "NOT_PRODUCTION_CONTROL_ENABLED_ERROR";
 
 	protected class MessageRelatedObjects {
 		public Task task = null;
@@ -206,7 +208,8 @@ public abstract class AbstractSpecializedMessageHandler<MsgType extends Abstract
 		if (!context.isProductionControlEnabled()) {
 			MessageHandlingErrorMessage msg = new MessageHandlingErrorMessage();
 			msg.setErrorCode(NOT_PRODUCTION_CONTROL_ENABLED_ERROR);
-			msg.setErrorMsg("This data set=> " + context.getDataSourceName()+"/"+context.getDataSetName()+"/"+context.getDataSetVariant()+" has productionMessagesEnabled=false");
+			msg.setErrorMsg("This data set=> " + context.getDataSourceName() + "/" + context.getDataSetName() + "/"
+					+ context.getDataSetVariant() + " has productionMessagesEnabled=false");
 			messages.add(msg);
 		}
 		if (message.getMessageTimestamp() == null) {

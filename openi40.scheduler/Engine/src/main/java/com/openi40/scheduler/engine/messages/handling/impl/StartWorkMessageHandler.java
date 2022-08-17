@@ -7,12 +7,13 @@ import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementRespon
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.StartWorkMessage;
+
 @Service
 public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<StartWorkMessage> {
 
 	public StartWorkMessageHandler() {
 		super(StartWorkMessage.class);
-		
+
 	}
 
 	@Override
@@ -28,6 +29,7 @@ public class StartWorkMessageHandler extends AbstractSpecializedMessageHandler<S
 			AbstractSpecializedMessageHandler<StartWorkMessage>.MessageRelatedObjects contextObjects,
 			StartWorkMessage message, ApsData context) throws ApsMessageManagementException {
 		contextObjects.task.setAcquiredStartWork(message.getMessageTimestamp());
+		contextObjects.task.setAcquiredWorkUsedResources(message.getUsedResources());
 		ApsMessageManagementResponse response = new ApsMessageManagementResponse();
 		response.setReschedule(true);
 		return response;

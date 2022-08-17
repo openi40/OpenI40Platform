@@ -13,8 +13,10 @@ import com.openi40.scheduler.model.companystructure.AbstractPlantRelatedApsObjec
 import com.openi40.scheduler.model.cycle.BatchingInfo;
 import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample;
 import com.openi40.scheduler.model.material.ItemConsumed;
 import com.openi40.scheduler.model.material.ProductionSupply;
+import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.planning.PlanGraphItem;
 import com.openi40.scheduler.model.rules.Rule;
@@ -41,8 +43,9 @@ import lombok.Setter;
 public class Task extends AbstractPlantRelatedApsObject
 		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity {
 	protected boolean workOrderRootTask = false;
-	protected boolean producing = false;
-
+	protected boolean productionLock = false;
+	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
+	
 	protected static class CollectorTreeVisitor implements ITasksVisitor {
 		protected List<Task> Visited = new ArrayList<Task>();
 
@@ -111,8 +114,10 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected Date acquiredEndSetup = null;
 	protected Date acquiredStartWork = null;
 	protected Date acquiredEndWork = null;
-	protected Date acquiredProductionUpdate=null;
+	protected Date acquiredProductionUpdate = null;
 	protected String acquiredMachineCode = null;
+	protected List<UsedSecondaryResourcesInfo> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfo>();
+	protected List<UsedSecondaryResourcesInfo> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfo>();
 
 	public double getQtyResidual() {
 		return qtyTotal > qtyProduced ? qtyTotal - qtyProduced : 0.0;
@@ -175,6 +180,14 @@ public class Task extends AbstractPlantRelatedApsObject
 	 */
 	@Override
 	public void resetSchedulingData() {
+		boolean isLocked = isLocked() || isProductionLock();
+		if (isLocked && this.getEquipment() != null) {
+			this.sampledTaskEquipmentInfo = new TaskEquipmentInfoSample(getEquipment(), this);
+		}
+		resetResources();
+	}
+
+	private void resetResources() {
 		if (getProduction() != null) {
 			getProduction().setAvailabilityDateTime(null);
 		}
@@ -199,7 +212,6 @@ public class Task extends AbstractPlantRelatedApsObject
 		if (getProduction() != null) {
 			getProduction().resetSchedulingData();
 		}
-
 	}
 
 	public String toString() {
@@ -214,7 +226,5 @@ public class Task extends AbstractPlantRelatedApsObject
 		} else
 			return super.equals(o);
 	}
-	
-	
 
 }

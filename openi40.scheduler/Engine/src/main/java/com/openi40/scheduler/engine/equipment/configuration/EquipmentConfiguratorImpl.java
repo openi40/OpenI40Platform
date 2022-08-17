@@ -17,6 +17,7 @@ import com.openi40.scheduler.model.equipment.MachinesGroup;
 import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel;
@@ -28,6 +29,7 @@ import com.openi40.scheduler.model.equipment.TaskPreparationPlanned;
 import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
 import com.openi40.scheduler.model.equipment.TaskProcessInfo;
 import com.openi40.scheduler.model.equipment.UseModel;
+import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.tasks.Task;
 
 /**
@@ -239,4 +241,17 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 
 		return outList;
 	}
+
+	@Override
+	public List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder,
+			TaskEquipmentInfoSample taskEquipmentInfoSample, List<UsedSecondaryResourcesInfo> setupUsedResourcesInfo,
+			List<UsedSecondaryResourcesInfo> workUsedResourcesInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
+	
 }
