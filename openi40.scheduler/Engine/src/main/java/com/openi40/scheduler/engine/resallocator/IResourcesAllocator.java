@@ -7,6 +7,7 @@ import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
 import com.openi40.scheduler.engine.rules.IRuleSolutionListener;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.planning.equipment.EquipmentChoice;
 import com.openi40.scheduler.model.planning.material.MaterialChoice;
 import com.openi40.scheduler.model.tasks.Task;
@@ -26,4 +27,8 @@ public interface IResourcesAllocator extends IBusinessLogic<Task> {
 		
 		void reserveResources(ResourcesCombination  combination);
 		ResourcesCombination elaborateAllocation(List<EquipmentChoice> equipmentPlans,List<MaterialChoice> materialPlans,Task task, TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange,ApsSchedulingSet action, ApsLogicDirection direction, IRuleSolutionListener constraintSolutionListener);
+		ResourcesCombination elaborateUnderProductionAllocations(List<TaskEquipmentInfo> potentialEquipments,
+				List<EquipmentChoice> equipmentPlans, List<MaterialChoice> materialPlans, Task task,
+				ApsSchedulingSet schedulingSet, ApsLogicDirection direction,
+				IRuleSolutionListener constraintSolutionListener);
 }

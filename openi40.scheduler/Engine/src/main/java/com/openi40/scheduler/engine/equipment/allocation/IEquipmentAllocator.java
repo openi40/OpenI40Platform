@@ -6,6 +6,7 @@ import com.openi40.scheduler.engine.contextualplugarch.BusinessInterface;
 import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
@@ -37,4 +38,18 @@ public interface IEquipmentAllocator extends IBusinessLogic<EquipmentRule> {
 	 * @param context
 	 */
 	List<EquipmentAllocation> calculateAllocations(EquipmentRule constraint, TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange, ApsLogicOptions apsLogicOptions, Task task, ApsData context);
+	/**
+	 * Generates all possible equipment allocation in the time ranges passed as
+	 * parameters with the specific configurations passed as II parameter.
+	 * 
+	 * @param constraint
+	 * @param SetupTimeRange
+	 * @param WorkTimeRange
+	 * @param apsLogicOptions
+	 * @param scheduledActivity
+	 * @param context
+	 */
+	List<EquipmentAllocation> calculateAllocations(EquipmentRule constraint, List<TaskEquipmentInfo> equipmentInfos,
+			TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange,
+			ApsLogicOptions apsLogicOptions, Task task, ApsData context);
 }

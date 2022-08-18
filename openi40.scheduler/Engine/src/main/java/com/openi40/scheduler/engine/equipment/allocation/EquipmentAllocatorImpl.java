@@ -64,48 +64,60 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 		if (constraint.getEquipmentModelOptions() != null
 				&& constraint.getEquipmentModelOptions().getEquipmentModels() != null) {
 			List<TaskEquipmentInfo> equipmentInfos = constraint.getTaskEquipmentInfos();
-			for (TaskEquipmentInfo taskEquipmentInfo : equipmentInfos) {
-
-				if (taskEquipmentInfo.getExecution().getResource().getMetaInfo().getGroup() != taskEquipmentInfo
-						.getPreparation().getResource().getMetaInfo().getGroup()) {
-					String _msg = "Error in data structure, preparation and execution machine groups are not equal:execution: "
-							+ taskEquipmentInfo.getExecution().getResource().getMetaInfo().getGroup().getCode()
-							+ " preparation: "
-							+ taskEquipmentInfo.getPreparation().getResource().getMetaInfo().getGroup().getCode();
-					LOGGER.error(_msg);
-					throw new OpenI40Exception(_msg);
-				}
-				List<Machine> machines = EquipmentUtil.getInstance().orderByLowerUsing(
-						taskEquipmentInfo.getPreparation().getResource().getMetaInfo().getGroup().getResources(),
-						componentsFactory, context);
-				// if forced machine code is set than reduce the list of machines to try only to
-				// that one
-				String forcedMachine = task.getAcquiredMachineCode() != null
-						&& task.getAcquiredMachineCode().trim().length() > 0 ? task.getAcquiredMachineCode()
-								: task.getForcedMachineCode();
-				if (forcedMachine != null && forcedMachine.trim().length() > 0) {
-					machines.removeIf((machine) -> {
-						return !machine.getCode().equals(forcedMachine);
-					});
-				}
-				for (Machine resourceOption : machines) {
-					if (resourceOption.isDisabled()) {
-						if (LOGGER.isDebugEnabled()) {
-							LOGGER.debug("Skipping machine: " + resourceOption.getCode() + " because disabled=true");
-						}
-						continue;
-					}
-					List<EquipmentAllocation> _results = MachineHipotesysActuator.Instance.allocateMachine(
-							taskEquipmentInfo, direction, constraint, SetupTimeRange, WorkTimeRange, resourceOption,
-							apsLogicOptions, componentsFactory, task, context);
-					results.addAll(_results);
-				}
-
-			}
+			results = calculateAllocations(constraint, equipmentInfos, SetupTimeRange, WorkTimeRange, apsLogicOptions,
+					task, context);
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End EquipmentAllocatorImpl.calculateAllocations(..) returning  " + results.size()
 					+ " possible allocations");
+		}
+		return results;
+	}
+	@Override
+	public List<EquipmentAllocation> calculateAllocations(EquipmentRule constraint,
+			List<TaskEquipmentInfo> equipmentInfos, TimeSegmentRequirement SetupTimeRange,
+			TimeSegmentRequirement WorkTimeRange, ApsLogicOptions apsLogicOptions, Task task, ApsData context) {
+		IApsLogic apsLogic = componentsFactory.create(IApsLogic.class, task.getParentSchedulingSet().getAlgorithmType(),
+				task.getParentSchedulingSet(), task.getContext());
+		ApsLogicDirection direction = apsLogic.getDirection();
+		List<EquipmentAllocation> results = new ArrayList<>();
+		for (TaskEquipmentInfo taskEquipmentInfo : equipmentInfos) {
+
+			if (taskEquipmentInfo.getExecution().getResource().getMetaInfo().getGroup() != taskEquipmentInfo
+					.getPreparation().getResource().getMetaInfo().getGroup()) {
+				String _msg = "Error in data structure, preparation and execution machine groups are not equal:execution: "
+						+ taskEquipmentInfo.getExecution().getResource().getMetaInfo().getGroup().getCode()
+						+ " preparation: "
+						+ taskEquipmentInfo.getPreparation().getResource().getMetaInfo().getGroup().getCode();
+				LOGGER.error(_msg);
+				throw new OpenI40Exception(_msg);
+			}
+			List<Machine> machines = EquipmentUtil.getInstance().orderByLowerUsing(
+					taskEquipmentInfo.getPreparation().getResource().getMetaInfo().getGroup().getResources(),
+					componentsFactory, context);
+			// if forced machine code is set than reduce the list of machines to try only to
+			// that one
+			String forcedMachine = task.getAcquiredMachineCode() != null
+					&& task.getAcquiredMachineCode().trim().length() > 0 ? task.getAcquiredMachineCode()
+							: task.getForcedMachineCode();
+			if (forcedMachine != null && forcedMachine.trim().length() > 0) {
+				machines.removeIf((machine) -> {
+					return !machine.getCode().equals(forcedMachine);
+				});
+			}
+			for (Machine resourceOption : machines) {
+				if (resourceOption.isDisabled()) {
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Skipping machine: " + resourceOption.getCode() + " because disabled=true");
+					}
+					continue;
+				}
+				List<EquipmentAllocation> _results = MachineHipotesysActuator.Instance.allocateMachine(
+						taskEquipmentInfo, direction, constraint, SetupTimeRange, WorkTimeRange, resourceOption,
+						apsLogicOptions, componentsFactory, task, context);
+				results.addAll(_results);
+			}
+
 		}
 		return results;
 	}

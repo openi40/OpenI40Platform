@@ -18,6 +18,7 @@ import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample.EquipmentSet;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel;
@@ -84,7 +85,7 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 		return qty;
 	}
 
-	protected final TaskExecutionPlanned Configure(TaskExecutionModel toConfigure, ApsLogicOptions apsLogicOptions,
+	protected TaskExecutionPlanned Configure(TaskExecutionModel toConfigure, ApsLogicOptions apsLogicOptions,
 			Task scheduledActivity, ApsData scheduleDataHolder) {
 		TaskExecutionPlanned workEquipment = new TaskExecutionPlanned();
 		workEquipment.getResource().setUsedQty(computeResourceQuantity(toConfigure.getResource(), scheduledActivity));
@@ -215,7 +216,7 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 				}
 			}
 		}
-		
+
 		return outList;
 	}
 
@@ -242,16 +243,43 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 		return outList;
 	}
 
+	private List<UsedSecondaryResourcesInfo> getPresetSecondaryResourcesList(TaskEquipmentModelInfo modelInfo,
+			EquipmentSet equipmentSet, List<UsedSecondaryResourcesInfo> usedResourcesInfo, Task task,
+			ApsData scheduleDataHolder) {
+		return null;
+
+	}
+
+	private List<TaskEquipmentInfo> permutateMissingSecondaryResources(TaskEquipmentModelInfo modelInfo,
+			Machine presetMachine, ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder,
+			List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
+			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList) {
+		TaskEquipmentInfo taskEquipmentInfo = new TaskEquipmentInfo(scheduleDataHolder);
+		taskEquipmentInfo.setMetaInfo(modelInfo);
+		taskEquipmentInfo
+				.setPreparation(Configure(modelInfo.getPreparationModel(), apsLogicOptions, task, scheduleDataHolder));
+		taskEquipmentInfo.getPreparation().getResource().setChoosenEquipment(presetMachine);
+		taskEquipmentInfo
+				.setExecution(Configure(modelInfo.getExecutionModel(), apsLogicOptions, task, scheduleDataHolder));
+		taskEquipmentInfo.getExecution().getResource().setChoosenEquipment(presetMachine);
+		return null;
+	}
+
 	@Override
 	public List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
 			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder,
 			TaskEquipmentInfoSample taskEquipmentInfoSample, List<UsedSecondaryResourcesInfo> setupUsedResourcesInfo,
 			List<UsedSecondaryResourcesInfo> workUsedResourcesInfo) {
-		// TODO Auto-generated method stub
-		return null;
+		List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList = getPresetSecondaryResourcesList(modelInfo,
+				taskEquipmentInfoSample != null ? taskEquipmentInfoSample.getPreparation() : null,
+				setupUsedResourcesInfo, task, scheduleDataHolder);
+		List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList = getPresetSecondaryResourcesList(modelInfo,
+				taskEquipmentInfoSample != null ? taskEquipmentInfoSample.getExecution() : null, workUsedResourcesInfo,
+				task, scheduleDataHolder);
+		List<TaskEquipmentInfo> outList = permutateMissingSecondaryResources(modelInfo, presetMachine, apsLogicOptions,
+				task, scheduleDataHolder, preparationSecondaryResourcesList, executionSecondaryResourcesList);
+
+		return outList;
 	}
 
-	
-
-	
 }

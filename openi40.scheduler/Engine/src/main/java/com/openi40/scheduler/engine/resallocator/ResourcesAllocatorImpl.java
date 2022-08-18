@@ -20,29 +20,35 @@ import com.openi40.scheduler.engine.rules.RulePlanningEvent;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent.RuleEventType;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
+import com.openi40.scheduler.engine.setuptime.ISetupTimeLogic;
+import com.openi40.scheduler.engine.worktime.IWorkTimeLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
 import com.openi40.scheduler.model.aps.ApsLogicOptions.SchedulingPriorities;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.planning.PlanChoice;
 import com.openi40.scheduler.model.planning.equipment.EquipmentChoice;
 import com.openi40.scheduler.model.planning.equipment.EquipmentEvaluatedChoice;
 import com.openi40.scheduler.model.planning.material.MaterialChoice;
 import com.openi40.scheduler.model.planning.material.MaterialEvaluatedChoice;
 import com.openi40.scheduler.model.tasks.Task;
+import com.openi40.scheduler.model.tasks.TaskStatus;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
+import com.openi40.scheduler.model.time.TimeSegmentType;
 
 import lombok.Data;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -340,5 +346,62 @@ public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IReso
 		} else if (newConditionRange.isUpperLimited()) {
 			outRange.setEndDateTime(newConditionRange.getEndDateTime());
 		}
+	}
+
+	@Override
+	public ResourcesCombination elaborateUnderProductionAllocations(List<TaskEquipmentInfo> potentialEquipments,
+			List<EquipmentChoice> equipmentPlans, List<MaterialChoice> materialPlans, Task task,
+			ApsSchedulingSet schedulingSet, ApsLogicDirection direction,
+			IRuleSolutionListener constraintSolutionListener) {
+		TaskStatus actualStatus = task.getStatus();
+		Date startSetupDateTime = task.getAcquiredStartSetup();
+		Date endSetupDateTime = task.getAcquiredEndSetup();
+		Date startWorkDateTime = task.getAcquiredStartWork();
+		Date endWorkDateTime = task.getAcquiredEndWork();
+		double toBeProduced = task.getQtyResidual();
+		TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
+		setupRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+		setupRequirement.setStartDateTime(startSetupDateTime);
+		setupRequirement.setEndDateTime(endSetupDateTime);
+		TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
+		workRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+		workRequirement.setStartDateTime(startWorkDateTime);
+		workRequirement.setEndDateTime(endWorkDateTime);		
+		for (TaskEquipmentInfo taskEquipmentInfo : potentialEquipments) {
+			ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
+					schedulingSet.getContext());
+			IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
+					schedulingSet.getContext());
+			switch (actualStatus) {
+			case EXECUTING_SETUP: {
+				// using startSetupDateTime and calculate setup time
+				double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
+				// first calculate potential period of setupTime
+				// use the setupStartDateTime+setupTime as setupRequirement if not in realtime
+				// mode
+				// use the maximum between setupStartDateTime+setupTime and actualDateTime as
+				// maximum setup bound
+
+			}
+				break;
+			case SETUP_DONE: {
+			}
+				break;
+			case EXECUTING_WORK: {
+			}
+				break;
+			case EXECUTED: {
+
+			}
+				break;
+			case ABORTED: {
+			}
+				break;
+			case PAUSED: {
+			}
+				break;
+			}
+		}
+		return null;
 	}
 }

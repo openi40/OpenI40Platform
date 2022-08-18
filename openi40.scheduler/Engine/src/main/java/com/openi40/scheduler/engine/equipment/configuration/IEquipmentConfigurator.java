@@ -41,17 +41,26 @@ public interface IEquipmentConfigurator extends IBusinessLogic<TaskEquipmentMode
 	 */
 	List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelOptions toConfigure,
 			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder);
+
 	/***
-	 * Get alternative configurations for a single equipment metaInfo and a preselected Machine 
+	 * Get alternative configurations for a single equipment metaInfo and a
+	 * preselected Machine The logic of this method is to try to allocate the III
+	 * parameter indicated secondary resources for setup, the IV for work and if not
+	 * contained inside that list try to allocate still the taskEquipmentInfoSample
+	 * indicated secondary resources to try to have stable indicated secondary
+	 * resources during production control.
+	 * 
 	 * @param modelInfo
 	 * @param presetMachine
 	 * @param apsLogicOptions
 	 * @param task
 	 * @param scheduleDataHolder
-	 * @param taskEquipmentInfoSample 
-	 * @param usedResourcesInfo TODO
+	 * @param taskEquipmentInfoSample
+	 * @param usedResourcesInfo       TODO
 	 * @return
 	 */
 	List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
-			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder, TaskEquipmentInfoSample taskEquipmentInfoSample, List<UsedSecondaryResourcesInfo> setupUsedResourcesInfo, List<UsedSecondaryResourcesInfo> workUsedResourcesInfo);
+			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder,
+			TaskEquipmentInfoSample taskEquipmentInfoSample, List<UsedSecondaryResourcesInfo> setupUsedResourcesInfo,
+			List<UsedSecondaryResourcesInfo> workUsedResourcesInfo);
 }

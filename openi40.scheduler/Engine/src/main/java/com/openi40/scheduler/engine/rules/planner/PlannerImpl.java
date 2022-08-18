@@ -17,6 +17,8 @@ import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.equipment.allocation.EquipmentAllocation;
+import com.openi40.scheduler.engine.equipment.allocation.IEquipmentAllocator;
 import com.openi40.scheduler.engine.equipment.configuration.IEquipmentConfigurator;
 import com.openi40.scheduler.engine.resallocator.IResourcesAllocator;
 import com.openi40.scheduler.engine.resallocator.ResourcesCombination;
@@ -204,48 +206,43 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 					"task.id=>" + task.getId());
 		PlanGraphItem outNode = new PlanGraphItem();
 		outNode.setTask(task);
-		if (!task.isLocked()) {
 
-			IRuleBuilder constraintsRuleBuilder = this.componentsFactory.create(IRuleBuilder.class, task,
+		List<DateRule> dateRules = CollectionUtil.getInstance().filterByType(task.getConstraintRules(), DateRule.class);
+		for (DateRule rule : dateRules) {
+			IDatePlanSolver businessCompo = this.componentsFactory.create(IDatePlanSolver.class, rule,
 					task.getParentSchedulingSet());
-			List<DateRule> dateRules = CollectionUtil.getInstance().filterByType(task.getConstraintRules(),
-					DateRule.class);
-			for (DateRule rule : dateRules) {
-				IDatePlanSolver businessCompo = this.componentsFactory.create(IDatePlanSolver.class, rule,
-						task.getParentSchedulingSet());
-				DateChoice solvingPlan = businessCompo.createPlan(rule, rule.getTargetTask().getParentSchedulingSet(),
-						direction);
-				outNode.getPlans().add(solvingPlan);
-			}
-			List<MaterialRule> materialConstraintRules = CollectionUtil.getInstance()
-					.filterByType(task.getConstraintRules(), MaterialRule.class);
-			for (MaterialRule rule : materialConstraintRules) {
-				IMaterialPlanSolver businessCompo = this.componentsFactory.create(IMaterialPlanSolver.class, rule,
-						task.getParentSchedulingSet());
-				MaterialChoice solvingPlan = businessCompo.createPlan(rule,
-						rule.getTargetTask().getParentSchedulingSet(), direction);
-				outNode.getPlans().add(solvingPlan);
-			}
-			List<EquipmentRule> equipmentAllocationConstraintRules = CollectionUtil.getInstance()
-					.filterByType(task.getConstraintRules(), EquipmentRule.class);
-			for (EquipmentRule rule : equipmentAllocationConstraintRules) {
-				IEquipmentPlanSolver businessCompo = this.componentsFactory.create(IEquipmentPlanSolver.class, rule,
-						task.getParentSchedulingSet());
-				EquipmentChoice solvingPlan = businessCompo.createPlan(rule,
-						rule.getTargetTask().getParentSchedulingSet(), direction);
-				outNode.getPlans().add(solvingPlan);
-			}
-			List<TasksRelationRule> tasksRelationConstraintRules = CollectionUtil.getInstance()
-					.filterByType(task.getConstraintRules(), TasksRelationRule.class);
-			for (TasksRelationRule rule : tasksRelationConstraintRules) {
-				ITasksRelationsPlanSolver businessCompo = this.componentsFactory.create(ITasksRelationsPlanSolver.class,
-						rule, task.getParentSchedulingSet());
-				TasksRelationChoice solvingPlan = businessCompo.createPlan(rule,
-						rule.getTargetTask().getParentSchedulingSet(), direction);
-				outNode.getPlans().add(solvingPlan);
-			}
-
+			DateChoice solvingPlan = businessCompo.createPlan(rule, rule.getTargetTask().getParentSchedulingSet(),
+					direction);
+			outNode.getPlans().add(solvingPlan);
 		}
+		List<MaterialRule> materialConstraintRules = CollectionUtil.getInstance()
+				.filterByType(task.getConstraintRules(), MaterialRule.class);
+		for (MaterialRule rule : materialConstraintRules) {
+			IMaterialPlanSolver businessCompo = this.componentsFactory.create(IMaterialPlanSolver.class, rule,
+					task.getParentSchedulingSet());
+			MaterialChoice solvingPlan = businessCompo.createPlan(rule, rule.getTargetTask().getParentSchedulingSet(),
+					direction);
+			outNode.getPlans().add(solvingPlan);
+		}
+		List<EquipmentRule> equipmentAllocationConstraintRules = CollectionUtil.getInstance()
+				.filterByType(task.getConstraintRules(), EquipmentRule.class);
+		for (EquipmentRule rule : equipmentAllocationConstraintRules) {
+			IEquipmentPlanSolver businessCompo = this.componentsFactory.create(IEquipmentPlanSolver.class, rule,
+					task.getParentSchedulingSet());
+			EquipmentChoice solvingPlan = businessCompo.createPlan(rule, rule.getTargetTask().getParentSchedulingSet(),
+					direction);
+			outNode.getPlans().add(solvingPlan);
+		}
+		List<TasksRelationRule> tasksRelationConstraintRules = CollectionUtil.getInstance()
+				.filterByType(task.getConstraintRules(), TasksRelationRule.class);
+		for (TasksRelationRule rule : tasksRelationConstraintRules) {
+			ITasksRelationsPlanSolver businessCompo = this.componentsFactory.create(ITasksRelationsPlanSolver.class,
+					rule, task.getParentSchedulingSet());
+			TasksRelationChoice solvingPlan = businessCompo.createPlan(rule,
+					rule.getTargetTask().getParentSchedulingSet(), direction);
+			outNode.getPlans().add(solvingPlan);
+		}
+
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("End DefaultTaskScheduleCoordinator.InitializeConstraintsSolutionPlans(..)",
 					"task.id=>" + task.getId());
@@ -258,16 +255,15 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 	@Override
 	public PlanGraphItem doProductionSupervision(Task task, ApsSchedulingSet schedulingSet,
 			IRuleSolutionListener constraintSolutionListener, ApsLogicDirection direction) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin doProductionSupervision([task.code=" + task.getCode() + "],...)");
+		}
+		PlanGraphItem plans = this.initializePlans(task, direction);
 		if (!ProductionMonitoringUtil.isUnderProduction(task)) {
 			throw new IllegalStateException("The task =>" + task.getCode()
 					+ " is not in under production state so it can't be managed by " + this.getClass().getName());
 		}
-		TaskStatus actualStatus = task.getStatus();
-		Date startSetupDateTime = task.getAcquiredStartSetup();
-		Date endSetupDateTime = task.getAcquiredEndSetup();
-		Date startWorkDateTime = task.getAcquiredStartWork();
-		Date endWorkDateTime = task.getAcquiredEndWork();
-		double toBeProduced = task.getQtyResidual();
+		
 		String usedMachineCode = task.getAcquiredMachineCode();
 		if (usedMachineCode == null)
 			throw new IllegalStateException("The task =>" + task.getCode()
@@ -280,14 +276,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			LOGGER.error(msg, e);
 			throw new OpenI40Exception(msg, e);
 		}
-		TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
-		setupRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
-		setupRequirement.setStartDateTime(startSetupDateTime);
-		setupRequirement.setEndDateTime(endSetupDateTime);
-		TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
-		workRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
-		workRequirement.setStartDateTime(startWorkDateTime);
-		workRequirement.setEndDateTime(endWorkDateTime);
+		
 
 		TaskEquipmentModelInfo taskEquipmentModel = null;
 
@@ -306,46 +295,92 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		if (taskEquipmentModel == null) {
 			throw new OpenI40Exception("No taskEquiment metaInfo in treatment of task=>" + task.getCode());
 		}
+		// Restrict the potential equipment configurations according to set of
+		// machine/secondary resources informations
+		// taken from production messages
 		IEquipmentConfigurator equipmentConfigurator = this.componentsFactory.create(IEquipmentConfigurator.class,
 				task.getMetaInfo().getEquipmentModelOptions(), task.getContext());
 		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateConfigurations(taskEquipmentModel,
 				usedMachine, schedulingSet.getOptions(), task, task.getContext(), task.getSampledTaskEquipmentInfo(),
 				task.getAcquiredSetupUsedResources(), task.getAcquiredWorkUsedResources());
-		for (TaskEquipmentInfo taskEquipmentInfo : potentialEquipments) {
-			ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
-					schedulingSet.getContext());
-			IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
-					schedulingSet.getContext());
-			switch (actualStatus) {
-			case EXECUTING_SETUP: {
-				// using startSetupDateTime and calculate setup time
-				double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
-				// first calculate potential period of setupTime
-				// use the setupStartDateTime+setupTime as setupRequirement if not in realtime
-				// mode
-				// use the maximum between setupStartDateTime+setupTime and actualDateTime as
-				// maximum setup bound
+
+		// Try to update each solution plan to best fitting in the from-to timerange
+		List<DateChoice> dateConstraintPlans = filterPlansByType(plans, DateChoice.class);
+		List<TasksRelationChoice> tasksRelationConstraintSatisfactionPlans = filterPlansByType(plans,
+				TasksRelationChoice.class);
+		List<EquipmentChoice> equipmentPlans = filterPlansByType(plans, EquipmentChoice.class);
+		List<MaterialChoice> materialPlans = filterPlansByType(plans, MaterialChoice.class);
+		// Each date constraint satisfactionplan has only a satisfactionOption with a
+		// single entry
+		// specificating begin and/or end of a setup/work stage
+		/*
+		 * for (DateChoice dateConstraintPlan : dateConstraintPlans) { IDatePlanSolver
+		 * handler = componentsFactory.create(IDatePlanSolver.class,
+		 * dateConstraintPlan.getConstraint(), task.getContext());
+		 * List<DateEvaluatedChoice> dateSatisfactionOptions =
+		 * handler.generateChoices(dateConstraintPlan, setupRequirement,
+		 * workRequirement, direction); for (PlanChoice satisfactionOption :
+		 * dateSatisfactionOptions) { if (satisfactionOption.getSetup() != null) {
+		 * restrictTimeSegment(SetupTimeRange, satisfactionOption.getSetup()); }
+		 * 
+		 * if (satisfactionOption.getWork() != null) {
+		 * restrictTimeSegment(WorkTimeRange, satisfactionOption.getWork()); }
+		 * 
+		 * dateConstraintPlan.setChoosed(satisfactionOption); break; } }
+		 */
+		IResourcesAllocator allocator = componentsFactory.create(IResourcesAllocator.class, task, task.getContext());
+		ResourcesCombination activeCombination = allocator.elaborateUnderProductionAllocations(potentialEquipments,
+				equipmentPlans, materialPlans, task, schedulingSet, direction, constraintSolutionListener);
+		if (activeCombination != null) {
+			task.setEquipment(activeCombination.getEquipmentAllocationOption().getPlanned());
+			TaskEquipmentInfo equipment = task.getEquipment();
+			task.getSetupPhaseExecution().Add(equipment.getPreparation().getEquipmentEventsGroup());
+			task.getWorkPhaseExecution().Add(equipment.getExecution().getEquipmentEventsGroup());
+			allocator.reserveResources(activeCombination);
+
+			Machine machine = equipment.getExecution().getResource().getChoosenEquipment();
+			// Rotate task equipment stack for changeover evaluation
+			switch (direction) {
+			case FORWARD: {
+				if (machine != null) {
+
+					TaskEquipmentInfo oldEquipment = machine.getCurrentEquipmentSetting();
+					machine.setCurrentEquipmentSetting(equipment);
+					if (oldEquipment != null) {
+						machine.getEquipmentSettingHistory().add(equipment);
+					}
+				}
+			}
+				;
+				break;
+			case BACKWARD: {
+				// TODO: THINK ON HOW TO IMPLEMENT CHANGEOVER STACK IN BACKWARD ALGORITHMS
+			}
+				;
+				break;
+			}
+			if (constraintSolutionListener != null) {
+				RulePlanningEvent<TaskEquipmentInfo> equipmentEvent = new RulePlanningEvent<TaskEquipmentInfo>(this,
+						task, activeCombination.getEquipmentAllocationOption().getParent().getConstraint(),
+						RuleEventType.CONSTRAINT_SOLVED, task.getEquipment());
+				constraintSolutionListener.onConstraintSolutionEvent(equipmentEvent);
+				for (MaterialEvaluatedChoice materialOption : activeCombination.getMaterialAllocationOptions()) {
+					RulePlanningEvent<List<SupplyReservation>> materialEvent = new RulePlanningEvent<List<SupplyReservation>>(
+							this, task, materialOption.getParent().getConstraint(), RuleEventType.CONSTRAINT_SOLVED,
+							materialOption.getGeneratedReservations());
+					constraintSolutionListener.onConstraintSolutionEvent(materialEvent);
+				}
+			}
+		} else {
+			if (constraintSolutionListener != null) {
 
 			}
-				break;
-			case SETUP_DONE: {
-			}
-				break;
-			case EXECUTING_WORK: {
-			}
-				break;
-			case EXECUTED: {
-
-			}
-				break;
-			case ABORTED: {
-			}
-				break;
-			case PAUSED: {
-			}
-				break;
-			}
+			LOGGER.warn("Combination between material and equipment not found!");
 		}
-		return null;
+
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End doProductionSupervision([task.code=" + task.getCode() + "],...)");
+		}
+		return plans;
 	}
 }
