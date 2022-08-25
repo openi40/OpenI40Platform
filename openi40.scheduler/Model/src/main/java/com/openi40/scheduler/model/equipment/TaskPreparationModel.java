@@ -24,21 +24,21 @@ public class TaskPreparationModel extends AbstractApsObject implements IMetaInfo
 
 	private TaskPreparationUseModel<Machine, MachinesGroup> Machine = new TaskPreparationUseModel<Machine, MachinesGroup>(Machine.class, MachinesGroup.class);
 
-	public final TaskPreparationUseModel<Machine, MachinesGroup> getResource() {
+	public  TaskPreparationUseModel<Machine, MachinesGroup> getResource() {
 		return Machine;
 	}
 
-	public final void setResource(TaskPreparationUseModel<Machine, MachinesGroup> value) {
+	public  void setResource(TaskPreparationUseModel<Machine, MachinesGroup> value) {
 		Machine = value;
 	}
 
 	private List<TaskPreparationUseModel<Resource, ResourceGroup>> SecondaryResources = new ArrayList<TaskPreparationUseModel<Resource, ResourceGroup>>();
 
-	public final List<TaskPreparationUseModel<Resource, ResourceGroup>> getSecondaryResources() {
+	public  List<TaskPreparationUseModel<Resource, ResourceGroup>> getSecondaryResources() {
 		return SecondaryResources;
 	}
 
-	public final void setSecondaryResources(List<TaskPreparationUseModel<Resource, ResourceGroup>> value) {
+	public  void setSecondaryResources(List<TaskPreparationUseModel<Resource, ResourceGroup>> value) {
 		SecondaryResources = value;
 	}
 
