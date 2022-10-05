@@ -79,7 +79,7 @@ public class EquipmentRulesGeneratorImpl extends BusinessLogic<Task> implements 
 			IEquipmentConfigurator configurator = this.componentsFactory.create(IEquipmentConfigurator.class,
 					taskEquipmentModelOptions, EntityObject);
 
-			List<TaskEquipmentInfo> pList = configurator.calculateConfigurations(taskEquipmentModelOptions,
+			List<TaskEquipmentInfo> pList = configurator.calculatePlanningConfigurations(taskEquipmentModelOptions,
 					apsLogicOptions, task, context);
 			context.addCache(configKey, pList);
 		}

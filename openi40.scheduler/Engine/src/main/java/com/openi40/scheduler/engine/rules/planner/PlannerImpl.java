@@ -300,7 +300,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		// taken from production messages
 		IEquipmentConfigurator equipmentConfigurator = this.componentsFactory.create(IEquipmentConfigurator.class,
 				task.getMetaInfo().getEquipmentModelOptions(), task.getContext());
-		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateConfigurations(taskEquipmentModel,
+		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateProducingConfigurations(taskEquipmentModel,
 				usedMachine, schedulingSet.getOptions(), task, task.getContext(), task.getSampledTaskEquipmentInfo(),
 				task.getAcquiredSetupUsedResources(), task.getAcquiredWorkUsedResources());
 

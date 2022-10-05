@@ -39,7 +39,7 @@ public interface IEquipmentConfigurator extends IBusinessLogic<TaskEquipmentMode
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelOptions toConfigure,
+	List<TaskEquipmentInfo> calculatePlanningConfigurations(TaskEquipmentModelOptions toConfigure,
 			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder);
 
 	/***
@@ -59,7 +59,7 @@ public interface IEquipmentConfigurator extends IBusinessLogic<TaskEquipmentMode
 	 * @param usedResourcesInfo       TODO
 	 * @return
 	 */
-	List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+	List<TaskEquipmentInfo> calculateProducingConfigurations(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
 			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder,
 			TaskEquipmentInfoSample taskEquipmentInfoSample, List<UsedSecondaryResourcesInfo> setupUsedResourcesInfo,
 			List<UsedSecondaryResourcesInfo> workUsedResourcesInfo);
