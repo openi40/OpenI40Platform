@@ -1,6 +1,7 @@
 package com.openi40.scheduler.engine.equipment.configuration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
@@ -28,17 +29,24 @@ import com.openi40.scheduler.model.tasks.Task;
 @DefaultImplementation(implemented = IProducingConfigurationResourcesExpansor.class, entityClass = ApsData.class)
 public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData>
 		implements IProducingConfigurationResourcesExpansor {
-
-	public class DiscoveredWorkNSetupSecondaries {
-		UsedSecondaryResourcesInfo setupMatchingAssigned = null;
-		UsedSecondaryResourcesInfo workMatchingAssigned = null;
-		SecondaryResourceMissingConfig setupMatchingMissing = null;
-		SecondaryResourceMissingConfig workMatchingMissing = null;
+	public interface GroupRelatedInfo {
 		ResourceGroup secondariesGroup = null;
 	}
 
-	protected class SecondaryResourceMissingConfig {
-		Group<Resource> group = null;
+	public class DiscoveredPhaseSecondaries implements GroupRelatedInfo {
+		UsedSecondaryResourcesInfo assigned = null;
+		SecondaryResourceMissingConfig missing = null;
+		ResourceGroup secondariesGroup = null;
+	}
+
+	public class DiscoveredWorkNSetupSecondaries implements GroupRelatedInfo {
+		DiscoveredPhaseSecondaries work = new DiscoveredPhaseSecondaries();
+		DiscoveredPhaseSecondaries setup = new DiscoveredPhaseSecondaries();
+		ResourceGroup secondariesGroup = null;
+	}
+
+	protected class SecondaryResourceMissingConfig implements GroupRelatedInfo {
+		ResourceGroup secondariesGroup = null;
 		int missingNr = 0;
 		List<Resource> availablesNotUsed = new ArrayList<Resource>();
 	}
@@ -67,14 +75,12 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 		return outList;
 	}
 
-	protected SecondaryResourceMissingConfig findMissingMatching(List<SecondaryResourceMissingConfig> list,
-			ResourceGroup group) {
-		for (SecondaryResourceMissingConfig sr : list) {
-			if (sr.group == group)
-				return sr;
-		}
-		return null;
-	}
+	/*
+	 * protected SecondaryResourceMissingConfig
+	 * findMissingMatching(List<SecondaryResourceMissingConfig> list, ResourceGroup
+	 * group) { for (SecondaryResourceMissingConfig sr : list) { if
+	 * (sr.secondariesGroup == group) return sr; } return null; }
+	 */
 
 	protected UsedSecondaryResourcesInfo findUsedMatching(List<UsedSecondaryResourcesInfo> list, ResourceGroup group) {
 		for (UsedSecondaryResourcesInfo usedSecondaryResourcesInfo : list) {
@@ -160,9 +166,9 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			if (matchingExisting != null) {
 				if (secondaryModel.getQty() > matchingExisting.getUsedResourcesCodes().size()) {
 					SecondaryResourceMissingConfig missingConfig = new SecondaryResourceMissingConfig();
-					missingConfig.group = secondaryModel.getGroup();
+					missingConfig.secondariesGroup = secondaryModel.getGroup();
 					missingConfig.missingNr = secondaryModel.getQty() - matchingExisting.getUsedResourcesCodes().size();
-					for (Resource resource : missingConfig.group.getResources()) {
+					for (Resource resource : missingConfig.secondariesGroup.getResources()) {
 						if (!resource.isDisabled()
 								&& !matchingExisting.getUsedResourcesCodes().contains(resource.getCode())) {
 							missingConfig.availablesNotUsed.add(resource);
@@ -244,13 +250,131 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			List<SecondaryResourceMissingConfig> missingExecutionSecondary, ApsLogicOptions apsLogicOptions, Task task,
 			ApsData scheduleDataHolder) {
 		List<TaskEquipmentInfo> permutations = new ArrayList<TaskEquipmentInfo>();
-		// Consider first secondaries both in setup and work configurations
-		// that must be reused from setup to work phase
-		// If some secondary resource instance is present in setup and not present in
-		// working phase even if the meta-infos
-		// suggests that they have to be used, but different instances are chosed the
-		// configuration is forced to
-		// try using the same instances for both setup and work.
+		// List of secondary resources meta info already set in both setup/work phases
+		List<DiscoveredWorkNSetupSecondaries> bothMatching = this.findBothWorkSetupSecondaries(modelInfo, presetMachine,
+				preparationSecondaryResourcesList, executionSecondaryResourcesList, missingPreparationSecondary,
+				missingExecutionSecondary);
+		// List of secondary resources meta info alreadi set in setup phase only
+		List<DiscoveredPhaseSecondaries> setupOnly = findPhaseSecondaries(
+				modelInfo.getPreparationModel().getSecondaryResources(), preparationSecondaryResourcesList,
+				missingPreparationSecondary, bothMatching);
+		// List of secondary resources meta info alreadi set in work phase only
+		List<DiscoveredPhaseSecondaries> workOnly = findPhaseSecondaries(
+				modelInfo.getExecutionModel().getSecondaryResources(), executionSecondaryResourcesList,
+				missingExecutionSecondary, bothMatching);
+		// List of unset secondary resources in setup phase
+		List<TaskPreparationUseModel<Resource, ResourceGroup>> setupUnsetSecondaries = unsetSecondaries(
+				modelInfo.getPreparationModel().getSecondaryResources(), bothMatching, setupOnly, workOnly);
+		// List of unset secondary resources in work phase
+		List<SecondaryModelInfo> execUnsetSecondaries = unsetSecondaries(
+				modelInfo.getExecutionModel().getSecondaryResources(), bothMatching, setupOnly, workOnly);
+		return permutations;
+	}
+
+	/**
+	 * Returns list of setup/work secondary resources meta configurations not in
+	 * already set state by received production informations data
+	 * 
+	 * @param <UseType>
+	 * @param secondaryResources
+	 * @param bothMatching
+	 * @param setupOnly
+	 * @param workOnly
+	 * @return
+	 */
+	private <UseType extends UseModel<ResourceGroup, Resource>> List<UseType> unsetSecondaries(
+			List<UseType> secondaryResources, List<DiscoveredWorkNSetupSecondaries> bothMatching,
+			List<DiscoveredPhaseSecondaries> setupOnly, List<DiscoveredPhaseSecondaries> workOnly) {
+		List<UseType> outVector = new ArrayList<UseType>();
+		for (UseType ut : secondaryResources) {
+			if (findByResourceGroup(bothMatching, ut.getGroup()) == null
+					&& findByResourceGroup(setupOnly, ut.getGroup()) == null
+					&& findByResourceGroup(workOnly, ut.getGroup()) == null) {
+				outVector.add(ut);
+			}
+		}
+		return outVector;
+	}
+
+	/**
+	 * Find item with matching group
+	 * 
+	 * @param <EType>
+	 * @param list
+	 * @param rGroup
+	 * @return
+	 */
+	private <EType extends GroupRelatedInfo> EType findByResourceGroup(List<EType> list, ResourceGroup rGroup) {
+		for (EType e : list) {
+			if (e.secondariesGroup == rGroup) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Consider secondary resource assignations/missing only in one phase
+	 * 
+	 * @param <UseType>
+	 * @param models
+	 * @param usedSecondary
+	 * @param missingSecondary
+	 * @param bothMatching
+	 * @return
+	 */
+	private <UseType extends UseModel<ResourceGroup, Resource>> List<DiscoveredPhaseSecondaries> findPhaseSecondaries(
+			List<UseType> models, List<UsedSecondaryResourcesInfo> usedSecondary,
+			List<SecondaryResourceMissingConfig> missingSecondary, List<DiscoveredWorkNSetupSecondaries> bothMatching) {
+		List<DiscoveredPhaseSecondaries> list = new ArrayList<>();
+		for (UseType model : models) {
+			boolean hasMatches = false;
+			for (DiscoveredWorkNSetupSecondaries discoveredWorkNSetupSecondaries : bothMatching) {
+				hasMatches = discoveredWorkNSetupSecondaries.secondariesGroup == model.getGroup() || hasMatches;
+			}
+			if (!hasMatches) {
+				UsedSecondaryResourcesInfo assigned = findUsedMatching(usedSecondary, model.getGroup());
+				SecondaryResourceMissingConfig missing = findByResourceGroup(missingSecondary, model.getGroup());
+				if (assigned != null && missing != null) {
+					DiscoveredPhaseSecondaries discovered = new DiscoveredPhaseSecondaries();
+					discovered.assigned = assigned;
+					discovered.missing = missing;
+					discovered.secondariesGroup = model.getGroup();
+					list.add(discovered);
+				}
+			}
+		}
+
+		return list;
+
+	}
+
+	/**
+	 * Consider first secondaries both in setup and work configurations that must be
+	 * reused from setup to work phase If some secondary resource instance is
+	 * present in setup and not present in working phase even if the meta-infos
+	 * suggests that they have to be used, but different instances are chosed the
+	 * configuration is forced to try using the same instances for both setup and
+	 * work.
+	 * 
+	 * @param modelInfo
+	 * @param presetMachine
+	 * @param preparationSecondaryResourcesList
+	 * @param executionSecondaryResourcesList
+	 * @param missingPreparationSecondary
+	 * @param missingExecutionSecondary
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+
+	private List<DiscoveredWorkNSetupSecondaries> findBothWorkSetupSecondaries(TaskEquipmentModelInfo modelInfo,
+			Machine presetMachine, List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
+			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList,
+			List<SecondaryResourceMissingConfig> missingPreparationSecondary,
+			List<SecondaryResourceMissingConfig> missingExecutionSecondary) {
+		List<DiscoveredWorkNSetupSecondaries> bothList = new ArrayList<>();
 		List<TaskPreparationUseModel<Resource, ResourceGroup>> setupSecondaryModels = modelInfo.getPreparationModel()
 				.getSecondaryResources();
 		List<SecondaryModelInfo> workSecondaryModels = modelInfo.getExecutionModel().getSecondaryResources();
@@ -261,9 +385,9 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			UsedSecondaryResourcesInfo workMatchingAssigned = findUsedMatching(executionSecondaryResourcesList,
 					setupSecondaryModel.getGroup());
 			;
-			SecondaryResourceMissingConfig setupMatchingMissing = findMissingMatching(missingPreparationSecondary,
+			SecondaryResourceMissingConfig setupMatchingMissing = findByResourceGroup(missingPreparationSecondary,
 					setupSecondaryModel.getGroup());
-			SecondaryResourceMissingConfig workMatchingMissing = findMissingMatching(missingExecutionSecondary,
+			SecondaryResourceMissingConfig workMatchingMissing = findByResourceGroup(missingExecutionSecondary,
 					setupSecondaryModel.getGroup());
 			for (SecondaryModelInfo secondaryModelInfo : workSecondaryModels) {
 				if (secondaryModelInfo.getGroup() == setupSecondaryModel.getGroup()) {
@@ -273,13 +397,17 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			}
 			if (workMatchingSecondaryModel != null) {
 				DiscoveredWorkNSetupSecondaries discovered = new DiscoveredWorkNSetupSecondaries();
-				discovered.workMatchingMissing = workMatchingMissing;
-				discovered.setupMatchingMissing = setupMatchingMissing;
-				discovered.workMatchingAssigned = workMatchingAssigned;
-				discovered.setupMatchingAssigned = setupMatchingAssigned;
+				discovered.work.assigned = workMatchingAssigned;
+				discovered.work.missing = workMatchingMissing;
+				discovered.work.secondariesGroup = setupSecondaryModel.getGroup();
+				discovered.setup.assigned = setupMatchingAssigned;
+				discovered.setup.missing = setupMatchingMissing;
+				discovered.setup.secondariesGroup = setupSecondaryModel.getGroup();
+				discovered.secondariesGroup = setupSecondaryModel.getGroup();
+				bothList.add(discovered);
 			}
 		}
-		return permutations;
+		return bothList;
 	}
 
 	protected <RC extends ITimesheetAllocableObject, RCGroup extends Group<RC>, WEquipUM extends TaskExecutionUseModel<RC, RCGroup>> List<List<WEquipUM>> rotatePermutations(
