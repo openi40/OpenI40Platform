@@ -29,17 +29,17 @@ import com.openi40.scheduler.model.tasks.Task;
 @DefaultImplementation(implemented = IProducingConfigurationResourcesExpansor.class, entityClass = ApsData.class)
 public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData>
 		implements IProducingConfigurationResourcesExpansor {
-	public interface GroupRelatedInfo {
+	protected interface GroupRelatedInfo {
 		ResourceGroup secondariesGroup = null;
 	}
 
-	public class DiscoveredPhaseSecondaries implements GroupRelatedInfo {
+	protected class DiscoveredPhaseSecondaries implements GroupRelatedInfo {
 		UsedSecondaryResourcesInfo assigned = null;
 		SecondaryResourceMissingConfig missing = null;
 		ResourceGroup secondariesGroup = null;
 	}
 
-	public class DiscoveredWorkNSetupSecondaries implements GroupRelatedInfo {
+	protected class DiscoveredWorkNSetupSecondaries implements GroupRelatedInfo {
 		DiscoveredPhaseSecondaries work = new DiscoveredPhaseSecondaries();
 		DiscoveredPhaseSecondaries setup = new DiscoveredPhaseSecondaries();
 		ResourceGroup secondariesGroup = null;
@@ -152,7 +152,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 
 	}
 
-	private <UseModelType extends UseModel<ResourceGroup, Resource>> List<SecondaryResourceMissingConfig> missingSecondaries(
+	protected <UseModelType extends UseModel<ResourceGroup, Resource>> List<SecondaryResourceMissingConfig> missingSecondaries(
 			List<UseModelType> secondaryResources, List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList) {
 		List<SecondaryResourceMissingConfig> missingSecondaries = new ArrayList<SecondaryResourceMissingConfig>();
 		for (UseModelType secondaryModel : secondaryResources) {
@@ -243,7 +243,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	private List<TaskEquipmentInfo> permutateSecondaryResources(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+	protected List<TaskEquipmentInfo> permutateSecondaryResources(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
 			List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
 			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList,
 			List<SecondaryResourceMissingConfig> missingPreparationSecondary,
@@ -282,7 +282,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @param workOnly
 	 * @return
 	 */
-	private <UseType extends UseModel<ResourceGroup, Resource>> List<UseType> unsetSecondaries(
+	protected <UseType extends UseModel<ResourceGroup, Resource>> List<UseType> unsetSecondaries(
 			List<UseType> secondaryResources, List<DiscoveredWorkNSetupSecondaries> bothMatching,
 			List<DiscoveredPhaseSecondaries> setupOnly, List<DiscoveredPhaseSecondaries> workOnly) {
 		List<UseType> outVector = new ArrayList<UseType>();
@@ -304,7 +304,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @param rGroup
 	 * @return
 	 */
-	private <EType extends GroupRelatedInfo> EType findByResourceGroup(List<EType> list, ResourceGroup rGroup) {
+	protected <EType extends GroupRelatedInfo> EType findByResourceGroup(List<EType> list, ResourceGroup rGroup) {
 		for (EType e : list) {
 			if (e.secondariesGroup == rGroup) {
 				return e;
@@ -323,7 +323,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @param bothMatching
 	 * @return
 	 */
-	private <UseType extends UseModel<ResourceGroup, Resource>> List<DiscoveredPhaseSecondaries> findPhaseSecondaries(
+	protected <UseType extends UseModel<ResourceGroup, Resource>> List<DiscoveredPhaseSecondaries> findPhaseSecondaries(
 			List<UseType> models, List<UsedSecondaryResourcesInfo> usedSecondary,
 			List<SecondaryResourceMissingConfig> missingSecondary, List<DiscoveredWorkNSetupSecondaries> bothMatching) {
 		List<DiscoveredPhaseSecondaries> list = new ArrayList<>();
@@ -369,7 +369,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @return
 	 */
 
-	private List<DiscoveredWorkNSetupSecondaries> findBothWorkSetupSecondaries(TaskEquipmentModelInfo modelInfo,
+	protected List<DiscoveredWorkNSetupSecondaries> findBothWorkSetupSecondaries(TaskEquipmentModelInfo modelInfo,
 			Machine presetMachine, List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
 			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList,
 			List<SecondaryResourceMissingConfig> missingPreparationSecondary,
