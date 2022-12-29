@@ -263,7 +263,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			throw new IllegalStateException("The task =>" + task.getCode()
 					+ " is not in under production state so it can't be managed by " + this.getClass().getName());
 		}
-		
+
 		String usedMachineCode = task.getAcquiredMachineCode();
 		if (usedMachineCode == null)
 			throw new IllegalStateException("The task =>" + task.getCode()
@@ -276,13 +276,14 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			LOGGER.error(msg, e);
 			throw new OpenI40Exception(msg, e);
 		}
-		
 
 		TaskEquipmentModelInfo taskEquipmentModel = null;
-
+		// Get last schedule taskEquipmentInfo
 		if (task.getSampledTaskEquipmentInfo() != null) {
 			taskEquipmentModel = task.getSampledTaskEquipmentInfo().getMetaInfo();
 		} else {
+			// Find from the list of potential equipment set meta-infos the one with
+			// potential matching machine
 			for (TaskEquipmentModelInfo option : task.getMetaInfo().getEquipmentModelOptions().getEquipmentModels()) {
 				List<Machine> machines = option.getPreparationModel().getResource().getGroup().getResources();
 				for (Machine machine : machines) {
@@ -300,9 +301,10 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		// taken from production messages
 		IEquipmentConfigurator equipmentConfigurator = this.componentsFactory.create(IEquipmentConfigurator.class,
 				task.getMetaInfo().getEquipmentModelOptions(), task.getContext());
-		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateProducingConfigurations(taskEquipmentModel,
-				usedMachine, schedulingSet.getOptions(), task, task.getContext(), task.getSampledTaskEquipmentInfo(),
-				task.getAcquiredSetupUsedResources(), task.getAcquiredWorkUsedResources());
+		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateProducingConfigurations(
+				taskEquipmentModel, usedMachine, schedulingSet.getOptions(), task, task.getContext(),
+				task.getSampledTaskEquipmentInfo(), task.getAcquiredSetupUsedResources(),
+				task.getAcquiredWorkUsedResources());
 
 		// Try to update each solution plan to best fitting in the from-to timerange
 		List<DateChoice> dateConstraintPlans = filterPlansByType(plans, DateChoice.class);

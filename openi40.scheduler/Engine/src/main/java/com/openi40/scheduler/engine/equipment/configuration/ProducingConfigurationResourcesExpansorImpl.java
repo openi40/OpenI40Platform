@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.timesheet.TimeSegmentEvaluationResult.TimeSegmentEvaluationResultType;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
@@ -20,35 +21,49 @@ import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample.ResourceUse
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample.ResourceUseGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel.SecondaryModelInfo;
+import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkSecondaryResourceInfos;
+import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskExecutionUseModel;
 import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
+import com.openi40.scheduler.model.equipment.Use;
 import com.openi40.scheduler.model.equipment.UseModel;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.tasks.Task;
+import com.openi40.scheduler.model.time.TimeSegmentType;
 
 @DefaultImplementation(implemented = IProducingConfigurationResourcesExpansor.class, entityClass = ApsData.class)
 public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData>
 		implements IProducingConfigurationResourcesExpansor {
-	protected interface GroupRelatedInfo {
+	static interface GroupRelatedInfo {
 		ResourceGroup secondariesGroup = null;
 	}
 
-	protected class DiscoveredPhaseSecondaries implements GroupRelatedInfo {
+	static class DiscoveredPhaseSecondaries implements GroupRelatedInfo {
 		UsedSecondaryResourcesInfo assigned = null;
 		SecondaryResourceMissingConfig missing = null;
 		ResourceGroup secondariesGroup = null;
+
+		boolean isWithoutAssigned() {
+			return assigned == null || assigned.getUsedResourcesCodes() == null
+					|| (assigned.getUsedResourcesCodes() != null && assigned.getUsedResourcesCodes().isEmpty());
+		}
 	}
 
-	protected class DiscoveredWorkNSetupSecondaries implements GroupRelatedInfo {
+	static class DiscoveredWorkNSetupSecondaries implements GroupRelatedInfo {
 		DiscoveredPhaseSecondaries work = new DiscoveredPhaseSecondaries();
 		DiscoveredPhaseSecondaries setup = new DiscoveredPhaseSecondaries();
 		ResourceGroup secondariesGroup = null;
 	}
 
-	protected class SecondaryResourceMissingConfig implements GroupRelatedInfo {
+	static class SecondaryResourceMissingConfig implements GroupRelatedInfo {
 		ResourceGroup secondariesGroup = null;
 		int missingNr = 0;
 		List<Resource> availablesNotUsed = new ArrayList<Resource>();
+	}
+
+	static class SecondaryAllocationMix {
+		SetupSecondaryResourceInfos setup = null;
+		WorkSecondaryResourceInfos work = null;
 	}
 
 	public ProducingConfigurationResourcesExpansorImpl() {
@@ -152,30 +167,52 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 
 	}
 
+	/**
+	 * For each required secondary resource meta info returns the quantity of
+	 * actually unset and the list of secondary resource unset to choose from
+	 * 
+	 * @param <UseModelType>
+	 * @param secondaryResources
+	 * @param preparationSecondaryResourcesList
+	 * @return
+	 */
 	protected <UseModelType extends UseModel<ResourceGroup, Resource>> List<SecondaryResourceMissingConfig> missingSecondaries(
-			List<UseModelType> secondaryResources, List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList) {
+			List<UseModelType> secondaryResources, List<UsedSecondaryResourcesInfo> usedSecondaries) {
 		List<SecondaryResourceMissingConfig> missingSecondaries = new ArrayList<SecondaryResourceMissingConfig>();
 		for (UseModelType secondaryModel : secondaryResources) {
 			UsedSecondaryResourcesInfo matchingExisting = null;
-			for (UsedSecondaryResourcesInfo info : preparationSecondaryResourcesList) {
-				if (info.getResourceGroup().equals(secondaryModel.getGroup().getCode())) {
-					matchingExisting = info;
-					break;
+			boolean foundMatchingGroup = false;
+			// Chooses matching resource group secondaries already set
+			if (usedSecondaries != null) {
+				for (UsedSecondaryResourcesInfo info : usedSecondaries) {
+					if (info.getResourceGroup().equals(secondaryModel.getGroup().getCode())) {
+						matchingExisting = info;
+						break;
+					}
+				}
+				if (matchingExisting != null) {
+					foundMatchingGroup = true;
+					if (secondaryModel.getQty() > matchingExisting.getUsedResourcesCodes().size()) {
+						SecondaryResourceMissingConfig missingConfig = new SecondaryResourceMissingConfig();
+						missingConfig.secondariesGroup = secondaryModel.getGroup();
+						missingConfig.missingNr = secondaryModel.getQty()
+								- matchingExisting.getUsedResourcesCodes().size();
+						for (Resource resource : missingConfig.secondariesGroup.getResources()) {
+							if (!resource.isDisabled()
+									&& !matchingExisting.getUsedResourcesCodes().contains(resource.getCode())) {
+								missingConfig.availablesNotUsed.add(resource);
+							}
+						}
+						missingSecondaries.add(missingConfig);
+					}
 				}
 			}
-			if (matchingExisting != null) {
-				if (secondaryModel.getQty() > matchingExisting.getUsedResourcesCodes().size()) {
-					SecondaryResourceMissingConfig missingConfig = new SecondaryResourceMissingConfig();
-					missingConfig.secondariesGroup = secondaryModel.getGroup();
-					missingConfig.missingNr = secondaryModel.getQty() - matchingExisting.getUsedResourcesCodes().size();
-					for (Resource resource : missingConfig.secondariesGroup.getResources()) {
-						if (!resource.isDisabled()
-								&& !matchingExisting.getUsedResourcesCodes().contains(resource.getCode())) {
-							missingConfig.availablesNotUsed.add(resource);
-						}
-					}
-					missingSecondaries.add(missingConfig);
-				}
+			if (!foundMatchingGroup) {
+				SecondaryResourceMissingConfig missingConfig = new SecondaryResourceMissingConfig();
+				missingConfig.secondariesGroup = secondaryModel.getGroup();
+				missingConfig.missingNr = secondaryModel.getQty();
+				missingConfig.availablesNotUsed = new ArrayList<>(missingConfig.secondariesGroup.getResources());
+				missingSecondaries.add(missingConfig);
 			}
 		}
 		return missingSecondaries;
@@ -211,12 +248,13 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 		List<TaskEquipmentInfo> configurationsList = new ArrayList<TaskEquipmentInfo>();
 		if ((missingPreparationSecondary == null || missingPreparationSecondary.isEmpty())
 				&& (missingExecutionSecondary == null || missingExecutionSecondary.isEmpty())) {
+			// Set the whole secondary as received in the production informations
 			TaskEquipmentInfo taskEquipmentInfo = new TaskEquipmentInfo(scheduleDataHolder);
 			taskEquipmentInfo.setMetaInfo(modelInfo);
 			taskEquipmentInfo.setPreparation(ConfigurationDataComposer.configure(modelInfo.getPreparationModel(),
-					presetMachine, preparationSecondaryResourcesList, apsLogicOptions, task, scheduleDataHolder));
+					presetMachine, preparationSecondaryResourcesList, task, scheduleDataHolder));
 			taskEquipmentInfo.setExecution(ConfigurationDataComposer.configure(modelInfo.getExecutionModel(),
-					presetMachine, executionSecondaryResourcesList, apsLogicOptions, task, scheduleDataHolder));
+					presetMachine, executionSecondaryResourcesList, task, scheduleDataHolder));
 			configurationsList.add(taskEquipmentInfo);
 		} else {
 			configurationsList = permutateSecondaryResources(modelInfo, presetMachine,
@@ -225,6 +263,10 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 		}
 
 		return configurationsList;
+	}
+
+	private static enum Phases {
+		SETUP, WORK
 	}
 
 	/**
@@ -243,32 +285,170 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	protected List<TaskEquipmentInfo> permutateSecondaryResources(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
-			List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
+	protected List<TaskEquipmentInfo> permutateSecondaryResources(TaskEquipmentModelInfo modelInfo,
+			Machine presetMachine, List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
 			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList,
 			List<SecondaryResourceMissingConfig> missingPreparationSecondary,
 			List<SecondaryResourceMissingConfig> missingExecutionSecondary, ApsLogicOptions apsLogicOptions, Task task,
 			ApsData scheduleDataHolder) {
 		List<TaskEquipmentInfo> permutations = new ArrayList<TaskEquipmentInfo>();
-		// List of secondary resources meta info already set in both setup/work phases
+		// Create sample initial instance with preset secondary resources exactly how
+		// received from production infos or latest scheduling
+		TaskEquipmentInfo initialInstance = ConfigurationDataComposer.createTaskEquipmentInfo(modelInfo, presetMachine,
+				task, scheduleDataHolder);
+		permutations.add(initialInstance);
+		// This method builds up cascading equipment set permutation by evaluating
+		// business cases of cartesian products on (both setup/work secondary resource)
+		// X (setup only) X (work
+		// only)
+		// List of secondary resources meta info needed in both setup/work phases
 		List<DiscoveredWorkNSetupSecondaries> bothMatching = this.findBothWorkSetupSecondaries(modelInfo, presetMachine,
 				preparationSecondaryResourcesList, executionSecondaryResourcesList, missingPreparationSecondary,
 				missingExecutionSecondary);
-		// List of secondary resources meta info alreadi set in setup phase only
+		// Set of permutations for equpment set (both setup/work secondaries)
+		permutations = permutateBothMatching(modelInfo, presetMachine, permutations, bothMatching, apsLogicOptions,
+				task, scheduleDataHolder);
+		// List of secondary resources meta info needed in setup phase only
 		List<DiscoveredPhaseSecondaries> setupOnly = findPhaseSecondaries(
 				modelInfo.getPreparationModel().getSecondaryResources(), preparationSecondaryResourcesList,
 				missingPreparationSecondary, bothMatching);
-		// List of secondary resources meta info alreadi set in work phase only
+		// Set of permutations for equpment set (setup only secondaries) X (both
+		// setup/work secondaries)
+		permutations = permutatePhase(modelInfo, presetMachine, permutations, Phases.SETUP, setupOnly, apsLogicOptions,
+				task, scheduleDataHolder);
+		// List of secondary resources meta info needed in work phase only
 		List<DiscoveredPhaseSecondaries> workOnly = findPhaseSecondaries(
 				modelInfo.getExecutionModel().getSecondaryResources(), executionSecondaryResourcesList,
 				missingExecutionSecondary, bothMatching);
-		// List of unset secondary resources in setup phase
-		List<TaskPreparationUseModel<Resource, ResourceGroup>> setupUnsetSecondaries = unsetSecondaries(
-				modelInfo.getPreparationModel().getSecondaryResources(), bothMatching, setupOnly, workOnly);
-		// List of unset secondary resources in work phase
-		List<SecondaryModelInfo> execUnsetSecondaries = unsetSecondaries(
-				modelInfo.getExecutionModel().getSecondaryResources(), bothMatching, setupOnly, workOnly);
+		// Set of permutations for equpment set (work only secondaries) X (setup only
+		// secondaries) X (both setup/work secondaries)
+		permutations = permutatePhase(modelInfo, presetMachine, permutations, Phases.WORK, workOnly, apsLogicOptions,
+				task, scheduleDataHolder);
 		return permutations;
+	}
+
+	/**
+	 * Permutates a single phase missing nr of resources with all combination of
+	 * unused secondary resources of that group returning the cartesian product of
+	 * permutations received in III param and produced permutations
+	 * 
+	 * @param modelInfo
+	 * @param presetMachine
+	 * @param permutations
+	 * @param phase
+	 * @param phaseOnly
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+	protected List<TaskEquipmentInfo> permutatePhase(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+			List<TaskEquipmentInfo> permutations, Phases phase, List<DiscoveredPhaseSecondaries> phaseOnly,
+			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder) {
+		for (DiscoveredPhaseSecondaries phaseSecondariesCombination : phaseOnly) {
+			List<SecondaryAllocationMix> mix = calculateSinglePhaseConfiguration(phaseSecondariesCombination,
+					apsLogicOptions, task, scheduleDataHolder);
+			permutations = combine(permutations, mix, apsLogicOptions, task, scheduleDataHolder);
+		}
+		return permutations;
+	}
+
+	/**
+	 * Calculate secondary resources group configuration combinations for a single
+	 * secondarResource group needed in a single phase considering required Nr and
+	 * already allocated in production entries
+	 * 
+	 * @param phaseSecondariesCombination
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+	protected List<SecondaryAllocationMix> calculateSinglePhaseConfiguration(
+			DiscoveredPhaseSecondaries phaseSecondariesCombination, ApsLogicOptions apsLogicOptions, Task task,
+			ApsData scheduleDataHolder) {
+		List<SecondaryAllocationMix> outList = new ArrayList<>();
+		return outList;
+	}
+
+	/**
+	 * Permutates the resources in both phases considering already received as used
+	 * in production and those that are not yet choosed. Considers that in principle
+	 * when secondary group is used in both setup and work the instances will remain
+	 * the same. Permutates the generated permutations with the received as III
+	 * parameter.
+	 * 
+	 * @param modelInfo
+	 * @param presetMachine
+	 * @param permutations
+	 * @param bothMatching
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+	protected List<TaskEquipmentInfo> permutateBothMatching(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+			List<TaskEquipmentInfo> permutations, List<DiscoveredWorkNSetupSecondaries> bothMatching,
+			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder) {
+
+		for (DiscoveredWorkNSetupSecondaries bothPresentInstance : bothMatching) {
+			List<SecondaryAllocationMix> mix = calculateBothMatchingConfigurations(bothPresentInstance, apsLogicOptions,
+					task, scheduleDataHolder);
+			permutations = combine(permutations, mix, apsLogicOptions, task, scheduleDataHolder);
+		}
+		return permutations;
+	}
+
+	/**
+	 * Calculate secondary resource configuration combinations for a single
+	 * secondaryResource group needed in both setup and work phase considering
+	 * required Nr and already allocated in production entries
+	 * 
+	 * @param bothPresentInstance
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+	protected List<SecondaryAllocationMix> calculateBothMatchingConfigurations(
+			DiscoveredWorkNSetupSecondaries bothPresentInstance, ApsLogicOptions apsLogicOptions, Task task,
+			ApsData scheduleDataHolder) {
+		List<SecondaryAllocationMix> outList = new ArrayList<>();
+		return outList;
+	}
+
+	/**
+	 * Create permutation combinations between existing taskEquipmentInfo entries
+	 * and list of allocationMix received as 2nd parameter
+	 * 
+	 * @param infos
+	 * @param allocationsMix
+	 * @param apsLogicOptions
+	 * @param task
+	 * @param scheduleDataHolder
+	 * @return
+	 */
+	protected List<TaskEquipmentInfo> combine(List<TaskEquipmentInfo> infos,
+			List<SecondaryAllocationMix> allocationsMix, ApsLogicOptions apsLogicOptions, Task task,
+			ApsData scheduleDataHolder) {
+
+		List<TaskEquipmentInfo> outList = new ArrayList<>();
+		for (TaskEquipmentInfo taskEquipmentInfo : infos) {
+			for (SecondaryAllocationMix secondaryAllocationMix : allocationsMix) {
+				TaskEquipmentInfo instance = ConfigurationDataComposer.clone(taskEquipmentInfo, apsLogicOptions, task,
+						scheduleDataHolder);
+				if (secondaryAllocationMix.setup != null) {
+					instance.getPreparation().getSecondaryResources()
+							.add(ConfigurationDataComposer.clone(secondaryAllocationMix.setup));
+				}
+				if (secondaryAllocationMix.work != null) {
+					instance.getExecution().getSecondaryResources()
+							.add(ConfigurationDataComposer.clone(secondaryAllocationMix.work));
+				}
+				outList.add(instance);
+			}
+		}
+		return outList;
 	}
 
 	/**
@@ -335,7 +515,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			if (!hasMatches) {
 				UsedSecondaryResourcesInfo assigned = findUsedMatching(usedSecondary, model.getGroup());
 				SecondaryResourceMissingConfig missing = findByResourceGroup(missingSecondary, model.getGroup());
-				if (assigned != null && missing != null) {
+				if (missing != null) {
 					DiscoveredPhaseSecondaries discovered = new DiscoveredPhaseSecondaries();
 					discovered.assigned = assigned;
 					discovered.missing = missing;
@@ -382,10 +562,9 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			SecondaryModelInfo workMatchingSecondaryModel = null;
 			UsedSecondaryResourcesInfo setupMatchingAssigned = findUsedMatching(preparationSecondaryResourcesList,
 					setupSecondaryModel.getGroup());
-			UsedSecondaryResourcesInfo workMatchingAssigned = findUsedMatching(executionSecondaryResourcesList,
-					setupSecondaryModel.getGroup());
-			;
 			SecondaryResourceMissingConfig setupMatchingMissing = findByResourceGroup(missingPreparationSecondary,
+					setupSecondaryModel.getGroup());
+			UsedSecondaryResourcesInfo workMatchingAssigned = findUsedMatching(executionSecondaryResourcesList,
 					setupSecondaryModel.getGroup());
 			SecondaryResourceMissingConfig workMatchingMissing = findByResourceGroup(missingExecutionSecondary,
 					setupSecondaryModel.getGroup());

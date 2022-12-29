@@ -97,11 +97,11 @@ public class TaskExecutionPlanned extends AbstractApsObject implements IReferenc
 
 	private TaskExecutionModel Model;
 
-	public final TaskExecutionModel getMetaInfo() {
+	public  TaskExecutionModel getMetaInfo() {
 		return Model;
 	}
 
-	public final void setModel(TaskExecutionModel value) {
+	public  void setMetaInfo(TaskExecutionModel value) {
 		Model = value;
 	}
 
@@ -128,7 +128,7 @@ public class TaskExecutionPlanned extends AbstractApsObject implements IReferenc
 	@Override
 	public ICloneable cleanClone() throws CloneNotSupportedException {
 		TaskExecutionPlanned equipmentPlanned = new TaskExecutionPlanned();
-		equipmentPlanned.setModel(getMetaInfo());
+		equipmentPlanned.setMetaInfo(getMetaInfo());
 		equipmentPlanned.setNominalWorkTime(getNominalWorkTime());
 
 		equipmentPlanned.setResource((WorkResourceInfos) getResource().cleanClone());

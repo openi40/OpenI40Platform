@@ -1,5 +1,6 @@
 package com.openi40.scheduler.engine.equipment.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
@@ -9,6 +10,8 @@ import com.openi40.scheduler.model.equipment.Group;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel.SecondaryModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned;
@@ -17,6 +20,7 @@ import com.openi40.scheduler.model.equipment.TaskPreparationModel;
 import com.openi40.scheduler.model.equipment.TaskPreparationPlanned;
 import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
+import com.openi40.scheduler.model.equipment.TaskProcessInfo;
 import com.openi40.scheduler.model.equipment.UseModel;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.tasks.Task;
@@ -28,15 +32,14 @@ public class ConfigurationDataComposer {
 	 * skeleton
 	 * 
 	 * @param toConfigure
-	 * @param apsLogicOptions
 	 * @param scheduledActivity
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	static TaskPreparationPlanned configure(TaskPreparationModel toConfigure, ApsLogicOptions apsLogicOptions,
-			Task scheduledActivity, ApsData scheduleDataHolder) {
+	static TaskPreparationPlanned configure(TaskPreparationModel toConfigure, Task scheduledActivity,
+			ApsData scheduleDataHolder) {
 		TaskPreparationPlanned plannedSetup = new TaskPreparationPlanned(scheduleDataHolder);
-	
+
 		plannedSetup.getResource().setUsedQty(computeResourceQuantity(toConfigure.getResource(), scheduledActivity));
 		plannedSetup.getResource().setMetaInfo(toConfigure.getResource());
 		// Not already choosen equipment in the group
@@ -48,7 +51,7 @@ public class ConfigurationDataComposer {
 			secondaryEntry.setChoosenEquipment(null);
 			secondaryEntry.setMetaInfo(secondaryResource);
 			secondaryEntry.setUsedQty(computeResourceQuantity(secondaryResource, scheduledActivity));
-	
+
 			plannedSetup.getSecondaryResources().add(secondaryEntry);
 		}
 		return plannedSetup;
@@ -77,13 +80,12 @@ public class ConfigurationDataComposer {
 	 * skeleton
 	 * 
 	 * @param toConfigure
-	 * @param apsLogicOptions
 	 * @param scheduledActivity
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	static TaskExecutionPlanned configure(TaskExecutionModel toConfigure, ApsLogicOptions apsLogicOptions,
-			Task scheduledActivity, ApsData scheduleDataHolder) {
+	static TaskExecutionPlanned configure(TaskExecutionModel toConfigure, Task scheduledActivity,
+			ApsData scheduleDataHolder) {
 		TaskExecutionPlanned workEquipment = new TaskExecutionPlanned();
 		workEquipment.getResource().setUsedQty(computeResourceQuantity(toConfigure.getResource(), scheduledActivity));
 		workEquipment.getResource().setMetaInfo(toConfigure.getResource());
@@ -96,7 +98,7 @@ public class ConfigurationDataComposer {
 			secondaryEntry.setChoosenEquipment(null);
 			secondaryEntry.setMetaInfo(secondaryResource);
 			secondaryEntry.setUsedQty(computeResourceQuantity(secondaryResource, scheduledActivity));
-	
+
 			workEquipment.getSecondaryResources().add(secondaryEntry);
 		}
 		return workEquipment;
@@ -109,15 +111,13 @@ public class ConfigurationDataComposer {
 	 * @param model
 	 * @param presetMachine
 	 * @param secondaryResourceList
-	 * @param apsLogicOptions
 	 * @param task
 	 * @param scheduleDataHolder
 	 * @return
 	 */
 	static TaskExecutionPlanned configure(TaskExecutionModel model, Machine presetMachine,
-			List<UsedSecondaryResourcesInfo> secondaryResourceList, ApsLogicOptions apsLogicOptions, Task task,
-			ApsData scheduleDataHolder) {
-		TaskExecutionPlanned planned = configure(model, apsLogicOptions, task, scheduleDataHolder);
+			List<UsedSecondaryResourcesInfo> secondaryResourceList, Task task, ApsData scheduleDataHolder) {
+		TaskExecutionPlanned planned = configure(model, task, scheduleDataHolder);
 		planned.getResource().setChoosenEquipment(presetMachine);
 		for (SecondaryModelInfo secondaryModel : model.getSecondaryResources()) {
 			WorkSecondaryResourceInfos matchingSecondary = null;
@@ -152,15 +152,13 @@ public class ConfigurationDataComposer {
 	 * @param model
 	 * @param presetMachine
 	 * @param secondaryResourceList
-	 * @param apsLogicOptions
 	 * @param task
 	 * @param scheduleDataHolder
 	 * @return
 	 */
 	static TaskPreparationPlanned configure(TaskPreparationModel model, Machine presetMachine,
-			List<UsedSecondaryResourcesInfo> secondaryResourceList, ApsLogicOptions apsLogicOptions, Task task,
-			ApsData scheduleDataHolder) {
-		TaskPreparationPlanned planned = configure(model, apsLogicOptions, task, scheduleDataHolder);
+			List<UsedSecondaryResourcesInfo> secondaryResourceList, Task task, ApsData scheduleDataHolder) {
+		TaskPreparationPlanned planned = configure(model, task, scheduleDataHolder);
 		planned.getResource().setChoosenEquipment(presetMachine);
 		for (TaskPreparationUseModel<Resource, ResourceGroup> secondaryModel : model.getSecondaryResources()) {
 			SetupSecondaryResourceInfos matchingSecondary = null;
@@ -188,6 +186,61 @@ public class ConfigurationDataComposer {
 		return planned;
 	}
 
-	
+	static SetupSecondaryResourceInfos clone(SetupSecondaryResourceInfos s) {
+		SetupSecondaryResourceInfos clone = new SetupSecondaryResourceInfos(s.getContext());
+		clone.setMetaInfo(s.getMetaInfo());
+		clone.setChoosenEquipment(s.getChoosenEquipment());
+		clone.setChoosenEquipmentList(new ArrayList<>(s.getChoosenEquipmentList()));
+		return clone;
+	}
+
+	static TaskEquipmentInfo clone(TaskEquipmentInfo info, ApsLogicOptions apsLogicOptions, Task task,
+			ApsData scheduleDataHolder) {
+		TaskEquipmentInfo clone = createTaskEquipmentInfo(info.getMetaInfo(),
+				info.getExecution().getResource().getChoosenEquipment(), task, scheduleDataHolder);
+		for (SetupSecondaryResourceInfos s : info.getPreparation().getSecondaryResources()) {
+			info.getPreparation().getSecondaryResources().add(clone(s));
+		}
+		for (WorkSecondaryResourceInfos s : info.getExecution().getSecondaryResources()) {
+			info.getExecution().getSecondaryResources().add(clone(s));
+		}
+		return clone;
+	}
+
+	static WorkSecondaryResourceInfos clone(WorkSecondaryResourceInfos s) {
+		WorkSecondaryResourceInfos clone = new WorkSecondaryResourceInfos(s.getContext());
+		clone.setMetaInfo(s.getMetaInfo());
+		clone.setChoosenEquipment(s.getChoosenEquipment());
+		clone.setChoosenEquipmentList(new ArrayList<>(s.getChoosenEquipmentList()));
+		return clone;
+	}
+
+	static TaskEquipmentInfo createTaskEquipmentInfo(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+			Task task, ApsData scheduleDataHolder) {
+		TaskEquipmentInfo tei = new TaskEquipmentInfo(scheduleDataHolder);
+		tei.setMetaInfo(modelInfo);
+		tei.setPreparation(new TaskPreparationPlanned(scheduleDataHolder));
+		tei.setExecution(new TaskExecutionPlanned(scheduleDataHolder));
+		tei.getPreparation().setMetaInfo(modelInfo.getPreparationModel());
+		tei.getExecution().setMetaInfo(modelInfo.getExecutionModel());
+		tei.setTaskInfo(new TaskProcessInfo(scheduleDataHolder, modelInfo.getTaskMetaInfo()));
+		tei.getPreparation().getResource().setMetaInfo(modelInfo.getPreparationModel().getResource());
+		tei.getExecution().getResource().setMetaInfo(modelInfo.getExecutionModel().getResource());
+		tei.getPreparation().getResource().setChoosenEquipment(presetMachine);
+		tei.getExecution().getResource().setChoosenEquipment(presetMachine);
+		return tei;
+	}
+
+	static TaskEquipmentInfo createTaskEquipmentInfo(TaskEquipmentModelInfo modelInfo, Machine presetMachine,
+			List<UsedSecondaryResourcesInfo> preparationSecondaryResourcesList,
+			List<UsedSecondaryResourcesInfo> executionSecondaryResourcesList, Task task,
+			ApsData scheduleDataHolder) {
+		TaskEquipmentInfo info = createTaskEquipmentInfo(modelInfo, presetMachine, task, scheduleDataHolder);
+		info.setPreparation(configure(modelInfo.getPreparationModel(), presetMachine, preparationSecondaryResourcesList,
+				task, scheduleDataHolder));
+		info.setExecution(configure(modelInfo.getExecutionModel(), presetMachine, executionSecondaryResourcesList,
+				task, scheduleDataHolder));
+		return null;
+	}
 
 }

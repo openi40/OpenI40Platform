@@ -55,9 +55,9 @@ public class EquipmentConfiguratorImpl extends BusinessLogic<TaskEquipmentModelO
 				scheduledActivity.getParentSchedulingSet());
 		for (TaskEquipmentModelInfo model : expanded) {
 			TaskPreparationPlanned setup = ConfigurationDataComposer.configure(model.getPreparationModel(),
-					apsLogicOptions, scheduledActivity, scheduleDataHolder);
+					scheduledActivity, scheduleDataHolder);
 			TaskExecutionPlanned working = ConfigurationDataComposer.configure(model.getExecutionModel(),
-					apsLogicOptions, scheduledActivity, scheduleDataHolder);
+					scheduledActivity, scheduleDataHolder);
 			TaskEquipmentInfo tinfo = new TaskEquipmentInfo(scheduleDataHolder);
 			tinfo.setSetupGroupCode(model.getSetupGroupCode());
 			tinfo.setMetaInfo(model);
