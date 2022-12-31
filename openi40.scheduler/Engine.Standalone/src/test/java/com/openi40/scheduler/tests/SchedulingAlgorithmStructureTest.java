@@ -141,7 +141,15 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
+	@Test
+	public void testStainlessSteelCompanyPurchaseSimulationTestLoadedFromDiskForward() throws ApsDataCacheException {
 
+		String dataSourceName = "SS-COMPANY-DEMO-PURCHASE-TEST";
+		String dataSetName = "STAINLESS-STEEL-COMPANY";
+		String dataSetVariant = "PURCHASE-TEST-DS";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+	}
 	@Ignore
 	@Test
 	public void testStainlessSteelCompanyLoadedFromDiskBackwardUntillUnschedulable() throws ApsDataCacheException {

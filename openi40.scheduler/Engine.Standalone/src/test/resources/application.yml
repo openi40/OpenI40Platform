@@ -48,3 +48,13 @@ com.openi40.scheduler.apsinputchannels:
             createURIByEntityName: false
             hasIncrementalUpdates: false
             singleApsInputUri: StainlessSteelCompany.json  
+          -
+            dataSourceName: SS-COMPANY-DEMO-PURCHASE-TEST
+            dataImporterId: demosImporter1
+            dataSetName: STAINLESS-STEEL-COMPANY
+            dataSetVariant: PURCHASE-TEST-DS
+            description: 'Florida Keys sport stainless steel company'
+            baseFolder: demosource
+            createURIByEntityName: false
+            hasIncrementalUpdates: false
+            singleApsInputUri: PurchaseManagementTestDataSource.json  
