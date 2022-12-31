@@ -34,8 +34,9 @@ public class SimulatedPurchaseOrderManagerImpl extends BusinessLogic<MaterialRul
 		implements ISimulatedPurchaseOrderManager {
 	static Logger LOGGER = LoggerFactory.getLogger(SimulatedPurchaseOrderManagerImpl.class);
 
+	@Override
 	public List<SimulatedPurchaseSupply> generateSimulatedPurchases(MaterialRule materialConstraint, Task targetTask,
-			ApsSchedulingSet parentSchedulingAction, ApsData context) {
+			ApsSchedulingSet parentSchedulingAction, Date fromDateTime, Date toDateTime, ApsData context) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin generateSimulatedPurchases(....)");
 		}
@@ -47,6 +48,9 @@ public class SimulatedPurchaseOrderManagerImpl extends BusinessLogic<MaterialRul
 		Date minDateTime = context.getSchedulingWindow().getStartDateTime();
 		Date availableDateTime = requiredDateTime;
 		// TODO: FIX WITH REALTIME DATE EVALUATIONS
+		if (context.isRealtime()) {
+			minDateTime = context.getActualDateTime();
+		}
 		if (minDateTime != null && requiredDateTime != null) {
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime(minDateTime);
@@ -71,5 +75,4 @@ public class SimulatedPurchaseOrderManagerImpl extends BusinessLogic<MaterialRul
 		return purchaseList;
 	}
 
-	
 }

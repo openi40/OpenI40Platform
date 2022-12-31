@@ -1,5 +1,6 @@
 package com.openi40.scheduler.engine.material;
 
+import java.util.Date;
 import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessInterface;
@@ -37,10 +38,12 @@ public interface ISimulatedPurchaseOrderManager extends IBusinessLogic<MaterialR
 	 * @param materialConstraint
 	 * @param targetTask
 	 * @param parentSchedulingAction
+	 * @param toDateTime 
+	 * @param fromDateTime 
 	 * @param context
 	 * @return
 	 */
 	List<SimulatedPurchaseSupply> generateSimulatedPurchases(MaterialRule materialConstraint, Task targetTask,
-			ApsSchedulingSet parentSchedulingAction, ApsData context);
+			ApsSchedulingSet parentSchedulingAction, Date fromDateTime, Date toDateTime, ApsData context);
 	
 }
