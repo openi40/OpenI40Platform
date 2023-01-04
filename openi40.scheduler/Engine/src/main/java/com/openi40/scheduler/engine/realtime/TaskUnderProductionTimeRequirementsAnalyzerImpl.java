@@ -23,6 +23,7 @@ import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 import com.openi40.scheduler.model.time.TimeSegmentType;
+import com.openi40.scheduler.model.time.TimesheetReservation;
 
 /**
  * 
@@ -40,14 +41,16 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 	static Logger LOGGER = LoggerFactory.getLogger(TaskUnderProductionTimeRequirementsAnalyzerImpl.class);
 
 	@Override
-	public RealTimeSegmentRequirements analyzeUnderProductionTaskRequirements(Machine usedMachine,Task task,
+	public RealTimeSegmentRequirements analyzeUnderProductionTaskRequirements(Machine usedMachine, Task task,
 			TaskEquipmentInfo taskEquipmentInfo, ApsSchedulingSet schedulingSet, ApsData context) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin analyzeUnderProductionTaskRequirements([" + task.getCode() + "],....)");
 		}
-		if (!context.isRealtime())
-			throw new OpenI40Exception(
-					"It does not make sense to analyze under production task if the system is not running realtime");		
+		/*
+		 * if (!context.isRealtime()) throw new OpenI40Exception(
+		 * "It does not make sense to analyze under production task if the system is not running realtime"
+		 * );
+		 */
 		Date actualDateTime = context.getActualDateTime();
 		RealTimeSegmentRequirements specs = new RealTimeSegmentRequirements(context);
 		specs.getPreparationRequirement().setStartDateTime(task.getAcquiredStartSetup());
@@ -56,6 +59,7 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 				.setEndAlignment(task.getAcquiredEndSetup() != null ? EndDateTimeAlignment.END_ON_END_PRECISELY : null);
 		specs.getPreparationRequirement().setEndDateTime(task.getAcquiredEndSetup());
 		specs.getExecutionRequirement().setStartDateTime(task.getAcquiredStartWork());
+		specs.getExecutionRequirement().setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
 		specs.getExecutionRequirement().setEndDateTime(task.getAcquiredEndWork());
 		specs.getExecutionRequirement()
 				.setEndAlignment(task.getAcquiredEndWork() != null ? EndDateTimeAlignment.END_ON_END_PRECISELY : null);
@@ -87,6 +91,8 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 			// Ensure no yet endDateTime is set
 			setupRequirement.setEndDateTime(null);
 			setupRequirement.setAvailabilityDuration(setupTime);
+			TimesheetReservation reservation = timesheetLogic.planReservation(usedMachine, setupRequirement,
+					setupRequirement);
 			TimeSegmentEvaluationResult setupSegmentResult = timesheetLogic.calculateTimeSegmentLimits(usedMachine,
 					setupRequirement);
 			TimeSegment setupSegment = setupSegmentResult.getResult();
@@ -108,7 +114,32 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 					LOGGER.error(msg);
 					specs.getPreparationRequirement().setEndDateTime(setupSegment.getEndDateTime());
 				}
-				completeWorkTimeRequirementsWithKnownSetupBoundaries(specs, taskEquipmentInfo);
+				Date startTime = specs.getPreparationRequirement().getEndDateTime();
+				if (startTime == null || (actualDateTime != null && startTime.before(actualDateTime))) {
+					startTime = actualDateTime;
+				}
+				TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
+				workRequirement.setStartDateTime(startTime);
+				workRequirement.setAvailabilityDuration(machineTime);
+				workRequirement.setStartAlignment(StartDateTimeAlignment.START_AFTER_START_ASAP);
+				TimeSegmentEvaluationResult workSegmentResult = timesheetLogic.calculateTimeSegmentLimits(usedMachine,
+						workRequirement);
+				switch (workSegmentResult.getResultType()) {
+				case SUCCESSFULLY_EVALUATED: {
+					specs.getExecutionRequirement().setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+					specs.getExecutionRequirement().setStartDateTime(workSegmentResult.getResult().getStartDateTime());
+					specs.getExecutionRequirement().setEndDateTime(workSegmentResult.getResult().getEndDateTime());
+				}
+					break;
+				default: {
+					specs.setInvalidTaskConditions(true);
+					specs.getInvalidTaskConditionsMessages()
+							.add("cannot evaluate work boundaries of task [" + task.getCode() + "] status:["
+									+ enumToString(task.getStatus()) + "]  calendar calculation with result code:"
+									+ enumToString(workSegmentResult.getResultType()));
+					return specs;
+				}
+				}
 			}
 				break;
 			default: {
@@ -161,8 +192,13 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 				}
 				}
 			}
+			Date startTime = specs.getPreparationRequirement().getEndDateTime();
+			if (startTime == null || (actualDateTime != null && startTime.before(actualDateTime))) {
+				startTime = actualDateTime;
+			}
 			TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
-			workRequirement.setStartDateTime(actualDateTime);
+			workRequirement.setStartDateTime(startTime);			
+			workRequirement.setAvailabilityDuration(machineTime);
 			workRequirement.setStartAlignment(StartDateTimeAlignment.START_AFTER_START_ASAP);
 			TimeSegmentEvaluationResult workSegmentResult = timesheetLogic.calculateTimeSegmentLimits(usedMachine,
 					workRequirement);
@@ -239,11 +275,11 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 					|| specs.getExecutionRequirement().getEndDateTime() == null) {
 				if (specs.getPreparationRequirement().getStartDateTime() == null
 						|| specs.getPreparationRequirement().getEndDateTime() == null) {
-					fixPraparationRequirement(specs,taskEquipmentInfo);
+					fixPraparationRequirement(specs, taskEquipmentInfo);
 				}
 				if (specs.getExecutionRequirement().getStartDateTime() == null
-					|| specs.getExecutionRequirement().getEndDateTime() == null) {
-					fixExecutionRequirement(specs,taskEquipmentInfo);
+						|| specs.getExecutionRequirement().getEndDateTime() == null) {
+					fixExecutionRequirement(specs, taskEquipmentInfo);
 				}
 			}
 			specs.getPreparationRequirement().setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
@@ -272,12 +308,12 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 
 	private void fixExecutionRequirement(RealTimeSegmentRequirements specs, TaskEquipmentInfo taskEquipmentInfo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void fixPraparationRequirement(RealTimeSegmentRequirements specs, TaskEquipmentInfo taskEquipmentInfo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void completeSetupTimeRequirementsWithKnownWorkBoundaries(RealTimeSegmentRequirements specs,
@@ -294,12 +330,6 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 	private String dateToString(Date dateTime) {
 
 		return dateTime != null ? dateTime.toGMTString() : "null";
-	}
-
-	private void completeWorkTimeRequirementsWithKnownSetupBoundaries(RealTimeSegmentRequirements specs,
-			TaskEquipmentInfo taskEquipmentInfo) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

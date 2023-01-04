@@ -99,7 +99,7 @@ public class EquipmentRulesGeneratorImpl extends BusinessLogic<Task> implements 
 			matchingResources = checkSecondaryResourcesMatching(acquired,
 					model.getExecutionModel().getSecondaryResources());
 		}
-		return false;
+		return matchingResources;
 	}
 
 	static final String EQUIPMENT_CFG_CACHE_PREAMBLE = "equipment_cfg_cache";

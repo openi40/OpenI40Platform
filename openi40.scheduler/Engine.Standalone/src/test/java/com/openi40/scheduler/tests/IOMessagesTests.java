@@ -146,7 +146,8 @@ public class IOMessagesTests {
 		// Sending startSetupMessage and verifiyng status coherences
 		IApsMessagesBroker broker = ComponentFactory.create(IApsMessagesBroker.class, apsData, apsData);
 		StartSetupMessage startSetupMessage = new StartSetupMessage(apsData);
-		startSetupMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 08:59:59"));
+		startSetupMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-11 08:59:59"));
+		apsData.setActualDateTime(Timestamp.valueOf("2021-01-11 08:59:59"));
 		startSetupMessage.setTaskCode(taskCode);
 		startSetupMessage.setMachineCode(machineCode);
 		ApsMessageResponse response = broker.handleMessage(startSetupMessage, apsData, null);
@@ -156,7 +157,8 @@ public class IOMessagesTests {
 		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 
 		EndSetupMessage endSetupMessage = new EndSetupMessage(apsData);
-		endSetupMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:05:59"));
+		endSetupMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-11 09:05:59"));
+		apsData.setActualDateTime(endSetupMessage.getMessageTimestamp());
 		endSetupMessage.setTaskCode(taskCode);
 		endSetupMessage.setMachineCode(machineCode);
 		response = broker.handleMessage(endSetupMessage, apsData, null);
@@ -166,9 +168,10 @@ public class IOMessagesTests {
 		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 
 		StartWorkMessage startWorkMessage = new StartWorkMessage(apsData);
-		startWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:06:59"));
+		startWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-11 09:06:59"));
 		startWorkMessage.setTaskCode(taskCode);
 		startWorkMessage.setMachineCode(machineCode);
+		apsData.setActualDateTime(startWorkMessage.getMessageTimestamp());
 		response = broker.handleMessage(startWorkMessage, apsData, null);
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.EXECUTING_WORK);
@@ -176,9 +179,10 @@ public class IOMessagesTests {
 		checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 		for (int i = 1; i <= 9; i++) {
 			TaskProductionUpdateMessage produpdate = new TaskProductionUpdateMessage(apsData);
-			produpdate.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:1" + i + ":59"));
+			produpdate.setMessageTimestamp(Timestamp.valueOf("2021-01-11 09:1" + i + ":59"));
 			produpdate.setTaskCode(taskCode);
 			produpdate.setMachineCode(machineCode);
+			apsData.setActualDateTime(produpdate.getMessageTimestamp());
 			response = broker.handleMessage(produpdate, apsData, null);
 			checkApsMessageResponse(response);
 			checkMachineState(machineCode, apsData, ReservableObjectAvailability.EXECUTING_WORK);
@@ -186,9 +190,10 @@ public class IOMessagesTests {
 			checkChoosedMachinCoherency(taskCode, machineCode, apsData);
 		}
 		EndWorkMessage endWorkMessage = new EndWorkMessage(apsData);
-		endWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-09 09:10:59"));
+		endWorkMessage.setMessageTimestamp(Timestamp.valueOf("2021-01-11 09:10:59"));
 		endWorkMessage.setTaskCode(taskCode);
 		endWorkMessage.setMachineCode(machineCode);
+		apsData.setActualDateTime(endWorkMessage.getMessageTimestamp());
 		response = broker.handleMessage(endWorkMessage, apsData, null);
 		checkApsMessageResponse(response);
 		checkMachineState(machineCode, apsData, ReservableObjectAvailability.AVAILABLE);
