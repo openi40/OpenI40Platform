@@ -11,18 +11,12 @@ import org.slf4j.LoggerFactory;
 import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
-import com.openi40.scheduler.engine.messages.handling.IApsMessagesHandler;
 import com.openi40.scheduler.engine.realtime.IRealTimeDataManager;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.companystructure.Plant;
 import com.openi40.scheduler.model.companystructure.ProductiveCompany;
-import com.openi40.scheduler.model.messages.AbstractBaseMessage;
 import com.openi40.scheduler.model.orders.WorkOrder;
-import com.openi40.scheduler.model.tasks.Task;
 
 /**
  * 

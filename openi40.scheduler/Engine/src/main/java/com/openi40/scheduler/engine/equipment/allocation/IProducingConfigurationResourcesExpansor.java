@@ -1,4 +1,4 @@
-package com.openi40.scheduler.engine.equipment.configuration;
+package com.openi40.scheduler.engine.equipment.allocation;
 
 import java.util.List;
 

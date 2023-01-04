@@ -20,21 +20,18 @@ import com.openi40.scheduler.engine.rules.RulePlanningEvent;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent.RuleEventType;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
-import com.openi40.scheduler.engine.setuptime.ISetupTimeLogic;
-import com.openi40.scheduler.engine.worktime.IWorkTimeLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
 import com.openi40.scheduler.model.aps.ApsLogicOptions.SchedulingPriorities;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
-import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.planning.PlanChoice;
 import com.openi40.scheduler.model.planning.equipment.EquipmentChoice;
 import com.openi40.scheduler.model.planning.equipment.EquipmentEvaluatedChoice;
 import com.openi40.scheduler.model.planning.material.MaterialChoice;
 import com.openi40.scheduler.model.planning.material.MaterialEvaluatedChoice;
 import com.openi40.scheduler.model.tasks.Task;
-import com.openi40.scheduler.model.tasks.TaskStatus;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
@@ -128,13 +125,13 @@ public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IReso
 							(EquipmentEvaluatedChoice) equipmentSatisfactionOption, materialSatisfactionOptions));
 				}
 			}
-			if (!equipmentAndMaterialValidCombinations.isEmpty()) {
 
-				activeCombination = chooseResources(equipmentAndMaterialValidCombinations, schedulingOptions, direction,
-						action.getContext());
-			}
 		}
+		if (!equipmentAndMaterialValidCombinations.isEmpty()) {
 
+			activeCombination = chooseResources(equipmentAndMaterialValidCombinations, schedulingOptions, direction,
+					action.getContext());
+		}
 		if (activeCombination == null) {
 			// TODO: Try to allocate looking in the perspective of material allocation
 			TimeSegmentRequirement SetupTimeTmp = null;
@@ -349,59 +346,62 @@ public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IReso
 	}
 
 	@Override
-	public ResourcesCombination elaborateUnderProductionAllocations(List<TaskEquipmentInfo> potentialEquipments,
-			List<EquipmentChoice> equipmentPlans, List<MaterialChoice> materialPlans, Task task,
+	public ResourcesCombination elaborateUnderProductionAllocations(Machine usedMachine,
+			List<EquipmentChoice> equipmentChoices, List<MaterialChoice> materialPlans, Task task,
 			ApsSchedulingSet schedulingSet, ApsLogicDirection direction,
 			IRuleSolutionListener constraintSolutionListener) {
-		TaskStatus actualStatus = task.getStatus();
-		Date startSetupDateTime = task.getAcquiredStartSetup();
-		Date endSetupDateTime = task.getAcquiredEndSetup();
-		Date startWorkDateTime = task.getAcquiredStartWork();
-		Date endWorkDateTime = task.getAcquiredEndWork();
-		double toBeProduced = task.getQtyResidual();
-		TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
-		setupRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
-		setupRequirement.setStartDateTime(startSetupDateTime);
-		setupRequirement.setEndDateTime(endSetupDateTime);
-		TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
-		workRequirement.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
-		workRequirement.setStartDateTime(startWorkDateTime);
-		workRequirement.setEndDateTime(endWorkDateTime);		
-		for (TaskEquipmentInfo taskEquipmentInfo : potentialEquipments) {
-			ISetupTimeLogic setupTimeLogic = this.componentsFactory.create(ISetupTimeLogic.class, taskEquipmentInfo,
-					schedulingSet.getContext());
-			IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo,
-					schedulingSet.getContext());
-			switch (actualStatus) {
-			case EXECUTING_SETUP: {
-				// using startSetupDateTime and calculate setup time
-				double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
-				// first calculate potential period of setupTime
-				// use the setupStartDateTime+setupTime as setupRequirement if not in realtime
-				// mode
-				// use the maximum between setupStartDateTime+setupTime and actualDateTime as
-				// maximum setup bound
+		List<ResourcesCombination> choiceCombinations = new ArrayList<>();
+		ApsLogicOptions schedulingOptions = schedulingSet.getOptions();
+		for (EquipmentChoice equipmentPlan : equipmentChoices) {
+			IEquipmentPlanSolver handler = componentsFactory.create(IEquipmentPlanSolver.class,
+					equipmentPlan.getConstraint(), task.getContext());
+			List<EquipmentEvaluatedChoice> equipmentSatisfactionOptions = handler.generateUnderProductionChoices(
+					usedMachine, equipmentPlan, task, schedulingSet, direction, constraintSolutionListener);
+			for (PlanChoice equipmentSatisfactionOption : equipmentSatisfactionOptions) {
+				// Try to restrict workTime by the allocation of equipments and look if
+				// all material can be satisfactory supplied
+				TimeSegmentRequirement SetupTimeTmp = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
+				TimeSegmentRequirement WorkTimeTmp = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);
+				WorkTimeTmp.setStartAlignment(StartDateTimeAlignment.START_ON_START_PRECISELY);
+				restrictTimeSegment(SetupTimeTmp, equipmentSatisfactionOption.getSetup());
+				restrictTimeSegment(WorkTimeTmp, equipmentSatisfactionOption.getWork());
+				boolean eachMaterialPlanCorrectlyAligned = true;
+				List<MaterialEvaluatedChoice> materialSatisfactionOptions = new ArrayList<MaterialEvaluatedChoice>();
 
-			}
-				break;
-			case SETUP_DONE: {
-			}
-				break;
-			case EXECUTING_WORK: {
-			}
-				break;
-			case EXECUTED: {
-
-			}
-				break;
-			case ABORTED: {
-			}
-				break;
-			case PAUSED: {
-			}
-				break;
+				for (MaterialChoice materialPlan : materialPlans) {
+					IMaterialPlanSolver materialHandler = componentsFactory.create(IMaterialPlanSolver.class,
+							materialPlan.getConstraint(), task.getContext());
+					List<MaterialEvaluatedChoice> mSatisfactionOptions = materialHandler.generateChoices(materialPlan,
+							SetupTimeTmp, WorkTimeTmp, direction);
+					eachMaterialPlanCorrectlyAligned = eachMaterialPlanCorrectlyAligned
+							&& !mSatisfactionOptions.isEmpty();
+					// PLanOptions already are in order coherently with scheduling options so just
+					// take the first one
+					if (!mSatisfactionOptions.isEmpty()) {
+						materialSatisfactionOptions.add((MaterialEvaluatedChoice) mSatisfactionOptions.get(0));
+					} else {
+						if (constraintSolutionListener != null) {
+							UnavailableSolutions unavailInTimes = new UnavailableSolutions(SetupTimeTmp, WorkTimeTmp);
+							RulePlanningEvent<UnavailableSolutions> unavailEquipment = new RulePlanningEvent<UnavailableSolutions>(
+									this, task, materialPlan.getConstraint(), RuleEventType.CONSTRAINT_UNSOLVABLE,
+									unavailInTimes);
+							constraintSolutionListener.onConstraintSolutionEvent(unavailEquipment);
+						}
+					}
+				}
+				if (eachMaterialPlanCorrectlyAligned) {
+					choiceCombinations.add(new ResourcesCombination(
+							(EquipmentEvaluatedChoice) equipmentSatisfactionOption, materialSatisfactionOptions));
+				}
 			}
 		}
-		return null;
+
+		if (!choiceCombinations.isEmpty()) {
+			ResourcesCombination activeCombination = chooseResources(choiceCombinations, schedulingOptions, direction,
+					schedulingSet.getContext());
+
+			return activeCombination;
+		} else
+			return null;
 	}
 }

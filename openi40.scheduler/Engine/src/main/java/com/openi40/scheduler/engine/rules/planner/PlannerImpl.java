@@ -1,28 +1,19 @@
 package com.openi40.scheduler.engine.rules.planner;
 
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.user.UserDestinationMessageHandler;
 
 import com.openi40.scheduler.common.utils.CollectionUtil;
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
-import com.openi40.scheduler.engine.equipment.allocation.EquipmentAllocation;
-import com.openi40.scheduler.engine.equipment.allocation.IEquipmentAllocator;
-import com.openi40.scheduler.engine.equipment.configuration.IEquipmentConfigurator;
 import com.openi40.scheduler.engine.resallocator.IResourcesAllocator;
 import com.openi40.scheduler.engine.resallocator.ResourcesCombination;
-import com.openi40.scheduler.engine.rules.IRuleBuilder;
 import com.openi40.scheduler.engine.rules.IRuleSolutionListener;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent.RuleEventType;
@@ -30,19 +21,13 @@ import com.openi40.scheduler.engine.rules.date.IDatePlanSolver;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
 import com.openi40.scheduler.engine.rules.tasksrelation.ITasksRelationsPlanSolver;
-import com.openi40.scheduler.engine.setuptime.ISetupTimeLogic;
-import com.openi40.scheduler.engine.worktime.IWorkTimeLogic;
-import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
-import com.openi40.scheduler.model.aps.ApsLogicOptions.SchedulingPriorities;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IMachineDao;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
-import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
-import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.material.SupplyReservation;
 import com.openi40.scheduler.model.planning.Plan;
 import com.openi40.scheduler.model.planning.PlanChoice;
@@ -58,13 +43,8 @@ import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
-import com.openi40.scheduler.model.tasks.TaskStatus;
-import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
-import com.openi40.scheduler.model.time.TimeSegmentType;
-
-import lombok.Data;
 
 /**
  * 
@@ -258,6 +238,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin doProductionSupervision([task.code=" + task.getCode() + "],...)");
 		}
+		ResourcesCombination activeCombination = null;
 		PlanGraphItem plans = this.initializePlans(task, direction);
 		if (!ProductionMonitoringUtil.isUnderProduction(task)) {
 			throw new IllegalStateException("The task =>" + task.getCode()
@@ -276,63 +257,26 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			LOGGER.error(msg, e);
 			throw new OpenI40Exception(msg, e);
 		}
+		//if the task is under production equipmentChoices are already restricted & matching the actual used resources
+		List<EquipmentChoice> equpmentChoices = filterPlansByType(plans, EquipmentChoice.class);
 
-		TaskEquipmentModelInfo taskEquipmentModel = null;
-		// Get last schedule taskEquipmentInfo
-		if (task.getSampledTaskEquipmentInfo() != null) {
-			taskEquipmentModel = task.getSampledTaskEquipmentInfo().getMetaInfo();
-		} else {
-			// Find from the list of potential equipment set meta-infos the one with
-			// potential matching machine
-			for (TaskEquipmentModelInfo option : task.getMetaInfo().getEquipmentModelOptions().getEquipmentModels()) {
-				List<Machine> machines = option.getPreparationModel().getResource().getGroup().getResources();
-				for (Machine machine : machines) {
-					if (machine == usedMachine) {
-						taskEquipmentModel = option;
-					}
-				}
-			}
+		if (equpmentChoices.isEmpty()) {
+			LOGGER.warn("Cannot match task[" + task.getCode()
+					+ "] configuration choices with actually allocated equipments (machine=" + usedMachineCode + ")");
+			return plans;
 		}
-		if (taskEquipmentModel == null) {
-			throw new OpenI40Exception("No taskEquiment metaInfo in treatment of task=>" + task.getCode());
-		}
-		// Restrict the potential equipment configurations according to set of
-		// machine/secondary resources informations
-		// taken from production messages
-		IEquipmentConfigurator equipmentConfigurator = this.componentsFactory.create(IEquipmentConfigurator.class,
-				task.getMetaInfo().getEquipmentModelOptions(), task.getContext());
-		List<TaskEquipmentInfo> potentialEquipments = equipmentConfigurator.calculateProducingConfigurations(
-				taskEquipmentModel, usedMachine, schedulingSet.getOptions(), task, task.getContext(),
-				task.getSampledTaskEquipmentInfo(), task.getAcquiredSetupUsedResources(),
-				task.getAcquiredWorkUsedResources());
-
-		// Try to update each solution plan to best fitting in the from-to timerange
+				// Try to update each solution plan to best fitting in the from-to timerange
 		List<DateChoice> dateConstraintPlans = filterPlansByType(plans, DateChoice.class);
 		List<TasksRelationChoice> tasksRelationConstraintSatisfactionPlans = filterPlansByType(plans,
 				TasksRelationChoice.class);
-		List<EquipmentChoice> equipmentPlans = filterPlansByType(plans, EquipmentChoice.class);
+
 		List<MaterialChoice> materialPlans = filterPlansByType(plans, MaterialChoice.class);
 		// Each date constraint satisfactionplan has only a satisfactionOption with a
 		// single entry
 		// specificating begin and/or end of a setup/work stage
-		/*
-		 * for (DateChoice dateConstraintPlan : dateConstraintPlans) { IDatePlanSolver
-		 * handler = componentsFactory.create(IDatePlanSolver.class,
-		 * dateConstraintPlan.getConstraint(), task.getContext());
-		 * List<DateEvaluatedChoice> dateSatisfactionOptions =
-		 * handler.generateChoices(dateConstraintPlan, setupRequirement,
-		 * workRequirement, direction); for (PlanChoice satisfactionOption :
-		 * dateSatisfactionOptions) { if (satisfactionOption.getSetup() != null) {
-		 * restrictTimeSegment(SetupTimeRange, satisfactionOption.getSetup()); }
-		 * 
-		 * if (satisfactionOption.getWork() != null) {
-		 * restrictTimeSegment(WorkTimeRange, satisfactionOption.getWork()); }
-		 * 
-		 * dateConstraintPlan.setChoosed(satisfactionOption); break; } }
-		 */
-		IResourcesAllocator allocator = componentsFactory.create(IResourcesAllocator.class, task, task.getContext());
-		ResourcesCombination activeCombination = allocator.elaborateUnderProductionAllocations(potentialEquipments,
-				equipmentPlans, materialPlans, task, schedulingSet, direction, constraintSolutionListener);
+		IResourcesAllocator allocator = this.componentsFactory.create(IResourcesAllocator.class, task, schedulingSet);
+		activeCombination = allocator.elaborateUnderProductionAllocations(usedMachine,equpmentChoices, materialPlans, task,
+				schedulingSet, direction, constraintSolutionListener);
 		if (activeCombination != null) {
 			task.setEquipment(activeCombination.getEquipmentAllocationOption().getPlanned());
 			TaskEquipmentInfo equipment = task.getEquipment();
@@ -385,4 +329,5 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		}
 		return plans;
 	}
+
 }

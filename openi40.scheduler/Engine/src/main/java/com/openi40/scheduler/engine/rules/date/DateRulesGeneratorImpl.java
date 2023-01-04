@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
@@ -16,7 +17,6 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.EndDateTimeAlignment;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
-import com.openi40.scheduler.common.utils.DateUtil;
 
 /**
  * 

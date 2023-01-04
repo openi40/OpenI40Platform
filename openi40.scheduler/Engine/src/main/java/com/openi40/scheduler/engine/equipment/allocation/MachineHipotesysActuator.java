@@ -22,6 +22,7 @@ import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.EndDateTimeAlignment;
+import com.openi40.scheduler.model.time.RealTimeSegmentRequirements;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
@@ -176,5 +177,13 @@ public class MachineHipotesysActuator {
 			loopIteration++;
 		} while (!correctlyAllocated && !stopIterations);
 		return results;
+	}
+
+	 List<EquipmentAllocation> allocateUnderProductionMachine(TaskEquipmentInfo taskEquipmentInfo,
+			ApsLogicDirection direction, EquipmentRule constraint, RealTimeSegmentRequirements realtimeTaskRequirements,
+			Machine usedMachine, ApsLogicOptions options, IContextualBusinessLogicFactory componentsFactory, Task task,
+			ApsData context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

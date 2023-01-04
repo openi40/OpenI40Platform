@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +14,6 @@ import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.material.Product;
 import com.openi40.scheduler.model.material.SimulatedPurchaseSupply;
-import com.openi40.scheduler.model.orders.PurchaseOrderLine;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.tasks.Task;
 

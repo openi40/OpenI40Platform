@@ -2,21 +2,20 @@ package com.openi40.scheduler.engine.equipment.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.openi40.scheduler.engine.contextualplugarch.*;
+import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
+import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
-import com.openi40.scheduler.model.aps.*;
+import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.equipment.Group;
 import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
-import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel;
 import com.openi40.scheduler.model.equipment.TaskExecutionUseModel;
-import com.openi40.scheduler.model.equipment.TaskExecutionModel.ResourceModelInfo;
-import com.openi40.scheduler.model.equipment.TaskExecutionModel.SecondaryModelInfo;
 import com.openi40.scheduler.model.tasks.Task;
-@DefaultImplementation(implemented = IPlanningConfigurationResourcesExpansor.class, entityClass = ApsData.class)
-public class PlanningConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData> implements IPlanningConfigurationResourcesExpansor {
+@DefaultImplementation(implemented = IEquipmentConfigurationResourcesExpansor.class, entityClass = ApsData.class)
+public class EquipmentConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData> implements IEquipmentConfigurationResourcesExpansor {
 
 	public List<TaskEquipmentModelInfo> expandList(List<TaskEquipmentModelInfo> models, Task task, ApsSchedulingSet action) {
 		List<TaskEquipmentModelInfo> outList = new ArrayList<TaskEquipmentModelInfo>();

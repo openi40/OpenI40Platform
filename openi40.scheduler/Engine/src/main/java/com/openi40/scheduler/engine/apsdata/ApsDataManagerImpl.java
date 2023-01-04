@@ -1,7 +1,6 @@
 package com.openi40.scheduler.engine.apsdata;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import com.openi40.scheduler.model.companystructure.WorkCenter;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IWorkOrderDao;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
-import com.openi40.scheduler.model.material.Product;
 import com.openi40.scheduler.model.orders.SalesOrder;
 import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;

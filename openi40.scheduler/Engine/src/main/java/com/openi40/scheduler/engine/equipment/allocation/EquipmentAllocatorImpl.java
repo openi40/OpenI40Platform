@@ -10,15 +10,18 @@ import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.aps.IApsLogic;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.rules.IRuleSolutionListener;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.MachinesGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.tasks.Task;
+import com.openi40.scheduler.model.time.RealTimeSegmentRequirements;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 
 /**
@@ -120,6 +123,24 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 
 		}
 		return results;
+	}
+
+	@Override
+	public List<EquipmentAllocation> calculateRealtimeProductionAllocations(Machine usedMachine,EquipmentRule constraint,
+			TaskEquipmentInfo taskEquipmentInfo, RealTimeSegmentRequirements realtimeTaskRequirements,
+			ApsSchedulingSet schedulingSet, Task task, ApsLogicDirection direction,
+			IRuleSolutionListener constraintSolutionListener, ApsData context) {
+		List<EquipmentAllocation> _results =new ArrayList<>();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin calculateRealtimeProductionAllocations(..) [machine="+usedMachine.getCode()+",task="+task.getCode()+"]");
+		}
+		_results = MachineHipotesysActuator.Instance.allocateUnderProductionMachine(
+				taskEquipmentInfo, direction, constraint, realtimeTaskRequirements, usedMachine,
+				schedulingSet.getOptions(), componentsFactory, task, context);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End calculateRealtimeProductionAllocations(..) [machine="+usedMachine.getCode()+",task="+task.getCode()+"]");
+		}
+		return _results;
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.openi40.scheduler.engine.realtime;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessInterface;
-
 import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 /**

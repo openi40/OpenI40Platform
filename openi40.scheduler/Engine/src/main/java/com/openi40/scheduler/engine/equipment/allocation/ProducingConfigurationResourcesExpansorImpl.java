@@ -1,12 +1,10 @@
-package com.openi40.scheduler.engine.equipment.configuration;
+package com.openi40.scheduler.engine.equipment.allocation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
-import com.openi40.scheduler.engine.timesheet.TimeSegmentEvaluationResult.TimeSegmentEvaluationResultType;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
@@ -22,14 +20,12 @@ import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample.ResourceUse
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionModel.SecondaryModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkSecondaryResourceInfos;
-import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskExecutionUseModel;
+import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
-import com.openi40.scheduler.model.equipment.Use;
 import com.openi40.scheduler.model.equipment.UseModel;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.tasks.Task;
-import com.openi40.scheduler.model.time.TimeSegmentType;
 
 @DefaultImplementation(implemented = IProducingConfigurationResourcesExpansor.class, entityClass = ApsData.class)
 public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<ApsData>
@@ -251,9 +247,9 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 			// Set the whole secondary as received in the production informations
 			TaskEquipmentInfo taskEquipmentInfo = new TaskEquipmentInfo(scheduleDataHolder);
 			taskEquipmentInfo.setMetaInfo(modelInfo);
-			taskEquipmentInfo.setPreparation(ConfigurationDataComposer.configure(modelInfo.getPreparationModel(),
+			taskEquipmentInfo.setPreparation(ProducingConfigurationDataComposer.configure(modelInfo.getPreparationModel(),
 					presetMachine, preparationSecondaryResourcesList, task, scheduleDataHolder));
-			taskEquipmentInfo.setExecution(ConfigurationDataComposer.configure(modelInfo.getExecutionModel(),
+			taskEquipmentInfo.setExecution(ProducingConfigurationDataComposer.configure(modelInfo.getExecutionModel(),
 					presetMachine, executionSecondaryResourcesList, task, scheduleDataHolder));
 			configurationsList.add(taskEquipmentInfo);
 		} else {
@@ -294,7 +290,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 		List<TaskEquipmentInfo> permutations = new ArrayList<TaskEquipmentInfo>();
 		// Create sample initial instance with preset secondary resources exactly how
 		// received from production infos or latest scheduling
-		TaskEquipmentInfo initialInstance = ConfigurationDataComposer.createTaskEquipmentInfo(modelInfo, presetMachine,
+		TaskEquipmentInfo initialInstance = ProducingConfigurationDataComposer.createTaskEquipmentInfo(modelInfo, presetMachine,
 				task, scheduleDataHolder);
 		permutations.add(initialInstance);
 		// This method builds up cascading equipment set permutation by evaluating
@@ -435,15 +431,15 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 		List<TaskEquipmentInfo> outList = new ArrayList<>();
 		for (TaskEquipmentInfo taskEquipmentInfo : infos) {
 			for (SecondaryAllocationMix secondaryAllocationMix : allocationsMix) {
-				TaskEquipmentInfo instance = ConfigurationDataComposer.clone(taskEquipmentInfo, apsLogicOptions, task,
+				TaskEquipmentInfo instance = ProducingConfigurationDataComposer.clone(taskEquipmentInfo, apsLogicOptions, task,
 						scheduleDataHolder);
 				if (secondaryAllocationMix.setup != null) {
 					instance.getPreparation().getSecondaryResources()
-							.add(ConfigurationDataComposer.clone(secondaryAllocationMix.setup));
+							.add(ProducingConfigurationDataComposer.clone(secondaryAllocationMix.setup));
 				}
 				if (secondaryAllocationMix.work != null) {
 					instance.getExecution().getSecondaryResources()
-							.add(ConfigurationDataComposer.clone(secondaryAllocationMix.work));
+							.add(ProducingConfigurationDataComposer.clone(secondaryAllocationMix.work));
 				}
 				outList.add(instance);
 			}

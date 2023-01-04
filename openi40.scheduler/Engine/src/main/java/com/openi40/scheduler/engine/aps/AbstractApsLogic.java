@@ -102,9 +102,8 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 			// able to calculate task status according to received production monitoring
 			// updates
 			if (ProductionMonitoringUtil.isUnderProduction(task)) {
-				IPlanner planner = this.componentsFactory.create(IPlanner.class, action, context);
-				decisionNode = planner.doProductionSupervision(task, action,
-						observer != null ? observer.getConstraintSolutionListener() : null, getDirection());
+				decisionNode = scheduleUnderProductionTask(task, action, observer);
+
 			} else {
 				// let extended class implement the single task scheduling policy
 				decisionNode = schedule(task, action, observer);
@@ -136,6 +135,38 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		action.setScheduled(scheduled);
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("End AbstractSchedulingAlgorithm.Schedule(action)", "Running main scheduler loop");
+	}
+
+	protected PlanGraphItem scheduleUnderProductionTask(Task task, ApsSchedulingSet action,
+			ApsLogicNotifiedObjects observer) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+		}
+		if (observer != null && observer.getObserver() != null) {
+			try {
+				observer.getObserver().startProcessingElement(task);
+			} catch (Throwable th) {
+				LOGGER.error("Error in observer", th);
+			}
+		}
+		//Regenerate task constraints including equipment organization
+		regenerateTaskConstraints(task);
+		PlanGraphItem decisionNode = null;
+		task.setDecisionGraphItem(null);
+		IPlanner planner = this.componentsFactory.create(IPlanner.class, action, action.getContext());
+		decisionNode = planner.doProductionSupervision(task, action,
+				observer != null ? observer.getConstraintSolutionListener() : null, getDirection());
+		if (observer != null && observer.getObserver() != null) {
+			try {
+				observer.getObserver().processedElement(task);
+			} catch (Throwable th) {
+				LOGGER.error("Error in observer", th);
+			}
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+		}
+		return decisionNode;
 	}
 
 	protected abstract PlanGraphItem schedule(Task task, ApsSchedulingSet EntityObject,

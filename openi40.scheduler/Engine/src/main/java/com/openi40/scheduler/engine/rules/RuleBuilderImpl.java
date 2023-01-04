@@ -17,8 +17,8 @@ import com.openi40.scheduler.model.rules.DateRule;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.rules.Rule;
-import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.rules.Rule.ConstraintPriority;
+import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
 
 /**

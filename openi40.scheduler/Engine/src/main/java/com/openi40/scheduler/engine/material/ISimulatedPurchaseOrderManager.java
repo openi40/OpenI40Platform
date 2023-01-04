@@ -8,7 +8,6 @@ import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.material.SimulatedPurchaseSupply;
-import com.openi40.scheduler.model.orders.PurchaseOrderLine;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.tasks.Task;
 

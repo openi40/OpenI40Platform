@@ -1,6 +1,5 @@
 package com.openi40.scheduler.engine.realtime;
 
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.openi40.scheduler.common.utils.DateUtil;
