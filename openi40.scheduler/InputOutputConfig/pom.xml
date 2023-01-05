@@ -17,5 +17,12 @@
   		<artifactId>Output.Channels</artifactId>
   		<version>${project.version}</version>
   	</dependency>
+  	
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<scope>provided</scope>		
+		</dependency>
+	
   </dependencies>
 </project>

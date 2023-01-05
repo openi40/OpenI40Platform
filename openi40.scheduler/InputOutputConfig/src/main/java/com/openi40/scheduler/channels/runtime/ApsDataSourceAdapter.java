@@ -29,6 +29,7 @@ import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFac
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 
 public class ApsDataSourceAdapter implements IApsDataSource {
+	TransactionalWrapper transactionalWrapper=null;
 	// Loading data components
 	IDataImporterAgent dataImporterAgent = null;
 	IInputDataStreamFactory streamFactory = null;
@@ -40,16 +41,18 @@ public class ApsDataSourceAdapter implements IApsDataSource {
 	IDataExporterFactoryRepository deFactoryRepository = null;
 	private boolean disableUserAccess = false;
 
-	public ApsDataSourceAdapter(IDataImporterAgent dataImporterAgent, IInputDataStreamFactory streamFactory,
+	public ApsDataSourceAdapter(TransactionalWrapper transactionalWrapper,IDataImporterAgent dataImporterAgent, IInputDataStreamFactory streamFactory,
 			IDataImporterFactoryRepository diFactoryRepository) {
+		this.transactionalWrapper=transactionalWrapper;
 		this.dataImporterAgent = dataImporterAgent;
 		this.streamFactory = streamFactory;
 		this.diFactoryRepository = diFactoryRepository;
 	}
 
-	public ApsDataSourceAdapter(IDataImporterAgent dataImporterAgent, IInputDataStreamFactory streamFactory,
+	public ApsDataSourceAdapter(TransactionalWrapper transactionalWrapper,IDataImporterAgent dataImporterAgent, IInputDataStreamFactory streamFactory,
 			IDataImporterFactoryRepository diFactoryRepository, IDataExporterAgent dataExporterAgent,
 			IOutputDataConsumerFactory outputDataConsumerFactory, IDataExporterFactoryRepository deFactoryRepository) {
+		this.transactionalWrapper=transactionalWrapper;
 		this.dataImporterAgent = dataImporterAgent;
 		this.streamFactory = streamFactory;
 		this.diFactoryRepository = diFactoryRepository;
@@ -80,7 +83,7 @@ public class ApsDataSourceAdapter implements IApsDataSource {
 
 	@Override
 	public ApsData loadDataSet(String dataSetId, String variant) throws ApsDataCacheException {
-		ApsData data = new ApsData();
+		/*ApsData data = new ApsData();
 		data.setDataSourceName(getDataSourceName());
 		data.setDataSetName(dataSetId);
 		data.setDataSetVariant(variant);
@@ -89,7 +92,8 @@ public class ApsDataSourceAdapter implements IApsDataSource {
 		} catch (DataModelDaoException | MapperException | InputDataStreamException e) {
 			throw new ApsDataCacheException("Error loading dataSource", e);
 		}
-		return data;
+		return data;*/
+		return transactionalWrapper.loadDataSet(getDataSourceName(), dataSetId, variant, dataImporterAgent, streamFactory, diFactoryRepository);
 	}
 
 	@Override
@@ -107,11 +111,12 @@ public class ApsDataSourceAdapter implements IApsDataSource {
 				&& data.getDataSourceName().equals(outputDataConsumerFactory.getDataSourceName())
 				&& data.getDataSetName().equals(outputDataConsumerFactory.getDataSetName())
 				&& data.getDataSetVariant().equals(outputDataConsumerFactory.getDataSetVariant())) {
-			try {
+			/*try {
 				dataExporterAgent.doSync(data, outputDataConsumerFactory, deFactoryRepository);
 			} catch (DataModelDaoException | MapperException | OutputDataStreamException e) {
 				throw new ApsDataCacheException("error saving", e);
-			}
+			}*/
+			transactionalWrapper.saveDataSet(dataExporterAgent, outputDataConsumerFactory, deFactoryRepository, data);
 		} else
 			throw new ApsDataCacheException("No outputDataConsumerFactory matching this dataSource");
 	}

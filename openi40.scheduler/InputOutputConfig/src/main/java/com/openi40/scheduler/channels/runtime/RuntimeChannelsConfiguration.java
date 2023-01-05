@@ -74,6 +74,7 @@ public class RuntimeChannelsConfiguration {
 	private RestTemplate restTemplate = null;
 	private IDataExporterFactoryRepository dataExporterFactoryRepository = null;
 	private List<IInputDataStreamFactory> inputDataStreamFactories = null;
+	private TransactionalWrapper transactionalWrapper = null;
 
 	public RuntimeChannelsConfiguration(@Autowired(required = false) ApsDataSourcesConfig config,
 			@Autowired(required = false) ApsInputChannelsConfig inputChannels,
@@ -88,7 +89,8 @@ public class RuntimeChannelsConfiguration {
 			@Autowired(required = false) @Qualifier("persistenceInputDataStreamFactories") List<IInputDataStreamFactory> dataStreamFactories,
 			@Autowired(required = false) List<IOutputDataConsumerFactory> dataExporters,
 			@Autowired(required = false) @Qualifier("persistenceOutputDataConsumerFactory") List<IOutputDataConsumerFactory> dataStreamExporters,
-			@Autowired RestTemplate restTemplate) {
+			@Autowired RestTemplate restTemplate, @Autowired TransactionalWrapper transactionalWrapper) {
+		this.transactionalWrapper = transactionalWrapper;
 		this.config = config;
 		this.inputDataStreamFactories = dataStreamFactories;
 		if (this.config == null)
@@ -232,8 +234,8 @@ public class RuntimeChannelsConfiguration {
 					userAccessible = !src.isDisableUserAccess();
 				}
 			}
-			ApsDataSourceAdapter _dataSource = new ApsDataSourceAdapter(dataImporterAgent, streamFactory,
-					dataImporterFactoryRepository);
+			ApsDataSourceAdapter _dataSource = new ApsDataSourceAdapter(transactionalWrapper, dataImporterAgent,
+					streamFactory, dataImporterFactoryRepository);
 			_dataSource.setDisableUserAccess(!userAccessible);
 			this.configuredApsDataSources.add(_dataSource);
 			if (userAccessible) {
