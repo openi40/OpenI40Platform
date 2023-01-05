@@ -41,6 +41,17 @@ public class TaskOutputDto extends OutputDto {
 	protected String setupGroupCode=null;
 	protected Timestamp minProductionDateConstraint=null;
 	protected Timestamp maxProductionDateConstraint=null;
+	protected String status = null;
+	protected Date acquiredStartSetup = null;
+	protected Date acquiredEndSetup = null;
+	protected Date acquiredStartWork = null;
+	protected Date acquiredEndWork = null;
+	protected Date acquiredProductionUpdate = null;
+	protected String acquiredMachineCode = null;
+	
+	protected List<UsedSecondaryResourcesInfoOutputDto> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfoOutputDto>();
+	
+	protected List<UsedSecondaryResourcesInfoOutputDto> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfoOutputDto>();
 	@Data
 	public static class SecondaryReservation {
 		public SecondaryReservation() {
@@ -77,7 +88,11 @@ public class TaskOutputDto extends OutputDto {
 		double qtyReserved = 0;
 		LinkType linkType = null;
 	}
-
+	@Data
+	public static class UsedSecondaryResourcesInfoOutputDto extends OutputDto {
+		private String resourceGroup = null;
+		private List<String> usedResourcesCodes = new ArrayList<String>();
+	}
 	protected List<SecondaryReservation> secondaryReservations = new ArrayList<>();
 	protected List<TaskMaterialTransfer> materialTransfer = new ArrayList<>();
 	protected Date startPreparation = null, endPreparation = null, startExecution = null, endExecution = null;

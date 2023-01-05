@@ -1077,3 +1077,34 @@ ALTER TABLE work_order add column max_prd_date timestamp;
 -- 22/07/2022 
 ALTER TABLE mac add column availability VARCHAR(10) default 'AVAILABLE';
 ALTER TABLE rc add column availability VARCHAR(10) default 'AVAILABLE';
+
+-- 05-01-2023
+
+ALTER TABLE task add column status varchar(20);
+ALTER TABLE task add column acq_prep_start TIMESTAMP;
+ALTER TABLE task add column acq_prep_end TIMESTAMP;
+ALTER TABLE task add column acq_prd_start TIMESTAMP;
+ALTER TABLE task add column acq_prd_end TIMESTAMP;
+ALTER TABLE task add column acq_prd_upd TIMESTAMP;
+ALTER TABLE task add column acq_machine_code VARCHAR(255);
+
+
+CREATE TABLE acq_setup_resources (
+		code varchar(40) NOT NULL PRIMARY KEY,
+		description varchar(50),
+		removed boolean default false,
+		modified_ts timestamp,
+		task_code varchar(255) NOT NULL,
+		rc_codes varchar(1200),
+		resource_group varchar(255)
+);
+
+CREATE TABLE acq_work_resources (
+		code varchar(40) NOT NULL PRIMARY KEY,
+		description varchar(50),
+		removed boolean default false,
+		modified_ts timestamp,
+		task_code varchar(255) NOT NULL,
+		rc_codes varchar(1200),
+		resource_group varchar(255)
+);

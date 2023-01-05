@@ -142,7 +142,7 @@ public class ProducingConfigurationResourcesExpansorImpl extends BusinessLogic<A
 				if (matchingInfo != null) {
 					outInfo = matchingInfo;
 				} else {
-					outInfo = new UsedSecondaryResourcesInfo();
+					outInfo = new UsedSecondaryResourcesInfo(scheduleDataHolder);
 					outInfo.setResourceGroup(stickyInfo.getGroup().getCode());
 				}
 				if (stickyInfo != null) {

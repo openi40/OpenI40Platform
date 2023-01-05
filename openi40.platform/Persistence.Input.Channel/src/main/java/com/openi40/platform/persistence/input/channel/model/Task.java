@@ -10,6 +10,7 @@
  */
 package com.openi40.platform.persistence.input.channel.model;
 
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
@@ -23,6 +24,7 @@ import com.openi40.platform.persistence.input.channel.StreamLoadRelated;
 import com.openi40.platform.persistence.input.channel.StreamLoadRelated.RelationType;
 import com.openi40.scheduler.input.model.tasks.TaskInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
+import com.openi40.scheduler.input.model.tasks.UsedSecondaryResourcesInfoInputDto;
 
 @Entity
 @Table(name = "task")
@@ -53,10 +55,15 @@ import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
 		@AttributeOverride(name = "workTime", column = @Column(name = "work_time")),
 		@AttributeOverride(name = "setupGroupCode", column = @Column(name = "setup_group_code")),
 		@AttributeOverride(name = "askedDeliveryDateTime", column = @Column(name = "asked_del_time")),
-		@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
-		@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))
-
-})
+		@AttributeOverride(name = "minProductionDateConstraint", column = @Column(name = "min_prd_date")),
+		@AttributeOverride(name = "maxProductionDateConstraint", column = @Column(name = "max_prd_date")),
+		@AttributeOverride(name = "status", column = @Column(name = "status")),
+		@AttributeOverride(name = "acquiredStartSetup", column = @Column(name = "acq_prep_start")),
+		@AttributeOverride(name = "acquiredEndSetup", column = @Column(name = "acq_prep_end")),
+		@AttributeOverride(name = "acquiredStartWork", column = @Column(name = "acq_prd_start")),
+		@AttributeOverride(name = "acquiredEndWork", column = @Column(name = "acq_prd_end")),
+		@AttributeOverride(name = "acquiredProductionUpdate", column = @Column(name = "acq_prd_upd")),
+		@AttributeOverride(name = "acquiredMachineCode", column = @Column(name = "acq_machine_code")) })
 public class Task extends TaskInputDto {
 	@Id
 	@Override
@@ -78,6 +85,18 @@ public class Task extends TaskInputDto {
 		super.setResourcesReservations(resourcesReservations);
 	}
 
-	
+	@StreamLoadRelated(overriddenType = UsedSecondaryResourcesInfoInputDto.class, loadType = AcquiredSetupSecondaryResourceInfo.class, relationType = RelationType.ONE2MANY, joinProperty = "taskCode")
+	@Override
+	public void setAcquiredSetupUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredSetupUsedResources) {
+
+		super.setAcquiredSetupUsedResources(acquiredSetupUsedResources);
+	}
+
+	@StreamLoadRelated(overriddenType = UsedSecondaryResourcesInfoInputDto.class, loadType = AcquiredWorkSecondaryResourceInfo.class, relationType = RelationType.ONE2MANY, joinProperty = "taskCode")
+	@Override
+	public void setAcquiredWorkUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredWorkUsedResources) {
+
+		super.setAcquiredWorkUsedResources(acquiredWorkUsedResources);
+	}
 
 }

@@ -87,3 +87,8 @@ ALTER TABLE producing_batching_info ADD CONSTRAINT CNSTRNT61 foreign key (op_cod
 ALTER TABLE bom_item_batch_info ADD CONSTRAINT CNSTRNT62 foreign key (bom_item_code) references bom_item_model(code);
 ALTER TABLE mac_priority ADD CONSTRAINT CNSTRNT63 foreign key (mac_code) references mac(code);
 ALTER TABLE rc_use_spec ADD CONSTRAINT CNSTRNT64 foreign key (rc_group_code) references resource_group(code);
+
+-- MODIFICHE 05-01-2023
+
+ALTER TABLE acq_setup_resources add constraint STP_RC_ACQ1 foreign key(task_code) references task(code);
+ALTER TABLE acq_work_resources add constraint WRK_RC_ACQ1 foreign key(task_code) references task(code);

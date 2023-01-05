@@ -16,13 +16,14 @@ import com.openi40.scheduler.input.model.cycles.CycleModelInputDto;
 import com.openi40.scheduler.input.model.cycles.OperationModelInputDto;
 import com.openi40.scheduler.input.model.equipment.MachineInputDto;
 import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -37,19 +38,31 @@ public class TaskInputDto extends InputDto {
 	protected String predefinedMachineCode = null;
 	protected String forcedMachineCode = null;
 	protected String scheduledMachineCode = null;
-	protected String equipmentSpecCode=null;
+	protected String equipmentSpecCode = null;
 	protected boolean workOrderRootTask = false;
-	protected Timestamp startPreparation=null,endPreparation=null,startExecution=null,endExecution=null;
-	protected Timestamp askedDeliveryDateTime=null;
+	protected Timestamp startPreparation = null, endPreparation = null, startExecution = null, endExecution = null;
+	protected Timestamp askedDeliveryDateTime = null;
 	protected String salesOrderLineCode = null;
 	protected double qtyTotal = 0.0;
 	protected double qtyProduced = 0.0;
 	protected Integer customPriority = 0;
-	protected double setupTime=0.0;
-	protected double workTime=0.0;
-	protected String setupGroupCode=null;
-	protected Date minProductionDateConstraint=null;
-	protected Date maxProductionDateConstraint=null;
+	protected double setupTime = 0.0;
+	protected double workTime = 0.0;
+	protected String setupGroupCode = null;
+	protected Date minProductionDateConstraint = null;
+	protected Date maxProductionDateConstraint = null;
+	// Information get from the real time MES system
+	protected String status = null;
+	protected Date acquiredStartSetup = null;
+	protected Date acquiredEndSetup = null;
+	protected Date acquiredStartWork = null;
+	protected Date acquiredEndWork = null;
+	protected Date acquiredProductionUpdate = null;
+	protected String acquiredMachineCode = null;
+	@Transient
+	protected List<UsedSecondaryResourcesInfoInputDto> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfoInputDto>();
+	@Transient
+	protected List<UsedSecondaryResourcesInfoInputDto> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfoInputDto>();
 	@Transient
 	protected List<TaskResourceReservationInputDto> resourcesReservations = new ArrayList<>();
 
@@ -138,7 +151,6 @@ public class TaskInputDto extends InputDto {
 	public void setWorkOrderRootTask(boolean workOrderRootTask) {
 		this.workOrderRootTask = workOrderRootTask;
 	}
-	
 
 	@Transient
 
@@ -270,6 +282,76 @@ public class TaskInputDto extends InputDto {
 		this.maxProductionDateConstraint = maxProductionDateConstraint;
 	}
 
-	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getAcquiredStartSetup() {
+		return acquiredStartSetup;
+	}
+
+	public void setAcquiredStartSetup(Date acquiredStartSetup) {
+		this.acquiredStartSetup = acquiredStartSetup;
+	}
+
+	public Date getAcquiredEndSetup() {
+		return acquiredEndSetup;
+	}
+
+	public void setAcquiredEndSetup(Date acquiredEndSetup) {
+		this.acquiredEndSetup = acquiredEndSetup;
+	}
+
+	public Date getAcquiredStartWork() {
+		return acquiredStartWork;
+	}
+
+	public void setAcquiredStartWork(Date acquiredStartWork) {
+		this.acquiredStartWork = acquiredStartWork;
+	}
+
+	public Date getAcquiredEndWork() {
+		return acquiredEndWork;
+	}
+
+	public void setAcquiredEndWork(Date acquiredEndWork) {
+		this.acquiredEndWork = acquiredEndWork;
+	}
+
+	public Date getAcquiredProductionUpdate() {
+		return acquiredProductionUpdate;
+	}
+
+	public void setAcquiredProductionUpdate(Date acquiredProductionUpdate) {
+		this.acquiredProductionUpdate = acquiredProductionUpdate;
+	}
+
+	public String getAcquiredMachineCode() {
+		return acquiredMachineCode;
+	}
+
+	public void setAcquiredMachineCode(String acquiredMachineCode) {
+		this.acquiredMachineCode = acquiredMachineCode;
+	}
+	@Transient
+	public List<UsedSecondaryResourcesInfoInputDto> getAcquiredSetupUsedResources() {
+		return acquiredSetupUsedResources;
+	}
+
+	public void setAcquiredSetupUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredSetupUsedResources) {
+		this.acquiredSetupUsedResources = acquiredSetupUsedResources;
+	}
+	@Transient
+	public List<UsedSecondaryResourcesInfoInputDto> getAcquiredWorkUsedResources() {
+		return acquiredWorkUsedResources;
+	}
+
+	public void setAcquiredWorkUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredWorkUsedResources) {
+		this.acquiredWorkUsedResources = acquiredWorkUsedResources;
+	}
 
 }
