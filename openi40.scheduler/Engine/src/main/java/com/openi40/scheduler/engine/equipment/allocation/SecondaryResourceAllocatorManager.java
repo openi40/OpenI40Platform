@@ -12,6 +12,7 @@ import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicF
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
+import com.openi40.scheduler.model.equipment.Group;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
@@ -70,10 +71,45 @@ class SecondaryResourceAllocatorManager {
 			TimeSegmentRequirement workTimeRequirement, ApsLogicDirection direction,
 			IContextualBusinessLogicFactory componentsFactory, Task task, ApsData context,
 			ITimesheetLogic machineTimesheetAllocationLogic) {
-		SecondaryResourceAllocationResult outValue = new SecondaryResourceAllocationResult();
+
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin completeWithSecondaryResource(....) machine=" + resourceOption.getCode() + " task="
 					+ task.getCode());
+		}
+		SecondaryResourceAllocationResult outValue = complete(resourceOption, new ArrayList<>(), new ArrayList<>(),
+				equipmentInfo, setupTime, changeOver, nominalSetupTime, workTime, setupReservation, workReservation,
+				workTimeRequirement, direction, componentsFactory, task, context, machineTimesheetAllocationLogic);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End completeWithSecondaryResource(....) machine=" + resourceOption.getCode() + " task="
+					+ task.getCode());
+		}
+		return outValue;
+	}
+
+	private UsedSecondaryResourcesInfo matchingUsedResourcesFilter(
+			List<UsedSecondaryResourcesInfo> allocatedSecondaries, Group resourcesGroup) {
+		if (allocatedSecondaries != null) {
+			for (UsedSecondaryResourcesInfo usedSecondaryResourcesInfo : allocatedSecondaries) {
+				if (usedSecondaryResourcesInfo.getResourceGroup().equals(resourcesGroup.getCode())) {
+					return usedSecondaryResourcesInfo;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private SecondaryResourceAllocationResult complete(Machine resourceOption,
+			List<UsedSecondaryResourcesInfo> setupUsedResources, List<UsedSecondaryResourcesInfo> workUsedResources,
+			TaskEquipmentInfo equipmentInfo, double setupTime, double changeOver, double nominalSetupTime,
+			double workTime, TimesheetReservation setupReservation, TimesheetReservation workReservation,
+			TimeSegmentRequirement workTimeRequirement, ApsLogicDirection direction,
+			IContextualBusinessLogicFactory componentsFactory, Task task, ApsData context,
+			ITimesheetLogic machineTimesheetAllocationLogic) {
+		SecondaryResourceAllocationResult outValue = new SecondaryResourceAllocationResult();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin complete(....) machine=" + resourceOption.getCode() + " task=" + task.getCode()
+					+ " setup resources:" + setupUsedResources + " work resources:" + workUsedResources);
 		}
 		try {
 			TaskEquipmentInfo clonedInfo = (TaskEquipmentInfo) equipmentInfo.cleanClone();
@@ -92,8 +128,11 @@ class SecondaryResourceAllocatorManager {
 			boolean allSecondaryAllocationsMet = true;
 			List<MatchingSecondaryResourcePhasesAllocations> validAllocations = new ArrayList<>();
 			for (MatchingSecondaryResourcePhases matchingSecondaryResourcePhases : secondaryWS) {
+				Group secondaryGroup = getGroup(matchingSecondaryResourcePhases);
+				UsedSecondaryResourcesInfo setupUsedResource = matchingUsedResourcesFilter(setupUsedResources, secondaryGroup);
+				UsedSecondaryResourcesInfo workUsedResource = matchingUsedResourcesFilter(workUsedResources, secondaryGroup);
 				MatchingSecondaryResourcePhasesAllocations allocations = SecondaryResourceAllocatorExecutor.Instance
-						.planReservations(direction, setupTime, changeOver, nominalSetupTime, workTime, resourceOption,
+						.planReservations(setupUsedResource,workUsedResource,direction, setupTime, changeOver, nominalSetupTime, workTime, resourceOption,
 								machineTimesheetAllocationLogic, componentsFactory, setupReservation, workReservation,
 								matchingSecondaryResourcePhases, task, context);
 				allSecondaryAllocationsMet = allSecondaryAllocationsMet && allocations.resourceRequirementMet;
@@ -129,10 +168,24 @@ class SecondaryResourceAllocatorManager {
 			throw new OpenI40Exception("Cloning problem", e);
 		}
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End completeWithSecondaryResource(....) machine=" + resourceOption.getCode() + " task="
-					+ task.getCode());
+			LOGGER.debug("End complete(....) machine=" + resourceOption.getCode() + " task=" + task.getCode()
+					+ " setup resources:" + setupUsedResources + " work resources:" + workUsedResources);
 		}
 		return outValue;
+	}
+
+	private Group getGroup(MatchingSecondaryResourcePhases matchingSecondaryResourcePhases) {
+		if (matchingSecondaryResourcePhases.preparation != null
+				&& matchingSecondaryResourcePhases.preparation.getMetaInfo() != null) {
+			return matchingSecondaryResourcePhases.preparation.getMetaInfo().getGroup();
+		}
+		if (matchingSecondaryResourcePhases.execution != null
+				&& matchingSecondaryResourcePhases.execution.getMetaInfo() != null) {
+			return matchingSecondaryResourcePhases.execution.getMetaInfo().getGroup();
+		}
+		String errorMessage="Matching secondaryResourcePhases data structure is empty or does not provide a metainformation set";
+		LOGGER.error(errorMessage);
+		throw new OpenI40Exception(errorMessage);
 	}
 
 	SecondaryResourceAllocationResult completeWithSecondaryResourceUnderProduction(Machine usedMachine,
@@ -147,13 +200,10 @@ class SecondaryResourceAllocatorManager {
 					+ " task=" + task.getCode());
 		}
 		LOGGER.warn("completeWithSecondaryResourceUnderProduction has to be implemented!!");
-		SecondaryResourceAllocationResult outValue = new SecondaryResourceAllocationResult();
-		if ((setupUsedResources == null || setupUsedResources.isEmpty())
-				&& (workUsedResources == null || workUsedResources.isEmpty())) {
-			outValue = completeWithSecondaryResource(usedMachine, taskEquipmentInfo, setupTime, changeOver,
-					nominalSetupTime, workTime, setupReservation, workReservation, workTimeRequirement, direction,
-					componentsFactory, task, context, resourceOptionCalendarLogic);
-		}
+		SecondaryResourceAllocationResult outValue = complete(usedMachine, setupUsedResources, workUsedResources,
+				taskEquipmentInfo, setupTime, changeOver, nominalSetupTime, workTime, setupReservation, workReservation,
+				workTimeRequirement, direction, componentsFactory, task, context, resourceOptionCalendarLogic);
+
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End completeWithSecondaryResourceUnderProduction(....) machine=" + usedMachine.getCode()
 					+ " task=" + task.getCode());
