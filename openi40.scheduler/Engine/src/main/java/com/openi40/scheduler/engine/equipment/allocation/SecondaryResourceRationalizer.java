@@ -6,13 +6,14 @@ import java.util.List;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -23,6 +24,15 @@ class SecondaryResourceRationalizer {
 
 	}
 
+	/**
+	 * Returns data structure with associated setup/work secondary resources of the
+	 * same type because those are gonna being reservated for both phases. Returns
+	 * also spare only setup and only work secondary resources in the same data
+	 * structure
+	 * 
+	 * @param equipmentInfo
+	 * @return
+	 */
 	List<MatchingSecondaryResourcePhases> pairMatchingGroups(TaskEquipmentInfo equipmentInfo) {
 		ArrayList<SetupSecondaryResourceInfos> prepSecondaries = new ArrayList(
 				equipmentInfo.getPreparation().getSecondaryResources());

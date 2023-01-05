@@ -174,7 +174,8 @@ public class MaterialManagerImpl extends BusinessLogic<MaterialRule> implements 
 							List<SimulatedItemProduced> simulatedProduction = simulatedProductionManager
 									.generateSimulatedProductions(materialConstraint,
 											materialConstraint.getTargetTask(),
-											materialConstraint.getTargetTask().getParentSchedulingSet(), context);
+											materialConstraint.getTargetTask().getParentSchedulingSet(),
+											fromDateTime, toDateTime, context);
 							for (SimulatedItemProduced supply : simulatedProduction) {
 								availableSupplies.add(supply);
 							}
@@ -195,7 +196,7 @@ public class MaterialManagerImpl extends BusinessLogic<MaterialRule> implements 
 											materialConstraint.getTargetTask().getParentSchedulingSet());
 							List<SimulatedPurchaseSupply> simulatedPurchases = simulatedPurchaseOrderManager
 									.generateSimulatedPurchases(materialConstraint, materialConstraint.getTargetTask(),
-											materialConstraint.getTargetTask().getParentSchedulingSet(), context);
+											materialConstraint.getTargetTask().getParentSchedulingSet(),fromDateTime, toDateTime, context);
 							for (SimulatedPurchaseSupply supply : simulatedPurchases) {
 								availableSupplies.add(supply);
 							}

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
 import com.openi40.scheduler.engine.timesheet.TimeSegmentEvaluationResult;
@@ -19,6 +22,7 @@ import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.equipment.Use;
 import com.openi40.scheduler.model.equipment.UseModel;
+import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.EndDateTimeAlignment;
 import com.openi40.scheduler.model.time.StartDateTimeAlignment;
@@ -26,17 +30,19 @@ import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimesheetReservation;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 class SecondaryResourceAllocatorExecutor {
+	static Logger LOGGER = LoggerFactory.getLogger(SecondaryResourceAllocatorExecutor.class);
 	static final SecondaryResourceAllocatorExecutor Instance = new SecondaryResourceAllocatorExecutor();
 
 	private SecondaryResourceAllocatorExecutor() {
@@ -72,7 +78,8 @@ class SecondaryResourceAllocatorExecutor {
 
 	}
 
-	MatchingSecondaryResourcePhasesAllocations planReservations(ApsLogicDirection direction, double setupTime,
+	MatchingSecondaryResourcePhasesAllocations planReservations(UsedSecondaryResourcesInfo setupUsedResources,
+			UsedSecondaryResourcesInfo workUsedResources, ApsLogicDirection direction, double setupTime,
 			double changeOver, double nominalSetupTime, double workTime, Machine mainMachine,
 			ITimesheetLogic mainResourceCalendarLogic, IContextualBusinessLogicFactory componentsFactory,
 			TimesheetReservation setupReservation, TimesheetReservation workReservation,
@@ -98,7 +105,60 @@ class SecondaryResourceAllocatorExecutor {
 					matchingSecondaryResourcePhases.preparation);
 			TimeSegmentRequirement workRequirement = evaluateTimeRequirement(workReservation,
 					matchingSecondaryResourcePhases.execution);
+			// First allocate those secondary resources whose codes are received from the
+			// working field
+			List<Resource> setupUsedSecondaries = new ArrayList<>();
+			List<Resource> workUsedSecondaries = new ArrayList<>();
+			if (setupUsedResources != null) {
+				setupUsedSecondaries = filterByUsed(setupUsedResources, resources);
+			}
+			if (workUsedResources != null) {
+				workUsedSecondaries = filterByUsed(setupUsedResources, resources);
+			}
+			for (Resource resource : setupUsedSecondaries) {
+				resources.remove(resource);
+			}
+			for (Resource resource : workUsedSecondaries) {
+				resources.remove(resource);
+			}
+			for (Resource resource : setupUsedSecondaries) {
 
+				if (allocations.preparationReservations.size() < nPreparationRequired) {
+					ITimesheetLogic calendarCalculator = componentsFactory.create(ITimesheetLogic.class, resource,
+							context);
+					TimesheetReservation reservation = calendarCalculator.planReservation(resource, setupRequirement,
+							task);
+					if (reservation != null) {
+						allocations.preparationReservations.add(reservation);
+						allocations.preparation.getChoosenEquipmentList().add(resource);
+						allocations.preparation.getTimesheetReservations().add(reservation);
+
+					} else {
+						LOGGER.warn("Secondary resource=>" + resource.getCode()
+								+ " is reported as used in SETUP PHASE by the task=>" + task.getCode()
+								+ " but cannot be reserved for it");
+					}
+
+				}
+			}
+			for (Resource resource : workUsedSecondaries) {
+				if (allocations.executionReservations.size() < nExecutionRequired) {
+					ITimesheetLogic calendarCalculator = componentsFactory.create(ITimesheetLogic.class, resource,
+							context);
+					TimesheetReservation reservation = calendarCalculator.planReservation(resource, workRequirement,
+							task);
+					if (reservation != null) {
+						allocations.executionReservations.add(reservation);
+						allocations.execution.getChoosenEquipmentList().add(resource);
+						allocations.execution.getTimesheetReservations().add(reservation);
+					} else {
+						LOGGER.warn("Secondary resource=>" + resource.getCode()
+								+ " is reported as used in WORK PHASE by the task=>" + task.getCode()
+								+ " but cannot be reserved for it");
+					}
+
+				}
+			}
 			for (Resource resource : resources) {
 
 				ITimesheetLogic calendarCalculator = componentsFactory.create(ITimesheetLogic.class, resource, context);
@@ -211,6 +271,24 @@ class SecondaryResourceAllocatorExecutor {
 		return allocations;
 	}
 
+	private List<Resource> filterByUsed(UsedSecondaryResourcesInfo usedResources, List<Resource> resources) {
+		List<Resource> secondaries = new ArrayList<>();
+		if (usedResources != null && !usedResources.getUsedResourcesCodes().isEmpty()) {
+			List<String> codes = usedResources.getUsedResourcesCodes();
+			for (Resource resource : resources) {
+				if (codes.contains(resource.getCode())) {
+					secondaries.add(resource);
+				}
+			}
+			if (codes.size() != secondaries.size()) {
+				String msg = "Secondary group " + usedResources.getResourceGroup() + " reporting used entries=>" + codes
+						+ " are not all reachable in the found secondaries =>" + secondaries;
+				LOGGER.warn(msg);
+			}
+		}
+		return secondaries;
+	}
+
 	private TimeSegment findAllocationTimeSegment(ApsLogicDirection direction, int howMany,
 			TimeSegmentRequirement requirement, List<Resource> resources, Machine mainMachine,
 			ITimesheetLogic mainResourceCalendarLogic, IContextualBusinessLogicFactory componentsFactory, Task task,
@@ -307,7 +385,7 @@ class SecondaryResourceAllocatorExecutor {
 		return timeSegment;
 	}
 
-	TimeSegment getRelatedSetupTimeSegment(Machine resourceOption, ITimesheetLogic mainResourceCalendarLogic,
+	private TimeSegment getRelatedSetupTimeSegment(Machine resourceOption, ITimesheetLogic mainResourceCalendarLogic,
 			Date currentWorkStartDateTime, double setupTime, ApsData context) {
 		TimeSegment ts = null;
 		TimeSegmentRequirement req = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
@@ -321,7 +399,7 @@ class SecondaryResourceAllocatorExecutor {
 		return ts;
 	}
 
-	TimeSegment getRelatedWorkTimeSegment(Machine resourceOption, ITimesheetLogic mainResourceCalendarLogic,
+	private TimeSegment getRelatedWorkTimeSegment(Machine resourceOption, ITimesheetLogic mainResourceCalendarLogic,
 			Date currentSetupEndDateTime, double workTime, ApsData context) {
 		TimeSegment ts = null;
 		TimeSegmentRequirement req = new TimeSegmentRequirement(TimeSegmentType.WORK_TIME);

@@ -2,11 +2,8 @@ package com.openi40.scheduler.engine.resallocator;
 
 import java.util.List;
 
-import com.openi40.scheduler.common.aps.IOperation;
-import com.openi40.scheduler.common.aps.IOperationActuatorFactory;
 import com.openi40.scheduler.model.planning.equipment.EquipmentEvaluatedChoice;
 import com.openi40.scheduler.model.planning.material.MaterialEvaluatedChoice;
-import com.openi40.scheduler.model.tasks.Task;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

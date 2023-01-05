@@ -139,7 +139,7 @@ public class DefaultEquipmentConfiguratorTest
 		com.openi40.scheduler.model.tasks.Task scheduledActivity = new Task(context);
 		scheduledActivity.setParentSchedulingSet(new ApsSchedulingSet(context));
 		IEquipmentConfigurator equipmentConfigurator = ComponentFactory.create(IEquipmentConfigurator.class,toConfigure, context);
-		List<TaskEquipmentInfo> list = equipmentConfigurator.calculateConfigurations(toConfigure, apsLogicOptions, scheduledActivity, context);
+		List<TaskEquipmentInfo> list = equipmentConfigurator.calculateEquipmentConfigurations(toConfigure, apsLogicOptions, scheduledActivity, context);
 		Assert.assertEquals("The resulting planned resources must be 27!!!! But are " + list.size(),list.size(),27);
 	}
 }

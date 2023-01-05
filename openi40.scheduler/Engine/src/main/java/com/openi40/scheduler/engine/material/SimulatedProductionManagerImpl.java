@@ -1,6 +1,7 @@
 package com.openi40.scheduler.engine.material;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
@@ -22,7 +23,11 @@ import com.openi40.scheduler.model.tasks.Task;
  */
 @DefaultImplementation(implemented = ISimulatedProductionManager.class, entityClass = MaterialRule.class)
 public class SimulatedProductionManagerImpl extends BusinessLogic<MaterialRule> implements ISimulatedProductionManager {
-	public final List<SimulatedItemProduced> generateSimulatedProductions(MaterialRule materialConstraint, Task targetTask, ApsSchedulingSet parentSchedulingAction, ApsData context) {
+	
+
+	@Override
+	public List<SimulatedItemProduced> generateSimulatedProductions(MaterialRule materialConstraint, Task targetTask,
+			ApsSchedulingSet parentSchedulingAction, Date fromDateTime, Date toDateTime, ApsData context) {
 		return new ArrayList<SimulatedItemProduced>();
 	}
 }

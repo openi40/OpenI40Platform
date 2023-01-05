@@ -19,6 +19,8 @@ import com.openi40.scheduler.engine.rules.IRulePlanSolver;
 import com.openi40.scheduler.engine.rules.date.IDatePlanSolver;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentPlanSolver;
 import com.openi40.scheduler.engine.rules.material.IMaterialPlanSolver;
+import com.openi40.scheduler.engine.rules.planner.IPlanner;
+import com.openi40.scheduler.engine.rules.planner.ProductionMonitoringUtil;
 import com.openi40.scheduler.engine.rules.tasksrelation.ITasksRelationsPlanSolver;
 import com.openi40.scheduler.engine.taskssort.ITasksSort;
 import com.openi40.scheduler.engine.taskssort.SorterHelper;
@@ -38,17 +40,18 @@ import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.rules.Rule.ConstraintPriority;
 import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
- * Base class for Scheduling algorithms implementations with base building
- * blocks implementations
+ *         Base class for Scheduling algorithms implementations with base
+ *         building blocks implementations
  */
 public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> implements IApsLogic {
 	static Logger LOGGER = LoggerFactory.getLogger(AbstractApsLogic.class);
@@ -92,8 +95,19 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		boolean scheduled = true;
 		Hashtable hashTable = new Hashtable();
 		for (Task task : tasks) {
+			PlanGraphItem decisionNode = null;
 			task.setDecisionGraphItem(null);
-			PlanGraphItem decisionNode = schedule(task, action, observer);
+			// If we have task state that is under production monitoring
+			// we let its state be calculated by IProductionMonitoringScheduler that is
+			// able to calculate task status according to received production monitoring
+			// updates
+			if (ProductionMonitoringUtil.isUnderProduction(task)) {
+				decisionNode = scheduleUnderProductionTask(task, action, observer);
+
+			} else {
+				// let extended class implement the single task scheduling policy
+				decisionNode = schedule(task, action, observer);
+			}
 			scheduled = scheduled && task.isSuccessfullyScheduled();
 			if (task.isSuccessfullyScheduled()) {
 				if (task.getProduction() != null) {
@@ -121,6 +135,38 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		action.setScheduled(scheduled);
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("End AbstractSchedulingAlgorithm.Schedule(action)", "Running main scheduler loop");
+	}
+
+	protected PlanGraphItem scheduleUnderProductionTask(Task task, ApsSchedulingSet action,
+			ApsLogicNotifiedObjects observer) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+		}
+		if (observer != null && observer.getObserver() != null) {
+			try {
+				observer.getObserver().startProcessingElement(task);
+			} catch (Throwable th) {
+				LOGGER.error("Error in observer", th);
+			}
+		}
+		//Regenerate task constraints including equipment organization
+		regenerateTaskConstraints(task);
+		PlanGraphItem decisionNode = null;
+		task.setDecisionGraphItem(null);
+		IPlanner planner = this.componentsFactory.create(IPlanner.class, action, action.getContext());
+		decisionNode = planner.doProductionSupervision(task, action,
+				observer != null ? observer.getConstraintSolutionListener() : null, getDirection());
+		if (observer != null && observer.getObserver() != null) {
+			try {
+				observer.getObserver().processedElement(task);
+			} catch (Throwable th) {
+				LOGGER.error("Error in observer", th);
+			}
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+		}
+		return decisionNode;
 	}
 
 	protected abstract PlanGraphItem schedule(Task task, ApsSchedulingSet EntityObject,

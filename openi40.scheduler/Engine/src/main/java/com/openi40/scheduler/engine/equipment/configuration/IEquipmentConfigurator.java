@@ -9,18 +9,19 @@ import com.openi40.scheduler.model.aps.ApsLogicOptions;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.tasks.Task;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  *
- * Component that reads equipment meta-informations and generates all possible
- * equipment configurations that they reppresent
+ *         Component that reads equipment meta-informations and generates all
+ *         possible equipment configurations that they reppresent
  */
 @BusinessInterface(entityClass = TaskEquipmentModelOptions.class)
 public interface IEquipmentConfigurator extends IBusinessLogic<TaskEquipmentModelOptions> {
@@ -34,5 +35,8 @@ public interface IEquipmentConfigurator extends IBusinessLogic<TaskEquipmentMode
 	 * @param scheduleDataHolder
 	 * @return
 	 */
-	List<TaskEquipmentInfo> calculateConfigurations(TaskEquipmentModelOptions toConfigure, ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder);
+	List<TaskEquipmentInfo> calculateEquipmentConfigurations(TaskEquipmentModelOptions toConfigure,
+			ApsLogicOptions apsLogicOptions, Task task, ApsData scheduleDataHolder);
+
+	
 }

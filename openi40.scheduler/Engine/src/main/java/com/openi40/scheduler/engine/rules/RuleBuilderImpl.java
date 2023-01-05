@@ -17,15 +17,17 @@ import com.openi40.scheduler.model.rules.DateRule;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.rules.Rule;
+import com.openi40.scheduler.model.rules.Rule.ConstraintPriority;
 import com.openi40.scheduler.model.rules.TasksRelationRule;
 import com.openi40.scheduler.model.tasks.Task;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -69,7 +71,14 @@ public class RuleBuilderImpl extends BusinessLogic<Task> implements IRuleBuilder
 		task.getConstraintRules().addAll(materialRules);
 		task.getConstraintRules().addAll(equipmentRules);
 		task.getConstraintRules().addAll(tasksRelationRules);
-
+		// if task is produced/aborted/under production its constraint rule will became
+		// all WARNING and
+		// compatible to scheduling in every situation
+		if (task.isProductionLock()) {
+			for (Rule rule : task.getConstraintRules()) {
+				rule.setPriority(ConstraintPriority.WARNS);
+			}
+		}
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("End  RuleBuilderImpl.rebuildRules(...)", "");
 	}

@@ -14,34 +14,46 @@ import com.openi40.scheduler.model.tasks.TaskEdge;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 @Data
 public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 	private static final String WORK_ORDERS = "WorkOrders";
+
+	public static enum ApsSchedulingSetType {
+		PRODUCTION_CONTROL, PLANNING
+	}
+
 	static Logger LOGGER = LoggerFactory.getLogger(ApsSchedulingSet.class);
+
 	public ApsSchedulingSet(ApsData context) {
 		super(context);
 
 	}
-	protected ApsLogicDirection algorithmDirection=null;
+
+	protected ApsLogicDirection algorithmDirection = null;
+	protected ApsSchedulingSetType schedulingSetType = ApsSchedulingSetType.PLANNING;
 	protected String algorithmType;
 	protected ApsLogicOptions options;
 	protected boolean processed;
+	protected boolean userReadOnly = false;
 	private boolean scheduled = false;
 	@Setter(value = AccessLevel.NONE)
 	private List<WorkOrder> workOrders = createCleanChild(this, WORK_ORDERS, WorkOrder.class);
+
 	public List<WorkOrder> getWorkOrders() {
 		return new ArrayList(workOrders);
 	}
+
 	private void connectTask(Task task, WorkOrder wo, ApsSchedulingSet action) {
 		if (task.getWorkOrder() == null || task.getWorkOrder() == wo) {
 			task.setWorkOrder(wo);
@@ -52,7 +64,8 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 		}
 
 	}
-	public  void addWorkOrder(WorkOrder wo) {
+
+	public void addWorkOrder(WorkOrder wo) {
 		wo.setParentSchedulingAction(this);
 		workOrders.add(wo);
 		if (wo.getRootTask() != null) {
@@ -61,7 +74,8 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 
 		}
 	}
-	public  void removeWorkOrder(WorkOrder wo) {
+
+	public void removeWorkOrder(WorkOrder wo) {
 		workOrders.remove(wo);
 		wo.setParentSchedulingAction(null);
 		if (wo.getRootTask() != null) {
@@ -71,7 +85,7 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 		}
 	}
 
-	public  void removeWorkOrders() {
+	public void removeWorkOrders() {
 		for (WorkOrder wo : workOrders) {
 			wo.setParentSchedulingAction(null);
 			if (wo.getRootTask() != null) {
@@ -95,7 +109,7 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 	 * 
 	 * @return
 	 */
-	public  List<Task> getRootTasks() {
+	public List<Task> getRootTasks() {
 		List<Task> sTasks = new ArrayList<Task>();
 		for (WorkOrder wo : getWorkOrders()) {
 			if (wo.isRoot() && wo.getRootTask() != null) {
@@ -103,5 +117,9 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 			}
 		}
 		return sTasks;
+	}
+
+	public boolean isUserReadOnly() {
+		return this.userReadOnly || schedulingSetType == ApsSchedulingSetType.PRODUCTION_CONTROL;
 	}
 }

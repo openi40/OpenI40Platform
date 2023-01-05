@@ -7,5 +7,7 @@ target/
 .sts4-cache/
 .externalToolBuilders/
 *.log
+.factorypath
+***/.factorypath
 logs/
 com.openi40/openi40.scheduler.SpringBootEnvironment/tmlog.lck

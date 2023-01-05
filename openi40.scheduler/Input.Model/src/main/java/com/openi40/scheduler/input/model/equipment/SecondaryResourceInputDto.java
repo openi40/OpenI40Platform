@@ -20,6 +20,7 @@ import com.openi40.scheduler.input.model.companystructure.ResourceGroupInputDto;
 public class SecondaryResourceInputDto extends BaseTimesheetManagedInputDTO {
 	private boolean disabled=false;
 	private String resourceGroupCode = null;
+	private String availability = null;
 	@ObjectReferenceConstraint(containerType = ApsInputData.class, referencedType = ResourceGroupInputDto.class, nullable = false)
 	public String getResourceGroupCode() {
 		return resourceGroupCode;
@@ -35,6 +36,14 @@ public class SecondaryResourceInputDto extends BaseTimesheetManagedInputDTO {
 
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(String availability) {
+		this.availability = availability;
 	}
 
 }

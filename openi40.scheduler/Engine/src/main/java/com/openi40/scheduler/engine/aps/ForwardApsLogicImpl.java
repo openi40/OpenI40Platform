@@ -2,7 +2,6 @@ package com.openi40.scheduler.engine.aps;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsMessage;
 import com.openi40.scheduler.model.aps.ApsMessageConstrants;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet.ApsSchedulingSetType;
 import com.openi40.scheduler.model.orders.Pegging;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.planning.PlanGraphItem;
@@ -28,13 +28,13 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
- * Forward scheduling algorithm
+ *         Forward scheduling algorithm
  */
 @AlternativeImplementation(implemented = IApsLogic.class, entityClass = ApsSchedulingSet.class, key = ApsLogics.FORWARD_APS, switchImplementationProperty = "algorithmType")
 public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardApsLogic {
@@ -100,27 +100,67 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 
 	@Override
 	public ApsSchedulingSet autoSetTasks(ApsSchedulingSet apsSet, List<WorkOrder> unscheduled, ApsData apsData) {
-		List<WorkOrder> ordersWithUnsatisfiedDependency = new ArrayList<>();
-		// include depending unschedled depending tasks
-		for (WorkOrder wo : apsSet.getWorkOrders()) {
-			List<Pegging> peggings = wo.getPeggings();
-			boolean hasUnsatisfiedDependency = false;
-			for (Pegging peg : peggings) {
-				hasUnsatisfiedDependency = hasUnsatisfiedDependency
-						|| (peg.getConsumer() == wo && unscheduled.contains(peg.getSupplier()));
-			}
-			if (hasUnsatisfiedDependency && !ordersWithUnsatisfiedDependency.contains(wo))
-				ordersWithUnsatisfiedDependency.add(wo);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin autoSetTasks( ) on type=>"
+					+ (apsSet.getSchedulingSetType() != null ? apsSet.getSchedulingSetType().name() : "null"));
 		}
-		addOrdersWithTransitiveDependencies(ordersWithUnsatisfiedDependency, unscheduled, apsSet, apsData);
+		if (apsSet.getSchedulingSetType().equals(ApsSchedulingSetType.PLANNING)) {
+			// This option normally is in interactive settings option
+			List<WorkOrder> ordersWithUnsatisfiedDependency = new ArrayList<>();
+			// include depending unschedled depending tasks
+			for (WorkOrder wo : apsSet.getWorkOrders()) {
+				List<Pegging> peggings = wo.getPeggings();
+				boolean hasUnsatisfiedDependency = false;
+				for (Pegging peg : peggings) {
+					hasUnsatisfiedDependency = hasUnsatisfiedDependency
+							|| (peg.getConsumer() == wo && unscheduled.contains(peg.getSupplier()));
+				}
+				if (hasUnsatisfiedDependency && !ordersWithUnsatisfiedDependency.contains(wo))
+					ordersWithUnsatisfiedDependency.add(wo);
+			}
+
+			addOrdersWithTransitiveDependencies(ordersWithUnsatisfiedDependency, unscheduled, apsSet, apsData);
+		} else if (apsSet.getSchedulingSetType().equals(ApsSchedulingSetType.PRODUCTION_CONTROL)) {
+			moveTransitiveDependencies(apsSet, unscheduled, apsData);
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End autoSetTasks( ) on type=>"
+					+ (apsSet.getSchedulingSetType() != null ? apsSet.getSchedulingSetType().name() : "null"));
+		}
 		return apsSet;
+	}
+
+	private List<WorkOrder> avoidDuplicates(List<WorkOrder> list) {
+		List<WorkOrder> outlist = new ArrayList<WorkOrder>();
+		for (WorkOrder workOrder : list) {
+			if (!outlist.contains(workOrder))
+				outlist.add(workOrder);
+		}
+
+		return outlist;
+	}
+
+	private void moveTransitiveDependencies(ApsSchedulingSet apsSet, List<WorkOrder> unscheduled, ApsData apsData) {
+		List<WorkOrder> transitive2Add = new ArrayList<WorkOrder>();
+		for (WorkOrder workOrder : unscheduled) {
+			transitive2Add.addAll(generateTransitiveDependencies(workOrder, apsSet, apsData));
+		}
+		transitive2Add = avoidDuplicates(transitive2Add);
+		for (WorkOrder workOrder : transitive2Add) {
+			if (workOrder.getParentSchedulingAction() != apsSet) {
+				if (workOrder.getParentSchedulingAction() != null) {
+					workOrder.getParentSchedulingAction().removeWorkOrder(workOrder);
+				}
+				apsSet.addWorkOrder(workOrder);
+			}
+		}
 	}
 
 	private void addOrdersWithTransitiveDependencies(List<WorkOrder> ordersWithUnsatisfiedDependency,
 			List<WorkOrder> unscheduled, ApsSchedulingSet apsSet, ApsData apsData) {
 		for (WorkOrder workOrder : ordersWithUnsatisfiedDependency) {
-			List<WorkOrder> transitiveDependencies = generateUnscheduledTransitiveDependencies(workOrder, unscheduled,ordersWithUnsatisfiedDependency,
-					apsSet, apsData);
+			List<WorkOrder> transitiveDependencies = generateUnscheduledTransitiveDependencies(workOrder, unscheduled,
+					ordersWithUnsatisfiedDependency, apsSet, apsData);
 			for (WorkOrder workOrder2add : transitiveDependencies) {
 				if (!apsSet.getWorkOrders().contains(workOrder2add)) {
 					apsSet.addWorkOrder(workOrder2add);
@@ -130,6 +170,25 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 
 	}
 
+	private List<WorkOrder> generateTransitiveDependencies(WorkOrder workOrder, ApsSchedulingSet apsSet,
+			ApsData apsData) {
+		List<WorkOrder> outList = new ArrayList<>();
+		outList.add(workOrder);
+		List<Pegging> peggings = workOrder.getPeggings();
+		for (Pegging pegging : peggings) {
+			if (pegging.getConsumer() == workOrder) {
+				List<WorkOrder> dependencies = this.generateTransitiveDependencies(pegging.getSupplier(), apsSet,
+						apsData);
+				for (WorkOrder dep : dependencies) {
+					if (!outList.contains(dep)) {
+						outList.add(dep);
+					}
+				}
+			}
+		}
+		return outList;
+	}
+
 	private List<WorkOrder> generateUnscheduledTransitiveDependencies(WorkOrder workOrder, List<WorkOrder> unscheduled,
 			List<WorkOrder> ordersWithUnsatisfiedDependency, ApsSchedulingSet apsSet, ApsData apsData) {
 		List<WorkOrder> outList = new ArrayList<>();
@@ -137,8 +196,10 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 		List<Pegging> peggings = workOrder.getPeggings();
 		for (Pegging pegging : peggings) {
 			if (pegging.getConsumer() == workOrder && unscheduled.contains(pegging.getSupplier())
-					&& !apsSet.getWorkOrders().contains(pegging.getSupplier()) && !ordersWithUnsatisfiedDependency.contains(pegging.getSupplier())) {
-				List<WorkOrder> dependencies = this.generateUnscheduledTransitiveDependencies(pegging.getSupplier(), unscheduled, ordersWithUnsatisfiedDependency, apsSet, apsData);
+					&& !apsSet.getWorkOrders().contains(pegging.getSupplier())
+					&& !ordersWithUnsatisfiedDependency.contains(pegging.getSupplier())) {
+				List<WorkOrder> dependencies = this.generateUnscheduledTransitiveDependencies(pegging.getSupplier(),
+						unscheduled, ordersWithUnsatisfiedDependency, apsSet, apsData);
 				for (WorkOrder dep : dependencies) {
 					if (!outList.contains(dep)) {
 						outList.add(dep);

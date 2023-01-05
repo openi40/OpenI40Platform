@@ -46,10 +46,10 @@ public class WorkOrder extends AbstractWorkOrder {
 			parent = wo;
 		}
 
-		public final void OnEdge(TaskEdge edge) {
+		public  void onEdge(TaskEdge edge) {
 		}
 
-		public final void OnNode(Task task) {
+		public  void onNode(Task task) {
 			task.resetSchedulingData();
 			parent.getOrderExecution().Add(task.getMainTimeRange());
 		}
@@ -62,11 +62,11 @@ public class WorkOrder extends AbstractWorkOrder {
 			this.action = _action;
 		}
 
-		public final void OnEdge(TaskEdge edge) {
+		public final void onEdge(TaskEdge edge) {
 
 		}
 
-		public final void OnNode(Task task) {
+		public final void onNode(Task task) {
 			task.setParentSchedulingSet(action);
 		}
 	}

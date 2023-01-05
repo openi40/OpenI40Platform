@@ -1,6 +1,7 @@
 package com.openi40.scheduler.model.aps;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,13 +24,14 @@ import com.openi40.scheduler.model.time.TimesheetMetaInfo;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -42,16 +44,14 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	protected String timesheetMetaInfoCode = null;
 	protected Timesheet timesheet = null;
 	protected boolean infiniteCapacity = false;
-
-	
-
-	
+	protected boolean realtime = false;
+	protected boolean productionControlEnabled = false;
+	protected Date actualDateTime = null;
 
 	private HashMap<String, Object> schedulingUtilCache = new HashMap<>();
 	private boolean active = false;
 	@Setter(value = AccessLevel.NONE)
 	private List<ApsSchedulingSet> schedulingSets = createCleanChild(this, SCHEDULING_SETS, ApsSchedulingSet.class);
-	
 
 	private ApsWindow schedulingWindow;
 	private String dataSourceName = null;
@@ -65,10 +65,10 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	@Setter(value = AccessLevel.NONE)
 	private List<ProductiveCompany> productiveCompanies = createCleanChild(this, PRODUCTIVE_COMPANIES,
 			ProductiveCompany.class);
-	private List<TimesheetMetaInfo> timesheetMetaInfos = createCleanChild(this, CALENDAR_MODELS, TimesheetMetaInfo.class);
+	private List<TimesheetMetaInfo> timesheetMetaInfos = createCleanChild(this, CALENDAR_MODELS,
+			TimesheetMetaInfo.class);
 	@Setter(value = AccessLevel.NONE)
 	private List<Product> products = createCleanChild(this, PRODUCTS, Product.class);
-	
 
 	public ApsData() {
 		super(null);
@@ -78,14 +78,9 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 
 	protected void finalize() throws Throwable {
 
-		
 		schedulingSets.clear();
 		schedulingSets = null;
 	}
-
-	
-
-	
 
 	@Override
 	public void resetSchedulingData() {
@@ -96,15 +91,17 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 		}
 
 	}
+
 	public void debugLogging() {
-		this.productiveCompanies.forEach((pc)->{
-			pc.getPlants().forEach((plant)->{
-				plant.getWarehouses().forEach((warehouse)->{
+		this.productiveCompanies.forEach((pc) -> {
+			pc.getPlants().forEach((plant) -> {
+				plant.getWarehouses().forEach((warehouse) -> {
 					warehouse.debugLogging();
 				});
 			});
 		});
 	}
+
 	@Override
 	public ApsData getContext() {
 		return this;
@@ -128,19 +125,19 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	}
 
 	public void removeSchedulingSetById(String schedulingSetId) {
-		ApsSchedulingSet selectedSet=null;
-		 for(ApsSchedulingSet actualSet: this.getSchedulingSets()) {
-			 if (actualSet.getId().equals(schedulingSetId)) {
-				 selectedSet=actualSet;
-			 }
-		 }		
-		 if (selectedSet!=null) {
-			 this.schedulingSets.remove(selectedSet);
-			 selectedSet.resetSchedulingData();
-			 List<WorkOrder> workorders = selectedSet.getWorkOrders();
-			 for (WorkOrder workOrder : workorders) {
+		ApsSchedulingSet selectedSet = null;
+		for (ApsSchedulingSet actualSet : this.getSchedulingSets()) {
+			if (actualSet.getId().equals(schedulingSetId)) {
+				selectedSet = actualSet;
+			}
+		}
+		if (selectedSet != null) {
+			this.schedulingSets.remove(selectedSet);
+			selectedSet.resetSchedulingData();
+			List<WorkOrder> workorders = selectedSet.getWorkOrders();
+			for (WorkOrder workOrder : workorders) {
 				workOrder.setParentSchedulingAction(null);
 			}
-		 }
+		}
 	}
 }

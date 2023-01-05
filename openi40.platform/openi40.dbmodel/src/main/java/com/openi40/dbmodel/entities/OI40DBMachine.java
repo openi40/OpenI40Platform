@@ -29,9 +29,11 @@ import lombok.Data;
 		@AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 		@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
 		@AttributeOverride(name = "workCenterCode", column = @Column(name = "work_center_code")),
-		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
+		@AttributeOverride(name = "availability", column = @Column(name = "availability")) })
 @Data
 public class OI40DBMachine extends OI40DBBaseTimesheetManaged implements Serializable {
 	private String workCenterCode = null;
 	private Boolean disabled = null;
+	private String availability = null;
 }

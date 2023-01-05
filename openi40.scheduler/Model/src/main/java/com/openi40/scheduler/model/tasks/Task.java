@@ -13,8 +13,10 @@ import com.openi40.scheduler.model.companystructure.AbstractPlantRelatedApsObjec
 import com.openi40.scheduler.model.cycle.BatchingInfo;
 import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
+import com.openi40.scheduler.model.equipment.TaskEquipmentInfoSample;
 import com.openi40.scheduler.model.material.ItemConsumed;
 import com.openi40.scheduler.model.material.ProductionSupply;
+import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.planning.PlanGraphItem;
 import com.openi40.scheduler.model.rules.Rule;
@@ -26,13 +28,14 @@ import com.openi40.scheduler.model.time.TimeSegmentsGroup;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -40,8 +43,9 @@ import lombok.Setter;
 public class Task extends AbstractPlantRelatedApsObject
 		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity {
 	protected boolean workOrderRootTask = false;
-	protected boolean producing = false;
-
+	protected boolean productionLock = false;
+	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
+	
 	protected static class CollectorTreeVisitor implements ITasksVisitor {
 		protected List<Task> Visited = new ArrayList<Task>();
 
@@ -49,11 +53,11 @@ public class Task extends AbstractPlantRelatedApsObject
 			return Visited;
 		}
 
-		public void OnEdge(TaskEdge edge) {
+		public void onEdge(TaskEdge edge) {
 
 		}
 
-		public void OnNode(Task task) {
+		public void onNode(Task task) {
 			getVisited().add(task);
 		}
 	}
@@ -62,6 +66,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected String predefinedMachineCode = null;
 	protected String forcedMachineCode = null;
 	protected Date askedDeliveryDateTime = null;
+	protected TaskStatus status = TaskStatus.NOT_YET_EXECUTED;
 	@Setter(value = AccessLevel.NONE)
 	protected List<TaskEdge> childTasks = createCleanChild(this, "ChildTasks", TaskEdge.class);
 
@@ -103,8 +108,17 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected double qtyProduced = 0.0;
 	protected Integer customPriority = 0;
 	protected String color = null;
-	protected Date minProductionDateConstraint=null;
-	protected Date maxProductionDateConstraint=null;
+	protected Date minProductionDateConstraint = null;
+	protected Date maxProductionDateConstraint = null;
+	protected Date acquiredStartSetup = null;
+	protected Date acquiredEndSetup = null;
+	protected Date acquiredStartWork = null;
+	protected Date acquiredEndWork = null;
+	protected Date acquiredProductionUpdate = null;
+	protected String acquiredMachineCode = null;
+	protected List<UsedSecondaryResourcesInfo> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfo>();
+	protected List<UsedSecondaryResourcesInfo> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfo>();
+
 	public double getQtyResidual() {
 		return qtyTotal > qtyProduced ? qtyTotal - qtyProduced : 0.0;
 	}
@@ -166,8 +180,16 @@ public class Task extends AbstractPlantRelatedApsObject
 	 */
 	@Override
 	public void resetSchedulingData() {
+		boolean isLocked = isLocked() || isProductionLock();
+		if (isLocked && this.getEquipment() != null) {
+			this.sampledTaskEquipmentInfo = new TaskEquipmentInfoSample(getEquipment(), this);
+		}
+		resetResources();
+	}
+
+	private void resetResources() {
 		if (getProduction() != null) {
-			getProduction().setAvailabilityDateTime(null);		
+			getProduction().setAvailabilityDateTime(null);
 		}
 		setSuccessfullyScheduled(false);
 		getMessages().clear();
@@ -190,9 +212,6 @@ public class Task extends AbstractPlantRelatedApsObject
 		if (getProduction() != null) {
 			getProduction().resetSchedulingData();
 		}
-		
-		
-
 	}
 
 	public String toString() {

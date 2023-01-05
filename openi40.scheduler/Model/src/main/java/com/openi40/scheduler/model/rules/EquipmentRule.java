@@ -20,9 +20,9 @@ import lombok.Data;
  */
 @Data
 public class EquipmentRule extends Rule {
-	private TaskEquipmentModelOptions EquipmentModelOptions = null;
+	private TaskEquipmentModelOptions equipmentModelOptions = null;
 
-	private List<TaskEquipmentInfo> TaskEquipmentInfos = new ArrayList<TaskEquipmentInfo>();
+	private List<TaskEquipmentInfo> taskEquipmentInfos = new ArrayList<TaskEquipmentInfo>();
 
 	public EquipmentRule(ApsData context) {
 		super(context);

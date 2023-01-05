@@ -165,7 +165,7 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 			this.workOrderToMatch = workOrderToMatch;
 		}
 
-		public final void OnNode(Task task) {
+		public final void onNode(Task task) {
 			if (getFoundTask() == null && task.getProduction() != null && task.getProduction().getSuppliedItem() != null
 					&& workOrderToMatch.getProducedPart() != null
 					&& workOrderToMatch.getProducedPart().getSuppliedItem() != null
@@ -175,7 +175,7 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 			}
 		}
 
-		public final void OnEdge(TaskEdge edge) {
+		public final void onEdge(TaskEdge edge) {
 
 		}
 	}
