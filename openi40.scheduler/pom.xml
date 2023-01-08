@@ -28,5 +28,6 @@
 		<module>Output.Model</module>
 		<module>Output.Channels</module>
 		<module>InputOutputConfig</module>
+		<module>Input.IOMessages</module>
 	</modules>
 </project>

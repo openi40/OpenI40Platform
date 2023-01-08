@@ -5,13 +5,5 @@
     <artifactId>parent</artifactId>
     <version>00.00.01BC</version>
   </parent>
-  <artifactId>MapperModules</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>ApsModel2ClientModelMappers</module>
-
-  	<module>InputModel2ApsModelMappers</module>
-  	<module>ApsModel2OutputModel</module>
-  	<module>Input.IOMessages2ApsModelMappers</module>
-  </modules>
+  <artifactId>Input.IOMessages</artifactId>
 </project>

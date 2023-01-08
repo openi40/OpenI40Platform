@@ -26,5 +26,7 @@
 		<module>openi40.dbmodel.repositories</module>
 		<module>openi40.dbmodel.integration.app</module>
 		<module>openi40.generical.dbintegration</module>
+		<module>Persistence.IOMessages.Spooling</module>
+		<module>Persistence.IOMessages.Controllers</module>
 	</modules>
 </project>
