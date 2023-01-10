@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.engine.messages.handling.IApsMessagesHandler;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.AbstractBaseMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
 
 @DefaultImplementation(implemented = IApsMessagesBroker.class, entityClass = ApsData.class)
 public class ApsMessagesBrokerImpl extends BusinessLogic<ApsData> implements IApsMessagesBroker {

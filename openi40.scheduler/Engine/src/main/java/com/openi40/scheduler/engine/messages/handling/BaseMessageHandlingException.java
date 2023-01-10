@@ -3,6 +3,8 @@ package com.openi40.scheduler.engine.messages.handling;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.openi40.scheduler.model.messages.handling.MessageHandlingErrorMessage;
+
 public class BaseMessageHandlingException extends Exception {
 	List<MessageHandlingErrorMessage> messages = new ArrayList<MessageHandlingErrorMessage>();
 

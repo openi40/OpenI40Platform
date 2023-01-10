@@ -3,8 +3,11 @@ package com.openi40.platform.iomessages.spooler.services;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.transaction.Transactional;
@@ -17,11 +20,16 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openi40.platform.iomessages.spooler.model.MSGSpoolerEntry;
-import com.openi40.platform.iomessages.spooler.model.MSGSpoolerEntryProcessed;
+import com.openi40.platform.iomessages.spooler.model.MsgSpoolerEntry;
+import com.openi40.platform.iomessages.spooler.model.MsgSpoolerEntryProcessed;
 import com.openi40.platform.iomessages.spooler.repositories.MSGSpoolerEntryProcessedRepository;
 import com.openi40.platform.iomessages.spooler.repositories.MSGSpoolerEntryRepository;
 import com.openi40.scheduler.iomessages.AbstractBaseIOMessage;
+import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
+import com.openi40.scheduler.mapper.IEntitiesFactory;
+import com.openi40.scheduler.mapper.MapperException;
+import com.openi40.scheduler.model.IContextAwareObjext;
+import com.openi40.scheduler.model.aps.ApsData;
 
 @Service
 public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
@@ -32,7 +40,7 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 	MSGSpoolerEntryProcessedRepository spoolProcessRepository;
 	@Autowired
 	ObjectMapper objectMapper;
-
+	
 	public MSGSpoolerServiceImpl() {
 	}
 
@@ -42,12 +50,21 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 			throws MSGSpoolerException {
 		if (message == null)
 			return;
-		MSGSpoolerEntry entry = new MSGSpoolerEntry();
+		if (message.getCode() == null || message.getCode().trim().length() == 0)
+			throw new MSGSpoolerException("Recvd message does not have a code");
+		List<MsgSpoolerEntry> checkDuplicates = spoolerRepository.findByCode(dataSourceName, dataSetName,
+				dataSetVariant, message.getCode());
+		if (!checkDuplicates.isEmpty()) {
+			throw new MSGSpoolerException("Recvd message with code " + message.getCode() + " is duplicate for "
+					+ dataSourceName + "/" + dataSetName + "/" + dataSetVariant);
+		}
+		MsgSpoolerEntry entry = new MsgSpoolerEntry();
 		entry.setDataSourceName(dataSourceName);
 		entry.setDataSetName(dataSetName);
 		entry.setDataSetVariant(dataSetVariant);
+		entry.setCode(message.getCode());
 		entry.setMsgClassName(message.getClass().getName());
-		entry.setProcessedStatus("UNPROCESSED");
+		entry.setProcessedStatus(MsgSpoolerEntry.MSG_STATUS_RECEIVED);
 		entry.setTimestampMemorized(new Timestamp(System.currentTimeMillis()));
 		entry.setMessageTimestamp(new Timestamp(message.getMessageTimestamp().getTime()));
 		try {
@@ -63,11 +80,11 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 	@Transactional
 	public void evaluateMessages(String dataSourceName, String dataSetName, String dataSetVariant,
 			Function<AbstractBaseIOMessage, MsgIngestionResult> function) {
-		List<MSGSpoolerEntry> recvd = spoolerRepository.findByProcessedStatus(dataSourceName, dataSetName,
-				dataSetVariant, MSGSpoolerEntry.MSG_STATUS_RECEIVED);
+		List<MsgSpoolerEntry> recvd = spoolerRepository.findByProcessedStatus(dataSourceName, dataSetName,
+				dataSetVariant, MsgSpoolerEntry.MSG_STATUS_RECEIVED);
 
-		for (MSGSpoolerEntry msgSpoolerEntry : recvd) {
-			MSGSpoolerEntryProcessed processed = new MSGSpoolerEntryProcessed();
+		for (MsgSpoolerEntry msgSpoolerEntry : recvd) {
+			MsgSpoolerEntryProcessed processed = new MsgSpoolerEntryProcessed();
 			processed.setMsgEntryId(msgSpoolerEntry.getMsgEntryId());
 			try {
 				Class<AbstractBaseIOMessage> msgType = (Class<AbstractBaseIOMessage>) Class
@@ -75,10 +92,10 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 				AbstractBaseIOMessage msg = objectMapper.readValue(msgSpoolerEntry.getJsonDump(), msgType);
 				MsgIngestionResult msgResult = function.apply(msg);
 				if (msgResult.successfull) {
-					msgSpoolerEntry.setProcessedStatus(MSGSpoolerEntry.MSG_STATUS_PROCESSED);
+					msgSpoolerEntry.setProcessedStatus(MsgSpoolerEntry.MSG_STATUS_PROCESSED);
 
 				} else {
-					msgSpoolerEntry.setProcessedStatus(MSGSpoolerEntry.MSG_STATUS_ERROR);
+					msgSpoolerEntry.setProcessedStatus(MsgSpoolerEntry.MSG_STATUS_ERROR);
 				}
 				msgSpoolerEntry.setProcessedTimestamp(new Timestamp(System.currentTimeMillis()));
 				processed.setErrorCode(msgResult.errorCode);
@@ -90,7 +107,7 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 				LOGGER.error("Cannot manage message class:" + msgSpoolerEntry.getMsgClassName() + " for entry = "
 						+ msgSpoolerEntry.getMsgEntryId(), e);
 				try {
-					msgSpoolerEntry.setProcessedStatus(MSGSpoolerEntry.MSG_STATUS_ERROR);
+					msgSpoolerEntry.setProcessedStatus(MsgSpoolerEntry.MSG_STATUS_ERROR);
 					processed.setErrorCode(e.getClass().getName());
 					processed.setErrorMessage(getStackTrace(e));
 					spoolerRepository.saveAndFlush(msgSpoolerEntry);
@@ -112,5 +129,6 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 		}
 		return bos.toString();
 	}
+	
 
 }

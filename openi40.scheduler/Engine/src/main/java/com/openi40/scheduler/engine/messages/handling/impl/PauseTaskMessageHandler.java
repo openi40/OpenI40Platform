@@ -1,10 +1,10 @@
 package com.openi40.scheduler.engine.messages.handling.impl;
 
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.PauseTaskMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
 
 public class PauseTaskMessageHandler extends AbstractSpecializedMessageHandler<PauseTaskMessage> {
 

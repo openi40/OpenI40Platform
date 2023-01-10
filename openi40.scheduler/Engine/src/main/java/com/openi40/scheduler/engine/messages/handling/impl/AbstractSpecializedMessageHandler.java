@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.engine.messages.handling.IBaseMessagesHandler;
-import com.openi40.scheduler.engine.messages.handling.MessageHandlingErrorMessage;
 import com.openi40.scheduler.model.ReservableObjectAvailability;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
@@ -25,6 +23,8 @@ import com.openi40.scheduler.model.messages.AbstractBaseMessage;
 import com.openi40.scheduler.model.messages.IMachineRelatedMessage;
 import com.openi40.scheduler.model.messages.ISecondaryResourceRelatedMessage;
 import com.openi40.scheduler.model.messages.ITaskRelatedMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
+import com.openi40.scheduler.model.messages.handling.MessageHandlingErrorMessage;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskStatus;
 

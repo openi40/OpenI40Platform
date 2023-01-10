@@ -34,3 +34,11 @@ com.openi40.platform.dbchannels:
            dataSetName: DB-DataSet
            dataSetVariant: DEFAULT
            dataSourceDescription: Data loaded from db
+           realtime: true
+           productionControlEnabled: true
+
+com.openi40.platform.iomsgelaboration:
+        enableMessagesElaboration: true
+        dataSourceName: DB-LINK
+        dataSetName: DB-DataSet
+        dataSetVariant: DEFAULT           

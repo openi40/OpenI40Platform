@@ -57,6 +57,8 @@ public class PersistenceChannelsInitializer {
 				psf.setUseJpaStreaming(entry.useJpaStreaming);
 				psf.setBatchingSize(entry.getBatchingSize());
 				psf.setPersistenceStreams(this.persistenceStreams);
+				psf.setRealtime(entry.realtime);
+				psf.setProductionControlEnabled(entry.productionControlEnabled);
 				dsfactory.add(psf);
 			});
 		}

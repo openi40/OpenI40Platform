@@ -12,5 +12,14 @@
 			<artifactId>Input.IOMessages</artifactId>
 			<version>${global.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>Input.IOMessages</artifactId>
+			<version>${global.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.awaitility</groupId>
+			<artifactId>awaitility</artifactId>
+		</dependency>
 	</dependencies>
 </project>

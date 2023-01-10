@@ -25,4 +25,6 @@ public interface IInputDataStreamFactory {
 	<DtoEntityType extends InputDto> Stream<DtoEntityType> getStream(Class<DtoEntityType> requiredType,Date modifiedAfter) throws InputDataStreamException;
 
 	String getDataSourceDescription();
+	boolean isRealtime();
+	boolean isProductionControlEnabled();
 }

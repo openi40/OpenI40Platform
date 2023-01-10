@@ -28,5 +28,6 @@
 		<module>openi40.generical.dbintegration</module>
 		<module>Persistence.IOMessages.Spooling</module>
 		<module>Persistence.IOMessages.Controllers</module>
+		<module>IOMessages.Processing</module>
 	</modules>
 </project>

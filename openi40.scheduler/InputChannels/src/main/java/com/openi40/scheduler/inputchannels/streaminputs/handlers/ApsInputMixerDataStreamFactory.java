@@ -22,9 +22,10 @@ import lombok.Data;
  */
 @Data
 public class ApsInputMixerDataStreamFactory implements IInputDataStreamFactory {
-	String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
-	List<IInputDataStreamFactory> mixedFactories = new ArrayList<>();
-
+	protected String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
+	protected List<IInputDataStreamFactory> mixedFactories = new ArrayList<>();
+	protected boolean realtime = false;
+	protected boolean productionControlEnabled = false;
 	public ApsInputMixerDataStreamFactory(List<IInputDataStreamFactory> mixedFactories) {
 		this.mixedFactories = mixedFactories;
 	}

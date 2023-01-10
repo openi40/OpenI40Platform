@@ -86,7 +86,21 @@
 			<artifactId>ApsModel2OutputModel</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>Persistence.IOMessages.Spooling</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>Persistence.IOMessages.Controllers</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>IOMessages.Processing</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

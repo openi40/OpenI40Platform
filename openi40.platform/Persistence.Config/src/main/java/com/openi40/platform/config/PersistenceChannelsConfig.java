@@ -29,6 +29,8 @@ public class PersistenceChannelsConfig {
 		String dataSourceDescription = null;
 		Boolean useJpaStreaming = false;
 		Integer batchingSize = 10000;
+		boolean realtime = false;
+		boolean productionControlEnabled = false;
 	}
 
 	List<PersistenceChannelConfig> configs = new ArrayList<>();

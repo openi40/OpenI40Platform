@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.openi40.platform.iomessages.spooler.services.IMSGSpoolingService;
 import com.openi40.platform.iomessages.spooler.services.MSGSpoolerException;
+import com.openi40.platform.iomessages.spooler.services.SpoolerProcessingTickWrapperService;
 import com.openi40.scheduler.iomessages.AbortTaskIOMessage;
 import com.openi40.scheduler.iomessages.AbstractBaseIOMessage;
 import com.openi40.scheduler.iomessages.EndSetupIOMessage;
@@ -31,10 +33,13 @@ import io.swagger.annotations.Api;
 @Api
 public class IOMessagesSpoolingController {
 	static Logger LOGGER = LoggerFactory.getLogger(IOMessagesSpoolingController.class);
-	IMSGSpoolingService spoolingService;
+	IMSGSpoolingService spoolingService = null;
+	SpoolerProcessingTickWrapperService tickWrappedService = null;
 
-	public IOMessagesSpoolingController(@Autowired IMSGSpoolingService spoolingService) {
+	public IOMessagesSpoolingController(@Autowired IMSGSpoolingService spoolingService,
+			@Autowired SpoolerProcessingTickWrapperService tickWrappedService) {
 		this.spoolingService = spoolingService;
+		this.tickWrappedService = tickWrappedService;
 	}
 
 	private void spoolMessage(String dataSourceName, String dataSetName, String dataSetVariant,
@@ -45,6 +50,7 @@ public class IOMessagesSpoolingController {
 		}
 		try {
 			this.spoolingService.add(dataSourceName, dataSetName, dataSetVariant, message);
+			this.tickWrappedService.runSpoolingConsumer(dataSourceName, dataSetName, dataSetVariant);
 		} catch (Throwable th) {
 			String errorMsg = "spoolMessage(" + dataSourceName + "," + dataSetName + "," + dataSetVariant + ","
 					+ message + ")";
@@ -55,6 +61,13 @@ public class IOMessagesSpoolingController {
 			LOGGER.debug("End spoolMessage(" + dataSourceName + "," + dataSetName + "," + dataSetVariant + "," + message
 					+ ")");
 		}
+	}
+
+	@GetMapping("runSpoolingConsumer/{dataSourceName}/{dataSetName}/{dataSetVariant}/")
+	public void runSpoolingConsumer(@NotNull @PathVariable("dataSourceName") String dataSourceName,
+			@NotNull @PathVariable("dataSetName") String dataSetName,
+			@NotNull @PathVariable("dataSetVariant") String dataSetVariant) {
+		this.tickWrappedService.runSpoolingConsumer(dataSourceName, dataSourceName, dataSourceName);
 	}
 
 	@PostMapping("spoolStartSetupMessage/{dataSourceName}/{dataSetName}/{dataSetVariant}/")

@@ -1108,3 +1108,34 @@ CREATE TABLE acq_work_resources (
 		rc_codes varchar(1200),
 		resource_group varchar(255)
 );
+
+
+CREATE TABLE msg_spooler_entry(
+	msg_entry_id bigint not null primary key,
+	data_src_name varchar(40) not null,
+	data_set_name varchar(40) not null,
+	data_set_variant  varchar(40) not null,
+	code varchar(40) not null,
+	ts_message timestamp,
+	ts_memorized timestamp,		
+	msg_class_name varchar(512) not null,
+	json_dump text,
+	processed_status varchar(20) not null,
+	processed_ts timestamp	);
+	
+CREATE UNIQUE INDEX MSGSPENTRUNQ ON 	msg_spooler_entry(data_src_name,data_set_name,data_set_variant,code);
+CREATE  INDEX MSGSPENTRORD ON 	msg_spooler_entry(data_src_name asc,data_set_name asc,data_set_variant asc,ts_message asc,processed_status asc) ;
+cluster msg_spooler_entry using MSGSPENTRORD;
+
+
+
+CREATE TABLE msg_spooler_proc(
+            id bigint not null primary key,
+	        msg_entry_id  bigint not null,
+	        process_ok boolean default false,
+	        error_code varchar(100),
+	        error_msg text,
+	        processed_ts timestamp
+);
+CREATE  SEQUENCE msg_spooler_entry_seq  AS bigint INCREMENT by 1  START  WITH  1 ;
+CREATE  SEQUENCE msg_spooler_proc_seq  AS bigint INCREMENT by 1  START  WITH  1 ;  
