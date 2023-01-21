@@ -22,13 +22,14 @@ import com.openi40.scheduler.model.rules.EquipmentRule;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.RealTimeSegmentRequirements;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -49,28 +50,40 @@ public class EquipmentPlanSolverImpl extends BusinessLogic<EquipmentRule> implem
 	}
 
 	@Override
-	public List<EquipmentEvaluatedChoice> generateChoices(EquipmentChoice plan, TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange, ApsLogicDirection direction) {
-		if (LOGGER.isDebugEnabled()) LOGGER.debug("Begin EquipmentPlanSolverImpl.generateChoices(..)", "evaluatin plan for period SetupTimeRange=" + SetupTimeRange + " WorkTimeRange=" + WorkTimeRange);
+	public List<EquipmentEvaluatedChoice> generateChoices(EquipmentChoice plan, TimeSegmentRequirement SetupTimeRange,
+			TimeSegmentRequirement WorkTimeRange, ApsLogicDirection direction) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Begin EquipmentPlanSolverImpl.generateChoices(..)",
+					"evaluatin plan for period SetupTimeRange=" + SetupTimeRange + " WorkTimeRange=" + WorkTimeRange);
 		// Use the IEquipmentAllocator to plan all feaseable constraint satisfaction
 		// options in the passed time ranges
 		List<EquipmentEvaluatedChoice> equipmentOptions = new ArrayList<EquipmentEvaluatedChoice>();
 		EquipmentRule constraintRule = (EquipmentRule) plan.getConstraint();
 		Task task = constraintRule.getTargetTask();
-		IEquipmentAllocator equipmentAllocator = this.componentsFactory.create(IEquipmentAllocator.class, constraintRule, constraintRule.getTargetTask().getParentSchedulingSet());
-		List<EquipmentAllocation> equipmentAllocation = equipmentAllocator.calculateAllocations(constraintRule, SetupTimeRange, WorkTimeRange, constraintRule.getTargetTask().getParentSchedulingSet().getOptions(), constraintRule.getTargetTask(), constraintRule.getContext());
+		IEquipmentAllocator equipmentAllocator = this.componentsFactory.create(IEquipmentAllocator.class,
+				constraintRule, constraintRule.getTargetTask().getParentSchedulingSet());
+		List<EquipmentAllocation> equipmentAllocation = equipmentAllocator.calculateAllocations(constraintRule,
+				SetupTimeRange, WorkTimeRange, constraintRule.getTargetTask().getParentSchedulingSet().getOptions(),
+				constraintRule.getTargetTask(), constraintRule.getContext());
 		for (EquipmentAllocation allocation : equipmentAllocation) {
 			// TODO: MANAGE PARALLEL EQUIPMENT, NOW IMPLEMENT JUST ONE ENTRY
 			TaskEquipmentInfo equipmentEntry = allocation.getChoosedTaskEquipment();
-			TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(equipmentEntry.getPreparation().getEquipmentEventsGroup());
-			TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(equipmentEntry.getExecution().getEquipmentEventsGroup());
+			TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(
+					equipmentEntry.getPreparation().getEquipmentEventsGroup());
+			TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(
+					equipmentEntry.getExecution().getEquipmentEventsGroup());
 			double setupTime = setupRequirement.getDurationMinutes();
 			double workTime = workRequirement.getDurationMinutes();
-			if (LOGGER.isDebugEnabled()) LOGGER.debug("Evaluated setupRequirement minutes => " + setupTime + " workRequirement in minutes => " + workTime, "");
-			EquipmentEvaluatedChoice option = new EquipmentEvaluatedChoice(plan, setupRequirement, workRequirement, allocation.getChoosedTaskEquipment(),
-					allocation.getOperations());
+			if (LOGGER.isDebugEnabled())
+				LOGGER.debug("Evaluated setupRequirement minutes => " + setupTime + " workRequirement in minutes => "
+						+ workTime, "");
+			EquipmentEvaluatedChoice option = new EquipmentEvaluatedChoice(plan, setupRequirement, workRequirement,
+					allocation.getChoosedTaskEquipment(), allocation.getOperations());
 			equipmentOptions.add(option);
 		}
-		if (LOGGER.isDebugEnabled()) LOGGER.debug("End EquipmentPlanSolverImpl.generateChoices(..)", "equipmentOptions.Count=" + equipmentOptions.size());
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("End EquipmentPlanSolverImpl.generateChoices(..)",
+					"equipmentOptions.Count=" + equipmentOptions.size());
 		constraintRule.setCurrentlySatisfied(!equipmentOptions.isEmpty());
 		return equipmentOptions;
 
@@ -83,33 +96,46 @@ public class EquipmentPlanSolverImpl extends BusinessLogic<EquipmentRule> implem
 
 	@Override
 	public List<EquipmentEvaluatedChoice> generateUnderProductionChoices(Machine usedMachine,
-			EquipmentChoice equipmentPlan, Task task, ApsSchedulingSet schedulingSet, ApsLogicDirection direction, IRuleSolutionListener constraintSolutionListener) {
+			EquipmentChoice equipmentPlan, Task task, ApsSchedulingSet schedulingSet, ApsLogicDirection direction,
+			IRuleSolutionListener constraintSolutionListener) {
 		List<EquipmentEvaluatedChoice> equipmentOptions = new ArrayList<EquipmentEvaluatedChoice>();
 		List<TaskEquipmentInfo> potentialEquipments = equipmentPlan.getConstraint().getTaskEquipmentInfos();
 		for (TaskEquipmentInfo taskEquipmentInfo : potentialEquipments) {
-			ITaskUnderProductionTimeRequirementsAnalyzer requirementAnalyzer = this.componentsFactory.create(
-					ITaskUnderProductionTimeRequirementsAnalyzer.class, taskEquipmentInfo, task.getContext());
+			ITaskUnderProductionTimeRequirementsAnalyzer requirementAnalyzer = this.componentsFactory
+					.create(ITaskUnderProductionTimeRequirementsAnalyzer.class, taskEquipmentInfo, task.getContext());
 			RealTimeSegmentRequirements realtimeTaskRequirements = requirementAnalyzer
-					.analyzeUnderProductionTaskRequirements(usedMachine,task, taskEquipmentInfo, schedulingSet,
+					.analyzeUnderProductionTaskRequirements(usedMachine, task, taskEquipmentInfo, schedulingSet,
 							task.getContext());
-			// TODO: using this parameters to guess allocations
-			IEquipmentAllocator equipmentAllocator = this.componentsFactory.create(IEquipmentAllocator.class,
-					equipmentPlan.getConstraint(), task.getContext());
+			if (!realtimeTaskRequirements.isInvalidTaskConditions()) {
+				// TODO: using this parameters to guess allocations
+				IEquipmentAllocator equipmentAllocator = this.componentsFactory.create(IEquipmentAllocator.class,
+						equipmentPlan.getConstraint(), task.getContext());
 
-			List<EquipmentAllocation> allocations = equipmentAllocator.calculateRealtimeProductionAllocations(usedMachine,
-					equipmentPlan.getConstraint(), taskEquipmentInfo, realtimeTaskRequirements, schedulingSet, task,
-					direction, constraintSolutionListener, task.getContext());
-			for (EquipmentAllocation allocation : allocations) {
-				// TODO: MANAGE PARALLEL EQUIPMENT, NOW IMPLEMENT JUST ONE ENTRY
-				TaskEquipmentInfo equipmentEntry = allocation.getChoosedTaskEquipment();
-				TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(equipmentEntry.getPreparation().getEquipmentEventsGroup());
-				TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(equipmentEntry.getExecution().getEquipmentEventsGroup());
-				double setupTime = setupRequirement.getDurationMinutes();
-				double workTime = workRequirement.getDurationMinutes();
-				if (LOGGER.isDebugEnabled()) LOGGER.debug("Evaluated setupRequirement minutes => " + setupTime + " workRequirement in minutes => " + workTime, "");
-				EquipmentEvaluatedChoice option = new EquipmentEvaluatedChoice(equipmentPlan, setupRequirement, workRequirement, allocation.getChoosedTaskEquipment(),
-						allocation.getOperations());
-				equipmentOptions.add(option);
+				List<EquipmentAllocation> allocations = equipmentAllocator.calculateRealtimeProductionAllocations(
+						usedMachine, equipmentPlan.getConstraint(), taskEquipmentInfo, realtimeTaskRequirements,
+						schedulingSet, task, direction, constraintSolutionListener, task.getContext());
+				for (EquipmentAllocation allocation : allocations) {
+					// TODO: MANAGE PARALLEL EQUIPMENT, NOW IMPLEMENT JUST ONE ENTRY
+					TaskEquipmentInfo equipmentEntry = allocation.getChoosedTaskEquipment();
+					TimeSegmentRequirement setupRequirement = new TimeSegmentRequirement(
+							equipmentEntry.getPreparation().getEquipmentEventsGroup());
+					TimeSegmentRequirement workRequirement = new TimeSegmentRequirement(
+							equipmentEntry.getExecution().getEquipmentEventsGroup());
+					double setupTime = setupRequirement.getDurationMinutes();
+					double workTime = workRequirement.getDurationMinutes();
+					if (LOGGER.isDebugEnabled())
+						LOGGER.debug("Evaluated setupRequirement minutes => " + setupTime
+								+ " workRequirement in minutes => " + workTime, "");
+					EquipmentEvaluatedChoice option = new EquipmentEvaluatedChoice(equipmentPlan, setupRequirement,
+							workRequirement, allocation.getChoosedTaskEquipment(), allocation.getOperations());
+					equipmentOptions.add(option);
+				}
+			} else {
+				LOGGER.warn(
+						"Cannot generate a valid realtimeTaskRequirement for the situation of task=>" + task.getCode());
+				for (String message : realtimeTaskRequirements.getInvalidTaskConditionsMessages()) {
+					LOGGER.warn("Msg:" + message);
+				}
 			}
 		}
 		return equipmentOptions;

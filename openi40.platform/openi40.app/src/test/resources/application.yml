@@ -11,6 +11,10 @@ server:
   servlet:
     contextPath: /openi40
 spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
   profiles:    active:      - "client.rest.api"
   jackson:
       date-format: yyyy-MM-dd HH:mm:ss
@@ -18,12 +22,14 @@ spring:
           INDENT_OUTPUT: true
 hibernate.cache.use_second_level_cache: false        
  
-#spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
 spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
-spring.datasource.username: postgres
-spring.datasource.password: 15041973
-spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
+spring.datasource.username: openi40
+spring.datasource.password: openi40
+spring.datasource.url:  jdbc:derby:memory:local;create=true 
+ 
+logging.level.org.springframework.jdbc.core: TRACE
 
 com.openi40.platform.dbchannels:
         useJpaStreaming: true

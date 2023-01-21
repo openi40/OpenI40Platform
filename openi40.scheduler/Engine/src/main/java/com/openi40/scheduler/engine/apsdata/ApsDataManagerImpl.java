@@ -23,13 +23,14 @@ import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.orders.SalesOrder;
 import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -64,6 +65,11 @@ public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDa
 		}
 		this.beforeScheduling(context);
 		context.setInitialized(true);
+		// if actualDateTime is null initialize it at beginning of scheduling window
+		if (context.getActualDateTime() == null && context.getSchedulingWindow() != null
+				&& context.getSchedulingWindow().getStartDateTime() != null) {
+			context.setActualDateTime(context.getSchedulingWindow().getStartDateTime());
+		}
 		LOGGER.debug("End initialize(context);");
 	}
 
@@ -86,7 +92,7 @@ public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDa
 										if (workOrders == null || workOrders.isEmpty()) {
 											IWorkOrderGenerator workOrderGenerator = this.componentsFactory
 													.create(IWorkOrderGenerator.class, context, context);
-											workOrders=workOrderGenerator.createWorkOrder(orderLine, plant);
+											workOrders = workOrderGenerator.createWorkOrder(orderLine, plant);
 										}
 									} catch (DataModelDaoException e) {
 										throw new RuntimeException("Problem accessing workOrders search", e);

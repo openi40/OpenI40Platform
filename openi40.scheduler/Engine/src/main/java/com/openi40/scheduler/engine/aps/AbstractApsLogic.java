@@ -156,6 +156,8 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		IPlanner planner = this.componentsFactory.create(IPlanner.class, action, action.getContext());
 		decisionNode = planner.doProductionSupervision(task, action,
 				observer != null ? observer.getConstraintSolutionListener() : null, getDirection());
+		task.setDecisionGraphItem(decisionNode);
+		task.setSuccessfullyScheduled(verifyAllConstraints(task, observer));
 		if (observer != null && observer.getObserver() != null) {
 			try {
 				observer.getObserver().processedElement(task);

@@ -21,5 +21,15 @@
 			<groupId>org.awaitility</groupId>
 			<artifactId>awaitility</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>Mapper</artifactId>
+			<version>${global.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>Model</artifactId>
+			<version>${global.version}</version>
+		</dependency>
 	</dependencies>
 </project>

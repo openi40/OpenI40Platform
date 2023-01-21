@@ -207,7 +207,7 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 
 				String WHPICKLISTINSERT = "insert into whouse_picklist (code,description,modified_ts,whouse_code,task_code,mac_code,work_center_code,prd_code,start_transfer,end_transfer,transfer_type,batch_qty,nr_transfers,qty_reserved) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				String TASKPICKLISTINSERT = "insert into task_picklist(code,description,modified_ts,whouse_code,task_code,mac_code,work_center_code,prd_code,start_transfer,end_transfer,transfer_type,batch_qty,nr_transfers,qty_reserved,supply_task,supply_work_order) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				String PURCHPICLISTINSERT = "insert into purchase_picklist (code,description  ,modified_ts,whouse_code,task_code,mac_code,work_center_code,prd_code,start_transfer,end_transfer,transfer_type,batch_qty,nr_transfers,qty_reserved,purch_order,purch_order_line) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				String PURCHPICLISTINSERT = "insert into purchase_picklist (code,description  ,modified_ts,whouse_code,task_code,mac_code,work_center_code,prd_code,start_transfer,end_transfer,transfer_type,batch_qty,nr_transfers,qty_reserved,purch_order,purch_order_line) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				String ACQSETUPINSERT = "INSERT INTO acq_setup_resources (code,description,removed,modified_ts,task_code,rc_codes,resource_group) values (?,?,?,?,?,?,?)";
 				String ACQWORKINSERT = "INSERT INTO acq_work_resources (code,description,removed,modified_ts,task_code,rc_codes,resource_group) values (?,?,?,?,?,?,?)";
 				PreparedStatement psInsertRC = con.prepareStatement(GROUP_RESERVINSERT);
