@@ -1137,3 +1137,21 @@ CREATE TABLE msg_spooler_proc(
 );
 CREATE  SEQUENCE msg_spooler_entry_seq  AS bigint INCREMENT by 1  START  WITH  1 ;
 CREATE  SEQUENCE msg_spooler_proc_seq  AS bigint INCREMENT by 1  START  WITH  1 ;  
+
+
+create table aps_msg (
+           code varchar(260) not null primary key,
+		   description varchar(80),
+		   task_code varchar(254),
+		   removed boolean,
+		   modified_ts timestamp,
+		   pos  integer,
+		   msg_category varchar(254),
+		   msg_code varchar(254),
+		   msg_descr clob,
+		   msg_level varchar(254),
+		   src_module varchar(254),
+		   src_obj_class varchar(512),
+		    glb_cntr integer
+);
+CREATE INDEX APS_MSG_IDX ON APS_MSG (task_code asc,pos asc);

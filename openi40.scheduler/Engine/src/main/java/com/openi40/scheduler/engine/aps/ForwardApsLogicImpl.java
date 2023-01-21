@@ -61,7 +61,7 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 				environment.put("task", task);
 				environment.put("relatedTask", childTask.getProducerTask());
 				ApsMessage apsMessage = new ApsMessage(this, ApsMessageConstrants.PREDECESSOR_TASK_UNSCHEDULED,
-						environment);
+						environment, task.getContext());
 				task.getMessages().add(apsMessage);
 				allChildsOk = false;
 			}

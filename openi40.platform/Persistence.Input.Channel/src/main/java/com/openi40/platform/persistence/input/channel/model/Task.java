@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import com.openi40.platform.persistence.input.channel.StreamLoadRelated;
 import com.openi40.platform.persistence.input.channel.StreamLoadRelated.RelationType;
+import com.openi40.scheduler.input.model.tasks.ApsMessageInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.UsedSecondaryResourcesInfoInputDto;
@@ -76,6 +77,13 @@ public class Task extends TaskInputDto {
 	public void setCode(String code) {
 
 		super.setCode(code);
+	}
+
+	@StreamLoadRelated(overriddenType = ApsMessageInputDto.class, loadType = ApsMessage.class, relationType = RelationType.ONE2MANY, joinProperty = "taskCode", orderOptions = {
+			"position" })
+	@Override
+	public void setMessages(List<ApsMessageInputDto> messages) {
+		super.setMessages(messages);
 	}
 
 	@StreamLoadRelated(overriddenType = TaskResourceReservationInputDto.class, loadType = TaskResourceReservation.class, relationType = RelationType.ONE2MANY, joinProperty = "taskCode")

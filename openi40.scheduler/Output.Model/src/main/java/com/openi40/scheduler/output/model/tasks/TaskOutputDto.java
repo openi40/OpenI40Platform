@@ -8,13 +8,14 @@ import java.util.List;
 import com.openi40.scheduler.output.model.OutputDto;
 
 import lombok.Data;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -30,17 +31,17 @@ public class TaskOutputDto extends OutputDto {
 	protected String forcedMachineCode = null;
 	protected String scheduledMachineCode = null;
 	protected boolean workOrderRootTask = false;
-	protected String equipmentSpecCode=null;
-	protected Timestamp askedDeliveryDateTime=null;
+	protected String equipmentSpecCode = null;
+	protected Timestamp askedDeliveryDateTime = null;
 	protected String salesOrderLineCode = null;
 	protected double qtyTotal = 0.0;
 	protected double qtyProduced = 0.0;
 	protected Integer customPriority = 0;
-	protected double setupTime=0.0;
-	protected double workTime=0.0;
-	protected String setupGroupCode=null;
-	protected Timestamp minProductionDateConstraint=null;
-	protected Timestamp maxProductionDateConstraint=null;
+	protected double setupTime = 0.0;
+	protected double workTime = 0.0;
+	protected String setupGroupCode = null;
+	protected Timestamp minProductionDateConstraint = null;
+	protected Timestamp maxProductionDateConstraint = null;
 	protected String status = null;
 	protected Date acquiredStartSetup = null;
 	protected Date acquiredEndSetup = null;
@@ -48,10 +49,11 @@ public class TaskOutputDto extends OutputDto {
 	protected Date acquiredEndWork = null;
 	protected Date acquiredProductionUpdate = null;
 	protected String acquiredMachineCode = null;
-	
+
 	protected List<UsedSecondaryResourcesInfoOutputDto> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfoOutputDto>();
-	
+
 	protected List<UsedSecondaryResourcesInfoOutputDto> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfoOutputDto>();
+
 	@Data
 	public static class SecondaryReservation {
 		public SecondaryReservation() {
@@ -71,7 +73,7 @@ public class TaskOutputDto extends OutputDto {
 
 	@Data
 	public static class TaskMaterialTransfer {
-		String productCode=null;
+		String productCode = null;
 		String warehouseCode = null;
 		String taskCode = null;
 		String machineCode = null;
@@ -88,11 +90,27 @@ public class TaskOutputDto extends OutputDto {
 		double qtyReserved = 0;
 		LinkType linkType = null;
 	}
+
 	@Data
 	public static class UsedSecondaryResourcesInfoOutputDto extends OutputDto {
 		private String resourceGroup = null;
 		private List<String> usedResourcesCodes = new ArrayList<String>();
 	}
+
+	@Data
+	public static class ApsMessageOutputDto extends OutputDto {
+		private Integer position = 0;
+		private String taskCode = null;
+		private String messageCategory = null;
+		private String messageCode = null;
+		private String messageDescription = null;
+		private String msgLevel = null;
+		private String sourceModule = null;
+		private String sourceObjectClass = null;
+		private Integer globalPosition = 0;
+	}
+
+	protected List<ApsMessageOutputDto> messages = new ArrayList<>();
 	protected List<SecondaryReservation> secondaryReservations = new ArrayList<>();
 	protected List<TaskMaterialTransfer> materialTransfer = new ArrayList<>();
 	protected Date startPreparation = null, endPreparation = null, startExecution = null, endExecution = null;

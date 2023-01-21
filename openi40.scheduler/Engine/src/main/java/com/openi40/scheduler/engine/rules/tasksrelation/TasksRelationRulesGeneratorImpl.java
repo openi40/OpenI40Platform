@@ -44,7 +44,7 @@ public class TasksRelationRulesGeneratorImpl extends BusinessLogic<Task> impleme
 				// Constraint do not finish before child tasks
 				TasksRelationRule finishAfterChildConstraintRule = new TasksRelationRule(task, Rule.ConstraintOrigin.SCHEDULING, Rule.ConstraintPriority.WARNS, childTask, edge);
 				
-				finishAfterChildConstraintRule.setUnmetConstraintMessage(new ApsMessage(this, ApsMessageConstrants.FINISH_AFTER_CHILD_CONSTRAINT_RULE,environment));
+				finishAfterChildConstraintRule.setUnmetConstraintMessage(new ApsMessage(this, ApsMessageConstrants.FINISH_AFTER_CHILD_CONSTRAINT_RULE,environment,task.getContext()));
 				rules.add(finishAfterChildConstraintRule);
 			}
 		} else if (algorithm.getDirection() == ApsLogicDirection.BACKWARD) {
@@ -53,7 +53,7 @@ public class TasksRelationRulesGeneratorImpl extends BusinessLogic<Task> impleme
 				// its meaning
 				environment.put("relatedTask", task.getParentTask().getConsumerTask());
 				TasksRelationRule finishAtParentStart = new TasksRelationRule(task, Rule.ConstraintOrigin.SCHEDULING, Rule.ConstraintPriority.WARNS, task.getParentTask().getConsumerTask(), task.getParentTask());
-				finishAtParentStart.setUnmetConstraintMessage(new ApsMessage(this, ApsMessageConstrants.FINISH_TASK_TIME_FOLLOWING_TASK_START_TIME_RELATION,environment));
+				finishAtParentStart.setUnmetConstraintMessage(new ApsMessage(this, ApsMessageConstrants.FINISH_TASK_TIME_FOLLOWING_TASK_START_TIME_RELATION,environment,task.getContext()));
 				rules.add(finishAtParentStart);
 			}
 		}

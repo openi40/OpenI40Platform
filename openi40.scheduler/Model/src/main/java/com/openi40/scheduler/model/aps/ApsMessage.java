@@ -7,29 +7,36 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
+import com.openi40.scheduler.model.AbstractApsObject;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
-public class ApsMessage
+public class ApsMessage extends AbstractApsObject
 
 {
+	
 	private ApsMessageCategory messageCategory = null;
 	private String messageCode = null;
 	private String messageDescription = null;
 	private Map<String, String> messageParameters = new HashMap<>();
-	private ApsMessageLevel msgLevel = ApsMessageLevel.values()[0];
+	private ApsMessageLevel msgLevel = ApsMessageLevel.INFO;
 	private String sourceModule = null;
 	private String sourceObjectClass = null;
 	private Map<String, Object> objectsMap = new HashMap<String, Object>();
-
-	public ApsMessage(Object messageSource, ApsMessageConstrants msgConstant, Map<String, Object> objectsMap) {
+	private Integer position=0;
+	private Integer globalPosition=0;
+	public ApsMessage(Object messageSource, ApsMessageConstrants msgConstant, Map<String, Object> objectsMap,
+			ApsData context) {
+		super(context);
 		this.messageCategory = msgConstant.getMsgCategory();
 		this.messageCode = msgConstant.getCode();
 		this.messageDescription = msgConstant.getDescription();
@@ -38,11 +45,12 @@ public class ApsMessage
 		int offset = getSourceObjectClass().lastIndexOf('.');
 		sourceModule = getSourceObjectClass().substring(0, offset - 1);
 		this.objectsMap = new HashMap<String, Object>(objectsMap);
-
+		
 	}
 
 	public ApsMessage(Object messageSource, String msgCode, String msgDescription, ApsMessageCategory messageCategory,
-			ApsMessageLevel level, Map<String, String> messageParameters) {
+			ApsMessageLevel level, Map<String, String> messageParameters, ApsData context) {
+		super(context);
 		messageCode = msgCode;
 		messageDescription = msgDescription;
 		sourceObjectClass = messageSource.getClass().getName();
@@ -50,6 +58,10 @@ public class ApsMessage
 		sourceModule = getSourceObjectClass().substring(0, offset - 1);
 		this.messageParameters = new HashMap<>();
 		this.msgLevel = level;
+	}
+
+	public ApsMessage(ApsData context) {
+		super(context);
 	}
 
 	public String getMessageCode() {
@@ -60,9 +72,12 @@ public class ApsMessage
 		return this.getUserMessage();
 	}
 
-	private static Class[] ACCEPTED_PROPERTY_TYPES = new Class[] { Boolean.class, String.class, Number.class ,Date.class};
-	private static DateFormat DATEFORMAT=SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT, SimpleDateFormat.SHORT,Locale.ITALIAN);
-	public Map<String, String> getMessageParameters() {	
+	private static Class[] ACCEPTED_PROPERTY_TYPES = new Class[] { Boolean.class, String.class, Number.class,
+			Date.class };
+	private static DateFormat DATEFORMAT = SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.SHORT,
+			SimpleDateFormat.SHORT, Locale.ITALIAN);
+
+	public Map<String, String> getMessageParameters() {
 		Map<String, String> params = new HashMap<String, String>(messageParameters);
 		if (this.objectsMap != null && !this.objectsMap.isEmpty()) {
 			for (Map.Entry<String, Object> entry : this.objectsMap.entrySet()) {
@@ -85,7 +100,7 @@ public class ApsMessage
 											_propertyName[0] = Character.toLowerCase(_propertyName[0]);
 											String propertyName = new String(_propertyName);
 											if (_value instanceof Date) {
-												_value= DATEFORMAT.format((Date) _value);
+												_value = DATEFORMAT.format((Date) _value);
 											}
 											params.put(objectName + "." + propertyName, _value.toString());
 										}
@@ -118,7 +133,7 @@ public class ApsMessage
 		Map<String, String> params = this.getMessageParameters();
 		for (Map.Entry<String, String> entry : params.entrySet()) {
 			_msg = _msg.replace("${" + entry.getKey() + "}", entry.getValue());
-			
+
 		}
 		return _msg;
 	}
@@ -126,5 +141,49 @@ public class ApsMessage
 	public String toString() {
 		return "{messageCategory=" + messageCategory + ",msgLevel=" + msgLevel + ",code=" + messageCode
 				+ ",description=" + messageDescription + ",params=" + messageParameters + "}";
+	}
+
+	public Integer getPosition() {
+		return position;
+	}
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+
+	public ApsMessageCategory getMessageCategory() {
+		return messageCategory;
+	}
+
+	public Integer getGlobalPosition() {
+		return globalPosition;
+	}
+
+	public void setGlobalPosition(Integer globalPosition) {
+		this.globalPosition = globalPosition;
+	}
+
+	public void setMessageCategory(ApsMessageCategory messageCategory) {
+		this.messageCategory = messageCategory;
+	}
+
+	public void setMessageCode(String messageCode) {
+		this.messageCode = messageCode;
+	}
+
+	public void setMessageDescription(String messageDescription) {
+		this.messageDescription = messageDescription;
+	}
+
+	public void setMsgLevel(ApsMessageLevel msgLevel) {
+		this.msgLevel = msgLevel;
+	}
+
+	public void setSourceModule(String sourceModule) {
+		this.sourceModule = sourceModule;
+	}
+
+	public void setSourceObjectClass(String sourceObjectClass) {
+		this.sourceObjectClass = sourceObjectClass;
 	}
 }

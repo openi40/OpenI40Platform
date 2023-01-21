@@ -18,6 +18,7 @@ import com.openi40.scheduler.engine.tasksgeneration.ITaskGenerator;
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
 import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
 import com.openi40.scheduler.input.model.tasks.AbstractTaskMaterialReservationInputDto;
+import com.openi40.scheduler.input.model.tasks.ApsMessageInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskProductionMaterialReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskPurchaseMaterialReservationInputDto;
@@ -25,6 +26,9 @@ import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskStockMaterialReservationInputDto;
 import com.openi40.scheduler.mapper.IEntitiesFactory;
 import com.openi40.scheduler.mapper.MapperException;
+import com.openi40.scheduler.model.aps.ApsMessage;
+import com.openi40.scheduler.model.aps.ApsMessageCategory;
+import com.openi40.scheduler.model.aps.ApsMessageLevel;
 import com.openi40.scheduler.model.companystructure.Warehouse;
 import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
@@ -148,6 +152,7 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 
 					TaskProcessInfo tpInfo = new TaskProcessInfo(targetObject.getContext(),
 							actualMeta.getTaskMetaInfo());
+
 					targetObject.getEquipment().setMetaInfo(actualMeta);
 					executionModel = actualMeta.getExecutionModel();
 					preparationModel = actualMeta.getPreparationModel();
@@ -157,7 +162,11 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 			}
 
 			SetupResourceInfos resource = new SetupResourceInfos(targetObject.getContext());
-			resource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getPreparationModel().getResource());
+			if (targetObject.getEquipment() != null && targetObject.getEquipment().getMetaInfo() != null
+					&& targetObject.getEquipment().getMetaInfo().getPreparationModel() != null
+					&& targetObject.getEquipment().getMetaInfo().getPreparationModel().getResource() != null) {
+				resource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getPreparationModel().getResource());
+			}
 			targetObject.getEquipment().getPreparation().setResource(resource);
 			Machine machine = null;
 			if (machineCode != null && machineCode.trim().length() > 0) {
@@ -166,7 +175,11 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 			resource.setChoosenEquipment(machine);
 
 			WorkResourceInfos wResource = new WorkResourceInfos(targetObject.getContext());
-			wResource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getExecutionModel().getResource());
+			if (targetObject.getEquipment() != null && targetObject.getEquipment().getMetaInfo() != null
+					&& targetObject.getEquipment().getMetaInfo().getExecutionModel() != null
+					&& targetObject.getEquipment().getMetaInfo().getExecutionModel().getResource() != null) {
+				wResource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getExecutionModel().getResource());
+			}
 			wResource.setChoosenEquipment(machine);
 			targetObject.getEquipment().getExecution().setResource(wResource);
 
@@ -271,11 +284,31 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 				} else {
 					matchingUse.getTimesheetReservations().add(reservation);
 				}
+
+			}
+			for (ApsMessageInputDto apsMsgInput : originalObject.getMessages()) {
+				ApsMessage apsMessage = cloneMessage(apsMsgInput, targetObject);
+				targetObject.getMessages().add(apsMessage);
+				apsMessage.setGlobalPosition(apsMsgInput.getGlobalPosition());
 			}
 
 		} catch (DataModelDaoException e) {
 			throw new MapperException("Error searching operationModel", e);
 		}
+	}
+
+	private ApsMessage cloneMessage(ApsMessageInputDto apsMsgInput, Task targetObject) {
+		ApsMessage msg = new ApsMessage(targetObject.getContext());
+		msg.setCode(apsMsgInput.getCode());
+		msg.setDescription(apsMsgInput.getDescription());
+		msg.setPosition(apsMsgInput.getPosition());
+		msg.setMessageCategory(
+				apsMsgInput.getMessageCategory() != null ? ApsMessageCategory.valueOf(apsMsgInput.getMessageCategory())
+						: null);
+		msg.setMessageCode(apsMsgInput.getMessageCode());
+		msg.setMessageDescription(apsMsgInput.getMessageDescription());
+		msg.setMsgLevel(apsMsgInput.getMsgLevel() != null ? ApsMessageLevel.valueOf(apsMsgInput.getMsgLevel()) : null);
+		return msg;
 	}
 
 	private TaskExecutionUseModel<Resource, ResourceGroup> findMetaInfo(TaskExecutionModel executionModel,

@@ -69,7 +69,7 @@ public class BackwardApsLogicImpl extends AbstractApsLogic implements IBackwardA
 				environment.put("task", task);
 				environment.put("relatedTask", task.getParentTask().getConsumerTask());
 				ApsMessage apsMessage = new ApsMessage(this, ApsMessageConstrants.SUCCESSIVE_TASK_UNSCHEDULED,
-						environment);
+						environment,task.getContext());
 				task.getMessages().add(apsMessage);
 				parentIsOK = false;
 			}

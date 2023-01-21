@@ -31,6 +31,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumer;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumerFactory;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto;
+import com.openi40.scheduler.output.model.tasks.TaskOutputDto.ApsMessageOutputDto;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.SecondaryReservation;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.TaskMaterialTransfer;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.UsedSecondaryResourcesInfoOutputDto;
@@ -180,8 +181,9 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 				String deleteTRP = "delete from task_relation where suplr_task_code in (";
 				String deleteAcqSetupRC = "delete from acq_setup_resources where task_code in (";
 				String deleteAcqWorkRC = "delete from acq_work_resources where task_code in (";
+				String deleteAPSMSG = "delete from aps_msg where task_code in (";
 				String vectorialDeletes[] = { deleteSecondary, deleteWhousePick, deleteTaskPick, deletePurchasePick,
-						deleteTRC, deleteTRP, deleteAcqSetupRC, deleteAcqWorkRC };
+						deleteTRC, deleteTRP, deleteAcqSetupRC, deleteAcqWorkRC, deleteAPSMSG };
 				for (int i = 0; i < list.size(); i++) {
 					for (int j = 0; j < vectorialDeletes.length; j++) {
 						vectorialDeletes[j] += "?";
@@ -210,18 +212,20 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 				String PURCHPICLISTINSERT = "insert into purchase_picklist (code,description  ,modified_ts,whouse_code,task_code,mac_code,work_center_code,prd_code,start_transfer,end_transfer,transfer_type,batch_qty,nr_transfers,qty_reserved,purch_order,purch_order_line) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				String ACQSETUPINSERT = "INSERT INTO acq_setup_resources (code,description,removed,modified_ts,task_code,rc_codes,resource_group) values (?,?,?,?,?,?,?)";
 				String ACQWORKINSERT = "INSERT INTO acq_work_resources (code,description,removed,modified_ts,task_code,rc_codes,resource_group) values (?,?,?,?,?,?,?)";
+				String APSMSGINSERT = "INSERT INTO aps_msg(code,description,task_code,removed,modified_ts,pos,msg_category,msg_code,msg_descr,msg_level,src_module,src_obj_class,glb_cntr) values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
 				PreparedStatement psInsertRC = con.prepareStatement(GROUP_RESERVINSERT);
 				PreparedStatement pswhpick = con.prepareStatement(WHPICKLISTINSERT);
 				PreparedStatement taskpick = con.prepareStatement(TASKPICKLISTINSERT);
 				PreparedStatement purchpick = con.prepareStatement(PURCHPICLISTINSERT);
 				PreparedStatement acqsetup = con.prepareStatement(ACQSETUPINSERT);
 				PreparedStatement acqwork = con.prepareStatement(ACQWORKINSERT);
+				PreparedStatement apsMsgInsert = con.prepareStatement(APSMSGINSERT);
 				HashMap<String, Integer> countMap = new HashMap<>();
 				int matIndex = 1;
 				for (int i = 0; i < list.size(); i++) {
 					task = list.get(i);
-					if (!task.isSuccessfullyScheduled())
-						continue;
+					
 					for (SecondaryReservation rc : task.getSecondaryReservations()) {
 						// code,description,task_code,rc_code,rc_group_code,start_reserv,end_reserv,use_type
 						String code = task.getCode() + "-" + rc.getResourceCode();
@@ -324,6 +328,24 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 						acqwork.setString(7, used.getResourceGroup());
 						acqwork.executeUpdate();
 					}
+					for (ApsMessageOutputDto msg : task.getMessages()) {
+						apsMsgInsert.clearParameters();
+						// code,description,task_code,removed,modified_ts,pos,msg_category,msg_code,msg_descr,msg_level,src_module,src_obj_class,glb_cntr
+						apsMsgInsert.setString(1, msg.getTaskCode() + "-" + msg.getPosition());
+						apsMsgInsert.setString(2, "");
+						apsMsgInsert.setString(3, task.getCode());
+						apsMsgInsert.setBoolean(4, false);
+						assignTS(apsMsgInsert, 5, ts);
+						apsMsgInsert.setInt(6, msg.getPosition());
+						apsMsgInsert.setString(7, msg.getMessageCategory());
+						apsMsgInsert.setString(8, msg.getMessageCode());
+						apsMsgInsert.setString(9, msg.getMessageDescription());
+						apsMsgInsert.setString(10, msg.getMsgLevel());
+						apsMsgInsert.setString(11, msg.getSourceModule());
+						apsMsgInsert.setString(12, msg.getSourceObjectClass());
+						apsMsgInsert.setInt(13, msg.getGlobalPosition());
+						apsMsgInsert.executeUpdate();
+					}
 				}
 				psInsertRC.close();
 				pswhpick.close();
@@ -331,6 +353,7 @@ public class TaskOutputPersistentExtendedConsumer extends AbstractPersistentExte
 				purchpick.close();
 				acqsetup.close();
 				acqwork.close();
+				apsMsgInsert.close();
 				return list.size();
 			}
 

@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Service;
 
 import com.openi40.scheduler.mapper.IEntitiesFactory;
+import com.openi40.scheduler.mapper.IMapper;
+import com.openi40.scheduler.mapper.IMapperFactory;
 import com.openi40.scheduler.mapper.MapperException;
+import com.openi40.scheduler.model.aps.ApsMessage;
 import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkSecondaryResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskPreparationPlanned.SetupSecondaryResourceInfos;
@@ -22,16 +26,18 @@ import com.openi40.scheduler.model.material.SupplyReservation;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimesheetReservation;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto;
+import com.openi40.scheduler.output.model.tasks.TaskOutputDto.ApsMessageOutputDto;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.LinkType;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.SecondaryReservation;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto.TaskMaterialTransfer;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -79,12 +85,37 @@ public class Task2TaskOutputService extends AbstractApsModel2OutputModelService<
 				originalObject.getEquipment() != null && originalObject.getEquipment().getMetaInfo() != null
 						? originalObject.getEquipment().getMetaInfo().getCode()
 						: null);
-		targetObject.setAskedDeliveryDateTime(originalObject.getAskedDeliveryDateTime()!=null?new Timestamp(originalObject.getAskedDeliveryDateTime().getTime()):null);
+		targetObject.setAskedDeliveryDateTime(originalObject.getAskedDeliveryDateTime() != null
+				? new Timestamp(originalObject.getAskedDeliveryDateTime().getTime())
+				: null);
 		targetObject.setQtyTotal(originalObject.getQtyTotal());
 		targetObject.setQtyProduced(originalObject.getQtyProduced());
-		targetObject.setSetupTime(originalObject.getEquipment()!=null && originalObject.getEquipment().getPreparation()!=null?originalObject.getEquipment().getPreparation().getSetupTime():0.0);
-		targetObject.setWorkTime(originalObject.getEquipment()!=null && originalObject.getEquipment().getExecution()!=null?originalObject.getEquipment().getExecution().getNominalWorkTime():0.0);
-		targetObject.setSetupGroupCode(originalObject.getEquipment()!=null?originalObject.getEquipment().getSetupGroupCode():null);
+		targetObject.setSetupTime(
+				originalObject.getEquipment() != null && originalObject.getEquipment().getPreparation() != null
+						? originalObject.getEquipment().getPreparation().getSetupTime()
+						: 0.0);
+		targetObject.setWorkTime(
+				originalObject.getEquipment() != null && originalObject.getEquipment().getExecution() != null
+						? originalObject.getEquipment().getExecution().getNominalWorkTime()
+						: 0.0);
+		targetObject.setSetupGroupCode(
+				originalObject.getEquipment() != null ? originalObject.getEquipment().getSetupGroupCode() : null);
+		if (recursive && !originalObject.getMessages().isEmpty()) {
+
+			for (ApsMessage msg : originalObject.getMessages()) {
+				ApsMessageOutputDto oMsg = new ApsMessageOutputDto();
+				oMsg.setTaskCode(originalObject.getCode());
+				oMsg.setMessageCategory(msg.getMessageCategory() != null ? msg.getMessageCategory().name() : null);
+				oMsg.setMessageCode(msg.getMessageCode());
+				oMsg.setMessageDescription(msg.getMessageDescription());
+				oMsg.setPosition(msg.getPosition());
+				oMsg.setMsgLevel(msg.getMsgLevel() != null ? msg.getMsgLevel().name() : null);
+				oMsg.setSourceModule(msg.getSourceModule());
+				oMsg.setSourceObjectClass(msg.getSourceObjectClass());
+				oMsg.setGlobalPosition(msg.getGlobalPosition());
+				targetObject.getMessages().add(oMsg);
+			}
+		}
 
 	}
 
