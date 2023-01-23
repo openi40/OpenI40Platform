@@ -34,10 +34,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.openi40.platform.app.Main;
 import com.openi40.scheduler.apsdatacache.IApsDataCacheAggregator;
+import com.openi40.scheduler.engine.aps.ApsLogics;
+import com.openi40.scheduler.engine.aps.IApsLogic;
+import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.aps.ApsLogicDirection;
+import com.openi40.scheduler.model.aps.ApsMessage;
+import com.openi40.scheduler.model.aps.ApsMessageCategory;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
+import com.openi40.scheduler.model.dao.IApsMessageDao;
 import com.openi40.scheduler.model.dao.ITaskDao;
+import com.openi40.scheduler.model.dao.IWorkOrderDao;
+import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,6 +66,28 @@ public abstract class AbstractPlatformTests {
 	IContextualBusinessLogicFactory contextualBusinessLogicFactory;
 	@Autowired
 	ITaskDao taskDao;
+	@Autowired
+	IApsMessageDao apsMessageDao;
+	@Autowired
+	IWorkOrderDao workOrderDao;
+
+	protected void initializeScheduling(ApsData apsData, ApsLogicDirection direction, String logicSpec)
+			throws DataModelDaoException {
+		ApsSchedulingSet schedulingSet = new ApsSchedulingSet(apsData);
+		schedulingSet.setAlgorithmDirection(direction);
+		schedulingSet.setAlgorithmType(logicSpec);
+		IApsLogic apsLogic = contextualBusinessLogicFactory.create(IApsLogic.class, schedulingSet, apsData);
+		schedulingSet.setOptions(apsLogic.createDefaultOptions(schedulingSet));
+		apsData.getSchedulingSets().add(schedulingSet);
+		IApsDataManager dataManager = contextualBusinessLogicFactory.create(IApsDataManager.class, apsData, apsData);
+		dataManager.initialize(apsData);
+		dataManager.beforeScheduling(apsData);
+		List<WorkOrder> wos = workOrderDao.findAll(apsData);
+		for (WorkOrder workOrder : wos) {
+			schedulingSet.addWorkOrder(workOrder);
+		}
+
+	}
 
 	private void executeInputStream(InputStream is, Connection connextion, boolean avoidExitOnException,
 			boolean logExceptions) throws IOException, SQLException {
@@ -142,9 +174,38 @@ public abstract class AbstractPlatformTests {
 
 	protected void verifyScheduled(ApsData data) throws DataModelDaoException {
 		List<Task> tasks = taskDao.findAll(data);
+		List<ApsMessage> messagesList = apsMessageDao.findAllOrderByGlobalPosition(data);
+		if (!messagesList.isEmpty()) {
+			LOGGER.warn("There are " + messagesList.size() + " scheduling user messages");
+			for (ApsMessage apsMessage : messagesList) {
+				String text = "messageCategory:" + printEnum(apsMessage.getMessageCategory()) + " msgLevel:"
+						+ printEnum(apsMessage.getMsgLevel()) + " msgCode:" + apsMessage.getMessageCode()
+						+ " msgDescription:" + apsMessage.getMessageDescription();
+				switch (apsMessage.getMsgLevel()) {
+				case SOFTWARE_EXCEPTION:
+				case UNSCHEDULABLE_CONDITION: {
+					LOGGER.error(text);
+				}
+
+					break;
+				case WARNING: {
+					LOGGER.warn(text);
+				}
+					break;
+				default: {
+					LOGGER.info(text);
+				}
+				}
+			}
+		}
 		for (Task task : tasks) {
 			LOGGER.info("Task " + task.getCode() + " scheduled=> " + task.isSuccessfullyScheduled());
 			assertTrue(task.isSuccessfullyScheduled(), "Task " + task.getCode() + " is not successfully scheduled!");
 		}
+	}
+
+	private String printEnum(Enum _enum) {
+
+		return _enum != null ? _enum.name() : "null";
 	}
 }

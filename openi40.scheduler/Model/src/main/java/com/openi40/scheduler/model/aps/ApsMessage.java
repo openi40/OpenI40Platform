@@ -34,6 +34,7 @@ public class ApsMessage extends AbstractApsObject
 	private Map<String, Object> objectsMap = new HashMap<String, Object>();
 	private Integer position=0;
 	private Integer globalPosition=0;
+	private String taskCode=null;
 	public ApsMessage(Object messageSource, ApsMessageConstrants msgConstant, Map<String, Object> objectsMap,
 			ApsData context) {
 		super(context);
@@ -185,5 +186,13 @@ public class ApsMessage extends AbstractApsObject
 
 	public void setSourceObjectClass(String sourceObjectClass) {
 		this.sourceObjectClass = sourceObjectClass;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
 	}
 }
