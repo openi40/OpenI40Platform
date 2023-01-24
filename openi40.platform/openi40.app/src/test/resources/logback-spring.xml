@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property name="LOGS" value="./logs" />
+	<property name="LOGS" value="logs" />
 	<appender name="Console"
 		class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
@@ -11,7 +11,7 @@
 	</appender>
 	<appender name="RollingFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGS}/openi40-app.log</file>
+		<file>${LOGS}/openi40-app-tests.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%date [%thread] %-5level %logger{36}:%line - %msg%n
@@ -21,7 +21,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily and when the file reaches 10 MegaBytes -->
-			<fileNamePattern>${LOGS}/archived/openi40-app-%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOGS}/archived/openi40-app-tests-%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -31,7 +31,7 @@
 	</appender>
 	<appender name="MaterialManagementRollingFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGS}/material-management-openi40-app.log</file>
+		<file>${LOGS}/material-management-openi40-app-tests.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%date [%thread] %-5level %logger{36}:%line - %msg%n
@@ -41,7 +41,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily and when the file reaches 10 MegaBytes -->
-			<fileNamePattern>${LOGS}/archived/material-management-openi40-app-%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOGS}/archived/material-management-openi40-app-tests-%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -51,7 +51,7 @@
 	</appender>
 	<appender name="EquipmentManagementRollingFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGS}/equipment-management-openi40-app.log</file>
+		<file>${LOGS}/equipment-management-openi40-app-tests.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%date [%thread] %-5level %logger{36}:%line - %msg%n
@@ -60,7 +60,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily and when the file reaches 10 MegaBytes -->
-			<fileNamePattern>${LOGS}/archived/equipment-management-openi40-app-%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOGS}/archived/equipment-management-openi40-app-tests-%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">

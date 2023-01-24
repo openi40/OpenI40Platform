@@ -58,7 +58,7 @@ public interface ITimesheetLogic extends IBusinessLogic<ITimesheetAllocableObjec
 	/**
 	 * Retrieves a clean calendar in its state before the scheduling algorithm is
 	 * applied. The status of "clean calendar" means a predefined calendar rules/and
-	 * availability present in the OpenScheduler database.
+	 * availability present in the OpenI40 database.
 	 * 
 	 * @param calendar
 	 * @return
