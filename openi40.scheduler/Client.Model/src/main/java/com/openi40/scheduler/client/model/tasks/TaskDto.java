@@ -37,6 +37,8 @@ public class TaskDto extends ClientDto {
 	protected String predefinedMachineCode = null;
 	protected String scheduledMachineCode = null;
 	protected String salesOrderLineCode = null;
+	protected double qtyTotal = 0.0;
+	protected double qtyProduced = 0.0;
 	protected List<ApsMessageDto> messages=new ArrayList<ApsMessageDto>();
 	protected String color = null;
 	protected TimeSegmentDto setup = new TimeSegmentDto(), work = new TimeSegmentDto();
