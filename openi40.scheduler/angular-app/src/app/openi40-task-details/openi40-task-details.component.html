@@ -68,6 +68,18 @@
                 {{task.work?.endDateTime  | date: 'short'}}
               </div>
             </div>
+            <div class="p-field p-grid">
+              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">qty total</label>
+              <div class="p-col-12 p-md-10">
+                {{task.qtyTotal}}
+              </div>
+            </div>
+            <div class="p-field p-grid">
+              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">qty produced</label>
+              <div class="p-col-12 p-md-10">
+                {{task.qtyProduced}}
+              </div>
+            </div>
           </div>
 
         </ng-template>
