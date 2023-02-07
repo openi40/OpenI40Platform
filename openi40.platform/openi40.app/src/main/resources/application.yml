@@ -22,7 +22,7 @@ hibernate.cache.use_second_level_cache: false
 spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
 spring.datasource.username: postgres
-spring.datasource.password: 15041973
+spring.datasource.password: <password>
 spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
 
 com.openi40.platform.dbchannels:
