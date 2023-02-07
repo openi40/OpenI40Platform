@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -32,12 +34,20 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.DirtiesContext.MethodMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.platform.app.Main;
 import com.openi40.scheduler.apsdatacache.IApsDataCacheAggregator;
+import com.openi40.scheduler.client.model.aps.ApsDataDto;
 import com.openi40.scheduler.engine.aps.ApsLogics;
 import com.openi40.scheduler.engine.aps.IApsLogic;
 import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
+import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
+import com.openi40.scheduler.mapper.IMapper;
+import com.openi40.scheduler.mapper.IMapperFactory;
+import com.openi40.scheduler.mapper.MapperException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsMessage;
@@ -70,6 +80,10 @@ public abstract class AbstractPlatformTests {
 	IApsMessageDao apsMessageDao;
 	@Autowired
 	IWorkOrderDao workOrderDao;
+	@Autowired
+	IMapperFactory mapperFactory;
+	@Autowired
+	ObjectMapper objectMapper;
 
 	protected void initializeScheduling(ApsData apsData, ApsLogicDirection direction, String logicSpec)
 			throws DataModelDaoException {
@@ -87,6 +101,31 @@ public abstract class AbstractPlatformTests {
 			schedulingSet.addWorkOrder(workOrder);
 		}
 
+	}
+
+	protected <OriginalType, TargetType> IMapper<OriginalType, TargetType> getMapper(Class<OriginalType> originalType,
+			Class<TargetType> targetType) throws MapperException {
+		return mapperFactory.createMapper(originalType, targetType);
+	}
+
+	protected IMapper<ApsData, ApsDataDto> getClientScenarioMapper() throws MapperException {
+		return this.getMapper(ApsData.class, ApsDataDto.class);
+	}
+
+	protected void dumpScenario(ApsData data, String postfix)
+			throws MapperException, JsonGenerationException, JsonMappingException, IOException {
+		LOGGER.info("Begin dumpScenario(data,\"" + postfix + "\")");
+		IMapper<ApsData, ApsDataDto> mapper = this.getClientScenarioMapper();
+		ApsDataDto outData = mapper.mapInstance(data, ApsDataDto.class, DefaultEntitiesFactory.Instance,
+				new HashMap<>(), true);
+		String fileName = "logs/" + data.getDataSourceName() + "-" + data.getDataSetName() + "-"
+				+ data.getDataSetVariant() + "-" + postfix + ".json";
+		if (new File(fileName).exists())
+			new File(fileName).delete();
+		if (!new File("logs/").exists())
+			new File("logs").mkdir();
+		objectMapper.writeValue(new File(fileName), outData);
+		LOGGER.info("End dumpScenario(data,\"" + postfix + "\")");
 	}
 
 	private void executeInputStream(InputStream is, Connection connextion, boolean avoidExitOnException,

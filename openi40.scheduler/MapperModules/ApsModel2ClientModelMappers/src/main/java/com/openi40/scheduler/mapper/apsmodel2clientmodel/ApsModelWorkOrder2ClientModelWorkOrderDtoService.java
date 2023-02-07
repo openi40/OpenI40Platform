@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Service;
 
+import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.client.model.orders.WorkOrderDto;
 import com.openi40.scheduler.client.model.orders.WorkOrderDto.PeggingDto;
 import com.openi40.scheduler.client.model.tasks.TaskDto;
@@ -21,19 +22,20 @@ import com.openi40.scheduler.model.orders.Pegging;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 @Service
-public class ApsModelWorkOrder2ClientModelWorkOrderDtoService
-		extends AbstractReflectorMapper<WorkOrder, WorkOrderDto> implements IMapper<WorkOrder, WorkOrderDto> {
+public class ApsModelWorkOrder2ClientModelWorkOrderDtoService extends AbstractReflectorMapper<WorkOrder, WorkOrderDto>
+		implements IMapper<WorkOrder, WorkOrderDto> {
 	public ApsModelWorkOrder2ClientModelWorkOrderDtoService(@Autowired AutowireCapableBeanFactory beanFactory) {
 		super(beanFactory, WorkOrder.class, WorkOrderDto.class, ApsModel2ClientModelConfiguration.typeMap);
 	}
@@ -58,6 +60,20 @@ public class ApsModelWorkOrder2ClientModelWorkOrderDtoService
 			for (Pegging pegging : originalObject.getPeggings()) {
 				PeggingDto pegDto = mapper.mapInstance(pegging, PeggingDto.class, entityFactory, environment,
 						recursive);
+				pegDto.setConsumerWorkOrder(new ClientDto());
+				pegDto.getConsumerWorkOrder()
+						.setCode(pegging.getConsumer() != null ? pegging.getConsumer().getCode() : null);
+				pegDto.getConsumerWorkOrder()
+						.setId(pegging.getConsumer() != null ? pegging.getConsumer().getId() : null);
+				pegDto.getConsumerWorkOrder()
+						.setDescription(pegging.getConsumer() != null ? pegging.getConsumer().getDescription() : null);
+				pegDto.setProducerWorkOrder(new ClientDto());
+				pegDto.getProducerWorkOrder()
+						.setId(pegging.getSupplier() != null ? pegging.getSupplier().getId() : null);
+				pegDto.getProducerWorkOrder()
+						.setCode(pegging.getSupplier() != null ? pegging.getSupplier().getCode() : null);
+				pegDto.getProducerWorkOrder()
+						.setDescription(pegging.getSupplier() != null ? pegging.getSupplier().getDescription() : null);
 				targetObject.getPeggings().add(pegDto);
 			}
 		}

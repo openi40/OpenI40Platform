@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.openi40.scheduler.model.AbstractApsObject;
+import com.openi40.scheduler.model.tasks.Task;
 
 /**
  * 
@@ -35,7 +36,7 @@ public class ApsMessage extends AbstractApsObject
 	private Integer position=0;
 	private Integer globalPosition=0;
 	private String taskCode=null;
-	public ApsMessage(Object messageSource, ApsMessageConstrants msgConstant, Map<String, Object> objectsMap,
+	public ApsMessage(Object messageSource,Task task, ApsMessageConstrants msgConstant, Map<String, Object> objectsMap,
 			ApsData context) {
 		super(context);
 		this.messageCategory = msgConstant.getMsgCategory();
@@ -46,10 +47,10 @@ public class ApsMessage extends AbstractApsObject
 		int offset = getSourceObjectClass().lastIndexOf('.');
 		sourceModule = getSourceObjectClass().substring(0, offset - 1);
 		this.objectsMap = new HashMap<String, Object>(objectsMap);
-		
+		this.taskCode=task.getCode();
 	}
 
-	public ApsMessage(Object messageSource, String msgCode, String msgDescription, ApsMessageCategory messageCategory,
+	public ApsMessage(Object messageSource,Task task, String msgCode, String msgDescription, ApsMessageCategory messageCategory,
 			ApsMessageLevel level, Map<String, String> messageParameters, ApsData context) {
 		super(context);
 		messageCode = msgCode;
@@ -59,6 +60,7 @@ public class ApsMessage extends AbstractApsObject
 		sourceModule = getSourceObjectClass().substring(0, offset - 1);
 		this.messageParameters = new HashMap<>();
 		this.msgLevel = level;
+		this.taskCode=task.getCode();
 	}
 
 	public ApsMessage(ApsData context) {

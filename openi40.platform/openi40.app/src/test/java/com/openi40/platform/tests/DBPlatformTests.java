@@ -18,6 +18,7 @@ import com.openi40.scheduler.engine.rules.IRuleSolutionListener;
 import com.openi40.scheduler.engine.rules.IRuleStateListener;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent;
 import com.openi40.scheduler.engine.rules.RulePlanningEvent.RuleEventType;
+import com.openi40.scheduler.mapper.MapperException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsLogicDirection;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
@@ -26,14 +27,14 @@ import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.tasks.Task;
 
 public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
-
+	
 	public DBPlatformTests() {
 
 	}
 
 	@Test
 	public void loadScheduleForwardSaveTest()
-			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException {
+			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException, MapperException {
 		try {
 			prepareDB();
 
@@ -43,6 +44,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 			IApsLogicComposer composer = contextualBusinessLogicFactory.create(IApsLogicComposer.class, apsData,
 					apsData);
 			composer.schedule(apsData, null);
+			dumpScenario(apsData, "loadScheduleForwardSaveTest");
 			verifyScheduled(apsData);
 			dataCache.save("DB-DataSet", "DEFAULT");
 		} finally {
@@ -54,7 +56,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 
 	@Test
 	public void loadScheduleForwardSaveTestMultipleIterations()
-			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException {
+			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException, MapperException {
 		try {
 			prepareDB();
 			ApsLogicNotifiedObjects observer=new ApsLogicNotifiedObjects();
@@ -98,6 +100,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 					apsData);
 			for (int i = 0; i < SAVING_CHECK_ITERATIONS; i++) {
 				composer.schedule(apsData, observer);
+				dumpScenario(apsData, "loadScheduleForwardSaveTestMultipleIterations-"+i);
 				verifyScheduled(apsData);
 				dataCache.save("DB-DataSet", "DEFAULT");
 				apsData = dataCache.reload("DB-DataSet", "DEFAULT");
@@ -109,7 +112,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 	}
 	@Test
 	public void loadScheduleBackwardSaveTestMultipleIterations()
-			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException {
+			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException, MapperException {
 		try {
 			prepareDB();
 			ApsLogicNotifiedObjects observer=new ApsLogicNotifiedObjects();
@@ -153,6 +156,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 					apsData);
 			for (int i = 0; i < SAVING_CHECK_ITERATIONS; i++) {
 				composer.schedule(apsData, observer);
+				dumpScenario(apsData, "loadScheduleBackwardSaveTestMultipleIterations-"+i);
 				verifyScheduled(apsData);
 				dataCache.save("DB-DataSet", "DEFAULT");
 				apsData = dataCache.reload("DB-DataSet", "DEFAULT");
@@ -164,7 +168,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 	}
 	@Test
 	public void loadScheduleBackwardSaveTest()
-			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException {
+			throws IOException, SQLException, ApsDataCacheException, DataModelDaoException, MapperException {
 		try {
 			prepareDB();
 
@@ -175,6 +179,7 @@ public class DBPlatformTests extends AbstractStainlessSteelCompanyDBTests {
 					apsData);
 
 			composer.schedule(apsData, null);
+			dumpScenario(apsData, "loadScheduleBackwardSaveTest");
 			verifyScheduled(apsData);
 			dataCache.save("DB-DataSet", "DEFAULT");
 		} finally {

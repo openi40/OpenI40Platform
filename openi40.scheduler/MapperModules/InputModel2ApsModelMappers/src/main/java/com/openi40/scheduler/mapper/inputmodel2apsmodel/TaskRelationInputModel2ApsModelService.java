@@ -17,6 +17,7 @@ import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IBomItemModelDao;
 import com.openi40.scheduler.model.dao.IPeggingDao;
 import com.openi40.scheduler.model.dao.ITaskDao;
+import com.openi40.scheduler.model.material.ItemConsumed;
 import com.openi40.scheduler.model.orders.Pegging;
 import com.openi40.scheduler.model.tasks.TaskEdge;
 /**
@@ -73,6 +74,13 @@ public class TaskRelationInputModel2ApsModelService
 				BomItemModel bom = bomItemModelDao.findByCode(originalObject.getBomItemCode(),
 						targetObject.getContext());
 				targetObject.setBomItemModel(bom);
+				//Connect consumer target to producer target
+				for(ItemConsumed mc: targetObject.getConsumerTask().getMaterialConsumptions()) {
+					if (mc.getProduct()!=null && mc.getProduct().getCode().equals(bom.getConsumedItem().getCode())) {
+						mc.setTaskProductionLink(targetObject.getProducerTask().getProduction());
+					}
+				}
+				
 			}
 			if (originalObject.getPeggingEdge() != null && originalObject.getPeggingEdge()) {
 				Pegging pegging = peggingDao.findByCode(originalObject.getPeggingCode(), targetObject.getContext());
