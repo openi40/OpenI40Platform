@@ -84,7 +84,6 @@ public abstract class AbstractPlatformTests {
 	IMapperFactory mapperFactory;
 	@Autowired
 	ObjectMapper objectMapper;
-
 	protected void initializeScheduling(ApsData apsData, ApsLogicDirection direction, String logicSpec)
 			throws DataModelDaoException {
 		ApsSchedulingSet schedulingSet = new ApsSchedulingSet(apsData);

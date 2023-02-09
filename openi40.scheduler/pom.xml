@@ -29,5 +29,6 @@
 		<module>Output.Channels</module>
 		<module>InputOutputConfig</module>
 		<module>Input.IOMessages</module>
+		<module>TestUtils</module>
 	</modules>
 </project>

@@ -40,7 +40,7 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 	MSGSpoolerEntryProcessedRepository spoolProcessRepository;
 	@Autowired
 	ObjectMapper objectMapper;
-	
+
 	public MSGSpoolerServiceImpl() {
 	}
 
@@ -129,6 +129,12 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 		}
 		return bos.toString();
 	}
-	
+
+	@Override
+	public boolean isEmptySpoolingQueue(String dataSourceName, String dataSetName, String dataSetVariant) {
+		List<MsgSpoolerEntry> recvd = spoolerRepository.findByProcessedStatus(dataSourceName, dataSetName,
+				dataSetVariant, MsgSpoolerEntry.MSG_STATUS_RECEIVED);
+		return recvd.isEmpty();
+	}
 
 }

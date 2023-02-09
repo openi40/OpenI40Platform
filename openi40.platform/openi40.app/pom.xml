@@ -33,6 +33,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>TestUtils</artifactId>
+			<scope>test</scope>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>angular-app</artifactId>
 			<version>${project.version}</version>
 		</dependency>

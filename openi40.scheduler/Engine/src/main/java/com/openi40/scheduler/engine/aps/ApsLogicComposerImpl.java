@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
@@ -33,15 +34,43 @@ import com.openi40.scheduler.model.orders.WorkOrder;
 @DefaultImplementation(implemented = IApsLogicComposer.class, entityClass = ApsData.class)
 public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IApsLogicComposer {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsLogicComposerImpl.class);
+	@Autowired(required = false)
+	List<IApsComposerListener> listeners;
+
+	protected void onStartAlgorithms(ApsData data) {
+		if (listeners!=null) {
+			listeners.forEach((listener)->{
+				listener.onStartAlgorithms(data);
+			});
+		}
+	}
+
+	protected void onDataClean(ApsData data) {
+		if (listeners!=null) {
+			listeners.forEach((listener)->{
+				listener.onDataClean(data);
+			});
+		}
+	}
+
+	protected void onEndAlgorithms(ApsData data) {
+		if (listeners!=null) {
+			listeners.forEach((listener)->{
+				listener.onEndAlgorithms(data);
+			});
+		}
+	}
 
 	public void schedule(ApsData apsData, ApsLogicNotifiedObjects observer) {
 		long ts = System.currentTimeMillis();
 		LOGGER.info("Begin ApsLogicComposerImpl.schedule(...)");
-
 		long ts1 = System.currentTimeMillis();
 		// Resets all data model prior to scheduling releasing all non-locked
 		// Resources, materials ecc..
 		apsData.resetSchedulingData();
+		LOGGER.info("Cleared scheduling data in " + ((System.currentTimeMillis() - ts1) / 1000) + " sec");
+		this.onDataClean(apsData);
+		
 		boolean scheduled = true;
 		IApsDataManager dataManager = this.componentsFactory.create(IApsDataManager.class, apsData, apsData);
 		// Initialize data structures if not yet done
@@ -60,7 +89,7 @@ public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IAps
 			productionSchedulingController.prepareSchedulingData(apsData);
 
 		}
-		LOGGER.info("Cleared scheduling data in " + ((System.currentTimeMillis() - ts1) / 1000) + " sec");
+		this.onStartAlgorithms(apsData);
 		for (ApsSchedulingSet apsAction : apsData.getSchedulingSets()) {
 			IApsLogic apsLogic = componentsFactory.create(IApsLogic.class, apsAction.getAlgorithmType(), apsAction,
 					apsData);
@@ -69,6 +98,7 @@ public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IAps
 			apsLogic.schedule(apsAction, observer);
 			scheduled = scheduled && apsAction.isScheduled();
 		}
+		this.onEndAlgorithms(apsData);
 		LOGGER.info("End ApsLogicComposerImpl.schedule(...) sec=" + ((System.currentTimeMillis() - ts) / 1000));
 		apsData.debugLogging();
 	}

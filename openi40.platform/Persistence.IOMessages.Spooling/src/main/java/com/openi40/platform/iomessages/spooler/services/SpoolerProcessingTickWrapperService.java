@@ -37,7 +37,7 @@ public class SpoolerProcessingTickWrapperService {
 		}
 	}
 
-	@Scheduled(initialDelay = 30000, fixedRate = 60000)
+	@Scheduled(initialDelay = 20000, fixedRate = 10000)
 	public void schedulingTick() {
 		if (elaborationConfig.isEnableMessagesElaboration()) {
 			this.runSpoolingConsumer(elaborationConfig.getDataSourceName(), elaborationConfig.getDataSetName(),
