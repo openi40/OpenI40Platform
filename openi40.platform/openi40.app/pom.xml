@@ -170,7 +170,16 @@
 					<finalName>com.openi40.platform.app.bootable</finalName>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>				
+				<configuration>					
+					<parallel>suites</parallel>
+					<threadCountSuites>1</threadCountSuites>
+					<reuseForks>false</reuseForks>
+					<perCoreThreadCount>false</perCoreThreadCount>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

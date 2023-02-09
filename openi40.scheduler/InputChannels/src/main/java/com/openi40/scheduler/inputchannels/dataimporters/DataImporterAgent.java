@@ -63,6 +63,7 @@ public class DataImporterAgent implements IDataImporterAgent {
 		synchronized (context) {
 			context.setRealtime(streamFactory.isRealtime());
 			context.setProductionControlEnabled(streamFactory.isProductionControlEnabled());
+			
 			for (Class<? extends InputDto> entityClass : entitiesToSync) {
 				Stream<? extends InputDto> stream = streamFactory.getStream(entityClass);
 				IDataImporterFactory importerFactory = diFactoryRepository.getImporterFactory(entityClass);
