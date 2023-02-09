@@ -220,12 +220,13 @@ public class MachineHipotesysActuator {
 		double nominalSetupTime = setupTime;
 		double workTime = workTimeLogic.calculateWorkTime(task, taskEquipmentInfo);
 		TaskEquipmentInfo thisTaskEquipmentInfo = null;
+		
 		try {
 			thisTaskEquipmentInfo = (TaskEquipmentInfo) taskEquipmentInfo.cleanClone();
 			thisTaskEquipmentInfo.getPreparation().getResource().setChoosenEquipment(usedMachine);
 			thisTaskEquipmentInfo.getPreparation().setNominalSetupTime(nominalSetupTime);
 			thisTaskEquipmentInfo.getExecution().getResource().setChoosenEquipment(usedMachine);
-			thisTaskEquipmentInfo.getExecution().setNominalWorkTime(workTime);
+			thisTaskEquipmentInfo.getExecution().setNominalWorkTime(workTime);			
 		} catch (CloneNotSupportedException e) {
 			throw new OpenI40Exception("Cloned equipment info error", e);
 		}
