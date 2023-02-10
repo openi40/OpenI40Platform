@@ -61,8 +61,8 @@ public class MaterialRulesGeneratorImpl extends BusinessLogic<Task> implements I
 			}
 			if (consumption.getProduct() != null)
 				environment.put("product", consumption.getProduct());
-			ApsMessage unavailableMessage = new ApsMessage(this, ApsMessageConstrants.MATERIAL_SUPPLY_UNAVAILABLE,
-					environment);
+			ApsMessage unavailableMessage = new ApsMessage(this,task, ApsMessageConstrants.MATERIAL_SUPPLY_UNAVAILABLE,
+					environment,task.getContext());
 			materialConstraint.setUnmetConstraintMessage(unavailableMessage);
 			materialConstraint.setResolutionStrategies(schedulingOptions.getSupplyResolutionStrategies());
 

@@ -283,7 +283,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			task.getSetupPhaseExecution().Add(equipment.getPreparation().getEquipmentEventsGroup());
 			task.getWorkPhaseExecution().Add(equipment.getExecution().getEquipmentEventsGroup());
 			allocator.reserveResources(activeCombination);
-
+			
 			Machine machine = equipment.getExecution().getResource().getChoosenEquipment();
 			// Rotate task equipment stack for changeover evaluation
 			switch (direction) {

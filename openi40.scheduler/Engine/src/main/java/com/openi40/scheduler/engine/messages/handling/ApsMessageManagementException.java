@@ -2,6 +2,8 @@ package com.openi40.scheduler.engine.messages.handling;
 
 import java.util.List;
 
+import com.openi40.scheduler.model.messages.handling.MessageHandlingErrorMessage;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

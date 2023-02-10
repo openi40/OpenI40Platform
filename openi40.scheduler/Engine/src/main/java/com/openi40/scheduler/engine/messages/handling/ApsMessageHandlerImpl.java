@@ -14,6 +14,7 @@ import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.messages.handling.impl.AbstractSpecializedMessageHandler;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.AbstractBaseMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
 
 /**
  * 

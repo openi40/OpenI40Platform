@@ -60,8 +60,8 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 				Map<String, Object> environment = new HashMap<String, Object>();
 				environment.put("task", task);
 				environment.put("relatedTask", childTask.getProducerTask());
-				ApsMessage apsMessage = new ApsMessage(this, ApsMessageConstrants.PREDECESSOR_TASK_UNSCHEDULED,
-						environment);
+				ApsMessage apsMessage = new ApsMessage(this,task, ApsMessageConstrants.PREDECESSOR_TASK_UNSCHEDULED,
+						environment, task.getContext());
 				task.getMessages().add(apsMessage);
 				allChildsOk = false;
 			}

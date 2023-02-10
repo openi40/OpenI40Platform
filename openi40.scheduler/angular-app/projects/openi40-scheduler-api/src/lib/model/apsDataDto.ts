@@ -41,4 +41,7 @@ export interface ApsDataDto {
     schedulingSets?: Array<ApsSchedulingSetDto>;
     schedulingWindow?: ApsWindowDto;
     timesheet?: TimesheetDto;
+    realtime?:boolean;
+	productionControlEnabled?:boolean;
+	actualDateTime?:Date;
 }

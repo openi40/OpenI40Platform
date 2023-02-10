@@ -92,3 +92,6 @@ ALTER TABLE rc_use_spec ADD CONSTRAINT CNSTRNT64 foreign key (rc_group_code) ref
 
 ALTER TABLE acq_setup_resources add constraint STP_RC_ACQ1 foreign key(task_code) references task(code);
 ALTER TABLE acq_work_resources add constraint WRK_RC_ACQ1 foreign key(task_code) references task(code);
+
+ALTER TABLE msg_spooler_proc add constraint msgspprkfk foreign key   (msg_entry_id) references msg_spooler_entry(msg_entry_id) on delete cascade ;
+ALTER TABLE APS_MSG ADD CONSTRAINT APSMSG1 FOREIGN KEY (task_code) REFERENCES TASK(CODE) ON DELETE CASCADE;

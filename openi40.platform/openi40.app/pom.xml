@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.openi40.platform</groupId>
 		<artifactId>parent</artifactId>
-		<version>00.00.01BC</version>
+		<version>00.00.02BC-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40.app</artifactId>
 	<dependencies>
@@ -29,6 +29,12 @@
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>TestUtils</artifactId>
+			<scope>test</scope>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -86,10 +92,31 @@
 			<artifactId>ApsModel2OutputModel</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>Persistence.IOMessages.Spooling</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>Persistence.IOMessages.Controllers</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>IOMessages.Processing</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>
+			<!-- 
+			<scope>test</scope>
+			-->
 		</dependency>
 
 	</dependencies>
@@ -143,7 +170,16 @@
 					<finalName>com.openi40.platform.app.bootable</finalName>
 				</configuration>
 			</plugin>
-
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>				
+				<configuration>					
+					<parallel>suites</parallel>
+					<threadCountSuites>1</threadCountSuites>
+					<reuseForks>false</reuseForks>
+					<perCoreThreadCount>false</perCoreThreadCount>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -18,6 +18,7 @@ import com.openi40.scheduler.engine.tasksgeneration.ITaskGenerator;
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
 import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
 import com.openi40.scheduler.input.model.tasks.AbstractTaskMaterialReservationInputDto;
+import com.openi40.scheduler.input.model.tasks.ApsMessageInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskProductionMaterialReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskPurchaseMaterialReservationInputDto;
@@ -25,6 +26,9 @@ import com.openi40.scheduler.input.model.tasks.TaskResourceReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskStockMaterialReservationInputDto;
 import com.openi40.scheduler.mapper.IEntitiesFactory;
 import com.openi40.scheduler.mapper.MapperException;
+import com.openi40.scheduler.model.aps.ApsMessage;
+import com.openi40.scheduler.model.aps.ApsMessageCategory;
+import com.openi40.scheduler.model.aps.ApsMessageLevel;
 import com.openi40.scheduler.model.companystructure.Warehouse;
 import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
@@ -43,9 +47,13 @@ import com.openi40.scheduler.model.equipment.Resource;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelInfo;
+import com.openi40.scheduler.model.equipment.TaskExecutionModel;
+import com.openi40.scheduler.model.equipment.TaskExecutionModel.SecondaryModelInfo;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkResourceInfos;
 import com.openi40.scheduler.model.equipment.TaskExecutionPlanned.WorkSecondaryResourceInfos;
+import com.openi40.scheduler.model.equipment.TaskExecutionUseModel;
+import com.openi40.scheduler.model.equipment.TaskPreparationModel;
 import com.openi40.scheduler.model.equipment.TaskPreparationPlanned;
 import com.openi40.scheduler.model.equipment.TaskPreparationUseModel;
 import com.openi40.scheduler.model.equipment.TaskProcessInfo;
@@ -65,13 +73,14 @@ import com.openi40.scheduler.model.time.StartDateTimeAlignment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimesheetReservation;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -129,31 +138,48 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 			if (targetObject.getEquipment() == null) {
 				targetObject.setEquipment(new TaskEquipmentInfo(targetObject.getContext()));
 			}
-
+			if (targetObject.getEquipment().getPreparation() == null) {
+				targetObject.getEquipment().setPreparation(new TaskPreparationPlanned(targetObject.getContext()));
+			}
+			if (targetObject.getEquipment().getExecution() == null) {
+				targetObject.getEquipment().setExecution(new TaskExecutionPlanned(targetObject.getContext()));
+			}
+			TaskExecutionModel executionModel = null;
+			TaskPreparationModel preparationModel = null;
 			for (TaskEquipmentModelInfo actualMeta : operationModel.getEquipmentModelOptions().getEquipmentModels()) {
 				if (actualMeta.getCode() != null && originalObject.getEquipmentSpecCode() != null
 						&& actualMeta.getCode().equals(originalObject.getEquipmentSpecCode())) {
 
 					TaskProcessInfo tpInfo = new TaskProcessInfo(targetObject.getContext(),
 							actualMeta.getTaskMetaInfo());
+
 					targetObject.getEquipment().setMetaInfo(actualMeta);
+					executionModel = actualMeta.getExecutionModel();
+					preparationModel = actualMeta.getPreparationModel();
+					targetObject.getEquipment().getPreparation().setMetaInfo(preparationModel);
+					targetObject.getEquipment().getExecution().setMetaInfo(executionModel);
 				}
 			}
 
-			if (targetObject.getEquipment().getPreparation() == null) {
-				targetObject.getEquipment().setPreparation(new TaskPreparationPlanned(targetObject.getContext()));
-			}
 			SetupResourceInfos resource = new SetupResourceInfos(targetObject.getContext());
+			if (targetObject.getEquipment() != null && targetObject.getEquipment().getMetaInfo() != null
+					&& targetObject.getEquipment().getMetaInfo().getPreparationModel() != null
+					&& targetObject.getEquipment().getMetaInfo().getPreparationModel().getResource() != null) {
+				resource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getPreparationModel().getResource());
+			}
 			targetObject.getEquipment().getPreparation().setResource(resource);
 			Machine machine = null;
 			if (machineCode != null && machineCode.trim().length() > 0) {
 				machine = machineDao.findByCode(machineCode, targetObject.getContext());
 			}
 			resource.setChoosenEquipment(machine);
-			if (targetObject.getEquipment().getExecution() == null) {
-				targetObject.getEquipment().setExecution(new TaskExecutionPlanned(targetObject.getContext()));
-			}
+
 			WorkResourceInfos wResource = new WorkResourceInfos(targetObject.getContext());
+			if (targetObject.getEquipment() != null && targetObject.getEquipment().getMetaInfo() != null
+					&& targetObject.getEquipment().getMetaInfo().getExecutionModel() != null
+					&& targetObject.getEquipment().getMetaInfo().getExecutionModel().getResource() != null) {
+				wResource.setMetaInfo(targetObject.getEquipment().getMetaInfo().getExecutionModel().getResource());
+			}
 			wResource.setChoosenEquipment(machine);
 			targetObject.getEquipment().getExecution().setResource(wResource);
 
@@ -216,6 +242,9 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 					}
 					if (matchingUse == null) {
 						SetupSecondaryResourceInfos m = new SetupSecondaryResourceInfos(targetObject.getContext());
+
+						m.setMetaInfo(findMetaInfo(targetObject.getEquipment().getMetaInfo().getPreparationModel(),
+								resourceGroupCode));
 						matchingUse = m;
 						targetObject.getEquipment().getPreparation().getSecondaryResources().add(m);
 					}
@@ -237,6 +266,8 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 					if (matchingUse == null) {
 						WorkSecondaryResourceInfos m = new WorkSecondaryResourceInfos(targetObject.getContext());
 						matchingUse = m;
+						m.setMetaInfo(findMetaInfo(targetObject.getEquipment().getMetaInfo().getExecutionModel(),
+								resourceGroupCode));
 						targetObject.getEquipment().getExecution().getSecondaryResources().add(m);
 					}
 				}
@@ -248,16 +279,62 @@ public class TaskInputModel2ApsModelService extends AbstractInputModel2ApsModelS
 				tsr.setEndDateTime(rc.getEnd());
 				TimesheetReservation reservation = timesheetLogic.addReservation(res, tsr, targetObject);
 				if (reservation == null) {
-					LOGGER.error("Cannot reserve " +resourceCode + "  with period=>["
-							+ rc.getStart() + "," + rc.getEnd()+ "]");
+					LOGGER.error("Cannot reserve " + resourceCode + "  with period=>[" + rc.getStart() + ","
+							+ rc.getEnd() + "]");
 				} else {
 					matchingUse.getTimesheetReservations().add(reservation);
 				}
+
+			}
+			for (ApsMessageInputDto apsMsgInput : originalObject.getMessages()) {
+				ApsMessage apsMessage = cloneMessage(apsMsgInput, targetObject);
+				targetObject.getMessages().add(apsMessage);
+				apsMessage.setGlobalPosition(apsMsgInput.getGlobalPosition());
 			}
 
 		} catch (DataModelDaoException e) {
 			throw new MapperException("Error searching operationModel", e);
 		}
+	}
+
+	private ApsMessage cloneMessage(ApsMessageInputDto apsMsgInput, Task targetObject) {
+		ApsMessage msg = new ApsMessage(targetObject.getContext());
+		msg.setCode(apsMsgInput.getCode());
+		msg.setDescription(apsMsgInput.getDescription());
+		msg.setPosition(apsMsgInput.getPosition());
+		msg.setMessageCategory(
+				apsMsgInput.getMessageCategory() != null ? ApsMessageCategory.valueOf(apsMsgInput.getMessageCategory())
+						: null);
+		msg.setMessageCode(apsMsgInput.getMessageCode());
+		msg.setMessageDescription(apsMsgInput.getMessageDescription());
+		msg.setMsgLevel(apsMsgInput.getMsgLevel() != null ? ApsMessageLevel.valueOf(apsMsgInput.getMsgLevel()) : null);
+		return msg;
+	}
+
+	private TaskExecutionUseModel<Resource, ResourceGroup> findMetaInfo(TaskExecutionModel executionModel,
+			String resourceGroupCode) {
+		if (executionModel != null) {
+
+			for (SecondaryModelInfo secondary : executionModel.getSecondaryResources()) {
+				if (secondary.getGroup() != null && secondary.getGroup().getCode().equals(resourceGroupCode)) {
+					return secondary;
+				}
+			}
+		}
+		return null;
+	}
+
+	private TaskPreparationUseModel<Resource, ResourceGroup> findMetaInfo(TaskPreparationModel preparationModel,
+			String resourceGroupCode) {
+		if (preparationModel != null) {
+			for (TaskPreparationUseModel<Resource, ResourceGroup> secondary : preparationModel
+					.getSecondaryResources()) {
+				if (secondary.getGroup() != null && secondary.getGroup().getCode().equals(resourceGroupCode)) {
+					return secondary;
+				}
+			}
+		}
+		return null;
 	}
 
 	@Override

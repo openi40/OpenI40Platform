@@ -3,10 +3,10 @@ package com.openi40.scheduler.engine.messages.handling.impl;
 import org.springframework.stereotype.Service;
 
 import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementException;
-import com.openi40.scheduler.engine.messages.handling.ApsMessageManagementResponse;
 import com.openi40.scheduler.engine.messages.handling.ApsMessageValidationException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.AbstractMachineStatusMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
 
 @Service
 public class MessagesManagementStateMachineGraphServiceImpl extends AbstractSpecializedMessageHandler<AbstractMachineStatusMessage> {

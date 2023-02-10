@@ -67,9 +67,10 @@ public class TaskUnderProductionTimeRequirementsAnalyzerImpl extends BusinessLog
 				context);
 		IWorkTimeLogic workTimeLogic = this.componentsFactory.create(IWorkTimeLogic.class, taskEquipmentInfo, context);
 		ITimesheetLogic timesheetLogic = this.componentsFactory.create(ITimesheetLogic.class, usedMachine, context);
-		double setupTime = taskEquipmentInfo.getTaskInfo().getSetupTime();
-		double machineTime = taskEquipmentInfo.getTaskInfo().getMachineTime();
-
+		double setupTime = taskEquipmentInfo.getPreparation().getSetupTime();
+		double machineTime = taskEquipmentInfo.getExecution().getNominalWorkTime();
+		//double setupTime = setupTimeLogic.calculateSetupTime(taskEquipmentInfo, task);
+		//double machineTime = workTimeLogic.calculateWorkTime(task, taskEquipmentInfo);
 		if (setupTime <= 0.0) {
 			String msg = "Setup time is unset in equipment taskInfo for task:" + task.getCode();
 			LOGGER.error(msg);

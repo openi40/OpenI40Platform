@@ -60,8 +60,8 @@ public class EquipmentRulesGeneratorImpl extends BusinessLogic<Task> implements 
 		constraint.setTaskEquipmentInfos(getCompatibleEquipments(task.getParentSchedulingSet(),
 				constraint.getEquipmentModelOptions(), task, task.getContext(), options));
 		constraint.setOrigin(Rule.ConstraintOrigin.SCHEDULING);
-		ApsMessage unavailableEquipmentMessage = new ApsMessage(this, ApsMessageConstrants.UNAVAILABLE_EQUIPMENT,
-				environment);
+		ApsMessage unavailableEquipmentMessage = new ApsMessage(this,task, ApsMessageConstrants.UNAVAILABLE_EQUIPMENT,
+				environment,task.getContext());
 		constraint.setUnmetConstraintMessage(unavailableEquipmentMessage);
 		rules.add(constraint);
 		return rules;

@@ -2,6 +2,7 @@ package com.openi40.scheduler.engine.messages.handling;
 
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.AbstractBaseMessage;
+import com.openi40.scheduler.model.messages.handling.ApsMessageManagementResponse;
 /******
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

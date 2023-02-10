@@ -1,6 +1,7 @@
 package com.openi40.scheduler.model.tasks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected boolean workOrderRootTask = false;
 	protected boolean productionLock = false;
 	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
-	
+
 	protected static class CollectorTreeVisitor implements ITasksVisitor {
 		protected List<Task> Visited = new ArrayList<Task>();
 
@@ -81,7 +82,39 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected List<ItemConsumed> materialConsumptions = createCleanChild(this, "MaterialConsumptions",
 			ItemConsumed.class);
 
-	protected List<ApsMessage> messages = new ArrayList<ApsMessage>();
+	protected class CountingArray extends ArrayList<ApsMessage> {
+		private void recount() {
+			int n = 1;
+			for (ApsMessage apm : this) {
+				apm.setPosition(n);
+				n++;
+			}
+		}
+
+		@Override
+		public boolean add(ApsMessage e) {
+			e.setPosition(getMessages().size() + 1);
+			e.setGlobalPosition(getContext().getApsMessagesCounter());
+			getContext().setApsMessagesCounter(getContext().getApsMessagesCounter() + 1);
+			return super.add(e);
+		}
+
+		@Override
+		public boolean addAll(Collection<? extends ApsMessage> c) {
+			boolean rv = super.addAll(c);
+			recount();
+			return rv;
+		}
+
+		@Override
+		public boolean addAll(int index, Collection<? extends ApsMessage> c) {
+			boolean rv = super.addAll(index, c);
+			recount();
+			return rv;
+		}
+	}
+
+	protected List<ApsMessage> messages = new CountingArray();
 
 	protected OperationModel metaInfo;
 
@@ -184,6 +217,7 @@ public class Task extends AbstractPlantRelatedApsObject
 		if (isLocked && this.getEquipment() != null) {
 			this.sampledTaskEquipmentInfo = new TaskEquipmentInfoSample(getEquipment(), this);
 		}
+		this.messages = new CountingArray();
 		resetResources();
 	}
 

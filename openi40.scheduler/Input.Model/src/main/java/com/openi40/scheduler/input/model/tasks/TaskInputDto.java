@@ -60,6 +60,8 @@ public class TaskInputDto extends InputDto {
 	protected Date acquiredProductionUpdate = null;
 	protected String acquiredMachineCode = null;
 	@Transient
+	protected List<ApsMessageInputDto> messages = new ArrayList<ApsMessageInputDto>();
+	@Transient
 	protected List<UsedSecondaryResourcesInfoInputDto> acquiredSetupUsedResources = new ArrayList<UsedSecondaryResourcesInfoInputDto>();
 	@Transient
 	protected List<UsedSecondaryResourcesInfoInputDto> acquiredWorkUsedResources = new ArrayList<UsedSecondaryResourcesInfoInputDto>();
@@ -337,6 +339,7 @@ public class TaskInputDto extends InputDto {
 	public void setAcquiredMachineCode(String acquiredMachineCode) {
 		this.acquiredMachineCode = acquiredMachineCode;
 	}
+
 	@Transient
 	public List<UsedSecondaryResourcesInfoInputDto> getAcquiredSetupUsedResources() {
 		return acquiredSetupUsedResources;
@@ -345,6 +348,7 @@ public class TaskInputDto extends InputDto {
 	public void setAcquiredSetupUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredSetupUsedResources) {
 		this.acquiredSetupUsedResources = acquiredSetupUsedResources;
 	}
+
 	@Transient
 	public List<UsedSecondaryResourcesInfoInputDto> getAcquiredWorkUsedResources() {
 		return acquiredWorkUsedResources;
@@ -352,6 +356,14 @@ public class TaskInputDto extends InputDto {
 
 	public void setAcquiredWorkUsedResources(List<UsedSecondaryResourcesInfoInputDto> acquiredWorkUsedResources) {
 		this.acquiredWorkUsedResources = acquiredWorkUsedResources;
+	}
+	@Transient
+	public List<ApsMessageInputDto> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<ApsMessageInputDto> messages) {
+		this.messages = messages;
 	}
 
 }

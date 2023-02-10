@@ -20,14 +20,15 @@ import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.InputDataStreamException;
 
 public class PersistenceInputDataStreamFactory implements IInputDataStreamFactory {
-	String dataSourceName = null;
-	String dataSetName = null;
-	String dataSetVariant = null;
-	String dataSourceDescription = null;
-	Boolean useJpaStreaming=false;
-	Integer batchingSize=10000;
-	List<AbstractPersistenceInputDataStream> persistenceStreams;
-	
+	protected String dataSourceName = null;
+	protected String dataSetName = null;
+	protected String dataSetVariant = null;
+	protected String dataSourceDescription = null;
+	protected Boolean useJpaStreaming=false;
+	protected Integer batchingSize=10000;
+	protected List<AbstractPersistenceInputDataStream> persistenceStreams;
+	protected boolean realtime = false;
+	protected boolean productionControlEnabled = false;
 	
 	private <DtoEntityType extends InputDto> AbstractPersistenceInputDataStream findSource(Class<DtoEntityType> requiredType) {
 		AbstractPersistenceInputDataStream foundStream = null;
@@ -108,6 +109,22 @@ public class PersistenceInputDataStreamFactory implements IInputDataStreamFactor
 
 	public void setBatchingSize(Integer batchingSize) {
 		this.batchingSize = batchingSize;
+	}
+
+	public boolean isRealtime() {
+		return realtime;
+	}
+
+	public void setRealtime(boolean realtime) {
+		this.realtime = realtime;
+	}
+
+	public boolean isProductionControlEnabled() {
+		return productionControlEnabled;
+	}
+
+	public void setProductionControlEnabled(boolean productionControlEnabled) {
+		this.productionControlEnabled = productionControlEnabled;
 	}
 
 }

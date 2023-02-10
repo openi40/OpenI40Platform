@@ -11,6 +11,7 @@ import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.rules.date.IDateRulesGenerator;
 import com.openi40.scheduler.engine.rules.equipment.IEquipmentRulesGenerator;
 import com.openi40.scheduler.engine.rules.material.IMaterialRulesGenerator;
+import com.openi40.scheduler.engine.rules.planner.ProductionMonitoringUtil;
 import com.openi40.scheduler.engine.rules.tasksrelation.ITasksRelationRulesGenerator;
 import com.openi40.scheduler.model.aps.ApsLogicOptions;
 import com.openi40.scheduler.model.rules.DateRule;
@@ -74,9 +75,11 @@ public class RuleBuilderImpl extends BusinessLogic<Task> implements IRuleBuilder
 		// if task is produced/aborted/under production its constraint rule will became
 		// all WARNING and
 		// compatible to scheduling in every situation
-		if (task.isProductionLock()) {
+		if (ProductionMonitoringUtil.isUnderProduction(task)) {
 			for (Rule rule : task.getConstraintRules()) {
-				rule.setPriority(ConstraintPriority.WARNS);
+				if (!(rule instanceof EquipmentRule)) {
+					rule.setPriority(ConstraintPriority.WARNS);
+				}
 			}
 		}
 		if (LOGGER.isDebugEnabled())

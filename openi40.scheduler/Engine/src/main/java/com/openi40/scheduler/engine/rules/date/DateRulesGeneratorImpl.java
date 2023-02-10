@@ -43,7 +43,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 					Rule.ConstraintPriority.WARNS, task.getAskedDeliveryDateTime(), null,
 					EndDateTimeAlignment.END_BEFORE_END_ASAP);
 			dateConstraintRule.setUnmetConstraintMessage(
-					new ApsMessage(this, ApsMessageConstrants.DELIVERY_DATE_CONSTRAINT_NOT_MET, environment));
+					new ApsMessage(this,task, ApsMessageConstrants.DELIVERY_DATE_CONSTRAINT_NOT_MET, environment,task.getContext()));
 			dateRules.add(dateConstraintRule);
 		}
 
@@ -56,9 +56,9 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 				DateUtil.discretize(task.getContext().getSchedulingWindow().getEndDateTime()), null,
 				EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
 		windowMinimumBound.setUnmetConstraintMessage(
-				new ApsMessage(this, ApsMessageConstrants.WINDOW_DATE_START_DATE_CONSTRAINT_NOT_MET, environment));
+				new ApsMessage(this,task, ApsMessageConstrants.WINDOW_DATE_START_DATE_CONSTRAINT_NOT_MET, environment,task.getContext()));
 		windowMaximumBound.setUnmetConstraintMessage(
-				new ApsMessage(this, ApsMessageConstrants.WINDOW_DATE_END_DATE_CONSTRAINT_NOT_MET, environment));
+				new ApsMessage(this,task, ApsMessageConstrants.WINDOW_DATE_END_DATE_CONSTRAINT_NOT_MET, environment,task.getContext()));
 		dateRules.add(windowMinimumBound);
 		dateRules.add(windowMaximumBound);
 		if (task.getMinProductionDateConstraint() != null) {
@@ -66,8 +66,8 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 					Rule.ConstraintPriority.MANDATORY, DateUtil.discretize(task.getMinProductionDateConstraint()),
 					StartDateTimeAlignment.START_AFTER_START_ASAP, null, TimeSegmentType.SETUP_TIME);
 			dateRules.add(MinimumProductionBound);
-			windowMinimumBound.setUnmetConstraintMessage(new ApsMessage(this,
-					ApsMessageConstrants.MIN_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET, environment));
+			windowMinimumBound.setUnmetConstraintMessage(new ApsMessage(this,task,
+					ApsMessageConstrants.MIN_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET, environment,task.getContext()));
 		}
 		if (task.getMaxProductionDateConstraint() != null) {
 			DateRule MaximumProductionBound = new DateRule(task, Rule.ConstraintOrigin.SCHEDULING,
@@ -75,7 +75,7 @@ public class DateRulesGeneratorImpl extends BusinessLogic<Task> implements IDate
 					EndDateTimeAlignment.END_BEFORE_END_ASAP, TimeSegmentType.WORK_TIME);
 			dateRules.add(MaximumProductionBound);
 			MaximumProductionBound.setUnmetConstraintMessage(
-					new ApsMessage(this, ApsMessageConstrants.MAX_PRODUCTION_END_DATE_CONSTRAINT_NOT_MET, environment));
+					new ApsMessage(this,task, ApsMessageConstrants.MAX_PRODUCTION_END_DATE_CONSTRAINT_NOT_MET, environment,task.getContext()));
 		}
 		return dateRules;
 	}

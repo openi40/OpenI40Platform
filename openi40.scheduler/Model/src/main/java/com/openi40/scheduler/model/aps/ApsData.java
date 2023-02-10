@@ -62,6 +62,7 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	private boolean fullyPlanned = false;
 	private boolean scheduled = false;
 	private boolean initialized = false;
+	private int apsMessagesCounter=0;
 	@Setter(value = AccessLevel.NONE)
 	private List<ProductiveCompany> productiveCompanies = createCleanChild(this, PRODUCTIVE_COMPANIES,
 			ProductiveCompany.class);
@@ -85,7 +86,7 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 	@Override
 	public void resetSchedulingData() {
 		this.schedulingUtilCache.clear();
-
+		apsMessagesCounter=0;
 		for (ProductiveCompany productiveCompany : productiveCompanies) {
 			productiveCompany.resetSchedulingData();
 		}

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.openi40</groupId>
 	<artifactId>parent</artifactId>
-	<version>00.00.01BC</version>
+	<version>00.00.02BC-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -10,7 +10,7 @@
 		<version>2.3.4.RELEASE</version>
 	</parent>
 	<properties>
-		<global.version>00.00.01BC</global.version>
+		<global.version>00.00.02BC-SNAPSHOT</global.version>
 		<org.springframework.boot.version>2.4.2</org.springframework.boot.version>
 		<org.springframework.version>5.3.3</org.springframework.version>
 		<generate.jpa.phase>none</generate.jpa.phase>

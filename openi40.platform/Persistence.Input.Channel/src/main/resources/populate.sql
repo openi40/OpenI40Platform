@@ -1,31 +1,31 @@
-insert into aps_window (code,description,modified_ts,start_dt,end_dt) values ('APS_WINDOW','Aps window',now(),'2020-12-01T00:00:00','2021-06-01T23:59:59');
-insert into tsheet_meta (code,description,modified_ts) values ('DEFAULT','Default working tsheet',now());
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('LUNEDI-MATTINA','DEFAULT','lunedi mattina',now(),2,'08:00:00','13:00:00');
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('LUNEDI-POMERIGGIO','DEFAULT','lunedi pomeriggio',now(),2,'13:00:00','19:00:00');
+insert into aps_window (code,description,modified_ts,start_dt,end_dt) values ('APS_WINDOW','Aps window','2020-12-01 08:00:00','2020-12-01 00:00:00','2021-06-01 23:59:59');
+insert into tsheet_meta (code,description,modified_ts) values ('DEFAULT','Default working tsheet','2020-12-01 08:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('LUNEDI-MATTINA','DEFAULT','lunedi mattina','2020-12-01 08:00:00',2,'08:00:00','13:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('LUNEDI-POMERIGGIO','DEFAULT','lunedi pomeriggio','2020-12-01 08:00:00',2,'13:00:00','19:00:00');
 
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MARTEDI-MATTINA','DEFAULT','martedi mattina',now(),3,'08:00:00','13:00:00');
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MARTEDI-POMERIGGIO','DEFAULT','martedi pomeriggio',now(),3,'13:00:00','19:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MARTEDI-MATTINA','DEFAULT','martedi mattina','2020-12-01 08:00:00',3,'08:00:00','13:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MARTEDI-POMERIGGIO','DEFAULT','martedi pomeriggio','2020-12-01 08:00:00',3,'13:00:00','19:00:00');
 
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MERCOLEDI-MATTINA','DEFAULT','mercoledi mattina',now(),4,'08:00:00','13:00:00');
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MERCOLEDI-POMERIGGIO','DEFAULT','mercoledi pomeriggio',now(),4,'13:00:00','19:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MERCOLEDI-MATTINA','DEFAULT','mercoledi mattina','2020-12-01 08:00:00',4,'08:00:00','13:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('MERCOLEDI-POMERIGGIO','DEFAULT','mercoledi pomeriggio','2020-12-01 08:00:00',4,'13:00:00','19:00:00');
 
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('GIOVEDI-MATTINA','DEFAULT','giovedi mattina',now(),5,'08:00:00','13:00:00');
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('GIOVEDI-POMERIGGIO','DEFAULT','giovedi pomeriggio',now(),5,'13:00:00','19:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('GIOVEDI-MATTINA','DEFAULT','giovedi mattina','2020-12-01 08:00:00',5,'08:00:00','13:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('GIOVEDI-POMERIGGIO','DEFAULT','giovedi pomeriggio','2020-12-01 08:00:00',5,'13:00:00','19:00:00');
 
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('VENERDI-MATTINA','DEFAULT','venerdi mattina',now(),6,'08:00:00','13:00:00');
-insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('VENERDI-POMERIGGIO','DEFAULT','venerdi pomeriggio',now(),6,'13:00:00','19:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('VENERDI-MATTINA','DEFAULT','venerdi mattina','2020-12-01 08:00:00',6,'08:00:00','13:00:00');
+insert into tsheet_meta_working_time_rule (code,tsheet_meta_code,description,modified_ts,day_of_week,start_time,end_time) values ('VENERDI-POMERIGGIO','DEFAULT','venerdi pomeriggio','2020-12-01 08:00:00',6,'13:00:00','19:00:00');
 
-insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('IMMACOLATA','DEFAULT','8 dicembre',now(),false,'2020-12-08T00:00:00','2020-12-09T00:00:00');
-insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('NATALE','DEFAULT','natale dicembre',now(),false,'2020-12-24T00:00:00','2020-12-26T00:00:00');
-insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('PRIMA_SETTIMANA_ANNO','DEFAULT','prima settimana annuale',now(),false,'2020-12-31T00:00:00','2021-01-07T00:00:00');
+insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('IMMACOLATA','DEFAULT','8 dicembre','2020-12-01 08:00:00',false,'2020-12-08 00:00:00','2020-12-09 00:00:00');
+insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('NATALE','DEFAULT','natale dicembre','2020-12-01 08:00:00',false,'2020-12-24 00:00:00','2020-12-26 00:00:00');
+insert into tsheet_meta_exc_rule (code,tsheet_meta_code,description,modified_ts,working,start_period,end_period) values ('PRIMA_SETTIMANA_ANNO','DEFAULT','prima settimana annuale','2020-12-01 08:00:00',false,'2020-12-31 00:00:00','2021-01-07 00:00:00');
 -- productive companies
-insert into prdive_company (code,description,modified_ts,removed) values ('ACOMPANY002','Florida keys sport stainless steel company',now(),false);
+insert into prdive_company (code,description,modified_ts,removed) values ('ACOMPANY002','Florida keys sport stainless steel company','2020-12-01 08:00:00',false);
 
 -- plant
-insert into plant (code,description,prdive_company_code,tsheet_meta_code,modified_ts,removed) values ('STB002','Sugarlof Stainless steel Plant','ACOMPANY002','DEFAULT',now(),false)
+insert into plant (code,description,prdive_company_code,tsheet_meta_code,modified_ts,removed) values ('STB002','Sugarlof Stainless steel Plant','ACOMPANY002','DEFAULT','2020-12-01 08:00:00',false);
 
 -- departments
-insert into dept (code,description,plant_code,modified_ts,removed) values ('PRD002','Production department','STB002',now(),false);
+insert into dept (code,description,plant_code,modified_ts,removed) values ('PRD002','Production department','STB002','2020-12-01 08:00:00',false);
 
 -- product
 
@@ -410,7 +410,7 @@ insert into work_center (code,description,dept_code,tsheet_meta_code) values (
 			'DEFAULT'
 		);
 --warehouse 
-insert into whouse  (code,description,removed,infinite_capacity,modified_ts,plant_code,tsheet_meta_code) values ('WH002','Warehouse 00A',false,false,now(),'STB002','DEFAULT');
+insert into whouse  (code,description,removed,infinite_capacity,modified_ts,plant_code,tsheet_meta_code) values ('WH002','Warehouse 00A',false,false,'2020-12-01 08:00:00','STB002','DEFAULT');
 -- changeover matrix
 insert into chng_over_matrix_item (code,description,setup_group_code_from,setup_group_code_to,work_center_code,setup_time) values (
 			'TRG001-BND-TO-TRG001-BND',
@@ -503,7 +503,7 @@ insert into sales_order_line (code,order_code,plant_code ,whouse_code ,asked_del
 					'SS/ORD003-2020',
 					'STB002',
 					'WH002',
-					'2020-12-06T10:00:00',
+					'2020-12-06 10:00:00',
 					'TRIGGER001',
 					 150,
 					 0,
@@ -516,7 +516,7 @@ insert into sales_order_line (code,order_code,plant_code ,whouse_code ,asked_del
 					'SS/ORD003-2020',
 					'STB002',
 					'WH002',
-					'2020-12-10T10:00:00',
+					'2020-12-10 10:00:00',
 					'SHAFT130CM',
 					 3,
 					 0,
@@ -529,7 +529,7 @@ insert into sales_order_line (code,order_code,plant_code ,whouse_code ,asked_del
 					'SS/ORD003-2020',
 					'STB002',
 					'WH002',
-					'2020-12-10T10:00:00',
+					'2020-12-10 10:00:00',
 					'SANDVICKSHAFTWING001',
 					 3,
 					 0,
@@ -541,7 +541,7 @@ insert into sales_order_line (code,order_code,plant_code ,whouse_code ,asked_del
 					'SS/ORD004-2020',
 					'STB002',
 					'WH002',
-					'2020-12-09T10:00:00',
+					'2020-12-09 10:00:00',
 					'TRIGGER001',
 					 200,
 					 0,
@@ -554,7 +554,7 @@ insert into sales_order_line (code,order_code,plant_code ,whouse_code ,asked_del
 					'SS/ORD004-2020',
 					'STB002',
 					'WH002',
-					'2020-12-11T10:00:00',
+					'2020-12-11 10:00:00',
 					'SHAFT130CM',
 					 30,
 					 0,
@@ -714,54 +714,3 @@ INSERT INTO RC_USE_SPEC(after_start_minutes ,before_stop_minutes ,code,descripti
 (0,0,'SR7-ES7',null,0,0,null,1,'EMPLOYEE-SS','CONSTANT','SETUP_WORK','ES7'),
 (0,0,'SR16-ES16',null,0,0,null,1,'WELDING-EXPERTS','CONSTANT','SETUP_WORK','ES16'),
 (0,0,'SR13-ES13',null,0,0,null,1,'EMPLOYEE-SS','CONSTANT','SETUP_WORK','ES13');
-
-insert into stock_supply(code,prd_code,description,whouse_code,physical_stock_quantity) values
-(
-			 'SSINVENTORY001',
-			'AISI316SHEET600x600x3mm',
-			'Aisi316 sheet AISI316SHEET600x600x3mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY002',
-			'AISI316BAR500x50x15mm',
-			'Aisi316 bar AISI316BAR500x50x15mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY003',
-			'AISI316ROUNDBAR200x4mm',
-			'Aisi316 round bar AISI316ROUNDBAR200x4mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY004',
-			'SANDVIKROUNDBAR1500x7mm',
-			'Sandvik round bar SANDVIKROUNDBAR1500x7mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY005',
-			'SANDVIKROUNDBAR20x3mm',
-			'Sandvik round bar SANDVIKROUNDBAR20x3mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY006',
-			'SANDVICKSHEET600x600x1mm',
-			'Sandvick sheet 600x600x1mm',
-			'WH002',
-			1000
-		),
-		(
-			 'SSINVENTORY007',
-			'SANDVICKSPINE7x1.5mm',
-			'Sandvick sping 7x1.5 mm',
-			'WH002',
-			1000
-		);

@@ -46,7 +46,8 @@ public abstract class AbstractConfigurableInputDataStreamFactory<ImportEntryType
 	protected ObjectMapper mapper = null;
 	protected IDataInputValidator inputValidator = null;
 	protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
+	protected boolean realtime = false;
+	protected boolean productionControlEnabled = false;
 	public AbstractConfigurableInputDataStreamFactory(CType config, ObjectMapper mapper,
 			IDataInputValidator inputValidator) {
 		this.config = config;
@@ -321,5 +322,21 @@ public abstract class AbstractConfigurableInputDataStreamFactory<ImportEntryType
 	}
 
 	protected abstract ApsInputData loadSingleSource(CType config2, Date modifiedAfter) throws InputDataStreamException;
+
+	public boolean isRealtime() {
+		return realtime;
+	}
+
+	public void setRealtime(boolean realtime) {
+		this.realtime = realtime;
+	}
+
+	public boolean isProductionControlEnabled() {
+		return productionControlEnabled;
+	}
+
+	public void setProductionControlEnabled(boolean productionControlEnabled) {
+		this.productionControlEnabled = productionControlEnabled;
+	}
 
 }

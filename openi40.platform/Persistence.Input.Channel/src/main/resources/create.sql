@@ -26,7 +26,7 @@
 -- table for class ApsWindow
 CREATE TABLE aps_window(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field endDateTime
@@ -38,9 +38,9 @@ start_dt TIMESTAMP,
 PRIMARY KEY (code)
 );
 -- table for class TimesheetMetaInfo
-CREATE TABLE tsheet_meta(
+create table tsheet_meta(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
@@ -50,29 +50,29 @@ PRIMARY KEY (code)
 -- table for class ProductiveCompany
 CREATE TABLE prdive_company(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field address
-address VARCHAR(253),
+address varchar(254),
 -- field city
-city VARCHAR(253),
+city varchar(254),
 -- field companyName
-company_name VARCHAR(253),
+company_name varchar(254),
 -- field country
-country VARCHAR(253),
+country varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field provincia
-provincia VARCHAR(253),
+provincia varchar(254),
 -- field zipCode
-zip_code VARCHAR(253),
+zip_code varchar(254),
 PRIMARY KEY (code)
 );
 -- table for class Plant
 CREATE TABLE plant(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field infiniteCapacity
@@ -80,43 +80,43 @@ infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field productiveCompanyCode
-prdive_company_code VARCHAR(253),
+prdive_company_code varchar(30),
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class Department
 CREATE TABLE dept(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class WorkCenter
 CREATE TABLE work_center(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field infiniteCapacity
 infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class Machine
 CREATE TABLE mac(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field disabled
@@ -126,39 +126,39 @@ infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 -- field workCenterCode
-work_center_code VARCHAR(253),
+work_center_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class ChangeOverMatrixItem
 CREATE TABLE chng_over_matrix_item(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field machineCode
-mac_code VARCHAR(253),
+mac_code varchar(30),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field setupGroupCodeFrom
-setup_group_code_from VARCHAR(253),
+setup_group_code_from varchar(254),
 -- field setupGroupCodeTo
-setup_group_code_to VARCHAR(253),
+setup_group_code_to varchar(254),
 -- field setupTime
 setup_time DOUBLE PRECISION,
 -- field workCenterCode
-work_center_code VARCHAR(253),
+work_center_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class ResourceGroup
 CREATE TABLE resource_group(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field infiniteCapacity
 infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
@@ -166,13 +166,13 @@ modified_ts TIMESTAMP,
 -- field resourcesNumber
 resources_number INTEGER,
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class SecondaryResource
 CREATE TABLE rc(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field disabled
@@ -182,15 +182,15 @@ infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field resourceGroupCode
-resource_group_code VARCHAR(253),
+resource_group_code varchar(30),
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class Warehouse
 CREATE TABLE whouse(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field infiniteCapacity
@@ -198,15 +198,15 @@ infinite_capacity BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class Product
 CREATE TABLE prd(
 code VARCHAR(254) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field averageMinPurchaseQty
 average_min_purch_qty DOUBLE PRECISION,
 -- field canBeProducedByScheduler
@@ -224,7 +224,7 @@ PRIMARY KEY (code)
 -- table for class StockSupply
 CREATE TABLE stock_supply(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
@@ -232,16 +232,16 @@ modified_ts TIMESTAMP,
 -- field physicalStockQuantity
 physical_stock_quantity DOUBLE PRECISION,
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 
 PRIMARY KEY (code)
 );
 -- table for class CycleModel
 CREATE TABLE cycle_model(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field defaultProductCycle
 default_prd_cycle BOOLEAN,
 -- field removed
@@ -249,17 +249,17 @@ removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class SalesOrder
 CREATE TABLE sales_order(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field askedDeliveryDate
 asked_del_date TIMESTAMP,
 -- field customPriority
@@ -267,25 +267,25 @@ custom_priority INTEGER,
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field orderStatus
-order_status VARCHAR(253),
+order_status varchar(254),
 -- field orderType
-order_type VARCHAR(253),
+order_type varchar(254),
 -- field partner
-partner VARCHAR(253),
+partner varchar(254),
 -- field plannedDeliveryDate
 pld_del_date TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class PurchaseOrder
 CREATE TABLE purch_order(
-code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+code VARCHAR(254) NOT NULL,
+description varchar(254),
 -- field askedDeliveryDate
 asked_del_date TIMESTAMP,
 -- field customPriority
@@ -293,25 +293,25 @@ custom_priority INTEGER,
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field orderStatus
-order_status VARCHAR(253),
+order_status varchar(254),
 -- field orderType
-order_type VARCHAR(253),
+order_type varchar(254),
 -- field partner
-partner VARCHAR(253),
+partner varchar(254),
 -- field plannedDeliveryDate
 pld_del_date TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class ProductiveCompanyProductSetting
 CREATE TABLE prdive_company_prd_setting(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
@@ -319,11 +319,11 @@ modified_ts TIMESTAMP,
 -- field produced
 prdcd BOOLEAN,
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field productionBySchedulerEnabled
 prdion_by_scheduler_enabled BOOLEAN,
 -- field productiveCompanyCode
-prdive_company_code VARCHAR(253),
+prdive_company_code varchar(30),
 -- field purchaseBySchedulerEnabled
 purch_by_scheduler_enabled BOOLEAN,
 -- field purchased
@@ -333,17 +333,17 @@ PRIMARY KEY (code)
 -- table for class PlantProductSetting
 CREATE TABLE plant_prd_setting(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field produced
 prdcd BOOLEAN,
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field productionBySchedulerEnabled
 prdion_by_scheduler_enabled BOOLEAN,
 -- field purchaseBySchedulerEnabled
@@ -355,7 +355,7 @@ PRIMARY KEY (code)
 -- table for class WarehouseProductSetting
 CREATE TABLE whouse_prd_setting(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field averageMinPurchaseQty
 average_min_purch_qty DOUBLE PRECISION,
 -- field averageProductionDays
@@ -371,7 +371,7 @@ produce_according_to_reorder_level BOOLEAN,
 -- field produced
 prdcd BOOLEAN,
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field productionBySchedulerEnabled
 prdion_by_scheduler_enabled BOOLEAN,
 -- field purchaseAccordingToReorderLevel
@@ -383,17 +383,17 @@ purchd BOOLEAN,
 -- field securityStock
 security_stock DOUBLE PRECISION,
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class SalesOrderLine
 CREATE TABLE sales_order_line(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field askedDeliveryDate
 asked_del_date TIMESTAMP,
 -- field color
-color VARCHAR(253),
+color varchar(254),
 -- field completedQty
 completed_qty DOUBLE PRECISION,
 -- field customPriority
@@ -401,31 +401,31 @@ custom_priority INTEGER,
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field explodeWithCycleCode
-explode_with_cycle_code VARCHAR(253),
+explode_with_cycle_code varchar(30),
 -- field explodeWorkOrders
 explode_work_orders BOOLEAN,
 -- field lineStatus
-line_status VARCHAR(253),
+line_status varchar(254),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field orderCode
-order_code VARCHAR(253),
+order_code varchar(254),
 -- field orderType
-order_type VARCHAR(253),
+order_type varchar(254),
 -- field plannedDeliveryDate
 pld_del_date TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field residualQty
 residual_qty DOUBLE PRECISION,
 -- field totalQty
 total_qty DOUBLE PRECISION,
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
 
@@ -433,12 +433,12 @@ PRIMARY KEY (code)
 
 -- table for class PurchaseOrderLine
 CREATE TABLE purch_order_line(
-code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+code VARCHAR(254) NOT NULL,
+description varchar(254),
 -- field askedDeliveryDate
 asked_del_date TIMESTAMP,
 -- field color
-color VARCHAR(253),
+color varchar(254),
 -- field completedQty
 completed_qty DOUBLE PRECISION,
 -- field customPriority
@@ -446,35 +446,35 @@ custom_priority INTEGER,
 -- field removed
 removed BOOLEAN,
 -- field departmentCode
-dept_code VARCHAR(253),
+dept_code varchar(30),
 -- field lineStatus
-line_status VARCHAR(253),
+line_status varchar(254),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field orderCode
 order_code VARCHAR(30),
 -- field orderType
-order_type VARCHAR(253),
+order_type varchar(254),
 -- field plannedDeliveryDate
 pld_del_date TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field residualQty
 residual_qty DOUBLE PRECISION,
 -- field totalQty
 total_qty DOUBLE PRECISION,
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class WorkOrder
 CREATE TABLE work_order(
 code VARCHAR(254) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field color
-color VARCHAR(253),
+color varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field deliveryDate
@@ -486,44 +486,44 @@ idx INTEGER,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field salesOrderLineCode
-sales_order_line_code VARCHAR(253),
+sales_order_line_code varchar(30),
 -- field startExecutionDate
 start_execution_date TIMESTAMP,
 -- field totalQty
 total_qty DOUBLE PRECISION,
 PRIMARY KEY (code)
 );
-alter table work_order add column cycle_code varchar(254);
+alter table work_order add column cycle_code varchar(30);
 alter table work_order add column root_task boolean;
 -- table for class Task
 CREATE TABLE task(
-code VARCHAR(254) NOT NULL,
-description VARCHAR(253),
+code VARCHAR(254) NOT NULL PRIMARY KEY,
+description varchar(254),
 -- field cycleCode
-cycle_code VARCHAR(253),
+cycle_code varchar(30),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field operationCode
-op_code VARCHAR(253),
+op_code varchar(30),
 -- field predefinedMachineCode
-pred_mac_code VARCHAR(253),
+pred_mac_code varchar(30),
 -- field scheduledMachineCode
-scheduled_mac_code VARCHAR(253),
+scheduled_mac_code varchar(30),
 -- field sequenceCode
-sequence_code VARCHAR(253),
+sequence_code varchar(254),
 -- field successfullyScheduled
 successfully_scheduled BOOLEAN,
 -- field workCenterCode
-work_center_code VARCHAR(253),
+work_center_code varchar(30),
 -- field workOrderCode
-work_order_code VARCHAR(253),
-PRIMARY KEY (code)
+work_order_code varchar(254) 
+
 );
 alter table task add forced_mac_code varchar(80);
 alter table task add success_scheduled boolean;
@@ -546,21 +546,21 @@ alter table TASK add column setup_group_code varchar(254);
 -- table for class TaskRelation
 CREATE TABLE task_relation(
 code VARCHAR(50) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field consumerTaskCode
-consmr_task_code VARCHAR(253),
+consmr_task_code varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field supplierTaskCode
-suplr_task_code VARCHAR(253),
+suplr_task_code varchar(254),
 PRIMARY KEY (code)
 );
 -- table for class TimesheetMetaInfoExceptionRule
 CREATE TABLE tsheet_meta_exc_rule(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field endPeriod
@@ -571,7 +571,7 @@ modified_ts TIMESTAMP,
 start_period TIMESTAMP,
 -- field working
 working BOOLEAN,
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 alter table task_relation add column alignment_type varchar(20);
@@ -579,13 +579,13 @@ alter table task_relation add column time_range_type varchar(10);
 alter table task_relation add column  pegging_edge boolean;
 alter table task_relation add column pegging_code varchar(40);
 alter table task_relation add column offset_millisecs bigint;
-alter table task_relation add column bom_item_code varchar(254);
+alter table task_relation add column bom_item_code varchar(80);
 alter table task_relation add column cons_transfer_type varchar(50);
 alter table task_relation add column cons_batch_qty double precision;
 -- table for class TimesheetMetaInfoWorkingTimeRule
 CREATE TABLE tsheet_meta_working_time_rule(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field dayOfWeek
 day_of_week INTEGER,
 -- field removed
@@ -597,23 +597,23 @@ modified_ts TIMESTAMP,
 -- field startTime
 start_time TIME,
 -- field timesheetMetaInfoCode
-tsheet_meta_code VARCHAR(253),
+tsheet_meta_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class OperationModel
 CREATE TABLE op_model(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field cycleCode
-cycle_code VARCHAR(253),
+cycle_code varchar(30),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field sequenceCode
-sequence_code VARCHAR(253),
+sequence_code varchar(254),
 PRIMARY KEY (code)
 );
 alter table op_model  add column cons_transfer_type varchar(50);
@@ -622,49 +622,47 @@ alter table op_model  add column cons_batch_qty double precision;
 alter table op_model  add column prd_batch_qty double precision;
 -- table for class BomItemModel
 CREATE TABLE bom_item_model(
-code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+code VARCHAR(80) NOT NULL,
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field operationCode
-op_code VARCHAR(253),
+op_code varchar(30),
 -- field requiredProductCode
-required_prd_code VARCHAR(253),
+required_prd_code varchar(254),
 -- field useCoefficient
 use_coefficient DOUBLE PRECISION,
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
 alter table bom_item_model  add column cons_transfer_type varchar(50);
 alter table bom_item_model  add column cons_batch_qty double precision;
-ALTER TABLE bom_item_model ALTER COLUMN code TYPE varchar(80) USING code::varchar;
-
 -- table for class CoProductItem
 CREATE TABLE co_prd_item(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field plantCode
-plant_code VARCHAR(253),
+plant_code varchar(30),
 -- field producedQty
 prdcd_qty DOUBLE PRECISION,
 -- field productCode
-prd_code VARCHAR(253),
+prd_code varchar(254),
 -- field warehouseCode
-whouse_code VARCHAR(253),
+whouse_code varchar(30),
 PRIMARY KEY (code)
 );
-ALTER TABLE co_prd_item add column op_code varchar(80);
+ALTER TABLE co_prd_item add column op_code varchar(30);
 -- table for class ConsumingBatchingInfo
 CREATE TABLE cons_batching_info(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field batchQty
 batch_qty DOUBLE PRECISION,
 -- field batchTransferType
@@ -674,13 +672,13 @@ removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field operationCode
-op_code VARCHAR(253),
+op_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class OperationEquipmentSpecification
 CREATE TABLE op_equip_spec(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field machineTime
@@ -690,22 +688,22 @@ mac_time_spec VARCHAR(60),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field setupGroupCode
-setup_group_code VARCHAR(253),
+setup_group_code varchar(254),
 -- field setupTime
 setup_time DOUBLE PRECISION,
 -- field workCenterCode
-work_center_code VARCHAR(253),
+work_center_code varchar(30),
 PRIMARY KEY (code)
 );
-ALTER TABLE op_equip_spec add column op_code varchar(80);
+ALTER TABLE op_equip_spec add column op_code varchar(30);
 -- table for class MachineEquipmentSpecification
 CREATE TABLE mac_equip_spec(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field machineCode
-mac_code VARCHAR(253),
+mac_code varchar(30),
 -- field machineTime
 mac_time DOUBLE PRECISION,
 -- field machineTimeSpec
@@ -715,18 +713,18 @@ modified_ts TIMESTAMP,
 -- field priority
 priority INTEGER,
 -- field setupGroupCode
-setup_group_code VARCHAR(253),
+setup_group_code varchar(254),
 -- field setupTime
 setup_time DOUBLE PRECISION,
 PRIMARY KEY (code)
 );
 
-ALTER TABLE mac_equip_spec add column op_code varchar(80);
+ALTER TABLE mac_equip_spec add column op_code varchar(30);
 
 -- table for class ProducingBatchingInfo
 CREATE TABLE producing_batching_info(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field batchQty
 batch_qty DOUBLE PRECISION,
 -- field batchTransferType
@@ -736,19 +734,19 @@ removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field operationCode
-op_code VARCHAR(253),
+op_code varchar(30),
 PRIMARY KEY (code)
 );
 -- table for class BomItemBatchInfo
 CREATE TABLE bom_item_batch_info(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field batchQty
 batch_qty DOUBLE PRECISION,
 -- field batchTransferType
 batch_transfer_type VARCHAR(60),
 -- field bomItemCode
-bom_item_code VARCHAR(253),
+bom_item_code varchar(80),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
@@ -758,11 +756,11 @@ PRIMARY KEY (code)
 -- table for class MachinePriority
 CREATE TABLE mac_priority(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field machineCode
-mac_code VARCHAR(253),
+mac_code varchar(30),
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field priority
@@ -773,7 +771,7 @@ ALTER TABLE mac_priority ADD COLUMN op_equip_spec_code varchar(80);
 -- table for class SecondaryResourceUseSpecification
 CREATE TABLE rc_use_spec(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field afterStartMinutes
 after_start_minutes INTEGER,
 -- field beforeStopMinutes
@@ -789,7 +787,7 @@ modified_ts TIMESTAMP,
 -- field qty
 qty INTEGER,
 -- field secondaryResourceGroupCode
-rc_group_code VARCHAR(253),
+rc_group_code varchar(30),
 -- field useType
 use_type VARCHAR(60),
 -- field usedTime
@@ -799,11 +797,11 @@ PRIMARY KEY (code)
 ALTER TABLE RC_USE_SPEC ADD COLUMN op_equip_spec_code varchar(80);
 
 create table rc_group_reserv (
-	code varchar(253) not null,
-	description varchar(253),
-	task_code varchar(253) not null,
-	rc_code varchar(253),
-	rc_group_code varchar(253) not null,
+	code varchar(254) not null,
+	description varchar(254),
+	task_code varchar(254) not null,
+	rc_code varchar(254),
+	rc_group_code varchar(30) not null,
 	start_reserv timestamp not null,
 	end_reserv timestamp not null,	
 	use_type varchar(10) not null,
@@ -816,8 +814,8 @@ alter table rc_group_reserv add column modified_ts TIMESTAMP;
 
 
 create table whouse_picklist (
-		code varchar(253) not null,
-		description varchar(253) ,
+		code varchar(254) not null,
+		description varchar(254) ,
 		removed boolean,
 		modified_ts timestamp,
 		whouse_code varchar(30) not null,
@@ -830,7 +828,7 @@ create table whouse_picklist (
 		batch_qty double precision,
 		nr_transfers double precision,
 		qty_reserved double precision,
-		prd_code varchar(30) not null,
+		prd_code varchar(254) not null,
 		primary key(code),
 		foreign key (whouse_code) references whouse(code) on delete cascade,
 		foreign key (mac_code) references mac(code) on delete cascade,
@@ -840,8 +838,8 @@ create table whouse_picklist (
 );
 
 create table task_picklist(
-		code varchar(253) not null,
-		description varchar(253) ,
+		code varchar(254) not null,
+		description varchar(254) ,
 		removed boolean,
 		modified_ts timestamp,
 		whouse_code varchar(30) not null,
@@ -856,7 +854,7 @@ create table task_picklist(
 		batch_qty double precision,
 		nr_transfers double precision,
 		qty_reserved double precision,
-		prd_code varchar(30) not null,
+		prd_code varchar(254) not null,
 		primary key(code),
 		foreign key (whouse_code) references whouse(code) on delete cascade,
 		foreign key (mac_code) references mac(code) on delete cascade,
@@ -867,8 +865,8 @@ create table task_picklist(
 		foreign key (prd_code) references prd(code) on delete cascade
 	);
 create table purchase_picklist (
-		code varchar(253) not null,
-		description varchar(253) ,
+		code varchar(254) not null,
+		description varchar(254) ,
 		removed boolean,
 		modified_ts timestamp,
 		whouse_code varchar(30) not null,
@@ -883,7 +881,7 @@ create table purchase_picklist (
 		batch_qty double precision,
 		nr_transfers double precision,
 		qty_reserved double precision,
-		prd_code varchar(30) not null,
+		prd_code varchar(254) not null,
 		primary key(code),
 		foreign key (whouse_code) references whouse(code) on delete cascade,
 		foreign key (mac_code) references mac(code) on delete cascade,
@@ -893,13 +891,13 @@ create table purchase_picklist (
 		foreign key (purch_order_line) references purch_order_line(code) on delete cascade,
 		foreign key (prd_code) references prd(code) on delete cascade
 );
-alter table task_relation add column consmr_worder_code varchar(253) ;
-alter table task_relation add column suplr_worder_code varchar(253) ;
+alter table task_relation add column consmr_worder_code varchar(254) ;
+alter table task_relation add column suplr_worder_code varchar(254) ;
 
 
 create table pegging(
 		code varchar(40) not null,
-		description varchar(253) ,
+		description varchar(254) ,
 		removed boolean,
 		modified_ts timestamp,
 		cons_worder_code varchar(254),
@@ -916,7 +914,7 @@ create table pegging(
 
 create table scheduling_set (
 	code VARCHAR(40) NOT NULL,
-	description VARCHAR(253),
+	description varchar(254),
 -- field removed
 	removed BOOLEAN,
 	position integer ,
@@ -926,7 +924,7 @@ create table scheduling_set (
 );
 create table scheduled_wo(
 	code VARCHAR(40) NOT NULL,
-	description VARCHAR(253),
+	description varchar(254),
 	-- field removed
 	removed BOOLEAN,
 	position integer,
@@ -938,7 +936,7 @@ create table scheduled_wo(
 	foreign key (sched_set_code) references scheduling_set(code) on delete cascade,
 	foreign key (work_order_code) references work_order(code) on delete cascade
 );
-ALTER TABLE scheduling_set add column options text;
+ALTER TABLE scheduling_set add column options CLOB;
 ALTER TABLE scheduling_set add column algo_dir varchar(20);
 ALTER TABLE scheduling_set add column algo_type varchar(20);
 
@@ -974,23 +972,23 @@ ALTER TABLE OP_EQUIP_SPEC ADD COLUMN def_mac_code varchar(40);
 
 CREATE TABLE partner(
 code VARCHAR(30) NOT NULL,
-description VARCHAR(253),
+description varchar(254),
 -- field address
-address VARCHAR(253),
+address varchar(254),
 -- field city
-city VARCHAR(253),
+city varchar(254),
 -- field companyName
-company_name VARCHAR(253),
+company_name varchar(254),
 -- field country
-country VARCHAR(253),
+country varchar(254),
 -- field removed
 removed BOOLEAN,
 -- field modifiedTimestamp
 modified_ts TIMESTAMP,
 -- field provincia
-provincia VARCHAR(253),
+provincia varchar(254),
 -- field zipCode
-zip_code VARCHAR(253),
+zip_code varchar(254),
 PRIMARY KEY (code)
 );
 
@@ -1047,8 +1045,8 @@ ALTER TABLE partner ADD COLUMN INTEGRATION_TS TIMESTAMP ;
 
 CREATE TABLE OI40_INCREMENTAL_SYNC(
 	ALGORITHM_ID VARCHAR(30) NOT NULL,
-	TABLE_NAME VARCHAR(253) NOT NULL,
-	TS_PROPERTY VARCHAR(253) NOT NULL,	
+	TABLE_NAME varchar(254) NOT NULL,
+	TS_PROPERTY varchar(254) NOT NULL,	
 	TS_VALUE TIMESTAMP ,
 	PRIMARY KEY(ALGORITHM_ID,TABLE_NAME,TS_PROPERTY)
 );
@@ -1059,7 +1057,7 @@ CREATE TABLE OI40_DELETED_ENTRIES (
 	TABLENAME VARCHAR(40) NOT NULL,
 	INTEGRATION_TS TIMESTAMP,
 	content_type  varchar(50) not null,
-	RECORD_VALUE TEXT,
+	RECORD_VALUE CLOB,
 	PRIMARY KEY (code)	
 );
 -- 15/07/2022
@@ -1086,7 +1084,7 @@ ALTER TABLE task add column acq_prep_end TIMESTAMP;
 ALTER TABLE task add column acq_prd_start TIMESTAMP;
 ALTER TABLE task add column acq_prd_end TIMESTAMP;
 ALTER TABLE task add column acq_prd_upd TIMESTAMP;
-ALTER TABLE task add column acq_machine_code VARCHAR(255);
+ALTER TABLE task add column acq_machine_code varchar(254);
 
 
 CREATE TABLE acq_setup_resources (
@@ -1094,9 +1092,9 @@ CREATE TABLE acq_setup_resources (
 		description varchar(50),
 		removed boolean default false,
 		modified_ts timestamp,
-		task_code varchar(255) NOT NULL,
+		task_code varchar(254) NOT NULL,
 		rc_codes varchar(1200),
-		resource_group varchar(255)
+		resource_group varchar(254)
 );
 
 CREATE TABLE acq_work_resources (
@@ -1104,7 +1102,56 @@ CREATE TABLE acq_work_resources (
 		description varchar(50),
 		removed boolean default false,
 		modified_ts timestamp,
-		task_code varchar(255) NOT NULL,
+		task_code varchar(254) NOT NULL,
 		rc_codes varchar(1200),
-		resource_group varchar(255)
+		resource_group varchar(254)
 );
+
+
+CREATE TABLE msg_spooler_entry(
+	msg_entry_id bigint not null primary key,
+	data_src_name varchar(40) not null,
+	data_set_name varchar(40) not null,
+	data_set_variant  varchar(40) not null,
+	code varchar(40) not null,
+	ts_message timestamp,
+	ts_memorized timestamp,		
+	msg_class_name varchar(512) not null,
+	json_dump CLOB,
+	processed_status varchar(20) not null,
+	processed_ts timestamp	);
+	
+CREATE UNIQUE INDEX MSGSPENTRUNQ ON 	msg_spooler_entry(data_src_name,data_set_name,data_set_variant,code);
+CREATE INDEX MSGSPENTRORD ON 	msg_spooler_entry(data_src_name asc,data_set_name asc,data_set_variant asc,ts_message asc,processed_status asc) ;
+
+
+
+
+CREATE TABLE msg_spooler_proc(
+            id bigint not null primary key,
+	        msg_entry_id  bigint not null,
+	        process_ok boolean default false,
+	        error_code varchar(100),
+	        error_msg CLOB,
+	        processed_ts timestamp
+);
+CREATE  SEQUENCE msg_spooler_entry_seq  AS bigint INCREMENT by 1  START  WITH  1 ;
+CREATE  SEQUENCE msg_spooler_proc_seq  AS bigint INCREMENT by 1  START  WITH  1 ;  
+
+
+create table aps_msg (
+           code varchar(260) not null primary key,
+		   description varchar(80),
+		   task_code varchar(254),
+		   removed boolean,
+		   modified_ts timestamp,
+		   pos  integer,
+		   msg_category varchar(254),
+		   msg_code varchar(254),
+		   msg_descr clob,
+		   msg_level varchar(254),
+		   src_module varchar(254),
+		   src_obj_class varchar(512),
+		    glb_cntr integer
+);
+CREATE INDEX APS_MSG_IDX ON APS_MSG (task_code asc,pos asc);

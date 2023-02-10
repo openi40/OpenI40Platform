@@ -53,7 +53,7 @@ public class WorkOrderDataModelDao extends AbstractApsDataModelDao<WorkOrder> im
 		}
 		synchronized (context) {
 			plant.getWorkOrders().add(entry);
-			entry.setParentOrderLine(orderLine);
+			entry.setParentOrderLine(orderLine);			
 		}
 
 	}

@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessInterface;
 import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
-import com.openi40.scheduler.engine.messages.handling.MessageHandlingErrorMessage;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.messages.AbstractBaseMessage;
+import com.openi40.scheduler.model.messages.handling.MessageHandlingErrorMessage;
 
 import lombok.Getter;
 

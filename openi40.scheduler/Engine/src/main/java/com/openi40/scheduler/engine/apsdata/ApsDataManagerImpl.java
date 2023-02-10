@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
+import com.openi40.scheduler.engine.timesheet.TimeSheetsInitializer;
 import com.openi40.scheduler.engine.workordergeneration.IWorkOrderGenerator;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
@@ -23,47 +24,33 @@ import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.orders.SalesOrder;
 import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 @DefaultImplementation(implemented = IApsDataManager.class, entityClass = ApsData.class)
 public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDataManager {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsDataManagerImpl.class);
+	@Autowired
+	TimeSheetsInitializer timeSheetsInitializer;
 
 	public void initialize(ApsData context) {
 		LOGGER.debug("Begin initialize(context);");
-		List<ITimesheetAllocableObject> list = new ArrayList<>();
-		list.add(context);
-		list.addAll(context.getProductiveCompanies());
-		for (ProductiveCompany pc : context.getProductiveCompanies()) {
-			list.addAll(pc.getPlants());
-			for (Plant plant : pc.getPlants()) {
-				list.addAll(plant.getDepartments());
-				for (Department dep : plant.getDepartments()) {
-					list.addAll(dep.getWorkCenters());
-					for (WorkCenter wc : dep.getWorkCenters()) {
-						list.addAll(wc.getResources());
-					}
-					for (ResourceGroup grp : dep.getSecondaryResourceGroups()) {
-						list.addAll(grp.getResources());
-					}
-				}
-				list.addAll(plant.getWarehouses());
-			}
-		}
-		for (ITimesheetAllocableObject r : list) {
-			ITimesheetLogic timesheetLogic = this.componentsFactory.create(ITimesheetLogic.class, r, context);
-			r.setTimesheet(timesheetLogic.createCleanCalendar(r));
-		}
+		timeSheetsInitializer.initializeCalendars(context);
 		this.beforeScheduling(context);
 		context.setInitialized(true);
+		// if actualDateTime is null initialize it at beginning of scheduling window
+		if (context.getActualDateTime() == null && context.getSchedulingWindow() != null
+				&& context.getSchedulingWindow().getStartDateTime() != null) {
+			context.setActualDateTime(context.getSchedulingWindow().getStartDateTime());
+		}
 		LOGGER.debug("End initialize(context);");
 	}
 
@@ -86,7 +73,7 @@ public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDa
 										if (workOrders == null || workOrders.isEmpty()) {
 											IWorkOrderGenerator workOrderGenerator = this.componentsFactory
 													.create(IWorkOrderGenerator.class, context, context);
-											workOrders=workOrderGenerator.createWorkOrder(orderLine, plant);
+											workOrders = workOrderGenerator.createWorkOrder(orderLine, plant);
 										}
 									} catch (DataModelDaoException e) {
 										throw new RuntimeException("Problem accessing workOrders search", e);

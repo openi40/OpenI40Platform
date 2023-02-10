@@ -114,14 +114,14 @@ public class MachineHipotesysActuator {
 		do {
 
 			TimesheetReservation workReservation = resourceOptionCalendarLogic.planReservation(resourceOption,
-					WorkTimeRequirement, context);
+					WorkTimeRequirement, task);
 			if (workReservation != null) {
 				TimeSegmentRequirement SetupTimeRequirement = new TimeSegmentRequirement(TimeSegmentType.SETUP_TIME);
 				SetupTimeRequirement.setEndAlignment(EndDateTimeAlignment.END_ON_END_PRECISELY);
 				SetupTimeRequirement.setEndDateTime(workReservation.getStartDateTime());
 				SetupTimeRequirement.setAvailabilityDuration(setupTime);
 				TimesheetReservation setupReservation = resourceOptionCalendarLogic.planReservation(resourceOption,
-						SetupTimeRequirement, context);
+						SetupTimeRequirement, task);
 				if (setupReservation == null) {
 					TimeSegmentEvaluationResult setupSegment = resourceOptionCalendarLogic
 							.calculateTimeSegmentLimits(resourceOption, SetupTimeRequirement);
@@ -147,7 +147,7 @@ public class MachineHipotesysActuator {
 						WorkTimeReq.setStartDateTime(setupReservation.getEndDateTime());
 						WorkTimeReq.setAvailabilityDuration(workTime);
 						workReservation = resourceOptionCalendarLogic.planReservation(resourceOption, WorkTimeReq,
-								context);
+								task);
 					}
 				}
 				if (setupReservation != null && workReservation != null) {
@@ -220,12 +220,13 @@ public class MachineHipotesysActuator {
 		double nominalSetupTime = setupTime;
 		double workTime = workTimeLogic.calculateWorkTime(task, taskEquipmentInfo);
 		TaskEquipmentInfo thisTaskEquipmentInfo = null;
+		
 		try {
 			thisTaskEquipmentInfo = (TaskEquipmentInfo) taskEquipmentInfo.cleanClone();
 			thisTaskEquipmentInfo.getPreparation().getResource().setChoosenEquipment(usedMachine);
 			thisTaskEquipmentInfo.getPreparation().setNominalSetupTime(nominalSetupTime);
 			thisTaskEquipmentInfo.getExecution().getResource().setChoosenEquipment(usedMachine);
-			thisTaskEquipmentInfo.getExecution().setNominalWorkTime(workTime);
+			thisTaskEquipmentInfo.getExecution().setNominalWorkTime(workTime);			
 		} catch (CloneNotSupportedException e) {
 			throw new OpenI40Exception("Cloned equipment info error", e);
 		}
@@ -249,9 +250,9 @@ public class MachineHipotesysActuator {
 		TimeSegmentRequirement WorkTimeRequirement = realtimeTaskRequirements.getExecutionRequirement();
 
 		TimesheetReservation setupReservation = resourceOptionCalendarLogic.planReservation(usedMachine,
-				SetupTimeRequirement, context);
+				SetupTimeRequirement, task);
 		TimesheetReservation workReservation = resourceOptionCalendarLogic.planReservation(usedMachine,
-				WorkTimeRequirement, context);
+				WorkTimeRequirement, task);
 		if (workReservation != null && setupReservation != null) {
 
 			// Machine reservations allocated, requiring to combine those results with

@@ -33,13 +33,14 @@ import com.openi40.scheduler.model.time.Timesheet;
 import com.openi40.scheduler.model.time.TimesheetAvailableTimeRange;
 import com.openi40.scheduler.model.time.TimesheetReservation;
 import com.openi40.scheduler.model.time.WorkingTimeSegment;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -92,14 +93,15 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	}
 
 	@Override
-	public List<TimesheetReservation> getReservations(ITimesheetAllocableObject ewcalendar, TimeSegmentRequirement range) {
+	public List<TimesheetReservation> getReservations(ITimesheetAllocableObject ewcalendar,
+			TimeSegmentRequirement range) {
 
 		return getCalendar(ewcalendar).getReservations(ewcalendar, range);
 	}
 
 	@Override
-	public TimesheetReservation addReservation(ITimesheetAllocableObject ewcalendar, TimeSegmentRequirement rangeRequirement,
-			IApsObject reservedFrom) {
+	public TimesheetReservation addReservation(ITimesheetAllocableObject ewcalendar,
+			TimeSegmentRequirement rangeRequirement, IApsObject reservedFrom) {
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Begin addReservations(" + ewcalendar.getCode() + "," + rangeRequirement + ",...)");
 		TimesheetReservation planned = planReservation(ewcalendar, rangeRequirement, reservedFrom);
@@ -112,11 +114,16 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	}
 
 	@Override
-	public TimesheetReservation planReservation(ITimesheetAllocableObject ewcalendar, TimeSegmentRequirement rangeRequirement,
-			IApsObject reservedFrom) {
+	public TimesheetReservation planReservation(ITimesheetAllocableObject ewcalendar,
+			TimeSegmentRequirement rangeRequirement, IApsObject reservedFrom) {
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Begin planReservation(" + ewcalendar.getCode() + "," + rangeRequirement + ",...)");
-		assert rangeRequirement.isValidState();
+		if (!rangeRequirement.isValidState()) {
+			String msg = "Passed invalid rangeRequirement=" + rangeRequirement + " in planReservation on calendar=>"
+					+ ewcalendar.getCode() + " for reservedFrom=>" + reservedFrom.getCode();
+			LOGGER.error(msg);
+			throw new OpenI40Exception(msg);
+		}
 		AdvancedTimesheet calendar = getCalendar(ewcalendar);
 		boolean periodIsOk = rangeRequirement.isLowUpLimited()
 				|| (rangeRequirement.isLowerLimited() && rangeRequirement.getAvailabilityDuration() > 0)
@@ -1183,8 +1190,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return result;
 	}
 
-	protected TimeSegmentEvaluationResult measureSegments(ITimesheetAllocableObject reservable, TimeSegmentRequirement req,
-			Slot startSlot, Slot endSlot) {
+	protected TimeSegmentEvaluationResult measureSegments(ITimesheetAllocableObject reservable,
+			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin tryMeasureContiguosSegments(" + req + "," + startSlot + "," + endSlot + ")");
 		}
@@ -1337,8 +1344,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return result;
 	}
 
-	protected AvailableTimeSegments investigateFreeSegments(ITimesheetAllocableObject reservable, TimeSegmentRequirement req,
-			Slot startSlot, Slot endSlot) {
+	protected AvailableTimeSegments investigateFreeSegments(ITimesheetAllocableObject reservable,
+			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin investigateFreeSegments(" + req + "," + startSlot + "," + endSlot + ")");
 		}

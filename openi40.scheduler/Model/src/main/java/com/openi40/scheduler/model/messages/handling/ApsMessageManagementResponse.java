@@ -1,4 +1,4 @@
-package com.openi40.scheduler.engine.messages.handling;
+package com.openi40.scheduler.model.messages.handling;
 
 import lombok.Data;
 /**

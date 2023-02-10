@@ -29,6 +29,7 @@ import com.openi40.scheduler.input.model.orders.PeggingInputDto;
 import com.openi40.scheduler.input.model.orders.PurchaseOrderInputDto;
 import com.openi40.scheduler.input.model.orders.SalesOrderInputDto;
 import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
+import com.openi40.scheduler.input.model.tasks.ApsMessageInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskProductionMaterialReservationInputDto;
 import com.openi40.scheduler.input.model.tasks.TaskPurchaseMaterialReservationInputDto;

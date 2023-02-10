@@ -27,9 +27,10 @@ import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
  *
  */
 public class ApsInputDataStreamFactory implements IInputDataStreamFactory {
-	ApsInputData inputData = null;
-	Map<Class, Method> perTypeListAccessor = new HashMap();
-
+	protected ApsInputData inputData = null;
+	protected Map<Class, Method> perTypeListAccessor = new HashMap();
+	protected boolean realtime = false;
+	protected boolean productionControlEnabled = false;
 	public ApsInputDataStreamFactory(ApsInputData inputData) {
 		this.inputData = inputData;
 		this.initializePerTypeMap();
@@ -118,6 +119,22 @@ public class ApsInputDataStreamFactory implements IInputDataStreamFactory {
 	public String getDataSourceDescription() {
 
 		return this.inputData.getDescription();
+	}
+
+	public boolean isRealtime() {
+		return realtime;
+	}
+
+	public void setRealtime(boolean realtime) {
+		this.realtime = realtime;
+	}
+
+	public boolean isProductionControlEnabled() {
+		return productionControlEnabled;
+	}
+
+	public void setProductionControlEnabled(boolean productionControlEnabled) {
+		this.productionControlEnabled = productionControlEnabled;
 	}
 
 }
