@@ -2,9 +2,12 @@ package com.openi40.scheduler.engine.realtime;
 
 import java.util.GregorianCalendar;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
+import com.openi40.scheduler.engine.timesheet.TimeSheetsInitializer;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsWindow;
 
@@ -19,11 +22,12 @@ import com.openi40.scheduler.model.aps.ApsWindow;
  *
  */
 @DefaultImplementation(implemented = IRealTimeDataManager.class, entityClass = ApsData.class)
-public class RealtimDataManagerImpl extends BusinessLogic<ApsData> implements IRealTimeDataManager {
+public class RealTimeDataManagerImpl extends BusinessLogic<ApsData> implements IRealTimeDataManager {
 	public final Integer REALTIME_PLANNING_DAYS = 60;
 	public final Integer REALTIME_PLANNING_PAST_DAYS = 10;
-
-	public RealtimDataManagerImpl() {
+	@Autowired
+	TimeSheetsInitializer timeSheetsInitializer;
+	public RealTimeDataManagerImpl() {
 
 	}
 
@@ -53,6 +57,7 @@ public class RealtimDataManagerImpl extends BusinessLogic<ApsData> implements IR
 			calendar.add(GregorianCalendar.DAY_OF_YEAR, data.getSchedulingWindow().getRealtimePlanningDays()
 					+ data.getSchedulingWindow().getRealtimePlanningPastDays());
 			data.getSchedulingWindow().setEndDateTime(DateUtil.discretize(calendar.getTime()));
+			timeSheetsInitializer.initializeCalendars(data);
 		}
 
 	}

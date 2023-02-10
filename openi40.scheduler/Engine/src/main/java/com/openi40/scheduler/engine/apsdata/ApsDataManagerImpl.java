@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
+import com.openi40.scheduler.engine.timesheet.TimeSheetsInitializer;
 import com.openi40.scheduler.engine.workordergeneration.IWorkOrderGenerator;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
@@ -37,32 +38,12 @@ import com.openi40.scheduler.model.orders.WorkOrder;
 @DefaultImplementation(implemented = IApsDataManager.class, entityClass = ApsData.class)
 public class ApsDataManagerImpl extends BusinessLogic<ApsData> implements IApsDataManager {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsDataManagerImpl.class);
+	@Autowired
+	TimeSheetsInitializer timeSheetsInitializer;
 
 	public void initialize(ApsData context) {
 		LOGGER.debug("Begin initialize(context);");
-		List<ITimesheetAllocableObject> list = new ArrayList<>();
-		list.add(context);
-		list.addAll(context.getProductiveCompanies());
-		for (ProductiveCompany pc : context.getProductiveCompanies()) {
-			list.addAll(pc.getPlants());
-			for (Plant plant : pc.getPlants()) {
-				list.addAll(plant.getDepartments());
-				for (Department dep : plant.getDepartments()) {
-					list.addAll(dep.getWorkCenters());
-					for (WorkCenter wc : dep.getWorkCenters()) {
-						list.addAll(wc.getResources());
-					}
-					for (ResourceGroup grp : dep.getSecondaryResourceGroups()) {
-						list.addAll(grp.getResources());
-					}
-				}
-				list.addAll(plant.getWarehouses());
-			}
-		}
-		for (ITimesheetAllocableObject r : list) {
-			ITimesheetLogic timesheetLogic = this.componentsFactory.create(ITimesheetLogic.class, r, context);
-			r.setTimesheet(timesheetLogic.createCleanCalendar(r));
-		}
+		timeSheetsInitializer.initializeCalendars(context);
 		this.beforeScheduling(context);
 		context.setInitialized(true);
 		// if actualDateTime is null initialize it at beginning of scheduling window

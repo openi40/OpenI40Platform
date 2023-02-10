@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -22,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.platform.iomessages.spooler.model.MsgSpoolerEntry;
 import com.openi40.platform.iomessages.spooler.model.MsgSpoolerEntryProcessed;
+import com.openi40.platform.iomessages.spooler.model.dto.MSGSpoolingEntryStatus;
 import com.openi40.platform.iomessages.spooler.repositories.MSGSpoolerEntryProcessedRepository;
 import com.openi40.platform.iomessages.spooler.repositories.MSGSpoolerEntryRepository;
 import com.openi40.scheduler.iomessages.AbstractBaseIOMessage;
@@ -135,6 +137,36 @@ public class MSGSpoolerServiceImpl implements IMSGSpoolingService {
 		List<MsgSpoolerEntry> recvd = spoolerRepository.findByProcessedStatus(dataSourceName, dataSetName,
 				dataSetVariant, MsgSpoolerEntry.MSG_STATUS_RECEIVED);
 		return recvd.isEmpty();
+	}
+
+	@Override
+	public MSGSpoolingEntryStatus getMSGSpoolerEntryStatus(String dataSourceName, String dataSetName,
+			String dataSetVariant, String messageCode) {
+		MSGSpoolingEntryStatus rv = null;
+		List<MsgSpoolerEntry> msgSpoolList = spoolerRepository.findByCode(dataSourceName, dataSetName, dataSetVariant,
+				messageCode);
+		if (!msgSpoolList.isEmpty()) {
+			rv = new MSGSpoolingEntryStatus();
+			rv.setSpoolerEntry(msgSpoolList.get(0));
+			List<MsgSpoolerEntryProcessed> processedResults = spoolProcessRepository
+					.findByMsgEntryId(rv.getSpoolerEntry().getMsgEntryId());
+			rv.setProcessedStatus(processedResults);
+		}
+		return rv;
+	}
+
+	@Override
+	public List<MSGSpoolingEntryStatus> getMSGSpoolerEntriesStatus(String dataSourceName, String dataSetName,
+			String dataSetVariant, List<String> messageCodes) {
+		List<MSGSpoolingEntryStatus> results = new ArrayList<>();
+		for (String code : messageCodes) {
+			MSGSpoolingEntryStatus entry = this.getMSGSpoolerEntryStatus(dataSourceName, dataSetName, dataSetVariant,
+					code);
+			if (entry != null) {
+				results.add(entry);
+			}
+		}
+		return results;
 	}
 
 }

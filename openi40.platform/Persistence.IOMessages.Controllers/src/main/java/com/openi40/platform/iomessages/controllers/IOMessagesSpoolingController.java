@@ -1,5 +1,7 @@
 package com.openi40.platform.iomessages.controllers;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openi40.platform.iomessages.spooler.model.dto.MSGSpoolingEntryStatus;
 import com.openi40.platform.iomessages.spooler.services.IMSGSpoolingService;
 import com.openi40.platform.iomessages.spooler.services.MSGSpoolerException;
 import com.openi40.platform.iomessages.spooler.services.SpoolerProcessingTickWrapperService;
@@ -61,6 +64,25 @@ public class IOMessagesSpoolingController {
 			LOGGER.debug("End spoolMessage(" + dataSourceName + "," + dataSetName + "," + dataSetVariant + "," + message
 					+ ")");
 		}
+	}
+
+	@GetMapping("getMSGSpoolerEntryStatus/{dataSourceName}/{dataSetName}/{dataSetVariant}/{messageCode}")
+	public MSGSpoolingEntryStatus getMSGSpoolerEntryStatus(
+			@NotNull @PathVariable("dataSourceName") String dataSourceName,
+			@NotNull @PathVariable("dataSetName") String dataSetName,
+			@NotNull @PathVariable("dataSetVariant") String dataSetVariant,
+			@NotNull @PathVariable("messageCode") String messageCode) {
+		return this.spoolingService.getMSGSpoolerEntryStatus(dataSourceName, dataSetName, dataSetVariant, messageCode);
+	}
+
+	@PostMapping("getMSGSpoolerEntriesStatus/{dataSourceName}/{dataSetName}/{dataSetVariant}/")
+	public List<MSGSpoolingEntryStatus> getMSGSpoolerEntriesStatus(
+			@NotNull @PathVariable("dataSourceName") String dataSourceName,
+			@NotNull @PathVariable("dataSetName") String dataSetName,
+			@NotNull @PathVariable("dataSetVariant") String dataSetVariant,
+			@NotNull @RequestBody List<String> messageCodes) {
+		return this.spoolingService.getMSGSpoolerEntriesStatus(dataSourceName, dataSetName, dataSetVariant,
+				messageCodes);
 	}
 
 	@GetMapping("runSpoolingConsumer/{dataSourceName}/{dataSetName}/{dataSetVariant}/")

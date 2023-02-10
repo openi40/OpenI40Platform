@@ -84,6 +84,7 @@ public abstract class AbstractPlatformTests {
 	IMapperFactory mapperFactory;
 	@Autowired
 	ObjectMapper objectMapper;
+
 	protected void initializeScheduling(ApsData apsData, ApsLogicDirection direction, String logicSpec)
 			throws DataModelDaoException {
 		ApsSchedulingSet schedulingSet = new ApsSchedulingSet(apsData);
@@ -137,10 +138,13 @@ public abstract class AbstractPlatformTests {
 			for (String sqlCommand : sqlCommands) {
 
 				try {
-
-					LOGGER.info("Executing: " + sqlCommand);
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Executing: " + sqlCommand);
+					}
 					statement.execute(sqlCommand);
-					LOGGER.info("Executed OK!");
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Executed OK!");
+					}
 				} catch (Throwable th) {
 					String msg = "Error executing:" + sqlCommand;
 					if (logExceptions)

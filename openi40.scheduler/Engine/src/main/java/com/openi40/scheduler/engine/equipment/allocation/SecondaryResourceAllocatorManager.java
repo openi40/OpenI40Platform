@@ -199,7 +199,6 @@ class SecondaryResourceAllocatorManager {
 			LOGGER.debug("Begin completeWithSecondaryResourceUnderProduction(....) machine=" + usedMachine.getCode()
 					+ " task=" + task.getCode());
 		}
-		LOGGER.warn("completeWithSecondaryResourceUnderProduction has to be implemented!!");
 		SecondaryResourceAllocationResult outValue = complete(usedMachine, setupUsedResources, workUsedResources,
 				taskEquipmentInfo, setupTime, changeOver, nominalSetupTime, workTime, setupReservation, workReservation,
 				workTimeRequirement, direction, componentsFactory, task, context, resourceOptionCalendarLogic);
