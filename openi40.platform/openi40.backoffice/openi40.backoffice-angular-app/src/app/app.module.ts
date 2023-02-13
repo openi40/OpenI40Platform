@@ -28,7 +28,7 @@ export function getBaseUrl() {
   if (port==="4200") {
     port="8083";
   }
-  let openi40Base=protocol+"//"+host+":"+port+"/openi40";
+  let openi40Base=protocol+"//"+host+":"+port+"/openi40-backoffice";
   console.log("Setting basePath: "+openi40Base);
   return openi40Base;
 }
