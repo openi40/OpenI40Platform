@@ -1,5 +1,5 @@
 <p-dialog header="Task overview" [(visible)]="visible" [modal]="true" [style]="{ width: '95vw' }" [baseZIndex]="10000"
-  [draggable]="false" [resizable]="false">
+  [draggable]="false" [resizable]="false" (onHide)="hideClick($event)">
   <p class="p-m-0" style="height: 100%;">
     <p-tabView >
       <p-tabPanel header="Task infos">
