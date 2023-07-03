@@ -9,7 +9,10 @@
 
 # dependencies
 /node_modules
-/node
+
+# documentation
+/documentation
+
 # profiling files
 chrome-profiler-events*.json
 speed-measure-plugin*.json
@@ -25,7 +28,7 @@ speed-measure-plugin*.json
 
 # IDE - VSCode
 .vscode/*
-!.vscode/settings.json
+#!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
@@ -40,7 +43,15 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+/.angular/cache
+/.angular
+
+/documentation
 
 # System Files
 .DS_Store
 Thumbs.db
+frk-angular-0.0.1.tgz
+
+projects/frk-angular/node_modules/
+.vscode/launch.json
