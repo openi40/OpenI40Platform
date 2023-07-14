@@ -45,13 +45,15 @@ testem.log
 /typings
 /.angular/cache
 /.angular
-
+.angular
 /documentation
 
 # System Files
 .DS_Store
 Thumbs.db
-frk-angular-0.0.1.tgz
-
-projects/frk-angular/node_modules/
+node
+node_modules
 .vscode/launch.json
+.angular
+.angular/
+.angular/*

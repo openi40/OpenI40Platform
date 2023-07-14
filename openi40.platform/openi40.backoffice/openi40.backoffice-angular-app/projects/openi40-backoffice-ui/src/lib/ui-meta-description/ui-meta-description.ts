@@ -26,8 +26,8 @@ export interface UI {
         accessRights?:UIAccessRight[];
 }
 export class OrderMeta {
-    fieldName:string;
-    direction:"asc"|"desc";
+    fieldName?:string;
+    direction?:"asc"|"desc";
 }
 export class PageMeta {
     public page:number=0;
