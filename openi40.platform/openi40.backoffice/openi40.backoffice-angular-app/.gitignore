@@ -46,6 +46,8 @@ testem.log
 /.angular/cache
 /.angular
 .angular
+.angular/
+**/.angular
 /documentation
 
 # System Files
@@ -54,6 +56,4 @@ Thumbs.db
 node
 node_modules
 .vscode/launch.json
-.angular
-.angular/
-.angular/*
+
