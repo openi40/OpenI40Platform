@@ -1,0 +1,28 @@
+<h1>{{config?.title}}</h1>
+<div class="content" [formGroup]="frmGroup"]>
+    <div class="row">
+        <div  *ngFor="let ctrlConfig in config?.formGroup?.controls" [ngClass]="ctrlConfig?.containerCssClasses">
+            <ui-configurable-component [configuration]="ctrlConfig" [formControlName]="ctrlConfig.controlName"></ui-configurable-component>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p-table [columns]="columnsConfig" [value]="results" >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngFor="let col of columns">
+                            {{ rowData[col.field] }}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

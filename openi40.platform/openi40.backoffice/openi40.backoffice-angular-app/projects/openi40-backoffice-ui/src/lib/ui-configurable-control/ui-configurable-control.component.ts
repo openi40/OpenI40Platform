@@ -1,4 +1,4 @@
-import { UIControl } from "../public-api"
+import { UIControl } from "../ui-meta-description/ui-meta-description"
 import {Input,Component} from '@angular/core';
 @Component({
     selector:"ui-configurable-component",
@@ -6,5 +6,5 @@ import {Input,Component} from '@angular/core';
     styleUrls:[]
 })
 export class UIConfigurableControlComponent {
-     @Input() configuration: UIControl;
+     @Input() configuration?: UIControl;
 }

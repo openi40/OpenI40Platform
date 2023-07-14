@@ -10,9 +10,16 @@
  */
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { SearchUIFormComponent } from 'projects/openi40-backoffice-ui/src/lib/ui-configurable/search-ui-form/search-ui-form.component';
 
 const routes: Routes = [
-
+  {
+    path:'products-search',
+    component: SearchUIFormComponent,
+    data:{
+      guiConfigurationKey:"products-search"
+    }
+  }
 ];
 
 @NgModule({

@@ -3,6 +3,8 @@ export interface UIControl {
     controlName:string;
     label:string;
     required?:boolean;
+    cssClasses?:string;
+    containerCssClasses?:string;
     type:"input"|"lookup"|"combo"|"hidden"|"custom";
     populationService?:AbstractUISearchService<any,any>|AbstractUIPagedSearchService<any,any>;
 }
@@ -70,10 +72,14 @@ export interface UIEditableForm<DataType> extends UI{
     saveService:AbstractUISaveService<DataType>;
     deleteService?:AbstractUIDeleteService<DataType>;
 }
-
+export interface UIResultColumn {    
+        field?: string;
+        header?: string;    
+}
 export interface UISearchForm<SearchType,ResultType> extends UI{
         pagedSearch:boolean;
         searchService:AbstractUIPagedSearchService<SearchType,ResultType>|AbstractUISearchService<SearchType,ResultType>;
+        resultColumns?: UIResultColumn[];
 }
 
 export interface UIModifiableSearchForm<SearchType,ResultType> extends UISearchForm<SearchType,ResultType>,UIEditableForm<ResultType>{
