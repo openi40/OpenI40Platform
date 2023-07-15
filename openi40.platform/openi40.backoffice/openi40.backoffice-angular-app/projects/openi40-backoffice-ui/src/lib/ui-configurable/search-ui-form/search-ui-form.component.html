@@ -1,8 +1,13 @@
-<h1>{{config?.title}}</h1>
-<div class="content" [formGroup]="frmGroup"]>
+
+<div class="content" [formGroup]="frmGroup" *ngIf="frmGroup">
+    <h1>{{config?.title}}</h1>
+    <h2>Search filters</h2>
     <div class="row">
-        <div  *ngFor="let ctrlConfig in config?.formGroup?.controls" [ngClass]="ctrlConfig?.containerCssClasses">
+        <div  *ngFor="let ctrlConfig of config?.formGroup?.controls;" [ngClass]="ctrlConfig?.containerCssClasses">
             <ui-configurable-component [configuration]="ctrlConfig" [formControlName]="ctrlConfig.controlName"></ui-configurable-component>
+        </div>
+        <div class="col-2">
+            <p-button label="Search" (onClick)="doSearch()" [disabled]="disabledSearch"></p-button>
         </div>
     </div>
     <div class="row">
@@ -10,14 +15,20 @@
             <p-table [columns]="columnsConfig" [value]="results" >
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th *ngFor="let col of columns">
+                        <th *ngIf="config?.gotoDetailService">
+
+                        </th>
+                        <th *ngFor="let col of columns;">
                             {{ col.header }}
                         </th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr>
-                        <td *ngFor="let col of columns">
+                        <td *ngIf="config?.gotoDetailService">
+                           <p-button icon="go" (onClick)="goToDetail(rowData)"></p-button> 
+                        </td>
+                        <td *ngFor="let col of columns;">
                             {{ rowData[col.field] }}
                         </td>
                     </tr>

@@ -8,9 +8,11 @@
  * @author architectures@openi40.org
  *
  */
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SearchUIFormComponent } from 'projects/openi40-backoffice-ui/src/lib/ui-configurable/search-ui-form/search-ui-form.component';
+import { Openi40BackofficeMetaUIModule } from 'projects/openi40-backoffice-ui/src/public-api';
 
 const routes: Routes = [
   {
@@ -23,8 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,
-    { enableTracing: true })],
+  imports: [CommonModule,Openi40BackofficeMetaUIModule, RouterModule.forRoot(routes,{ enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -6,7 +6,7 @@ export class FormGroupConfigurationService {
     public static CFG_DATA="UI_CFG_DATA";
     
     public createFormGroup(fgMeta:UIFormGroup):FormGroup{
-        const cfg:any={string:FormControl};
+        const cfg:any={};
         if (fgMeta.controls) {
             fgMeta.controls.forEach(entry=>{
                 cfg[entry.controlName]=new FormControl();
