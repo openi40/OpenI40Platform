@@ -7,7 +7,7 @@
   </parent>
   <artifactId>openi40.backoffice-angular-app</artifactId>
   <properties>
-		<swagger.file>${project.basedir}/Client.RestApi.Swagger/swagger.json</swagger.file>
+		<swagger.file>${project.basedir}/swagger/swagger.json</swagger.file>
 		<generated-sources-path>${project.basedir}/projects/openi40-backoffice-api/src/lib</generated-sources-path>
 		<generated-sources-java-path>/projects/openi40-dbmodel-api/src/lib</generated-sources-java-path>
 		<version.swagger.codegen>2.4.14</version.swagger.codegen>
@@ -43,7 +43,7 @@
 							<modelPackage>model</modelPackage>
 							<apiPackage>api</apiPackage>
 							<invokerPackage>invoker</invokerPackage>
-							<additionalProperties>ngVersion=10.0.6,libraryName=openi40.client.rest</additionalProperties>
+							<additionalProperties>ngVersion=10.0.6,libraryName=openi40.backoffice.rest</additionalProperties>
 						</configuration>
 					</execution>
 				</executions>

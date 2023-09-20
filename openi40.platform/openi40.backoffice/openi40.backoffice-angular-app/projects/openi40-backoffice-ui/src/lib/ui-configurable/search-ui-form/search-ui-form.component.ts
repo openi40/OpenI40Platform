@@ -14,6 +14,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         public results:ResultType[]=[];
         private searchService?:AbstractUIPagedSearchService|AbstractUISearchService;
         public actualPage: PageMeta=new PageMeta();
+        public pagedService:boolean=false;
         constructor(injector: Injector, configurationRepositoryService: UIConfigurationRepositoryService, fgConfigurator: FormGroupConfigurationService, activatedRouter: ActivatedRoute) {
             super(injector,configurationRepositoryService,fgConfigurator,activatedRouter);
         }
@@ -23,6 +24,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 const service=this.injector.get(this.config.searchService);
                 if (service instanceof AbstractUIPagedSearchService || service instanceof AbstractUISearchService) {
                     this.searchService=service;
+                    this.pagedService=(service instanceof AbstractUIPagedSearchService)?true:false;
                 }
             }
         }
@@ -59,5 +61,9 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 return this.config.resultColumns;
             }else 
                 return [];
+        }
+        public handlePage(ev:{first:number,rows:number}){
+            
+
         }
 }

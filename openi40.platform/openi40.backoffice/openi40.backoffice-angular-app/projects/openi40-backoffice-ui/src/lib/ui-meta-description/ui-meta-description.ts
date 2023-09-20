@@ -12,7 +12,16 @@ export interface UIControl {
     values?: any[];
     mappings?: { label: string, identifier?: string };
     populationService?: AbstractUISearchService | AbstractUIPagedSearchService;
+    customComponent?:any;
+};
+export interface UIControlRepositoryEntry extends UIControl {
+    uniqueControlKey:string;
 }
+
+export interface UIControlsRepository{
+    controls:UIControlRepositoryEntry[];
+};
+
 
 export interface UIFormGroup {
     name: string;
@@ -94,7 +103,6 @@ export class DefaultGoToDetailService extends AbstractGoToDetailService {
     }
 };
 export interface UISearchForm<SearchType, ResultType> extends UI {
-    pagedSearch: boolean;
     searchService: AbstractUIPagedSearchService | AbstractUISearchService | any;
     resultColumns?: UIResultColumn[];
     gotoDetailService?: AbstractGoToDetailService|any;

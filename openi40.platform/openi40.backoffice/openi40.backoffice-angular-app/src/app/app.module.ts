@@ -53,7 +53,6 @@ const PRODUCTS_SEARCH_CONFIGURATION: UISearchForm<any, any> = {
     ]
   },
   accessRights: [],
-  pagedSearch: false,
   searchService: ProductsSearch,
   resultColumns: [{ field: "id", header: "id" }, { field: "code", header: "code" }, { field: "description", header: "description" }],
   gotoDetailService:DefaultGoToDetailService

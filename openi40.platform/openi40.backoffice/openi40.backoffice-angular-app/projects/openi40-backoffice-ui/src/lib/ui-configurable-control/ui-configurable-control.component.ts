@@ -17,6 +17,7 @@ export class UIConfigurableControlComponent implements ControlValueAccessor,OnIn
     public disabled:boolean=false;
     public internalFormControl=new FormControl();
     public choices:any[]=[];
+    
     public get optionLabel():string {
         return this.configuration?.mappings?.label?this.configuration?.mappings?.label:'';
     }
