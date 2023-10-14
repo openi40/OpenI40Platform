@@ -21,7 +21,9 @@
       ],
       "openi40-backoffice-ui": [
         "dist/openi40-backoffice-ui"
-      ]
+      ],
+      "@openi40/backoffice-ui":["projects/openi40-backoffice-ui/public-api"],
+      "@openi40/backoffice-api":["projects/openi40-backoffice-api/public-api"]
     },
     "importHelpers": true,
     "target": "es2020",

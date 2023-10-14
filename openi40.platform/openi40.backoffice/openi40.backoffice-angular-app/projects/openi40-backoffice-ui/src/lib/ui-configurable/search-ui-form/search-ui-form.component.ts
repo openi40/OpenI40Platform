@@ -1,8 +1,8 @@
 
-import { OnInit, Injector, Component } from "@angular/core";
+import { Injector, Component, Inject } from "@angular/core";
 import { BaseUIForm } from "../base-ui-form/base-ui-form.component";
-import { AbstractGoToDetailService, AbstractUIPagedSearchService, AbstractUISearchService, PageMeta, UIResultColumn, UISearchForm } from "../../ui-meta-description/ui-meta-description";
-import { UIConfigurationRepositoryService } from "../../services/ui-configurations-repository.service";
+import { AbstractGoToDetailService, AbstractUIPagedSearchService, AbstractUISearchService, PageMeta, UIResultColumn, UISearchForm, UI_SEARCH_CONFIG } from "../../ui-meta-description/ui-meta-description";
+
 import { FormGroupConfigurationService } from "../../services/formgroup-configurator.service";
 import { ActivatedRoute } from "@angular/router";
 @Component({
@@ -15,8 +15,8 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         private searchService?:AbstractUIPagedSearchService|AbstractUISearchService;
         public actualPage: PageMeta=new PageMeta();
         public pagedService:boolean=false;
-        constructor(injector: Injector, configurationRepositoryService: UIConfigurationRepositoryService, fgConfigurator: FormGroupConfigurationService, activatedRouter: ActivatedRoute) {
-            super(injector,configurationRepositoryService,fgConfigurator,activatedRouter);
+        constructor(injector: Injector,  fgConfigurator: FormGroupConfigurationService,@Inject(UI_SEARCH_CONFIG) config:UISearchForm<SearchType,ResultType>, activatedRouter: ActivatedRoute) {
+            super(injector,fgConfigurator,config,activatedRouter);
         }
         public override ngOnInit(): void {
             super.ngOnInit();

@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectionToken, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+export const UI_SEARCH_CONFIG = new InjectionToken<UI>('ui-search-configuration');
+export const UI_DETAIL_CONFIG = new InjectionToken<UI>('ui-detail-configuration');
 export interface UIControl {
     controlName: string;
     label: string;
@@ -60,15 +62,15 @@ export abstract class AbstractUIPagedSearchService {
 export abstract class AbstractUISearchService {
     public abstract search(search: any, order?: OrderMeta[]): Observable<any[]>;
 }
-export enum SaveStatus {
+export enum OperationStatus {
     SUCCESS, FAIL, WARN
 }
 export interface UIMsg {
 
 }
 export interface OperationResult<DataType> {
-    data?: DataType | DataType[];
-    status: SaveStatus;
+    data?: DataType;
+    status: OperationStatus;
     msgs?: UIMsg[];
 }
 export abstract class AbstractUISaveService<DataType> {
@@ -79,12 +81,15 @@ export abstract class AbstractUIDeleteService<DataType> {
     public abstract delete?(data: DataType): Observable<OperationResult<DataType>>;
     public abstract delete?(data: DataType[]): Observable<OperationResult<DataType[]>>;
 }
-export abstract class AbstractUIFindByIdService<DataType> {
-    public abstract findBy(id: number): Observable<OperationResult<DataType>>;
+export abstract class AbstractUIFindByCodeService<DataType> {
+    public abstract findByCode(code: string): Observable<OperationResult<DataType>>;
+}
+export abstract class AbstractUICreateNewService<DataType> {
+    public abstract createNew(modelObject:DataType):Observable<OperationResult<DataType>>;
 }
 export interface UIEditableForm<DataType> extends UI {
-    saveService: AbstractUISaveService<DataType>;
-    deleteService?: AbstractUIDeleteService<DataType>;
+    saveService: Type<AbstractUISaveService<DataType>>;
+    deleteService?: Type<AbstractUIDeleteService<DataType>>;
 }
 export interface UIResultColumn {
     field?: string;
@@ -103,9 +108,9 @@ export class DefaultGoToDetailService extends AbstractGoToDetailService {
     }
 };
 export interface UISearchForm<SearchType, ResultType> extends UI {
-    searchService: AbstractUIPagedSearchService | AbstractUISearchService | any;
+    searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService> | any;
     resultColumns?: UIResultColumn[];
-    gotoDetailService?: AbstractGoToDetailService|any;
+    gotoDetailService?: Type<AbstractGoToDetailService>|any;
 }
 
 export interface UIModifiableSearchForm<SearchType, ResultType> extends UISearchForm<SearchType, ResultType>, UIEditableForm<ResultType> {
@@ -113,5 +118,6 @@ export interface UIModifiableSearchForm<SearchType, ResultType> extends UISearch
 }
 
 export interface UIDetailForm<DataType> extends UIEditableForm<DataType> {
-    findByIdService: AbstractUIFindByIdService<DataType>;
+    findByCodeService: Type<AbstractUIFindByCodeService<DataType>>;
+    createNewService?:Type<AbstractUICreateNewService<DataType>>;
 }

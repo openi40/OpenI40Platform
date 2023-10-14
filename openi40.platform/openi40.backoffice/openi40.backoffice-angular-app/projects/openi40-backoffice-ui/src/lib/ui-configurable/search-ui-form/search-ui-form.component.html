@@ -1,11 +1,11 @@
 
 <div class="content" [formGroup]="frmGroup" *ngIf="frmGroup">
-    <h1>{{config?.title}}</h1>
+    <h1>{{config.title}}</h1>
     <h2>Search filters</h2>
     <div class="row">
-        <div  *ngFor="let ctrlConfig of config?.formGroup?.controls;" [ngClass]="ctrlConfig?.containerCssClasses">
-            <ui-configurable-component [configuration]="ctrlConfig" [formControlName]="ctrlConfig.controlName"></ui-configurable-component>
-        </div>
+        <ui-configured-form [formGroup]="frmGroup" [config]="config">
+            
+        </ui-configured-form>
         <div class="col-2">
             <p-button label="Search" (onClick)="doSearch()" [disabled]="disabledSearch"></p-button>
         </div>
