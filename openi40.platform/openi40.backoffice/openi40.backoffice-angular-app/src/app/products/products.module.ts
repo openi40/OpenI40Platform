@@ -1,24 +1,16 @@
 import { CommonModule } from "@angular/common";
 import { Injectable, NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { SearchUIFormComponent } from "projects/openi40-backoffice-ui/src/lib/ui-configurable/search-ui-form/search-ui-form.component";
-import { AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, DefaultGoToDetailService, OpenI40BackofficeMetaUIRoutingModule, Openi40BackofficeMetaUIModule, OperationResult, OperationStatus, Page, PageMeta, UIDetailForm, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "projects/openi40-backoffice-ui/src/public-api";
-import { Observable ,of} from "rxjs";
-
+import { AbstractUIFindByCodeService, AbstractUISaveService, DefaultGoToDetailService, OpenI40BackofficeMetaUIRoutingModule, OperationResult, OperationStatus, UIDetailForm, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "projects/openi40-backoffice-ui/src/public-api";
+import { Observable, of } from "rxjs";
+import { ProductsSearch } from "./products-search.service";
+import { ApiModule } from "@openi40/backoffice-api"; 
 const routes: Routes = [
     {
       path:'products-search',
       loadChildren:()=>import("projects/openi40-backoffice-ui/src/lib/openi40-backoffice-meta-ui-routing.module").then(m=>m.OpenI40BackofficeMetaUIRoutingModule)    
     }
   ];
-@Injectable({providedIn:"root"})
-export class ProductsSearch extends AbstractUIPagedSearchService {
-  public override searchPaged(search: any, page: PageMeta): Observable<Page<any>> {
-    const npage: Page<any> = new Page<any>();
-    npage.data = [{ id: 1, code: "00001", description: "Trigger 001" }, { id: 2, code: "00002", description: "Trigger 002" }]
-    return of(npage);
-  }
-}
 export function defaultGotoDetailCallback(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any){
 
 }
@@ -114,7 +106,7 @@ const PRODUCT_DETAIL_CONFIGURATION:UIDetailForm<any>={
   uniqueUiKey: "PRODUCT_DETAIL"
 };
 @NgModule({
-    imports:[CommonModule,OpenI40BackofficeMetaUIRoutingModule,RouterModule.forRoot(routes)],
+    imports:[CommonModule,OpenI40BackofficeMetaUIRoutingModule,RouterModule.forRoot(routes),ApiModule],
     providers: [{
         provide: UI_SEARCH_CONFIG,
         useValue: PRODUCTS_SEARCH_CONFIGURATION, multi: false

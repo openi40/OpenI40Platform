@@ -8,6 +8,7 @@ import { MegaMenuModule } from 'primeng/megamenu';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BASE_PATH } from 'projects/openi40-backoffice-api/src/lib';
+import { HttpClientModule } from '@angular/common/http';
 //import { UIConfigurationRepositoryService, UI_CONFIG } from 'projects/openi40-backoffice-ui/src/lib/services/ui-configurations-repository.service';
 
 export function getBaseUrl() {
@@ -15,9 +16,9 @@ export function getBaseUrl() {
   let port=document.location.port;
   let protocol=document.location.protocol;
   if (port==="4200") {
-    port="8080";
+    port="8083";
   }
-  let openi40Base=protocol+"//"+host+":"+port+"/openi40";
+  let openi40Base=protocol+"//"+host+":"+port+"/openi40-backoffice";
   console.log("Setting basePath: "+openi40Base);
   return openi40Base;
 }
@@ -31,7 +32,8 @@ export function getBaseUrl() {
     CommonModule,
     RouterModule,
     MegaMenuModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers:[{ provide: BASE_PATH, useFactory: getBaseUrl }],
   
