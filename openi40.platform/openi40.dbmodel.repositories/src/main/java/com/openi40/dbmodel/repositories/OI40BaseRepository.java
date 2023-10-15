@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.openi40.dbmodel.entities.OI40DBBaseEntity;
+import com.openi40.dbmodel.repositories.model.PageInfo;
+import com.openi40.dbmodel.repositories.model.QbeSupport;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -84,18 +86,20 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 	List<OI40Type> findAll();
 
 	@PostMapping(path = "findAllPaged", produces = MediaType.APPLICATION_JSON_VALUE)
-	Page<OI40Type> findAll(@RequestBody Pageable p);
+	default public Page<OI40Type> findAll(@NotNull @RequestBody PageInfo p) {
+		return this.findAll(PageInfo.from(p));
+	}
 
 	@PostMapping(path = "findByQbe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	default public List<OI40Type> findByQbe(@RequestBody OI40Type qbe) {
+	default public List<OI40Type> findByQbe(@NotNull @RequestBody OI40Type qbe) {
 		List<OI40Type> out = this.findAll(Example.of(qbe));
 		return out;
 	}
 
 	@PostMapping(path = "findByQbePaged", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	default public Page<OI40Type> findByQbePaged(@RequestBody OI40Type qbe, Pageable p) {
-
-		Page<OI40Type> out = this.findAll(Example.of(qbe), p);
+	default public Page<OI40Type> findByQbePaged(@NotNull @RequestBody QbeSupport<OI40Type> qbe) {
+		Pageable p=PageInfo.from(qbe.getPage());
+		Page<OI40Type> out = this.findAll(Example.of(qbe.getQbe()), p);
 		return out;
 	}
 

@@ -52,7 +52,7 @@ public class SwaggerUniqueIdFix implements OperationBuilderPlugin {
 				typePostfix = type.getSimpleName();
 			}
 		}
-		if (Collection.class.isAssignableFrom(type)) {
+		if (Collection.class.isAssignableFrom(type) ) {
 			List<ResolvedType> typeParams = returnType.getTypeParameters();
 			for (ResolvedType resolvedType : typeParams) {
 				typePostfix += "_" + resolvedType.getErasedType().getSimpleName();
