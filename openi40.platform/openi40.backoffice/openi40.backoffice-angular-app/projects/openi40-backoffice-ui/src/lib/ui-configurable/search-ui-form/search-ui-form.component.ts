@@ -38,6 +38,9 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         public goToDetail(rowData:ResultType){
             if (this.config?.gotoDetailService) {
                 const gotoDetailService:AbstractGoToDetailService=this.injector.get(this.config.gotoDetailService);
+                if (gotoDetailService) {
+                    gotoDetailService.goToDetail(rowData,this.config,this);
+                }
             }
         }
         private invokeSearch(actualFilter:SearchType){

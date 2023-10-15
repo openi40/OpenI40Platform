@@ -6,11 +6,12 @@ import { SearchUIFormComponent } from "./ui-configurable/search-ui-form/search-u
 import { DetailUIFormComponent } from "./ui-configurable/detail-ui-form/detail-ui-form.component";
 const routes: Routes = [
     {
+        pathMatch:"full",
         path: '',
         component: SearchUIFormComponent,
         children: [
             {
-                path: ':id/edit',
+                path: ':code/edit',
                 component: DetailUIFormComponent
             }, {
                 path: 'new',
@@ -18,6 +19,13 @@ const routes: Routes = [
             }
 
         ]
+    },
+    {
+        path: ':code/edit',
+        component: DetailUIFormComponent
+    }, {
+        path: 'new',
+        component: DetailUIFormComponent
     }
 ];
 @NgModule({

@@ -104,7 +104,8 @@ export class DefaultGoToDetailService extends AbstractGoToDetailService {
         super()
     }
     public override goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any): void {
-        this.route.navigate([actualValue?.id], { relativeTo: this.activated });
+        this.route.navigate([actualValue?.code,"edit"], { relativeTo: this.activated });
+        
     }
 };
 export interface UISearchForm<SearchType, ResultType> extends UI {

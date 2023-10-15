@@ -21,6 +21,9 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     public isCanSave:boolean=false;
     public isCanDelete:boolean=false;
     public isCanCreateNew:boolean=false;
+    public get saveDisabled():boolean {
+        return (this.isCanSave && this?.frmGroup && this?.frmGroup.valid)?false:true;
+    }
     constructor(injector: Injector, fgConfigurator: FormGroupConfigurationService, @Inject(UI_DETAIL_CONFIG) config: UIDetailForm<ResultType>, activatedRouter: ActivatedRoute) {
         super(injector, fgConfigurator, config, activatedRouter);
         if (this.config.findByCodeService) {
@@ -72,13 +75,13 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
         this.frmGroup.patchValue(this.model ? this.model : {});
     }
     public doSave(): void {
-
+        console.log("Running doSave()")
 
         if (this.saveService !== undefined) {
             
             this.model = this.frmGroup.value;
             if (this.model) {
-                this.execute<ResultType>(this.model,this.setModel,this.saveService?.save).subscribe(results=>{
+                this.execute<ResultType>(this.model,(m)=>{this.setModel(m)},this.saveService?.save).subscribe(results=>{
                     this.showUserMessages(results?.status,results?.msgs);
                 });                
             }
@@ -86,6 +89,7 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     }
 
     public doDelete(): void {
+        console.log("Running doDelete()")
         if (this.deleteService){
         this.model = this.frmGroup.value;
         if (this.model) {
@@ -97,9 +101,10 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     }
     }
     public doSearchByCode(): void {
+        console.log("Running doSearchByCode()")
         this.loading = true;
         this.model={} as ResultType;
-        this.execute<string>(this.code,this.setModel,this.findByCodeService?.findByCode).subscribe(results=>{
+        this.execute<string>(this.code,(m)=>{this.setModel(m)},this.findByCodeService?.findByCode).subscribe(results=>{
             this.showUserMessages(results?.status,results?.msgs);
         });  
 

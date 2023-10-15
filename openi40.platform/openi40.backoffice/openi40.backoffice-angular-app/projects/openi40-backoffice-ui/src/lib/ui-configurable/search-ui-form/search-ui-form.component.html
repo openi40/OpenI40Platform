@@ -3,7 +3,7 @@
     <h1>{{config.title}}</h1>
     <h2>Search filters</h2>
     <div class="row">
-        <ui-configured-form [formGroup]="frmGroup" [config]="config">
+        <ui-configured-form [formGroup]="frmGroup" [config]="config.formGroup" [formTemplate]="formTemplate">
             
         </ui-configured-form>
         <div class="col-2">
