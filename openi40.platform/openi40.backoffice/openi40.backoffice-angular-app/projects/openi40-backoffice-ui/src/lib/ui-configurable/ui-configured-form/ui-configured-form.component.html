@@ -11,6 +11,7 @@
       <div
         *ngFor="let ctrlConfig of config?.controls"
         [ngClass]="ctrlConfig?.containerCssClasses"
+        
       >
         <ui-configurable-component
           [configuration]="ctrlConfig"

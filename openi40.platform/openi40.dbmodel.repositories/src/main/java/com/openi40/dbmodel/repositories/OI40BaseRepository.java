@@ -2,6 +2,7 @@ package com.openi40.dbmodel.repositories;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +75,10 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 	@PostMapping(path = "update", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	default public List<OI40Type> update(@RequestBody List<OI40Type> data) {
+		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+			OI40Type oi40Type = (OI40Type) iterator.next();
+			oi40Type.setModifiedTimestamp(new Date());
+		}
 		Iterable<OI40Type> outValue = this.saveAll(data);
 		List<OI40Type> outdata = new ArrayList<OI40Type>();
 		for (OI40Type oi40Type : outValue) {
@@ -81,7 +86,13 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 		}
 		return outdata;
 	}
-
+	@PostMapping(path = "updateSingle", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Transactional
+	default public OI40Type updateSingle(@RequestBody OI40Type data) {
+		data.setModifiedTimestamp(new Date());
+		data = this.saveAndFlush(data);		
+		return data;
+	}
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	List<OI40Type> findAll();
 

@@ -1,4 +1,4 @@
-<div class="flex">
+<div class="flex" *ngIf="configuration?.type!=='hidden'">
   <label [htmlFor]="configuration?.controlName">{{
     configuration?.label
   }}</label>
