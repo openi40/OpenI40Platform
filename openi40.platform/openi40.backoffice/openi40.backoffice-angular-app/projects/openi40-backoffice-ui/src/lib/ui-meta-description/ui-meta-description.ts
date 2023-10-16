@@ -1,6 +1,6 @@
 import { Injectable, InjectionToken, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 export const UI_SEARCH_CONFIG = new InjectionToken<UI>('ui-search-configuration');
 export const UI_DETAIL_CONFIG = new InjectionToken<UI>('ui-detail-configuration');
 export interface UIControl {
@@ -84,9 +84,22 @@ export abstract class AbstractUIDeleteService<DataType> {
 export abstract class AbstractUIFindByCodeService<DataType> {
     public abstract findByCode(code: string): Observable<OperationResult<DataType>>;
 }
+export abstract class  AbstractUIFindByCodeServiceAdapter<DataType> extends AbstractUIFindByCodeService<DataType>{
+    public  findByCode(code: string): Observable<OperationResult<DataType>>{
+        return this.invokeFindByCode(code).pipe(map(returned=>{
+            const ors:OperationResult<DataType>={
+                status:OperationStatus.SUCCESS,
+                data:returned
+            };
+            return ors;
+        }));
+    }
+    protected  abstract  invokeFindByCode(code:string):Observable<DataType>;
+}
 export abstract class AbstractUICreateNewService<DataType> {
     public abstract createNew(modelObject:DataType):Observable<OperationResult<DataType>>;
 }
+
 export interface UIEditableForm<DataType> extends UI {
     saveService: Type<AbstractUISaveService<DataType>>;
     deleteService?: Type<AbstractUIDeleteService<DataType>>;
