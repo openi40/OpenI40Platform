@@ -93,7 +93,7 @@ import { Oi40DbWorkOrderRepositoryService } from './api/oi40DbWorkOrderRepositor
     Oi40DbWorkOrderRepositoryService ]
 })
 export class ApiModule {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
+    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {
         return {
             ngModule: ApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]

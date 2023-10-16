@@ -19,8 +19,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { OI40DBApsWindow } from '../model/oI40DBApsWindow';
+import { PageInfo } from '../model/pageInfo';
 import { PageOI40DBApsWindow } from '../model/pageOI40DBApsWindow';
-import { Pageable } from '../model/pageable';
+import { QbeSupportOI40DBApsWindow } from '../model/qbeSupportOI40DBApsWindow';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -189,13 +190,13 @@ export class Oi40DbApsWindowRepositoryService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllPage1(p: Pageable, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBApsWindow>;
-    public findAllPage1(p: Pageable, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBApsWindow>>;
-    public findAllPage1(p: Pageable, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBApsWindow>>;
-    public findAllPage1(p: Pageable, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllPageOI40DBApsWindow(p: PageInfo, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBApsWindow>;
+    public findAllPageOI40DBApsWindow(p: PageInfo, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBApsWindow>>;
+    public findAllPageOI40DBApsWindow(p: PageInfo, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBApsWindow>>;
+    public findAllPageOI40DBApsWindow(p: PageInfo, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (p === null || p === undefined) {
-            throw new Error('Required parameter p was null or undefined when calling findAllPage1.');
+            throw new Error('Required parameter p was null or undefined when calling findAllPageOI40DBApsWindow.');
         }
 
         let headers = this.defaultHeaders;
@@ -450,53 +451,16 @@ export class Oi40DbApsWindowRepositoryService {
      * findByQbePaged
      * 
      * @param qbe qbe
-     * @param offset 
-     * @param pageNumber 
-     * @param pageSize 
-     * @param paged 
-     * @param sortSorted 
-     * @param sortUnsorted 
-     * @param unpaged 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByQbePagedPage1(qbe: OI40DBApsWindow, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBApsWindow>;
-    public findByQbePagedPage1(qbe: OI40DBApsWindow, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBApsWindow>>;
-    public findByQbePagedPage1(qbe: OI40DBApsWindow, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBApsWindow>>;
-    public findByQbePagedPage1(qbe: OI40DBApsWindow, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findByQbePagedPageOI40DBApsWindow(qbe: QbeSupportOI40DBApsWindow, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBApsWindow>;
+    public findByQbePagedPageOI40DBApsWindow(qbe: QbeSupportOI40DBApsWindow, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBApsWindow>>;
+    public findByQbePagedPageOI40DBApsWindow(qbe: QbeSupportOI40DBApsWindow, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBApsWindow>>;
+    public findByQbePagedPageOI40DBApsWindow(qbe: QbeSupportOI40DBApsWindow, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (qbe === null || qbe === undefined) {
-            throw new Error('Required parameter qbe was null or undefined when calling findByQbePagedPage1.');
-        }
-
-
-
-
-
-
-
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (offset !== undefined && offset !== null) {
-            queryParameters = queryParameters.set('offset', <any>offset);
-        }
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (paged !== undefined && paged !== null) {
-            queryParameters = queryParameters.set('paged', <any>paged);
-        }
-        if (sortSorted !== undefined && sortSorted !== null) {
-            queryParameters = queryParameters.set('sort.sorted', <any>sortSorted);
-        }
-        if (sortUnsorted !== undefined && sortUnsorted !== null) {
-            queryParameters = queryParameters.set('sort.unsorted', <any>sortUnsorted);
-        }
-        if (unpaged !== undefined && unpaged !== null) {
-            queryParameters = queryParameters.set('unpaged', <any>unpaged);
+            throw new Error('Required parameter qbe was null or undefined when calling findByQbePagedPageOI40DBApsWindow.');
         }
 
         let headers = this.defaultHeaders;
@@ -522,7 +486,6 @@ export class Oi40DbApsWindowRepositoryService {
         return this.httpClient.post<PageOI40DBApsWindow>(`${this.basePath}/integration/OI40DBApsWindow/findByQbePaged`,
             qbe,
             {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

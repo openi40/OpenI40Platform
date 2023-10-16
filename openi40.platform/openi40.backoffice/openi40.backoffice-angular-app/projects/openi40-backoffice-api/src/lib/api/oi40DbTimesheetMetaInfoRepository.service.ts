@@ -19,8 +19,9 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { OI40DBTimesheetMetaInfo } from '../model/oI40DBTimesheetMetaInfo';
+import { PageInfo } from '../model/pageInfo';
 import { PageOI40DBTimesheetMetaInfo } from '../model/pageOI40DBTimesheetMetaInfo';
-import { Pageable } from '../model/pageable';
+import { QbeSupportOI40DBTimesheetMetaInfo } from '../model/qbeSupportOI40DBTimesheetMetaInfo';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -189,13 +190,13 @@ export class Oi40DbTimesheetMetaInfoRepositoryService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllPage35(p: Pageable, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBTimesheetMetaInfo>;
-    public findAllPage35(p: Pageable, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBTimesheetMetaInfo>>;
-    public findAllPage35(p: Pageable, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBTimesheetMetaInfo>>;
-    public findAllPage35(p: Pageable, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findAllPageOI40DBTimesheetMetaInfo(p: PageInfo, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBTimesheetMetaInfo>;
+    public findAllPageOI40DBTimesheetMetaInfo(p: PageInfo, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBTimesheetMetaInfo>>;
+    public findAllPageOI40DBTimesheetMetaInfo(p: PageInfo, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBTimesheetMetaInfo>>;
+    public findAllPageOI40DBTimesheetMetaInfo(p: PageInfo, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (p === null || p === undefined) {
-            throw new Error('Required parameter p was null or undefined when calling findAllPage35.');
+            throw new Error('Required parameter p was null or undefined when calling findAllPageOI40DBTimesheetMetaInfo.');
         }
 
         let headers = this.defaultHeaders;
@@ -450,53 +451,16 @@ export class Oi40DbTimesheetMetaInfoRepositoryService {
      * findByQbePaged
      * 
      * @param qbe qbe
-     * @param offset 
-     * @param pageNumber 
-     * @param pageSize 
-     * @param paged 
-     * @param sortSorted 
-     * @param sortUnsorted 
-     * @param unpaged 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findByQbePagedPage35(qbe: OI40DBTimesheetMetaInfo, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBTimesheetMetaInfo>;
-    public findByQbePagedPage35(qbe: OI40DBTimesheetMetaInfo, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBTimesheetMetaInfo>>;
-    public findByQbePagedPage35(qbe: OI40DBTimesheetMetaInfo, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBTimesheetMetaInfo>>;
-    public findByQbePagedPage35(qbe: OI40DBTimesheetMetaInfo, offset?: number, pageNumber?: number, pageSize?: number, paged?: boolean, sortSorted?: boolean, sortUnsorted?: boolean, unpaged?: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public findByQbePagedPageOI40DBTimesheetMetaInfo(qbe: QbeSupportOI40DBTimesheetMetaInfo, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBTimesheetMetaInfo>;
+    public findByQbePagedPageOI40DBTimesheetMetaInfo(qbe: QbeSupportOI40DBTimesheetMetaInfo, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBTimesheetMetaInfo>>;
+    public findByQbePagedPageOI40DBTimesheetMetaInfo(qbe: QbeSupportOI40DBTimesheetMetaInfo, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBTimesheetMetaInfo>>;
+    public findByQbePagedPageOI40DBTimesheetMetaInfo(qbe: QbeSupportOI40DBTimesheetMetaInfo, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (qbe === null || qbe === undefined) {
-            throw new Error('Required parameter qbe was null or undefined when calling findByQbePagedPage35.');
-        }
-
-
-
-
-
-
-
-
-        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
-        if (offset !== undefined && offset !== null) {
-            queryParameters = queryParameters.set('offset', <any>offset);
-        }
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (paged !== undefined && paged !== null) {
-            queryParameters = queryParameters.set('paged', <any>paged);
-        }
-        if (sortSorted !== undefined && sortSorted !== null) {
-            queryParameters = queryParameters.set('sort.sorted', <any>sortSorted);
-        }
-        if (sortUnsorted !== undefined && sortUnsorted !== null) {
-            queryParameters = queryParameters.set('sort.unsorted', <any>sortUnsorted);
-        }
-        if (unpaged !== undefined && unpaged !== null) {
-            queryParameters = queryParameters.set('unpaged', <any>unpaged);
+            throw new Error('Required parameter qbe was null or undefined when calling findByQbePagedPageOI40DBTimesheetMetaInfo.');
         }
 
         let headers = this.defaultHeaders;
@@ -522,7 +486,6 @@ export class Oi40DbTimesheetMetaInfoRepositoryService {
         return this.httpClient.post<PageOI40DBTimesheetMetaInfo>(`${this.basePath}/integration/OI40DBTimesheetMetaInfo/findByQbePaged`,
             qbe,
             {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
