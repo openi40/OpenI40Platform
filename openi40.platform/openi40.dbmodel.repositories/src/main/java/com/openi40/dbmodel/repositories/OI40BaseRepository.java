@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.openi40.dbmodel.entities.OI40DBBaseEntity;
+import com.openi40.dbmodel.repositories.model.AutoCompleteData;
 import com.openi40.dbmodel.repositories.model.LookupData;
 import com.openi40.dbmodel.repositories.model.PageInfo;
 import com.openi40.dbmodel.repositories.model.QbeSupport;
@@ -125,7 +126,11 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 	
 	//@Query("select e from #{#entityName} e where ((?1 is null || ?1=='')  OR  (upper(e.code) LIKE (upper(?1) || '%' ) )) AND ((?2 is null || ?2=='')  OR  (upper(e.description) LIKE ('%' || upper(?2) || '%' ) ))")
 	public Page<OI40Type> findByCodeStartsWithIgnoreCaseAndDescriptionContainsIgnoreCase(String code,String description,Pageable page) ;
-	
+	public Page<OI40Type> findByCodeContainsIgnoreCaseOrDescriptionContainsIgnoreCase(String code,String description,Pageable page) ;
+	@PostMapping("doAutocomplete")
+	default public Page<OI40Type> doAutocomplete(@NotNull @RequestBody AutoCompleteData autoCompleteData) {
+		return this.findByCodeContainsIgnoreCaseOrDescriptionContainsIgnoreCase(autoCompleteData.getSearchString()!=null?autoCompleteData.getSearchString().trim():"",autoCompleteData.getSearchString()!=null?autoCompleteData.getSearchString().trim():"", PageInfo.from(autoCompleteData.getPage()));
+	}
 	@PostMapping("doLookup")
 	default public Page<OI40Type> doLookup(@NotNull @RequestBody LookupData lookup) {
 		return this.findByCodeStartsWithIgnoreCaseAndDescriptionContainsIgnoreCase(lookup.getCode()!=null?lookup.getCode().trim():"",lookup.getDescription()!=null?lookup.getDescription().trim():"", PageInfo.from(lookup.getPage()));

@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { AutoCompleteData } from '../model/autoCompleteData';
 import { LookupData } from '../model/lookupData';
 import { OI40DBWarehouse } from '../model/oI40DBWarehouse';
 import { PageInfo } from '../model/pageInfo';
@@ -139,6 +140,53 @@ export class Oi40DbWarehouseRepositoryService {
 
         return this.httpClient.post<any>(`${this.basePath}/integration/OI40DBWarehouse/deleteByCodes`,
             codes,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * doAutocomplete
+     * 
+     * @param autoCompleteData autoCompleteData
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public doAutocompletePageOI40DBWarehouse(autoCompleteData: AutoCompleteData, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBWarehouse>;
+    public doAutocompletePageOI40DBWarehouse(autoCompleteData: AutoCompleteData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBWarehouse>>;
+    public doAutocompletePageOI40DBWarehouse(autoCompleteData: AutoCompleteData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBWarehouse>>;
+    public doAutocompletePageOI40DBWarehouse(autoCompleteData: AutoCompleteData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (autoCompleteData === null || autoCompleteData === undefined) {
+            throw new Error('Required parameter autoCompleteData was null or undefined when calling doAutocompletePageOI40DBWarehouse.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<PageOI40DBWarehouse>(`${this.basePath}/integration/OI40DBWarehouse/doAutocomplete`,
+            autoCompleteData,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
