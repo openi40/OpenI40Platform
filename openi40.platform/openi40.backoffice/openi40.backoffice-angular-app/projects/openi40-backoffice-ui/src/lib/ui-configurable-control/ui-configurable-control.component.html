@@ -1,4 +1,4 @@
-<div class="flex" *ngIf="configuration?.type!=='hidden'">
+<div class="flex  flex-column gap-2" *ngIf="configuration?.type!=='hidden' && formControl">
   <label [htmlFor]="configuration?.controlName">{{
     configuration?.label
   }}</label>
@@ -7,7 +7,7 @@
     [id]="configuration?.controlName"
     *ngIf="configuration?.type === 'text'"
     type="text"
-    [formControl]="internalFormControl"
+    [formControl]="formControl"
     [ngClass]="configuration?.cssClasses"
     [required]="configuration?.required === true ? true : false"
     [placeholder]="configuration?.placeholder"
@@ -17,17 +17,35 @@
     [id]="configuration?.controlName"
     *ngIf="configuration?.type === 'number'"
     type="number"
-    [formControl]="internalFormControl"
+    [formControl]="formControl"
     [ngClass]="configuration?.cssClasses"
     [required]="configuration?.required === true ? true : false"
     [placeholder]="configuration?.placeholder"
   />
   <p-dropdown
     [id]="configuration?.controlName"
-    *ngIf="configuration?.type === 'dropdown'"
-    [formControl]="internalFormControl"
+    *ngIf="configuration?.type === 'dropdown' && (noSearchService || hasDataLoaderService)"
+    [formControl]="formControl"
     [ngClass]="configuration?.cssClasses"
     [required]="configuration?.required === true ? true : false"
     [options]="choices" [optionLabel]="optionLabel"
   ></p-dropdown>
+  <p-autoComplete 
+               [id]="configuration?.controlName" 
+               *ngIf="configuration?.type === 'dropdown' && (hasUnpagedSearchService)"  
+               [dropdown]="true" 
+               [suggestions]="choices" 
+               (completeMethod)="completeUnpagedSearch($event)" 
+               >
+   </p-autoComplete>
+   <p-autoComplete 
+               [id]="configuration?.controlName" 
+               [virtualScroll]="true"
+               [virtualScrollItemSize]="currentPage.size"
+               *ngIf="configuration?.type === 'dropdown' && (hasPagedSearchService)"  
+               [dropdown]="true" 
+               [suggestions]="choices" 
+               (completeMethod)="completePagedSearch($event)" 
+               >
+   </p-autoComplete>
 </div>

@@ -1,59 +1,114 @@
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { UIControl } from "../ui-meta-description/ui-meta-description"
+import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { AbstractUIDataLoaderService, AbstractUIPagedSearchService, AbstractUISearchService, Page, PageMeta, UIControl } from "../ui-meta-description/ui-meta-description"
 import { Input, Component, forwardRef, OnInit, OnChanges, SimpleChanges, Injector } from '@angular/core';
+
 @Component({
     selector: "ui-configurable-component",
     templateUrl: "ui-configurable-control.component.html",
-    styleUrls: [],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => UIConfigurableControlComponent),
-            multi: true
-        }
-    ]
+    styleUrls: []
 })
-export class UIConfigurableControlComponent implements ControlValueAccessor,OnInit,OnChanges{
-    public disabled:boolean=false;
-    public internalFormControl=new FormControl();
-    public choices:any[]=[];
-    
-    public get optionLabel():string {
-        return this.configuration?.mappings?.label?this.configuration?.mappings?.label:'';
+export class UIConfigurableControlComponent implements OnInit, OnChanges {
+    @Input() public configuration?: UIControl;
+    @Input() public formControl?: FormControl;
+    public disabled: boolean = false;
+    public readonly: boolean = false;
+    public loading: boolean = false;
+    public choices: any[] = [];
+    public currentPage: PageMeta = { page: 0, size:30, totalElements: 0 };
+    populationService?: AbstractUISearchService | AbstractUIPagedSearchService | AbstractUIDataLoaderService;
+    public get hasPopulationService(): boolean {
+        return this.populationService ? true : false;
     }
-    constructor(private injector:Injector){
+    public get hasUnpagedSearchService(): boolean {
+        return (this.populationService && this.populationService instanceof AbstractUISearchService) ? true : false;
+    }
+    public get hasPagedSearchService(): boolean {
+        return (this.populationService && this.populationService instanceof AbstractUIPagedSearchService) ? true : false;
+    }
+    public get hasDataLoaderService(): boolean {
+        return (this.populationService && this.populationService instanceof AbstractUIDataLoaderService) ? true : false;
+    }
+    public get noSearchService():boolean {
+        return this.populationService?false:true;
+    }
+    public get optionLabel(): string {
+        return this.configuration?.mappings?.label ? this.configuration?.mappings?.label : '';
+    }
+    constructor(private injector: Injector) {
 
     }
-    @Input() public configuration?: UIControl;
-    writeValue(obj: any): void {
-        this.internalFormControl.setValue(obj,{onlySelf:true,emitEvent:false});
+    private alertUser(msg: string) {
+
     }
-    onChange:(v:any)=>void=(v:any)=>{};
-    registerOnChange(fn: any): void {
-        this.onChange=fn;
-    }
-    onTouch:(v:any)=>void=(v:any)=>{};
-    registerOnTouched(fn: any): void {
-        this.onTouch=fn;
-    }
-    setDisabledState?(isDisabled: boolean): void {
-        this.disabled=isDisabled;
-    }
+
     ngOnInit(): void {
 
-        this.internalFormControl.valueChanges.subscribe(newValue=>{
-            this.onChange(newValue);
-        });
+    }
+    public completeUnpagedSearch(filter:any) {
+        this.doSearch(filter);
+    }
+    public completePagedSearch(filter:any) {
+        this.doSearch(filter);
+    }
+    public doSearch(query?: any) {
+        if (this.hasUnpagedSearchService) {
+            const unpagedService: AbstractUISearchService = this.populationService as AbstractUISearchService;
+            this.loading = true;
+            unpagedService.search(query).subscribe({
+                next: (value: any[]) => {
+                    this.choices = value;
+                }, error: (error) => {
+                    this.alertUser("Error loading data from server");
+                    console.log("Error loading data from server", error);
+                }, complete: () => {
+                    this.loading = false;
+                }
+            }
+            );
+        } else if (this.hasPagedSearchService) {
+            const unpagedService: AbstractUIPagedSearchService = this.populationService as AbstractUIPagedSearchService;
+            this.loading = true;
+            unpagedService.searchPaged(query,this.currentPage).subscribe({
+                next: (value: Page<any[]>) => {
+                    this.choices = value.data;
+                    this.currentPage.page=value?.page;
+                    this.currentPage.size=value?.size;
+                    this.currentPage.totalElements=value?.totalElements;
+                }, error: (error) => {
+                    this.alertUser("Error loading data from server");
+                    console.log("Error loading data from server", error);
+                }, complete: () => {
+                    this.loading = false;
+                }
+            }
+            );
+        }
     }
     ngOnChanges(changes: SimpleChanges): void {
         if (changes["configuration"] && this.configuration) {
             if (this.configuration.values) {
-                this.choices=this.configuration.values;
+                this.choices = this.configuration.values;
             }
             if (this.configuration.populationService) {
-
+                this.populationService = this.injector.get(this.configuration.populationService);
+                if (this.hasDataLoaderService) {
+                    this.loading = true;
+                    const dataLoader: AbstractUIDataLoaderService = this.populationService as AbstractUIDataLoaderService;
+                    dataLoader.load().subscribe({
+                        next: (value: any[]) => {
+                            this.choices = value ? value : [];
+                        },
+                        error: (error) => {
+                            this.alertUser("Error loading data from server");
+                            console.log("Error loading data from server", error);
+                        },
+                        complete: () => {
+                            this.loading = false;
+                        }
+                    });
+                }
             }
         }
     }
-    
+
 }

@@ -15,7 +15,7 @@
       >
         <ui-configurable-component
           [configuration]="ctrlConfig"
-          [formControlName]="ctrlConfig.controlName"
+          [formControl]="getSubFormControl(ctrlConfig)"
         ></ui-configurable-component>
       </div>
     </div>

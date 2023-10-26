@@ -13,7 +13,7 @@ export interface UIControl {
     type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number";
     values?: any[];
     mappings?: { label: string, identifier?: string };
-    populationService?: AbstractUISearchService | AbstractUIPagedSearchService;
+    populationService?: AbstractUISearchService | AbstractUIPagedSearchService | AbstractUIDataLoaderService;
     customComponent?:any;
 };
 export interface UIControlRepositoryEntry extends UIControl {
@@ -62,6 +62,11 @@ export abstract class AbstractUIPagedSearchService {
 export abstract class AbstractUISearchService {
     public abstract search(search: any, order?: OrderMeta[]): Observable<any[]>;
 }
+
+export abstract class AbstractUIDataLoaderService {
+    public abstract load():Observable<any[]>;
+}
+
 export enum OperationStatus {
     SUCCESS, FAIL, WARN
 }
