@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { LookupData } from '../model/lookupData';
 import { OI40DBTimesheetMetaInfo } from '../model/oI40DBTimesheetMetaInfo';
 import { PageInfo } from '../model/pageInfo';
 import { PageOI40DBTimesheetMetaInfo } from '../model/pageOI40DBTimesheetMetaInfo';
@@ -138,6 +139,53 @@ export class Oi40DbTimesheetMetaInfoRepositoryService {
 
         return this.httpClient.post<any>(`${this.basePath}/integration/OI40DBTimesheetMetaInfo/deleteByCodes`,
             codes,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * doLookup
+     * 
+     * @param lookup lookup
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public doLookupPageOI40DBTimesheetMetaInfo(lookup: LookupData, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBTimesheetMetaInfo>;
+    public doLookupPageOI40DBTimesheetMetaInfo(lookup: LookupData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBTimesheetMetaInfo>>;
+    public doLookupPageOI40DBTimesheetMetaInfo(lookup: LookupData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBTimesheetMetaInfo>>;
+    public doLookupPageOI40DBTimesheetMetaInfo(lookup: LookupData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (lookup === null || lookup === undefined) {
+            throw new Error('Required parameter lookup was null or undefined when calling doLookupPageOI40DBTimesheetMetaInfo.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<PageOI40DBTimesheetMetaInfo>(`${this.basePath}/integration/OI40DBTimesheetMetaInfo/doLookup`,
+            lookup,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

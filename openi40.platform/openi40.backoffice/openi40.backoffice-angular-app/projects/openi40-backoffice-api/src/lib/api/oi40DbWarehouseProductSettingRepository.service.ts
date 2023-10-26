@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { LookupData } from '../model/lookupData';
 import { OI40DBWarehouseProductSetting } from '../model/oI40DBWarehouseProductSetting';
 import { PageInfo } from '../model/pageInfo';
 import { PageOI40DBWarehouseProductSetting } from '../model/pageOI40DBWarehouseProductSetting';
@@ -138,6 +139,53 @@ export class Oi40DbWarehouseProductSettingRepositoryService {
 
         return this.httpClient.post<any>(`${this.basePath}/integration/OI40DBWarehouseProductSetting/deleteByCodes`,
             codes,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * doLookup
+     * 
+     * @param lookup lookup
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public doLookupPageOI40DBWarehouseProductSetting(lookup: LookupData, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBWarehouseProductSetting>;
+    public doLookupPageOI40DBWarehouseProductSetting(lookup: LookupData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBWarehouseProductSetting>>;
+    public doLookupPageOI40DBWarehouseProductSetting(lookup: LookupData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBWarehouseProductSetting>>;
+    public doLookupPageOI40DBWarehouseProductSetting(lookup: LookupData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (lookup === null || lookup === undefined) {
+            throw new Error('Required parameter lookup was null or undefined when calling doLookupPageOI40DBWarehouseProductSetting.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<PageOI40DBWarehouseProductSetting>(`${this.basePath}/integration/OI40DBWarehouseProductSetting/doLookup`,
+            lookup,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

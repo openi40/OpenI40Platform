@@ -18,6 +18,7 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
+import { LookupData } from '../model/lookupData';
 import { OI40DBMachineEquipmentSpecification } from '../model/oI40DBMachineEquipmentSpecification';
 import { PageInfo } from '../model/pageInfo';
 import { PageOI40DBMachineEquipmentSpecification } from '../model/pageOI40DBMachineEquipmentSpecification';
@@ -138,6 +139,53 @@ export class Oi40DbMachineEquipmentSpecificationRepositoryService {
 
         return this.httpClient.post<any>(`${this.basePath}/integration/OI40DBMachineEquipmentSpecification/deleteByCodes`,
             codes,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * doLookup
+     * 
+     * @param lookup lookup
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public doLookupPageOI40DBMachineEquipmentSpecification(lookup: LookupData, observe?: 'body', reportProgress?: boolean): Observable<PageOI40DBMachineEquipmentSpecification>;
+    public doLookupPageOI40DBMachineEquipmentSpecification(lookup: LookupData, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<PageOI40DBMachineEquipmentSpecification>>;
+    public doLookupPageOI40DBMachineEquipmentSpecification(lookup: LookupData, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<PageOI40DBMachineEquipmentSpecification>>;
+    public doLookupPageOI40DBMachineEquipmentSpecification(lookup: LookupData, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (lookup === null || lookup === undefined) {
+            throw new Error('Required parameter lookup was null or undefined when calling doLookupPageOI40DBMachineEquipmentSpecification.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected != undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        return this.httpClient.post<PageOI40DBMachineEquipmentSpecification>(`${this.basePath}/integration/OI40DBMachineEquipmentSpecification/doLookup`,
+            lookup,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
