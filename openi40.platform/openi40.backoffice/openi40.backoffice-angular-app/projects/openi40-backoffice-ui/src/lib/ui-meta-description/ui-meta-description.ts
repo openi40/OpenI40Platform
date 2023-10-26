@@ -13,7 +13,7 @@ export interface UIControl {
     type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number";
     values?: any[];
     mappings?: { label: string, identifier?: string };
-    populationService?: AbstractUISearchService | AbstractUIPagedSearchService | AbstractUIDataLoaderService;
+    populationService?: Type<AbstractUISearchService> | Type<AbstractUIPagedSearchService> | Type<AbstractUIDataLoaderService>;
     customComponent?:any;
 };
 export interface UIControlRepositoryEntry extends UIControl {

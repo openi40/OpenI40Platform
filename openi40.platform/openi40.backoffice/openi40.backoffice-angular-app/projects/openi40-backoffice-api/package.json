@@ -1,5 +1,5 @@
 {
-  "name": "openi40-backoffice-api",
+  "name": "@openi40/backoffice-api",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^14.2.0",
