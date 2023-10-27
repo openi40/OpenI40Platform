@@ -24,7 +24,7 @@ const PRODUCTS_SEARCH_CONFIGURATION: UISearchForm<any, any> = {
         label: "code",
         type: "text",
         required: true,
-        containerCssClasses: "col-3"
+        containerCssClasses:"col-3"
       },
       {
         controlName: "description",

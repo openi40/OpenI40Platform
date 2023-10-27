@@ -1,15 +1,21 @@
-import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { AbstractUIDataLoaderService, AbstractUIPagedSearchService, AbstractUISearchService, Page, PageMeta, UIControl } from "../ui-meta-description/ui-meta-description"
 import { Input, Component, forwardRef, OnInit, OnChanges, SimpleChanges, Injector } from '@angular/core';
-
+const NULLCONTROL:UIControl={
+    controlName:"",
+    type:"hidden",
+    label:"",
+    placeholder:""
+}
 @Component({
     selector: "ui-configurable-component",
     templateUrl: "ui-configurable-control.component.html",
     styleUrls: []
 })
 export class UIConfigurableControlComponent implements OnInit, OnChanges {
-    @Input() public configuration?: UIControl;
-    @Input() public formControl?: FormControl;
+    @Input() public configuration: UIControl=NULLCONTROL;
+    
+    @Input() public formGroup?:FormGroup;
     public disabled: boolean = false;
     public readonly: boolean = false;
     public loading: boolean = false;

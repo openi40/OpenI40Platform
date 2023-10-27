@@ -11,7 +11,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProductsModule } from './products/products.module';
+import { ProductsModule } from '@openi40/backoffice-screens-dynaload/products/products.module';
 
 
 

@@ -1,4 +1,4 @@
-<div *ngIf="formGroup">
+<div *ngIf="formGroup" [formGroup]="formGroup">
   <!-- Template outlet if specifically managed by custom template-->
   <ng-container
     *ngIf="formTemplate"
@@ -15,7 +15,8 @@
       >
         <ui-configurable-component
           [configuration]="ctrlConfig"
-          [formControl]="getSubFormControl(ctrlConfig)"
+          
+          [formGroup]="formGroup"
         ></ui-configurable-component>
       </div>
     </div>
