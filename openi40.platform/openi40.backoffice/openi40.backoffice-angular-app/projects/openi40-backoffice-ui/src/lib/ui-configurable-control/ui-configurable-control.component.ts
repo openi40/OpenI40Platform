@@ -6,7 +6,13 @@ const NULLCONTROL:UIControl={
     type:"hidden",
     label:"",
     placeholder:""
-}
+};
+interface IEvent {
+    originalEvent?: {
+        isTrusted: boolean
+    },
+    query?: string
+};
 @Component({
     selector: "ui-configurable-component",
     templateUrl: "ui-configurable-control.component.html",
@@ -50,13 +56,15 @@ export class UIConfigurableControlComponent implements OnInit, OnChanges {
     ngOnInit(): void {
 
     }
-    public completeUnpagedSearch(filter:any) {
-        this.doSearch(filter);
+    public completeUnpagedSearch(filter:IEvent) {
+        if (filter.query)
+        this.doAutocomplete(filter?.query);
     }
-    public completePagedSearch(filter:any) {
-        this.doSearch(filter);
+    public completePagedSearch(filter:IEvent) {
+        if (filter.query)
+        this.doAutocomplete(filter?.query);
     }
-    public doSearch(query?: any) {
+    private doAutocomplete(query?: any) {
         if (this.hasUnpagedSearchService) {
             const unpagedService: AbstractUISearchService = this.populationService as AbstractUISearchService;
             this.loading = true;

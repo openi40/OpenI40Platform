@@ -18,9 +18,9 @@ import { Observable, map } from "rxjs";
         }
         return this.doRemoteCall(autoCompleteData).pipe(map(returned=>{
             const page:Page<any>=new Page<any>();
-            page.data=returned?.content?returned?.content:[];
-            page.page=returned?.pageable?.pageNumber?returned?.pageable?.pageNumber:0;
-            page.totalElements=returned?.totalElements?returned?.totalElements:0;
+            page.data=returned?.content?returned.content:[];
+            page.page=returned?.pageable?.pageNumber?returned.pageable.pageNumber:0;
+            page.totalElements=returned?.totalElements?returned.totalElements:0;
             return page;
         }));
     }

@@ -3,8 +3,9 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { DefaultGoToDetailService, OpenI40BackofficeMetaUIRoutingModule, UIDetailForm, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "projects/openi40-backoffice-ui/src/public-api";
 import { ProductsSearch } from "./products-search.service";
-import { ApiModule } from "@openi40/backoffice-api"; 
+import { ApiModule } from "@openi40/backoffice-api";
 import { ProductFindByCodeService, ProductSaveService } from "./product-detail.service";
+import { Openi40BackofficeServicesModule } from "projects/openi40-backoffice-services/src/public-api";
 const routes: Routes = [
     {
       path:'products-search',
@@ -19,6 +20,7 @@ const PRODUCTS_SEARCH_CONFIGURATION: UISearchForm<any, any> = {
   title: "Products search",
   formGroup: {
     name: "searchForm", controls: [
+      
       {
         controlName: "code",
         label: "code",
@@ -93,7 +95,7 @@ const PRODUCT_DETAIL_CONFIGURATION:UIDetailForm<any>={
   uniqueUiKey: "PRODUCT_DETAIL"
 };
 @NgModule({
-    imports:[CommonModule,OpenI40BackofficeMetaUIRoutingModule,RouterModule.forRoot(routes),ApiModule],
+    imports:[CommonModule,OpenI40BackofficeMetaUIRoutingModule,RouterModule.forRoot(routes),ApiModule,Openi40BackofficeServicesModule],
     providers: [{
         provide: UI_SEARCH_CONFIG,
         useValue: PRODUCTS_SEARCH_CONFIGURATION, multi: false

@@ -39,9 +39,16 @@
                [dropdown]="true" 
                [suggestions]="choices" 
                (completeMethod)="completeUnpagedSearch($event)" 
+               field="code"
                
                [formControlName]="configuration.controlName"
                >
+               <ng-template let-item pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ item?.code }} - {{item?.description}}</div>
+                </div>
+            </ng-template>
    </p-autoComplete>
    <p-autoComplete 
                [id]="configuration.controlName" 
@@ -51,8 +58,14 @@
                [dropdown]="true" 
                [suggestions]="choices" 
                (completeMethod)="completePagedSearch($event)" 
-               
+               field="code"
                [formControlName]="configuration.controlName"
                >
+               <ng-template let-item pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    
+                    <div>{{ item?.code }} - {{item?.description}}</div>
+                </div>
+            </ng-template>
    </p-autoComplete>
 </div>
