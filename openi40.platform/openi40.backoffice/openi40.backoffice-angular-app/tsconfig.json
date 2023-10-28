@@ -1,0 +1,55 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "paths": {
+      "openi40-backoffice-api": [
+        "dist/openi40-backoffice-api"
+      ],
+      "openi40-backoffice-ui": [
+        "dist/openi40-backoffice-ui"
+      ],
+      "@openi40/backoffice-ui": [
+        "projects/openi40-backoffice-ui/src/public-api"
+      ],
+      "openi40-backoffice-services": [
+        "dist/openi40-backoffice-services"
+      ],
+      "openi40-backoffice-screens": [
+        "dist/openi40-backoffice-screens"
+      ],
+      "@openi40/backoffice-api":["projects/openi40-backoffice-api/src/lib"],
+      "@openi40/backoffice-services": [
+        "projects/openi40-backoffice-services/src/lib/public-api"
+      ],
+      "@openi40/backoffice-screens":["projects/openi40-backoffice-screens/src/lib/public-api"],
+      "@openi40/backoffice-screens-dynaload/*":["projects/openi40-backoffice-screens/src/lib/*"]
+    },
+    "importHelpers": true,
+    "target": "es2020",
+    "module": "es2020",
+    "lib": [
+      "es2020",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

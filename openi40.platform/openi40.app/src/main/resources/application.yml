@@ -23,7 +23,7 @@ spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
 spring.datasource.username: postgres
 spring.datasource.password: <password>
-spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
+spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40TEST  
 
 com.openi40.platform.dbchannels:
         useJpaStreaming: true

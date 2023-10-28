@@ -2,6 +2,7 @@ package com.openi40.dbmodel.repositories;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.openi40.dbmodel.entities.OI40DBBaseEntity;
+import com.openi40.dbmodel.repositories.model.AutoCompleteData;
+import com.openi40.dbmodel.repositories.model.LookupData;
+import com.openi40.dbmodel.repositories.model.PageInfo;
+import com.openi40.dbmodel.repositories.model.QbeSupport;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -72,6 +77,10 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 	@PostMapping(path = "update", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	default public List<OI40Type> update(@RequestBody List<OI40Type> data) {
+		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+			OI40Type oi40Type = (OI40Type) iterator.next();
+			oi40Type.setModifiedTimestamp(new Date());
+		}
 		Iterable<OI40Type> outValue = this.saveAll(data);
 		List<OI40Type> outdata = new ArrayList<OI40Type>();
 		for (OI40Type oi40Type : outValue) {
@@ -79,23 +88,31 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 		}
 		return outdata;
 	}
-
+	@PostMapping(path = "updateSingle", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Transactional
+	default public OI40Type updateSingle(@RequestBody OI40Type data) {
+		data.setModifiedTimestamp(new Date());
+		data = this.saveAndFlush(data);		
+		return data;
+	}
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	List<OI40Type> findAll();
 
 	@PostMapping(path = "findAllPaged", produces = MediaType.APPLICATION_JSON_VALUE)
-	Page<OI40Type> findAll(@RequestBody Pageable p);
+	default public Page<OI40Type> findAll(@NotNull @RequestBody PageInfo p) {
+		return this.findAll(PageInfo.from(p));
+	}
 
 	@PostMapping(path = "findByQbe", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	default public List<OI40Type> findByQbe(@RequestBody OI40Type qbe) {
+	default public List<OI40Type> findByQbe(@NotNull @RequestBody OI40Type qbe) {
 		List<OI40Type> out = this.findAll(Example.of(qbe));
 		return out;
 	}
 
 	@PostMapping(path = "findByQbePaged", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	default public Page<OI40Type> findByQbePaged(@RequestBody OI40Type qbe, Pageable p) {
-
-		Page<OI40Type> out = this.findAll(Example.of(qbe), p);
+	default public Page<OI40Type> findByQbePaged(@NotNull @RequestBody QbeSupport<OI40Type> qbe) {
+		Pageable p=PageInfo.from(qbe.getPage());
+		Page<OI40Type> out = this.findAll(Example.of(qbe.getQbe()), p);
 		return out;
 	}
 
@@ -106,5 +123,17 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 	@GetMapping(path = "modifiedAfter/{ts}")
 	@Query("select e from #{#entityName} e where e.modifiedTimestamp>=?1")
 	public List<OI40Type> findByAfterModifiedTimestamp(@NotNull @PathVariable("ts") Timestamp ts);
+	
+	//@Query("select e from #{#entityName} e where ((?1 is null || ?1=='')  OR  (upper(e.code) LIKE (upper(?1) || '%' ) )) AND ((?2 is null || ?2=='')  OR  (upper(e.description) LIKE ('%' || upper(?2) || '%' ) ))")
+	public Page<OI40Type> findByCodeStartsWithIgnoreCaseAndDescriptionContainsIgnoreCase(String code,String description,Pageable page) ;
+	public Page<OI40Type> findByCodeContainsIgnoreCaseOrDescriptionContainsIgnoreCase(String code,String description,Pageable page) ;
+	@PostMapping("doAutocomplete")
+	default public Page<OI40Type> doAutocomplete(@NotNull @RequestBody AutoCompleteData autoCompleteData) {
+		return this.findByCodeContainsIgnoreCaseOrDescriptionContainsIgnoreCase(autoCompleteData.getSearchString()!=null?autoCompleteData.getSearchString().trim():"",autoCompleteData.getSearchString()!=null?autoCompleteData.getSearchString().trim():"", PageInfo.from(autoCompleteData.getPage()));
+	}
+	@PostMapping("doLookup")
+	default public Page<OI40Type> doLookup(@NotNull @RequestBody LookupData lookup) {
+		return this.findByCodeStartsWithIgnoreCaseAndDescriptionContainsIgnoreCase(lookup.getCode()!=null?lookup.getCode().trim():"",lookup.getDescription()!=null?lookup.getDescription().trim():"", PageInfo.from(lookup.getPage()));
+	}
 
 }

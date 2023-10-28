@@ -29,5 +29,6 @@
 		<module>Persistence.IOMessages.Spooling</module>
 		<module>Persistence.IOMessages.Controllers</module>
 		<module>IOMessages.Processing</module>
+		<module>openi40.backoffice</module>
 	</modules>
 </project>

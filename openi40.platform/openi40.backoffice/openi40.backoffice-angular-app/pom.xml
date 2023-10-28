@@ -1,0 +1,97 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.openi40.platform</groupId>
+    <artifactId>openi40.backoffice</artifactId>
+    <version>00.00.02BC-SNAPSHOT</version>
+  </parent>
+  <artifactId>openi40.backoffice-angular-app</artifactId>
+  <properties>
+		<swagger.file>${project.basedir}/swagger/swagger.json</swagger.file>
+		<generated-sources-path>${project.basedir}/projects/openi40-backoffice-api/src/lib</generated-sources-path>
+		<generated-sources-java-path>/projects/openi40-dbmodel-api/src/lib</generated-sources-java-path>
+		<version.swagger.codegen>2.4.14</version.swagger.codegen>
+	</properties>
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.basedir}/dist/openi40-backoffice-angular-app</directory>
+				<targetPath>static</targetPath>
+			</resource>
+		</resources>
+		
+		<plugins>
+		
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.7.6</version>
+				<configuration>
+					<workingDirectory>./</workingDirectory>
+					<nodeVersion>v18.16.1</nodeVersion>
+					<npmVersion>9.5.1</npmVersion>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm run build-prod</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build-prod</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>regenerate-api</id>
+			<build>
+				<plugins>
+						<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>${version.swagger.codegen}</version>
+				<configuration>
+					<inputSpec>${swagger.file}</inputSpec>
+					<configOptions>
+						<sourceFolder>${generated-sources-java-path}</sourceFolder>
+					</configOptions>
+					<output>${generated-sources-path}</output>
+				</configuration>
+				<executions>
+					<execution>
+						<id>generate-swagger-angular</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>typescript-angular</language>
+							<modelPackage>model</modelPackage>
+							<apiPackage>api</apiPackage>
+							<invokerPackage>invoker</invokerPackage>
+							<additionalProperties>ngVersion=10.0.6,libraryName=openi40.backoffice.rest</additionalProperties>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
