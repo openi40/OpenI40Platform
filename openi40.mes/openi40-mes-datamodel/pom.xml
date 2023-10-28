@@ -2,12 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.openi40</groupId>
-    <artifactId>parent</artifactId>
+    <artifactId>openi40.mes</artifactId>
     <version>00.00.02BC-SNAPSHOT</version>
   </parent>
-  <artifactId>openi40.mes</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>openi40-mes-datamodel</module>
-  </modules>
+  <artifactId>openi40-mes-datamodel</artifactId>
+  <dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+	</dependencies>
 </project>

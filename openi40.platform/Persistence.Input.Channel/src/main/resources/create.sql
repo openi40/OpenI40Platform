@@ -1155,3 +1155,46 @@ create table aps_msg (
 		    glb_cntr integer
 );
 CREATE INDEX APS_MSG_IDX ON APS_MSG (task_code asc,pos asc);
+
+CREATE TABLE MES_ASSET_TYPE (
+			code varchar(40) NOT NULL PRIMARY KEY,
+		    description varchar(50),
+		    removed boolean default false,
+		    modified_ts timestamp 
+);
+CREATE TABLE MES_ASSET_STATUS (
+			code varchar(40) NOT NULL PRIMARY KEY,
+		    description varchar(50),
+		    removed boolean default false,
+		    modified_ts timestamp 
+); 
+
+CREATE TABLE MES_ASSET_GROUP (
+			CODE VARCHAR(40) NOT NULL PRIMARY KEY,
+			description varchar(50),
+		    removed boolean default false,
+		    modified_ts timestamp
+					    
+);
+
+CREATE TABLE MES_ASSET (
+			CODE VARCHAR(40) NOT NULL PRIMARY KEY,
+			description varchar(50),
+		    removed boolean default false,
+		    modified_ts timestamp,
+			mes_asset_type_code varchar(40) not null,
+			mes_asset_group_code varchar(40) not null,
+			mes_asset_status_code varchar(40),
+			MAC_CODE VARCHAR(250) ,
+			ALT_CODE VARCHAR(250) ,
+			IP_ADDRESS VARCHAR(20)  			
+);
+
+ALTER TABLE MES_ASSET_GROUP ADD COLUMN context_type varchar(40) NOT NULL;
+ALTER TABLE MES_ASSET_GROUP ADD COLUMN parent_object_code varchar(250) NOT NULL;
+
+ALTER TABLE MES_ASSET_TYPE ADD COLUMN integration_ts timestamp;
+ALTER TABLE MES_ASSET_STATUS ADD COLUMN integration_ts timestamp;
+ALTER TABLE MES_ASSET_GROUP ADD COLUMN integration_ts timestamp;
+ALTER TABLE MES_ASSET ADD COLUMN integration_ts timestamp;
+ 

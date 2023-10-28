@@ -95,3 +95,8 @@ ALTER TABLE acq_work_resources add constraint WRK_RC_ACQ1 foreign key(task_code)
 
 ALTER TABLE msg_spooler_proc add constraint msgspprkfk foreign key   (msg_entry_id) references msg_spooler_entry(msg_entry_id) on delete cascade ;
 ALTER TABLE APS_MSG ADD CONSTRAINT APSMSG1 FOREIGN KEY (task_code) REFERENCES TASK(CODE) ON DELETE CASCADE;
+
+
+ALTER TABLE MES_ASSET ADD CONSTRAINT FK_ASSET_TYPE FOREIGN KEY  (mes_asset_type_code) REFERENCES MES_ASSET_TYPE (CODE);
+ALTER TABLE MES_ASSET ADD CONSTRAINT FK_ASSET_GROUP FOREIGN KEY (mes_asset_group_code) REFERENCES MES_ASSET_GROUP (CODE);
+ALTER TABLE MES_ASSET ADD CONSTRAINT KF_ASSET_STATUS FOREIGN KEY (mes_asset_status_code) references MES_ASSET_STATUS (CODE); 
