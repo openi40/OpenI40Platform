@@ -1,13 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.openi40</groupId>
-    <artifactId>parent</artifactId>
-    <version>00.00.02BC-SNAPSHOT</version>
-  </parent>
-  <artifactId>openi40.mes</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>openi40-mes-datamodel</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40</groupId>
+		<artifactId>parent</artifactId>
+		<version>00.00.02BC-SNAPSHOT</version>
+	</parent>
+	<artifactId>parent</artifactId>
+	<groupId>com.openi40.mes</groupId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>openi40-mes-datamodel</module>
+		<module>openi40-mes-metamessaging</module>
+	</modules>
 </project>

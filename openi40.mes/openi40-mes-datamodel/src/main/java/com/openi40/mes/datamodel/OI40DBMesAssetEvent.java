@@ -1,5 +1,6 @@
 package com.openi40.mes.datamodel;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -38,7 +39,7 @@ public class OI40DBMesAssetEvent implements Serializable {
 	@Column(name = "event_type")
 	String eventType = null;
 	@Column(name = "event_payload")
-	Blob eventPayload = null;
+	InputStream eventPayload = null;
 	@Column(name = "processed_time")
 	Timestamp processedTime = null;
 	@Column(name = "processed_status")

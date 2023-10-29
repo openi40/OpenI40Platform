@@ -48,7 +48,7 @@ CREATE TABLE MES_ASSET_EVENT (
 			 mac_code varchar(250),
 			 up_address varchar(250),			 
 			 event_type varchar(40),
-			 event_payload bytea,
+			 event_payload TEXT,
 			 processed_time timestamp,
 			 processed_status varchar(10) 		
 ); 
