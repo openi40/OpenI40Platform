@@ -82,6 +82,8 @@ public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessa
 				LOGGER.debug("End [" + wrapped.getHandlerId() + "$avoid-cycles].onMessage(...)");
 			}
 
+		}else {
+			LOGGER.warn("Message cycle avoidence actived for message=>"+msg.getMsgId()+" and handler=>"+wrapped.getHandlerId());
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End  [" + getHandlerId() + "].onMessage(...)");
@@ -91,7 +93,11 @@ public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessa
 
 	@Override
 	public boolean isCanManage(AbstractOI40MetaMessage msg) {
-		return !msg.isAlreadyHandledFrom(wrapped.getHandlerId());
+		boolean cycleNotActivated=!msg.isAlreadyHandledFrom(wrapped.getHandlerId());
+		if (!cycleNotActivated) {
+			LOGGER.warn("Message cycle avoidence checked as TRUE for message=>"+msg.getMsgId()+" and handler=>"+wrapped.getHandlerId());
+		}
+		return cycleNotActivated;
 	}
 
 }
