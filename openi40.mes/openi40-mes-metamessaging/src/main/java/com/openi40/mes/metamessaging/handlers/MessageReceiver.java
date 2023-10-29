@@ -1,4 +1,4 @@
-package com.openi40.mes.metamessaging;
+package com.openi40.mes.metamessaging.handlers;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
+import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
 public interface MessageReceiver<MsgType extends AbstractOI40MetaMessage> {
 

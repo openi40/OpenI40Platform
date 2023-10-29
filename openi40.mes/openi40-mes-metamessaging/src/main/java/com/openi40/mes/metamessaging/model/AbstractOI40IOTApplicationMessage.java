@@ -1,4 +1,4 @@
-package com.openi40.mes.metamessaging;
+package com.openi40.mes.metamessaging.model;
 
 import lombok.Data;
 

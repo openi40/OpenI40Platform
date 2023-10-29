@@ -13,13 +13,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openi40.mes.metamessaging.AbstractOI40IOTApplicationMessage;
-import com.openi40.mes.metamessaging.AbstractOI40IOTMetaMessage;
-import com.openi40.mes.metamessaging.ManagedMessageType;
-import com.openi40.mes.metamessaging.MessageReceiver;
-import com.openi40.mes.metamessaging.MessagingEnvironment;
-import com.openi40.mes.metamessaging.MetaMessagingKernel;
-import com.openi40.mes.metamessaging.OI40IOTMessageReceiver;
+import com.openi40.mes.metamessaging.handlers.MessageReceiver;
+import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
+import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
+import com.openi40.mes.metamessaging.kernel.MetaMessagingKernel;
+import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
+import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
+import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@SpringBootTest

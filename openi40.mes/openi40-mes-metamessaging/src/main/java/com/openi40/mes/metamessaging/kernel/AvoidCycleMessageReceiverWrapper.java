@@ -1,4 +1,4 @@
-package com.openi40.mes.metamessaging;
+package com.openi40.mes.metamessaging.kernel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,20 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessageReceiver {
-	private static Logger LOGGER = LoggerFactory.getLogger(AvoidCycleConditionalMessageReceiverWrapper.class);
+import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
+import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
+import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
+import com.openi40.mes.metamessaging.model.ManagedMessageType;
+
+class AvoidCycleMessageReceiverWrapper implements OI40IOTMessageReceiver {
+	private static Logger LOGGER = LoggerFactory.getLogger(AvoidCycleMessageReceiverWrapper.class);
 	protected OI40IOTMessageReceiver wrapped = null;
 
-	public AvoidCycleConditionalMessageReceiverWrapper(OI40IOTMessageReceiver w) {
+	AvoidCycleMessageReceiverWrapper(OI40IOTMessageReceiver w) {
 		this.wrapped = w;
 	}
 
-	public static OI40IOTMessageReceiver of(OI40IOTMessageReceiver wrapped) {
+	static OI40IOTMessageReceiver of(OI40IOTMessageReceiver wrapped) {
 		if (wrapped == null) {
 			return new OI40IOTMessageReceiver() {
 				@Override
@@ -36,10 +41,10 @@ public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessa
 
 			};
 		}
-		return new AvoidCycleConditionalMessageReceiverWrapper(wrapped);
+		return new AvoidCycleMessageReceiverWrapper(wrapped);
 	}
 
-	public static List<OI40IOTMessageReceiver> of(List<OI40IOTMessageReceiver> wrapped) {
+	static List<OI40IOTMessageReceiver> of(List<OI40IOTMessageReceiver> wrapped) {
 		List<OI40IOTMessageReceiver> out = new ArrayList<OI40IOTMessageReceiver>();
 		if (wrapped != null) {
 			for (OI40IOTMessageReceiver messageReceiver : wrapped) {
@@ -82,8 +87,9 @@ public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessa
 				LOGGER.debug("End [" + wrapped.getHandlerId() + "$avoid-cycles].onMessage(...)");
 			}
 
-		}else {
-			LOGGER.warn("Message cycle avoidence actived for message=>"+msg.getMsgId()+" and handler=>"+wrapped.getHandlerId());
+		} else {
+			LOGGER.warn("Message cycle avoidence actived for message=>" + msg.getMsgId() + " and handler=>"
+					+ wrapped.getHandlerId());
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End  [" + getHandlerId() + "].onMessage(...)");
@@ -93,9 +99,10 @@ public class AvoidCycleConditionalMessageReceiverWrapper implements OI40IOTMessa
 
 	@Override
 	public boolean isCanManage(AbstractOI40MetaMessage msg) {
-		boolean cycleNotActivated=!msg.isAlreadyHandledFrom(wrapped.getHandlerId());
+		boolean cycleNotActivated = !msg.isAlreadyHandledFrom(wrapped.getHandlerId());
 		if (!cycleNotActivated) {
-			LOGGER.warn("Message cycle avoidence checked as TRUE for message=>"+msg.getMsgId()+" and handler=>"+wrapped.getHandlerId());
+			LOGGER.warn("Message cycle avoidence checked as TRUE for message=>" + msg.getMsgId() + " and handler=>"
+					+ wrapped.getHandlerId());
 		}
 		return cycleNotActivated;
 	}

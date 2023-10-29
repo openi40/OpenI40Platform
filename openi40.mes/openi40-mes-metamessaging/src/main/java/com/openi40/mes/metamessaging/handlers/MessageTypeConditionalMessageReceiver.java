@@ -1,4 +1,7 @@
-package com.openi40.mes.metamessaging;
+package com.openi40.mes.metamessaging.handlers;
+
+import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
+import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
 public interface MessageTypeConditionalMessageReceiver<MsgType extends AbstractOI40MetaMessage>
 		extends MessageReceiver<MsgType> {

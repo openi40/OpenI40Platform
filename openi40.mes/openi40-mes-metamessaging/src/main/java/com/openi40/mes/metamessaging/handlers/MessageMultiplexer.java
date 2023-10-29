@@ -1,8 +1,11 @@
-package com.openi40.mes.metamessaging;
+package com.openi40.mes.metamessaging.handlers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
+import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
 public class MessageMultiplexer<MsgType extends AbstractOI40MetaMessage> implements MessageReceiver<MsgType> {
 	protected List<MessageReceiver<MsgType>> multiplexed = new ArrayList<MessageReceiver<MsgType>>();
