@@ -13,5 +13,7 @@
 	<modules>
 		<module>openi40-mes-datamodel</module>
 		<module>openi40-mes-metamessaging</module>
+		<module>openi40-mes-logical-kernel.app</module>
+		<module>openi40-mes-aps-broker</module>
 	</modules>
 </project>

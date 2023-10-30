@@ -1,6 +1,7 @@
 package com.openi40.mes.metamessaging.kernel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
+import com.openi40.mes.metamessaging.model.SpooledRetryEnvelopeMessage;
 
 @Service
 public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaMessage>, MessagingEnvironment {
@@ -159,10 +161,58 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 
 	MessageReceiver loopBackSender = new LoopBackSender();
 
+	class SpoolerSender implements MessageReceiver<AbstractOI40IOTMetaMessage> {
+		Logger LOGGER = LoggerFactory.getLogger(LoopBackSender.class);
+		Date startDate = new Date();
+		int delayMilliseconds = 0;
+
+		public SpoolerSender(Date startDate, int delayMilliseconds) {
+			this.startDate = startDate;
+			this.delayMilliseconds = delayMilliseconds;
+		}
+
+		@Override
+		public void onMessage(AbstractOI40IOTMetaMessage msg, MessagingEnvironment environment) {
+			if (!(msg instanceof SpooledRetryEnvelopeMessage)) {
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("Begin SpoolerSender::onMessage(..) spooling at: " + startDate + " late: "
+							+ delayMilliseconds + " ms");
+				}
+				SpooledRetryEnvelopeMessage spooled = new SpooledRetryEnvelopeMessage(msg, startDate,
+						this.delayMilliseconds);
+				MetaMessagingKernel.this.loopBackSender.onMessage(spooled, MetaMessagingKernel.this);
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("End SpoolerSender::onMessage(..)");
+				}
+			}else {
+				LOGGER.error("Trying to resend SpooledRetry with id=>"+msg.getMsgId());
+			}
+		}
+
+		@Override
+		public boolean isCanManage(AbstractOI40IOTMetaMessage msg) {
+
+			return MetaMessagingKernel.this.isCanManage(msg);
+		}
+
+		@Override
+		public ManagedMessageType[] getHandledTypes() {
+
+			return MetaMessagingKernel.this.getHandledTypes();
+		}
+
+	}
+
 	@Override
 	public MessageReceiver getLoopbackSender() {
 
 		return loopBackSender;
+	}
+
+	@Override
+	public MessageReceiver getSpooledRetrySender(Date startDate, int delayMilliseconds) {
+
+		return new SpoolerSender(startDate, delayMilliseconds);
 	}
 
 }

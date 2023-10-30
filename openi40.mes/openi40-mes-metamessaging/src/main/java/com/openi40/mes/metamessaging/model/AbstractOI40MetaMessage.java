@@ -11,9 +11,12 @@ import lombok.Data;
 
 public abstract class AbstractOI40MetaMessage implements Serializable {
 	private String msgId = UUID.randomUUID().toString();
+	private String originalMsgId = null;
+	private String correlationId = null;
 	private String from = null;
 	private String to = null;
-
+	private Long persistedId = null;
+	private Integer retryCount = null;
 	private List<String> handlersList = new ArrayList<String>();
 	private Map<String, Boolean> traversedHandlers = new HashMap<String, Boolean>();
 
@@ -56,6 +59,14 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 
 	public List<String> getHandlersList() {
 		return new ArrayList<String>(this.handlersList);
+	}
+
+	public Long getPersistedId() {
+		return persistedId;
+	}
+
+	public void setPersistedId(Long persistedId) {
+		this.persistedId = persistedId;
 	}
 
 }
