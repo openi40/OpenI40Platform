@@ -17,12 +17,11 @@ import com.openi40.mes.datamodel.OI40DBMesAssetEvent;
 import com.openi40.mes.datamodel.repositories.OI40MesAssetEventRepository;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
-import com.openi40.mes.metamessaging.kernel.MetaMessagingKernel;
 import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
 @Service
-@Qualifier(value = MetaMessagingKernel.IOT_KERNEL_RECEIVER)
+@Qualifier(value = MessageReceiver.IOT_KERNEL_RECEIVER)
 public class OI40DatamodelPersisterKernelMessageReceiver implements MessageReceiver {
 	static Logger LOGGER = LoggerFactory.getLogger(OI40DatamodelPersisterKernelMessageReceiver.class);
 
@@ -33,7 +32,7 @@ public class OI40DatamodelPersisterKernelMessageReceiver implements MessageRecei
 	@Override
 	public void onMessage(AbstractOI40MetaMessage msg, MessagingEnvironment environment) {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin onMessage([" + msg.getMsgId() + "])");
+			LOGGER.debug("Begin onMessage([" + msg.getMsgId() + "])"); 
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End onMessage([" + msg.getMsgId() + "])");

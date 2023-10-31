@@ -28,11 +28,11 @@ public class MicroKernel implements MessageReceiver<AbstractOI40IOTMetaMessage> 
 			LOGGER.debug("Begin [" + getHandlerId() + "].onMessage(...)");
 		}
 		metaMessagingKernel.onMessage(msg, metaMessagingKernel);
-		if (LOGGER.isDebugEnabled()) {
+		if (LOGGER.isDebugEnabled()) { 
 			LOGGER.debug("End [" + getHandlerId() + "].onMessage(...)");
 		}
 	}
-
+ 
 	@Override
 	public boolean isCanManage(AbstractOI40IOTMetaMessage msg) {
 

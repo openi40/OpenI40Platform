@@ -9,19 +9,20 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.openi40.mes.logical.apsbroker.config.Openi40ApsBrokerConfig;
 import com.openi40.mes.logical.apsbroker.model.Openi40ApsOutgoingMessage;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
-import com.openi40.mes.metamessaging.kernel.MetaMessagingKernel;
+
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 import com.openi40.scheduler.iomessages.AbortTaskIOMessage;
 
 @Service
-@Qualifier(MetaMessagingKernel.IOT_APPLICATION_RECEIVER)
+@Qualifier(MessageReceiver.IOT_APPLICATION_RECEIVER)
 public class Openi40ApsOutgoingMessageReceiver implements MessageReceiver<AbstractOI40IOTApplicationMessage> {
 	Openi40ApsBrokerConfig config;
 	static Logger LOGGER = LoggerFactory.getLogger(Openi40ApsOutgoingMessageReceiver.class);
@@ -34,14 +35,39 @@ public class Openi40ApsOutgoingMessageReceiver implements MessageReceiver<Abstra
 
 	@Override
 	public void onMessage(AbstractOI40IOTApplicationMessage msg, MessagingEnvironment environment) {
+
 		Openi40ApsOutgoingMessage message = (Openi40ApsOutgoingMessage) msg;
 		String url = generatePostUrl(message);
-		ResponseEntity<Void> response = restTemplate.postForEntity(url, message.getApsContent(), Void.class);
-		HttpStatus statusCode = response.getStatusCode();
-		if (statusCode != null && statusCode.is2xxSuccessful()) {
+		try {
+			ResponseEntity<Void> response = restTemplate.postForEntity(url, message.getApsContent(), Void.class);
+			HttpStatus statusCode = response.getStatusCode();
+			if (statusCode != null && statusCode.is2xxSuccessful()) {
 
-		} else {
+			} else {
+				if (message.getRetryCount() >= this.config.getMaxRetry()) {
+					message.setRetryCount(message.getRetryCount() + 1);
+					int retryDelay = config.getRetryDelay() != null ? config.getRetryDelay() : 30000;
+					if (retryDelay <= 0) {
+						retryDelay = 30000;
+					}
+					MessageReceiver retrySender = environment.getSpooledRetrySender(null, retryDelay);
+					retrySender.onMessage(message, environment);
 
+				} else {
+					MessageReceiver unmanageableSender = environment.getUnmanageableMessageSender();
+					unmanageableSender.onMessage(message, environment);
+				}
+			}
+		} catch (RestClientException exc) {
+			LOGGER.error("Error posting to APS", exc);
+			if (config.getWaitIfOnline() != null && config.getWaitIfOnline()) {
+				int retryDelay = config.getRetryDelayOffline() != null ? config.getRetryDelayOffline() : 60000;
+				if (retryDelay <= 0) {
+					retryDelay = 60000;
+				}
+				MessageReceiver retrySender = environment.getSpooledRetrySender(null, retryDelay);
+				retrySender.onMessage(message, environment);
+			}
 		}
 	}
 
@@ -52,7 +78,7 @@ public class Openi40ApsOutgoingMessageReceiver implements MessageReceiver<Abstra
 		if (!baseUrl.endsWith("/")) {
 			baseUrl += "/";
 		}
-		String completeUrl= baseUrl + methodFragment + "/" + URLEncoder.encode(config.getDataSourceName()) + "/"
+		String completeUrl = baseUrl + methodFragment + "/" + URLEncoder.encode(config.getDataSourceName()) + "/"
 				+ URLEncoder.encode(config.getDataSetName()) + "/" + URLEncoder.encode(config.getDataSetVariant())
 				+ "/";
 		return completeUrl;

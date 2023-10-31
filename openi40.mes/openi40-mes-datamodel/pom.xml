@@ -16,7 +16,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.mes</groupId>
-			<artifactId>openi40-mes-metamessaging</artifactId>
+			<artifactId>openi40-mes-logicalmsg-ifaces</artifactId> 
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.mes</groupId>
+			<artifactId>openi40-mes-logicalmsg-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

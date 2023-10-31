@@ -12,8 +12,10 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>openi40-mes-datamodel</module>
-		<module>openi40-mes-metamessaging</module>
-		<module>openi40-mes-logical-kernel.app</module>
+		<module>openi40-mes-logicalmsg-model</module>
+		<module>openi40-mes-logicalmsg-kernel</module>
+		<module>openi40-mes-logicalmsg-ifaces</module>
 		<module>openi40-mes-aps-broker</module>
+		<module>openi40-mes-logical-kernel.app</module>
 	</modules>
 </project>

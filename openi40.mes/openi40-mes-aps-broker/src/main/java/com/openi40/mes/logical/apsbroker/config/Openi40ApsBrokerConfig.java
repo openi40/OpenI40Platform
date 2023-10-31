@@ -17,6 +17,10 @@ public class Openi40ApsBrokerConfig {
 	private String dataSourceName = null;
 	private String dataSetName = null;
 	private String dataSetVariant = null;
+	private Integer maxRetry = 4;
+	private Integer retryDelay=20000;
+	private Boolean waitIfOnline = true;
+	private Integer retryDelayOffline=60000;
 
 	public Openi40ApsBrokerConfig() {
 
