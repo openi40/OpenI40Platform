@@ -20,7 +20,7 @@ public class MicroKernel implements MessageReceiver<AbstractOI40IOTMetaMessage> 
 	public MicroKernel(@Autowired MetaMessagingKernel metaMessagingKernel) {
 		this.metaMessagingKernel = metaMessagingKernel;
 
-	}
+	} 
 
 	@Override
 	public void onMessage(AbstractOI40IOTMetaMessage msg, MessagingEnvironment environment) {

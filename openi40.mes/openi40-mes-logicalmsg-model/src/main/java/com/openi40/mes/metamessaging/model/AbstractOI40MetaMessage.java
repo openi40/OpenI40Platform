@@ -24,7 +24,10 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 		this.handlersList.add(handlerId);
 		this.traversedHandlers.put(handlerId, true);
 	}
-
+	public void clearHandlersList() {
+		this.handlersList.clear();
+		this.traversedHandlers.clear();
+	}
 	public boolean isAlreadyHandledFrom(String handlerId) {
 		return this.traversedHandlers.containsKey(handlerId);
 	}

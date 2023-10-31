@@ -108,7 +108,8 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 
 	@Override
 	public void onMessage(AbstractOI40IOTMetaMessage msg, MessagingEnvironment environment) {
-		this.mainMultiplexer.onMessage(msg, this);
+		if (msg != null)
+			this.mainMultiplexer.onMessage(msg, this);
 	}
 
 	@Override

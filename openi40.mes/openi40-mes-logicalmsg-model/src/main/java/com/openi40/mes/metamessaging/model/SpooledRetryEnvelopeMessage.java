@@ -10,7 +10,9 @@ import lombok.Data;
 public class SpooledRetryEnvelopeMessage extends AbstractOI40IOTMetaMessage {
 	private AbstractOI40IOTMetaMessage content = null;
 	private Timestamp retryThreshold = null;
-
+	public SpooledRetryEnvelopeMessage() {
+		
+	}
 	public SpooledRetryEnvelopeMessage(AbstractOI40IOTMetaMessage content, Date from, int millisecondRetry) {
 		this.content = content;
 		Date now = new Date();
@@ -24,7 +26,7 @@ public class SpooledRetryEnvelopeMessage extends AbstractOI40IOTMetaMessage {
 		}
 		this.setFrom(content.getFrom());
 		this.setTo(content.getTo());	
-		this.setMsgId(content.getMsgId());
+		this.setMsgId(content.getMsgId()+"::spool-retry");
 		this.retryThreshold = new Timestamp(gregorian.getTimeInMillis());
 	}
 
