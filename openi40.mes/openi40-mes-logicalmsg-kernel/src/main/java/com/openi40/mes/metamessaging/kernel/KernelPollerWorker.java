@@ -4,10 +4,11 @@ import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import com.openi40.mes.metamessaging.handlers.PollableMessagesStreamFactory;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
-
+@Service
 public class KernelPollerWorker {
 	MetaMessagingKernel kernel=null;
 	public KernelPollerWorker(@Autowired MetaMessagingKernel kernel) {
