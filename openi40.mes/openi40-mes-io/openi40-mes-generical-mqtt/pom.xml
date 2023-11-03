@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40.mes.io</groupId>
+		<artifactId>openi40-mes-io</artifactId>
+		<version>00.00.02BC-SNAPSHOT</version>
+	</parent>
+	<artifactId>openi40-mes-generical-mqtt</artifactId>
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.eclipse.paho</groupId>
+			<artifactId>org.eclipse.paho.mqttv5.client</artifactId>
+			<version>1.2.5</version>
+		</dependency>
+
+	</dependencies>
+</project>

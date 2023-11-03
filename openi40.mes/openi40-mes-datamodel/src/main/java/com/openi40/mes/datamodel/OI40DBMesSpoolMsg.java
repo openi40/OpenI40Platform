@@ -49,7 +49,7 @@ public class OI40DBMesSpoolMsg {
 	@Column(name = "sent")
 	Boolean sent = null;
 	@Column(name = "payload")
-	InputStream payload;
+	String payload;
 
 	public OI40DBMesSpoolMsg() {
 

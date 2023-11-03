@@ -1,5 +1,6 @@
 package com.openi40.mes.datamodel.spooler;
 
+import java.io.ByteArrayInputStream;
 import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
@@ -36,7 +37,7 @@ public class RetrySpoolerPollableMessagesStreamFactory implements PollableMessag
 			try {
 				Class<? extends AbstractOI40IOTMetaMessage> type = (Class<? extends AbstractOI40IOTMetaMessage>) Class
 						.forName(entry.getMessageType());
-				outMessage = MetaMsgJsonUtil.materialize(entry.getPayload(), type);
+				outMessage = MetaMsgJsonUtil.materialize(new ByteArrayInputStream(entry.getPayload().getBytes()), type);
 				if (outMessage instanceof SpooledRetryEnvelopeMessage) {
 					SpooledRetryEnvelopeMessage msg=(SpooledRetryEnvelopeMessage) outMessage;
 					outMessage=msg.getContent();

@@ -1,6 +1,7 @@
 package com.openi40.mes.metamessaging.model;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,8 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 	private String from = null;
 	private String to = null;
 	private Long persistedId = null;
-	private Integer retryCount = 0;	
+	private Timestamp timestamp = null;
+	private Integer retryCount = 0;
 	private List<String> handlersList = new ArrayList<String>();
 	private Map<String, Boolean> traversedHandlers = new HashMap<String, Boolean>();
 
@@ -24,10 +26,12 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 		this.handlersList.add(handlerId);
 		this.traversedHandlers.put(handlerId, true);
 	}
+
 	public void clearHandlersList() {
 		this.handlersList.clear();
 		this.traversedHandlers.clear();
 	}
+
 	public boolean isAlreadyHandledFrom(String handlerId) {
 		return this.traversedHandlers.containsKey(handlerId);
 	}
@@ -78,6 +82,14 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 
 	public void setRetryCount(Integer retryCount) {
 		this.retryCount = retryCount;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 }

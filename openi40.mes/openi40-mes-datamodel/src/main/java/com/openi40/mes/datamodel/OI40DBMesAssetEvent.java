@@ -39,7 +39,7 @@ public class OI40DBMesAssetEvent implements Serializable {
 	@Column(name = "event_type")
 	String eventType = null;
 	@Column(name = "event_payload")
-	InputStream eventPayload = null;
+	String eventPayload = null;
 	@Column(name = "processed_time")
 	Timestamp processedTime = null;
 	@Column(name = "processed_status")

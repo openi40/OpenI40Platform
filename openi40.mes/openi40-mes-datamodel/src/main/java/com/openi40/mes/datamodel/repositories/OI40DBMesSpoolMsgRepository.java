@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.openi40.mes.datamodel.OI40DBMesSpoolMsg;
 @Repository
 public interface OI40DBMesSpoolMsgRepository extends JpaRepository<OI40DBMesSpoolMsg, Long> {
-	public Stream<OI40DBMesSpoolMsg> findAllBySpoolTypeEqualAndResentTrhresholdMajorThanAndSentEqualsFalse(
+	public Stream<OI40DBMesSpoolMsg> findBySpoolTypeEqualsAndResendThresholdGreaterThanAndSentIsFalse(
 			String spoolType, Timestamp timestamp);
 
 	public default Stream<OI40DBMesSpoolMsg> findAllMessagesToRetry() {
-		return this.findAllBySpoolTypeEqualAndResentTrhresholdMajorThanAndSentEqualsFalse("RETRYSPOOL",
+		return this.findBySpoolTypeEqualsAndResendThresholdGreaterThanAndSentIsFalse("RETRYSPOOL",
 				new Timestamp(System.currentTimeMillis()));
 	}
 }

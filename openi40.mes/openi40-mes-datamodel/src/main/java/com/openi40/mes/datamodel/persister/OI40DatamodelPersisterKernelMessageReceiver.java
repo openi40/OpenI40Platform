@@ -24,6 +24,7 @@ import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 import com.openi40.mes.metamessaging.model.SpooledRetryEnvelopeMessage;
 import com.openi40.mes.metamessaging.model.UnmanageableMessageEnvelope;
+import com.openi40.mes.metamessaging.model.VolatileMessageType;
 
 @Service
 @Qualifier(value = MessageReceiver.IOT_KERNEL_RECEIVER)
@@ -115,8 +116,12 @@ public class OI40DatamodelPersisterKernelMessageReceiver implements MessageRecei
 
 	@Override
 	public boolean isCanManage(AbstractOI40MetaMessage msg) {
-
-		return true;
+		boolean canManage = true;
+		// Avoid VolatileMessageType annotated types
+		if (msg != null && msg.getClass().isAnnotationPresent(VolatileMessageType.class)) {
+			canManage = false;
+		}
+		return canManage;
 	}
 
 	@Override

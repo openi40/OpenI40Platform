@@ -1,5 +1,6 @@
 package com.openi40.mes.metamessaging.kernel;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +38,10 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 			@Autowired(required = false) @Qualifier(value = IOT_KERNEL_RECEIVER) List<OI40IOTMessageReceiver> kernelreceivers,
 			@Autowired(required = false) @Qualifier(value = IOT_SYSTEM_RECEIVER) List<OI40IOTMessageReceiver> sysreceivers,
 			@Autowired(required = false) @Qualifier(value = IOT_APPLICATION_RECEIVER) List<OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage>> appreceivers) {
-		this.iotKernelReceivers = kernelreceivers;// AvoidCycleConditionalMessageReceiverWrapper.of(kernelreceivers);
-		this.iotSystemReceivers = sysreceivers; // AvoidCycleConditionalMessageReceiverWrapper.of(sysreceivers);
-		this.iotApplicationReceivers = appreceivers;// AvoidCycleConditionalMessageReceiverWrapper.of(new
-													// ArrayList(appreceivers));
+		this.iotKernelReceivers = kernelreceivers;
+		this.iotSystemReceivers = sysreceivers; 
+		this.iotApplicationReceivers = appreceivers;
+													
 		if (this.iotKernelReceivers != null) {
 			for (OI40IOTMessageReceiver oi40iotMessageReceiver : iotKernelReceivers) {
 				kernelConditionalReceivers.add(AvoidCycleMessageReceiverWrapper.of(oi40iotMessageReceiver));
@@ -108,8 +109,12 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 
 	@Override
 	public void onMessage(AbstractOI40IOTMetaMessage msg, MessagingEnvironment environment) {
-		if (msg != null)
+		if (msg != null) {
+			if (msg.getTimestamp() == null) {
+				msg.setTimestamp(new Timestamp(System.currentTimeMillis()));
+			}
 			this.mainMultiplexer.onMessage(msg, this);
+		}
 	}
 
 	@Override

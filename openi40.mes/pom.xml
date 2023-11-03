@@ -15,7 +15,10 @@
 		<module>openi40-mes-logicalmsg-model</module>
 		<module>openi40-mes-logicalmsg-kernel</module>
 		<module>openi40-mes-logicalmsg-ifaces</module>
-		<module>openi40-mes-aps-broker</module>
+		
 		<module>openi40-mes-logical-kernel.app</module>
+		<module>openi40-mes-io</module>
+		<module>openi40-mes-integrations-ifaces</module>
+		<module>openi40-mes-starter</module>
 	</modules>
 </project>
