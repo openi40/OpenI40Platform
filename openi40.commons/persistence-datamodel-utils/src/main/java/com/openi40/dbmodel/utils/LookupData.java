@@ -1,4 +1,4 @@
-package com.openi40.dbmodel.repositories.model;
+package com.openi40.dbmodel.utils;
 
 public class LookupData {
 	private String code=null;

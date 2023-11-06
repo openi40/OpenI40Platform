@@ -20,5 +20,6 @@
 		<module>openi40-mes-io</module>
 		<module>openi40-mes-integrations-ifaces</module>
 		<module>openi40-mes-starter</module>
+		<module>openi40-mes-task-tracking-model</module>
 	</modules>
 </project>

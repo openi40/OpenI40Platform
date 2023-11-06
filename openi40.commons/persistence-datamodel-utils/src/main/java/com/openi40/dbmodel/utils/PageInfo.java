@@ -1,4 +1,4 @@
-package com.openi40.dbmodel.repositories.model;
+package com.openi40.dbmodel.utils;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

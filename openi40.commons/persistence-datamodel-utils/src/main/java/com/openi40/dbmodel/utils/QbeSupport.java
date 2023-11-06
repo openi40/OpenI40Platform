@@ -1,8 +1,6 @@
-package com.openi40.dbmodel.repositories.model;
+package com.openi40.dbmodel.utils;
 
-import com.openi40.dbmodel.entities.OI40DBBaseEntity;
-
-public class QbeSupport<OI40Type extends OI40DBBaseEntity> {
+public class QbeSupport<OI40Type> {
 	private OI40Type qbe=null;
 	private PageInfo page=null;
 	public QbeSupport() {

@@ -1,4 +1,4 @@
-package com.openi40.dbmodel.repositories.model;
+package com.openi40.dbmodel.utils;
 
 public class AutoCompleteData {
 	private PageInfo page=null;

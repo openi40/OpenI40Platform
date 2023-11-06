@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.openi40.dbmodel.entities.OI40DBBaseEntity;
-import com.openi40.dbmodel.repositories.model.AutoCompleteData;
-import com.openi40.dbmodel.repositories.model.LookupData;
-import com.openi40.dbmodel.repositories.model.PageInfo;
-import com.openi40.dbmodel.repositories.model.QbeSupport;
+import com.openi40.dbmodel.utils.AutoCompleteData;
+import com.openi40.dbmodel.utils.LookupData;
+import com.openi40.dbmodel.utils.PageInfo;
+import com.openi40.dbmodel.utils.QbeSupport;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
