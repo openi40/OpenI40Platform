@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openi40.dbmodel.utils.PageInfo;
+import com.openi40.mes.assetworkstation.model.AssetWorkstationRequestWrapper;
 import com.openi40.mes.tasktracking.model.OI40DBMesTaskEvent;
 import com.openi40.mes.tasktracking.model.OI40DBMesTaskEventEquip;
 import com.openi40.mes.tasktracking.model.OI40DBMesTaskEventMaterial;
@@ -24,12 +25,13 @@ import com.openi40.mes.tasktracking.model.dto.MesTaskEventDto;
 import com.openi40.mes.tasktracking.repositories.OI40DBMesTaskEventEquipRepository;
 import com.openi40.mes.tasktracking.repositories.OI40DBMesTaskEventMaterialRepository;
 import com.openi40.mes.tasktracking.repositories.OI40DBMesTaskEventRepository;
+import com.openi40.mes.tasktracking.service.ITaskTrackingService;
 
 import io.swagger.annotations.Api;
 
 @Api
 @RestController
-@RequestMapping(value = "tasktracking/MesTaskEvent")
+@RequestMapping(value = "tasktracking/MesTaskEventController")
 public class MesTaskEventController {
 	@Autowired
 	OI40DBMesTaskEventRepository taskEventRepo;
@@ -37,7 +39,7 @@ public class MesTaskEventController {
 	OI40DBMesTaskEventEquipRepository taskEventEquipRepo;
 	@Autowired
 	OI40DBMesTaskEventMaterialRepository taskEventMaterialRepo;
-
+	
 	public MesTaskEventController() {
 
 	}
@@ -59,7 +61,8 @@ public class MesTaskEventController {
 
 	@PostMapping(path = "update", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional(value = TxType.REQUIRES_NEW)
-	public MesTaskEventDto update(@NotNull @RequestBody MesTaskEventDto data) {
+	public MesTaskEventDto update(@NotNull @RequestBody AssetWorkstationRequestWrapper<MesTaskEventDto> request) {
+		MesTaskEventDto data = request.getContent();
 		MesTaskEventDto out = new MesTaskEventDto();
 		OI40DBMesTaskEvent entry = taskEventRepo.saveAndFlush(data.getEvent());
 		out.setEvent(entry);
@@ -88,7 +91,7 @@ public class MesTaskEventController {
 		for (Long id : ids) {
 			this.taskEventRepo.deleteById(id);
 			this.taskEventMaterialRepo.deleteByEventId(id);
-			this.taskEventEquipRepo.deleteByEventId(id);			
+			this.taskEventEquipRepo.deleteByEventId(id);
 		}
 	}
 }

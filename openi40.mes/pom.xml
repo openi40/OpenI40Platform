@@ -21,5 +21,6 @@
 		<module>openi40-mes-integrations-ifaces</module>
 		<module>openi40-mes-starter</module>
 		<module>openi40-mes-task-tracking-model</module>
+		<module>openi40-mes-asset-workstation-support</module>
 	</modules>
 </project>
