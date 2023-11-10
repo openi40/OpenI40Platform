@@ -10,12 +10,12 @@
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Input.IOMessages</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.platform</groupId>
 			<artifactId>Persistence.IOMessages.Spooling</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

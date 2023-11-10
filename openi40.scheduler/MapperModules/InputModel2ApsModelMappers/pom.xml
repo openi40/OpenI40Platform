@@ -12,32 +12,32 @@
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>SchedulerKernelArchitecture</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model.Daos</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Input.Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

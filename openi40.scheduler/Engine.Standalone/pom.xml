@@ -23,59 +23,59 @@
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Common</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Client.RestApi</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>angular-app</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>WebConfigs</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputChannels</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Output.Channels</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputOutputConfig</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputModel2ApsModelMappers</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>

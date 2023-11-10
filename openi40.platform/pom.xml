@@ -30,5 +30,6 @@
 		<module>Persistence.IOMessages.Controllers</module>
 		<module>IOMessages.Processing</module>
 		<module>openi40.backoffice</module>
+		<module>openi40.integration.clients</module>
 	</modules>
 </project>
