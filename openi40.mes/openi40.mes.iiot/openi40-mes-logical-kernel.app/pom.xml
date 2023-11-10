@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.mes.iiot</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>com.openi40.mes.iiot.parent</artifactId>
 		<version>00.00.02BC-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40-mes-logical-kernel.app</artifactId>

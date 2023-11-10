@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.mes</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>com.openi40.mes.parent</artifactId>
 		<version>00.00.02BC-SNAPSHOT</version>
 	</parent>
-	<artifactId>parent</artifactId>
+	<artifactId>com.openi40.mes.iiot.parent</artifactId>
 	<groupId>com.openi40.mes.iiot</groupId>
 	<packaging>pom</packaging>
 	<modules>
