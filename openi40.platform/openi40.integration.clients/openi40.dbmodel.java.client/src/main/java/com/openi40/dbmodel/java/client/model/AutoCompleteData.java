@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * AutoCompleteData
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-09T15:18:53.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
 public class AutoCompleteData {
   @JsonProperty("page")
   private PageInfo page = null;

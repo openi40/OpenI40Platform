@@ -1,9 +1,9 @@
-package com.openi40.mes.datamodel.repositories;
+package com.openi40.mes.shared.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import com.openi40.mes.datamodel.OI40DBMesBaseEntity;
+import com.openi40.mes.shared.model.OI40DBMesBaseEntity;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

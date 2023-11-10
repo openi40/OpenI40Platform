@@ -1,4 +1,4 @@
-package com.openi40.mes.datamodel;
+package com.openi40.mes.shared.model;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;

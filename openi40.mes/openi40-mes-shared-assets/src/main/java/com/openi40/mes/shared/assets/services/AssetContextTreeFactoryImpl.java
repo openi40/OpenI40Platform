@@ -1,4 +1,4 @@
-package com.openi40.mes.assetworkstation.services;
+package com.openi40.mes.shared.assets.services;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,9 +21,11 @@ import com.openi40.dbmodel.java.client.model.OI40DBPlant;
 import com.openi40.dbmodel.java.client.model.OI40DBProductiveCompany;
 import com.openi40.dbmodel.java.client.model.OI40DBWarehouse;
 import com.openi40.dbmodel.java.client.model.OI40DBWorkCenter;
-import com.openi40.mes.assetworkstation.model.AssetContextObject;
-import com.openi40.mes.assetworkstation.model.AssetContextObjectTree;
-import com.openi40.mes.assetworkstation.model.AssetContextType;
+import com.openi40.mes.shared.assets.model.AssetContextObject;
+import com.openi40.mes.shared.assets.model.AssetContextObjectTree;
+import com.openi40.mes.shared.assets.model.AssetContextType;
+import com.openi40.mes.shared.repositories.OI40DBMesAssetGroupRepository;
+import com.openi40.mes.shared.repositories.OI40DBMesAssetRepository;
 
 @Singleton
 @Service
@@ -40,6 +42,7 @@ public class AssetContextTreeFactoryImpl implements IAssetContextTreeFactory {
 	Oi40DbWorkCenterRepositoryApi workcenterApi;
 	@Autowired
 	Oi40DbMachineRepositoryApi machineApi;
+	
 
 	public AssetContextTreeFactoryImpl() {
 
@@ -53,13 +56,15 @@ public class AssetContextTreeFactoryImpl implements IAssetContextTreeFactory {
 		for (Iterator iterator = companies.iterator(); iterator.hasNext();) {
 			OI40DBProductiveCompany oi40dbProductiveCompany = (OI40DBProductiveCompany) iterator.next();
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.COMPANY, oi40dbProductiveCompany.getCode(),oi40dbProductiveCompany.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.COMPANY, oi40dbProductiveCompany.getCode(),
+					oi40dbProductiveCompany.getDescription()));
 			rootCompanies.add(item);
 		}
 		List<OI40DBPlant> plants = plantApi.findAllListOI40DBPlant();
 		for (OI40DBPlant oi40dbPlant : plants) {
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.PLANT, oi40dbPlant.getCode(),oi40dbPlant.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.PLANT, oi40dbPlant.getCode(),
+					oi40dbPlant.getDescription()));
 			_plants.add(item);
 			for (AssetContextObjectTree company : rootCompanies) {
 				if (oi40dbPlant.getProductiveCompanyCode() != null
@@ -72,7 +77,7 @@ public class AssetContextTreeFactoryImpl implements IAssetContextTreeFactory {
 		List<AssetContextObjectTree> _departments = new ArrayList<AssetContextObjectTree>();
 		for (OI40DBDepartment dept : departments) {
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.DEPARTMENT, dept.getCode(),dept.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.DEPARTMENT, dept.getCode(), dept.getDescription()));
 			_departments.add(item);
 			for (AssetContextObjectTree p : _plants) {
 				if (p.getItem().getObjectCode().equals(dept.getPlantCode())) {
@@ -85,7 +90,7 @@ public class AssetContextTreeFactoryImpl implements IAssetContextTreeFactory {
 		List<AssetContextObjectTree> _workcenters = new ArrayList<AssetContextObjectTree>();
 		for (OI40DBWorkCenter wc : workcenters) {
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.WORKCENTER, wc.getCode(),wc.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.WORKCENTER, wc.getCode(), wc.getDescription()));
 			_workcenters.add(item);
 			for (AssetContextObjectTree node : _departments) {
 				if (wc.getDepartmentCode().equals(node.getItem().getObjectCode())) {
@@ -97,17 +102,19 @@ public class AssetContextTreeFactoryImpl implements IAssetContextTreeFactory {
 		List<AssetContextObjectTree> _warehouses = new ArrayList<AssetContextObjectTree>();
 		for (OI40DBWarehouse wh : warehouses) {
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.WAREHOUSE, wh.getCode(),wh.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.WAREHOUSE, wh.getCode(), wh.getDescription()));
 			_warehouses.add(item);
 			for (AssetContextObjectTree p : _plants) {
-
+				if (wh.getPlantCode().equals(p.getItem().getObjectCode())) {
+					p.getChilds().add(item);
+				}
 			}
 		}
 		List<OI40DBMachine> machines = machineApi.findAllListOI40DBMachine();
 		List<AssetContextObjectTree> _machines = new ArrayList<AssetContextObjectTree>();
 		for (OI40DBMachine m : machines) {
 			AssetContextObjectTree item = new AssetContextObjectTree();
-			item.setItem(new AssetContextObject(AssetContextType.MACHINE, m.getCode(),m.getDescription()));
+			item.setItem(new AssetContextObject(AssetContextType.MACHINE, m.getCode(), m.getDescription()));
 			_machines.add(item);
 			for (AssetContextObjectTree wc : _workcenters) {
 				if (m.getWorkCenterCode().equals(wc.getItem().getObjectCode())) {

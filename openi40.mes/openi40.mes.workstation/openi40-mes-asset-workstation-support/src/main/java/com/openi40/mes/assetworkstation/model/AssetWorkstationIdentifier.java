@@ -1,7 +1,7 @@
 package com.openi40.mes.assetworkstation.model;
 
-import com.openi40.mes.datamodel.OI40DBMesAsset;
-import com.openi40.mes.datamodel.OI40DBMesAssetGroup;
+import com.openi40.mes.shared.model.OI40DBMesAsset;
+import com.openi40.mes.shared.model.OI40DBMesAssetGroup;
 
 import lombok.Data;
 

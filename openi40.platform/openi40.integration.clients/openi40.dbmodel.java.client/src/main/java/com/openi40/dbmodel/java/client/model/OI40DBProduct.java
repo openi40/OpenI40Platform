@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBProduct
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-09T15:18:53.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
 public class OI40DBProduct {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;

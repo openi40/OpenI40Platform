@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **infiniteCapacity** | **Boolean** |  |  [optional]
 **integrationTs** | [**Date**](Date.md) |  |  [optional]
 **modifiedTimestamp** | [**Date**](Date.md) |  |  [optional]
+**plantCode** | **String** |  |  [optional]
 **removed** | **Boolean** |  |  [optional]
 **timesheetMetaInfoCode** | **String** |  |  [optional]
 

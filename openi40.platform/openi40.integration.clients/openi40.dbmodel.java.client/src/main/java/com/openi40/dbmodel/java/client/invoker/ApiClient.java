@@ -50,7 +50,7 @@ import com.openi40.dbmodel.java.client.invoker.auth.HttpBasicAuth;
 import com.openi40.dbmodel.java.client.invoker.auth.ApiKeyAuth;
 import com.openi40.dbmodel.java.client.invoker.auth.OAuth;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-09T15:18:53.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
 @Component("com.openi40.dbmodel.java.client.invoker.ApiClient")
 public class ApiClient {
     public enum CollectionFormat {
@@ -70,7 +70,7 @@ public class ApiClient {
     
     private HttpHeaders defaultHeaders = new HttpHeaders();
     
-    private String basePath = "http://localhost:8083/openi40-backoffice";
+    private String basePath = "http://localhost:8082/openi40-integration";
 
     private RestTemplate restTemplate;
 

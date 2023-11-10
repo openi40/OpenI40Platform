@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBWarehouse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-09T15:18:53.580+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
 public class OI40DBWarehouse {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
@@ -44,6 +44,9 @@ public class OI40DBWarehouse {
 
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
+
+  @JsonProperty("plantCode")
+  private String plantCode = null;
 
   @JsonProperty("removed")
   private Boolean removed = null;
@@ -159,6 +162,24 @@ public class OI40DBWarehouse {
     this.modifiedTimestamp = modifiedTimestamp;
   }
 
+  public OI40DBWarehouse plantCode(String plantCode) {
+    this.plantCode = plantCode;
+    return this;
+  }
+
+   /**
+   * Get plantCode
+   * @return plantCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getPlantCode() {
+    return plantCode;
+  }
+
+  public void setPlantCode(String plantCode) {
+    this.plantCode = plantCode;
+  }
+
   public OI40DBWarehouse removed(Boolean removed) {
     this.removed = removed;
     return this;
@@ -211,13 +232,14 @@ public class OI40DBWarehouse {
         Objects.equals(this.infiniteCapacity, oi40DBWarehouse.infiniteCapacity) &&
         Objects.equals(this.integrationTs, oi40DBWarehouse.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBWarehouse.modifiedTimestamp) &&
+        Objects.equals(this.plantCode, oi40DBWarehouse.plantCode) &&
         Objects.equals(this.removed, oi40DBWarehouse.removed) &&
         Objects.equals(this.timesheetMetaInfoCode, oi40DBWarehouse.timesheetMetaInfoCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, infiniteCapacity, integrationTs, modifiedTimestamp, removed, timesheetMetaInfoCode);
+    return Objects.hash(attributesMap, code, description, infiniteCapacity, integrationTs, modifiedTimestamp, plantCode, removed, timesheetMetaInfoCode);
   }
 
 
@@ -232,6 +254,7 @@ public class OI40DBWarehouse {
     sb.append("    infiniteCapacity: ").append(toIndentedString(infiniteCapacity)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    plantCode: ").append(toIndentedString(plantCode)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
     sb.append("    timesheetMetaInfoCode: ").append(toIndentedString(timesheetMetaInfoCode)).append("\n");
     sb.append("}");

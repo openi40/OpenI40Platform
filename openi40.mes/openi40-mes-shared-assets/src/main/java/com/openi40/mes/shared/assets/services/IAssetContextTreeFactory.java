@@ -1,13 +1,13 @@
-package com.openi40.mes.assetworkstation.services;
+package com.openi40.mes.shared.assets.services;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.openi40.mes.assetworkstation.model.AssetContextObject;
-import com.openi40.mes.assetworkstation.model.AssetContextObjectBidirectionalTree;
-import com.openi40.mes.assetworkstation.model.AssetContextObjectTree;
-import com.openi40.mes.assetworkstation.model.AssetContextType;
-import com.openi40.mes.assetworkstation.model.ContextPosition;
+import com.openi40.mes.shared.assets.model.AssetContextObject;
+import com.openi40.mes.shared.assets.model.AssetContextObjectBidirectionalTree;
+import com.openi40.mes.shared.assets.model.AssetContextObjectTree;
+import com.openi40.mes.shared.assets.model.AssetContextType;
+import com.openi40.mes.shared.assets.model.ContextPosition;
 
 public interface IAssetContextTreeFactory {
 	public List<AssetContextObjectTree> getContextRoots();

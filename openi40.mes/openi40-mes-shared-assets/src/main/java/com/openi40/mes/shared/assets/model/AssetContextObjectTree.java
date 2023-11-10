@@ -1,4 +1,4 @@
-package com.openi40.mes.assetworkstation.model;
+package com.openi40.mes.shared.assets.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

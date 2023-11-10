@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openi40.mes.assetworkstation.model.AssetWorkstationIdentifier;
-import com.openi40.mes.datamodel.OI40DBMesAsset;
-import com.openi40.mes.datamodel.OI40DBMesAssetGroup;
-import com.openi40.mes.datamodel.repositories.OI40DBMesAssetGroupRepository;
-import com.openi40.mes.datamodel.repositories.OI40DBMesAssetRepository;
+import com.openi40.mes.shared.model.OI40DBMesAsset;
+import com.openi40.mes.shared.model.OI40DBMesAssetGroup;
+import com.openi40.mes.shared.repositories.OI40DBMesAssetGroupRepository;
+import com.openi40.mes.shared.repositories.OI40DBMesAssetRepository;
 
 @Service
 public class AssetWorkstationIdentifierServiceImpl implements IAssetWorkstationIdentifierService {

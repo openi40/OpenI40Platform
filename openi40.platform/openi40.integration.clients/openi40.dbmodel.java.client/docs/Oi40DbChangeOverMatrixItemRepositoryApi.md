@@ -1,6 +1,6 @@
 # Oi40DbChangeOverMatrixItemRepositoryApi
 
-All URIs are relative to *https://localhost:8083/openi40-backoffice*
+All URIs are relative to *https://localhost:8082/openi40-integration*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

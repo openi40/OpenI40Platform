@@ -13,5 +13,7 @@
 	<modules>
 		<module>openi40.mes.iiot</module>
 		<module>openi40.mes.workstation</module>
+		<module>openi40-mes-shared-model</module>
+		<module>openi40-mes-shared-assets</module>
 	</modules>
 </project>

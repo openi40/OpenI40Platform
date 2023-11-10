@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.openi40.mes.datamodel.OI40DBMesBaseEntity;
+import com.openi40.mes.shared.model.OI40DBMesBaseEntity;
 
 import lombok.Data;
 @Entity
