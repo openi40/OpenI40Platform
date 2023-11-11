@@ -11,7 +11,7 @@
 	<groupId>com.openi40.mes.iiot</groupId>
 	<packaging>pom</packaging>
 	<modules>
-		<module>openi40-mes-datamodel</module>
+		<module>openi40-mes-logicalmsg-persistence</module>
 		<module>openi40-mes-logicalmsg-model</module>
 		<module>openi40-mes-logicalmsg-kernel</module>
 		<module>openi40-mes-logicalmsg-ifaces</module>

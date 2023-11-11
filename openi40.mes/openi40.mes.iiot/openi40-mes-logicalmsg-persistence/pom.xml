@@ -8,7 +8,7 @@
 		<version>00.00.02BC-SNAPSHOT</version>
 	</parent>
 	
-	<artifactId>openi40-mes-datamodel</artifactId>
+	<artifactId>openi40-mes-logicalmsg-persistence</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

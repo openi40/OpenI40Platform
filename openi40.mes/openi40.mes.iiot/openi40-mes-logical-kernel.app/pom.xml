@@ -38,9 +38,9 @@
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.mes.iiot</groupId>
-			<artifactId>openi40-mes-datamodel</artifactId>
+			<artifactId>openi40-mes-logicalmsg-persistence</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.openi40.mes.iiot</groupId>
 			<artifactId>openi40-mes-logicalmsg-model</artifactId>
