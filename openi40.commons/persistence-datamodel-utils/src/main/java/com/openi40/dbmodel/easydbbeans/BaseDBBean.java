@@ -43,6 +43,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	private String tableAlias = "";
 
 	protected String application = null;
+	protected static final SCounterManager counterManager = new SCounterManager();
 
 	protected BaseDBBean createNewInstance() throws InstantiationException, IllegalAccessException {
 
@@ -229,7 +230,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 					if (autoInc) {
 						synchronized (getClass()) {
 
-							long id = BaseDBBeanApplicationCounterManager.counterManager.getNewInt64CounterValue(table,
+							long id = BaseDBBean.counterManager.getNewInt64CounterValue(table,
 									propertyName, connection);
 							if (pds[index].getPropertyType().equals(Integer.class)) {
 								value = new Integer((int) id);
@@ -912,7 +913,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 						Object value = thlGet(pds[index].getName());
 						if (value == null || (((value instanceof Number) && ((Number) value).intValue() == 0)
 								&& PUT_ZERO_AUTOINCREMENTS)) {
-							String id = "" + BaseDBBeanApplicationCounterManager.counterManager
+							String id = "" + BaseDBBean.counterManager
 									.getNewInt64CounterValue(table, pds[index].getName(), connection);
 							try {
 								thlSet(pds[index].getName(),
