@@ -5,7 +5,8 @@ import java.util.Map;
 public interface IntegrationEndpointInfo {
 	
 
-	public String getUri();
+	public String getReadUri();
+	public String getWriteUri();
 
 	public String getProtocolType();
 

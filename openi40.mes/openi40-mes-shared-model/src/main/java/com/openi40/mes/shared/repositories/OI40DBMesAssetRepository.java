@@ -11,4 +11,6 @@ public interface OI40DBMesAssetRepository extends OI40MesBaseRepository<OI40DBMe
 	public List<OI40DBMesAsset> findByIpAddressEqualsAndMesAssetTypeCodeEquals(String ipAddress, String assetTypeCode);
 
 	public List<OI40DBMesAsset> findByMesAssetGroupCodeEqualsAndMesAssetTypeCodeEquals(String code, String string);
+
+	public List<OI40DBMesAsset> findByIntegrationIdEquals(String integrationId);
 }

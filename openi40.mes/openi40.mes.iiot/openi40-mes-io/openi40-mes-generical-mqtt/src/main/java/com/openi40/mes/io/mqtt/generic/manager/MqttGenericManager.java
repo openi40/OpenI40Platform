@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import com.openi40.mes.integration.ifaces.ConfiguredEndpointInfo;
 import com.openi40.mes.integration.ifaces.IntegrationHandlerException;
 import com.openi40.mes.integration.ifaces.IntegrationProtocolTypes;
-import com.openi40.mes.integration.ifaces.OpenI40IntegratedEndpointsRetriever;
+import com.openi40.mes.integration.ifaces.IOpenI40IntegratedEndpointsRetriever;
 import com.openi40.mes.io.mqtt.generic.config.GenericMQTTChannelConfig;
 import com.openi40.mes.io.mqtt.generic.config.IntegratedChannelsConfig;
 import com.openi40.mes.io.mqtt.generic.config.MqttBrokerConfig;
@@ -41,7 +41,7 @@ public class MqttGenericManager implements ApplicationContextAware {
 	static Logger LOGGER = LoggerFactory.getLogger(MqttGenericManager.class);
 	ApplicationContext applicationContext = null;
 	@Autowired(required = false)
-	OpenI40IntegratedEndpointsRetriever configuredEndpointsRetriever;
+	IOpenI40IntegratedEndpointsRetriever configuredEndpointsRetriever;
 	@Autowired(required = false)
 	GenericMQTTChannelConfig mqttConfigs;
 	Map<String, IMqttToken> actualSubscribedTokens = new HashMap<String, IMqttToken>();
@@ -66,7 +66,7 @@ public class MqttGenericManager implements ApplicationContextAware {
 			for (ConfiguredEndpointInfo endPoint : endpoints) {
 				if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(IntegrationProtocolTypes.MQTT)
 						&& endPoint.getEndPointInfo().isCanRead()) {
-					receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getUri(), endPoint.getAssetCode());
+					receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getReadUri(), endPoint.getAssetCode());
 				}
 			}
 		}
@@ -110,9 +110,9 @@ public class MqttGenericManager implements ApplicationContextAware {
 	}
 
 	public void publish(GenericalMQTTOutputMessage message) throws MqttPersistenceException, MqttException {
-		String clientKey=getClientKey(message);
+		String clientKey = getClientKey(message);
 		MqttClient client = this.activeClients.get(clientKey);
-		client.publish(message.getTopic() , message.getPayload(),message.getMqttQos(),true);
+		client.publish(message.getTopic(), message.getPayload(), message.getMqttQos(), true);
 	}
 
 	public void checkConfiguration() {
@@ -163,17 +163,17 @@ public class MqttGenericManager implements ApplicationContextAware {
 									IntegrationProtocolTypes.MQTT) && endPoint.getEndPointInfo().isCanRead()) {
 								try {
 									String key = clientKey + "::" + integratedChannelsConfig.getChannelId() + "::"
-											+ endPoint.getEndPointInfo().getUri();
+											+ endPoint.getEndPointInfo().getReadUri();
 
 									IMqttToken token = actualSubscribedTokens.get(key);
 
 									if (token == null) {
 										// TODO: CHECK INVALID TOKENS CONDITION TO RENEW
-										token = client.subscribe(endPoint.getEndPointInfo().getUri(), qos);
+										token = client.subscribe(endPoint.getEndPointInfo().getReadUri(), qos);
 									}
 									actualSubscribedTokens.put(key, token);
 								} catch (Throwable th) {
-									LOGGER.error("Topic:" + endPoint.getEndPointInfo().getUri()
+									LOGGER.error("Topic:" + endPoint.getEndPointInfo().getReadUri()
 											+ " seems to be impossible to listen", th);
 								}
 							}
