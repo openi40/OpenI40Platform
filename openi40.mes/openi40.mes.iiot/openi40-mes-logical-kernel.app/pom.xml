@@ -40,7 +40,7 @@
 			<groupId>com.openi40.mes.iiot</groupId>
 			<artifactId>openi40-mes-logicalmsg-persistence</artifactId>
 			<version>${project.version}</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>com.openi40.mes.iiot</groupId>
 			<artifactId>openi40-mes-logicalmsg-model</artifactId>
@@ -60,12 +60,26 @@
 			<groupId>com.openi40.mes.io</groupId>
 			<artifactId>openi40-mes-generical-mqtt</artifactId>
 			<version>${project.version}</version>
-		</dependency>		
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.mes.io</groupId>
+			<artifactId>openi40-mes-generical-rest</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derby</artifactId>			
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>openi40-tests-support</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

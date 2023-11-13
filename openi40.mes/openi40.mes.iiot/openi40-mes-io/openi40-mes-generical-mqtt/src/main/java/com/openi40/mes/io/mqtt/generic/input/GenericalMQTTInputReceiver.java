@@ -44,7 +44,7 @@ public class GenericalMQTTInputReceiver implements IMqttArrivedSuccessfully {
 		microKernel.onMessage(inputMessage, null);
 	}
 
-
+	
 	public String getChannelId() {
 		return channelId;
 	}

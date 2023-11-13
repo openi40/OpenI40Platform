@@ -35,7 +35,7 @@
 		<appender-ref ref="Console" />
 	</root>
 	
-	<logger name="com.openi40.mes" level="debug"
+	<logger name="com.openi40" level="debug"
 		additivity="false">
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />

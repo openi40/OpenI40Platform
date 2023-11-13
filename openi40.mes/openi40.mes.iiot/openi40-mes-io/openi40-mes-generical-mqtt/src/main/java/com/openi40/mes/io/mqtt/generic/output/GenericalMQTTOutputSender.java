@@ -5,17 +5,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.openi40.mes.io.mqtt.generic.manager.MqttGenericManager;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
+import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
-@Service
+@Component
 @Qualifier(value = MessageReceiver.IOT_APPLICATION_RECEIVER)
-public class GenericalMQTTOutputSender implements MessageReceiver<AbstractOI40IOTApplicationMessage> {
+public class GenericalMQTTOutputSender implements OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage> {
 	static Logger LOGGER = LoggerFactory.getLogger(GenericalMQTTOutputSender.class);
 	@Autowired
 	MqttGenericManager mqttGenericManager;
@@ -50,7 +52,6 @@ public class GenericalMQTTOutputSender implements MessageReceiver<AbstractOI40IO
 
 		return "application";
 	}
-
 	@Override
 	public String getHandlerId() {
 

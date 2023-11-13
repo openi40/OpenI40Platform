@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 import com.openi40.dbmodel.easydbbeans.BaseDBBean;
 
-class MesLogicalMsg extends BaseDBBean {
+public class MesLogicalMsg extends BaseDBBean {
 	Long id = null;
 	Timestamp message_time = null;
 	String message_type = null;

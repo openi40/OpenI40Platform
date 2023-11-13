@@ -2,7 +2,7 @@ package com.openi40.mes.datamodel.persister;
 
 import java.sql.Timestamp;
 
- class MesSpoolMsg extends MesLogicalMsg {
+public  class MesSpoolMsg extends MesLogicalMsg {
 	Timestamp resend_trheshold=null;
 	String spool_type=null;
 	public MesSpoolMsg() {

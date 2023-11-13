@@ -77,7 +77,7 @@ class AvoidCycleMessageReceiverWrapper implements OI40IOTMessageReceiver {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin [" + getHandlerId() + "$avoid-cycles].onMessage(...)");
 		}
-		if (isCanManage(msg)) {
+		if (isCanManage(msg) && wrapped.isCanManage(msg)) {
 			if (LOGGER.isDebugEnabled()) {
 				LOGGER.debug("Begin [" + wrapped.getHandlerId() + "].onMessage(...)");
 			}

@@ -14,13 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.openi40.dbmodel.easydbbeans.PersistenceException;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
+import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
@@ -30,9 +31,10 @@ import com.openi40.mes.metamessaging.model.UnmanageableMessageEnvelope;
 import com.openi40.mes.metamessaging.model.VolatileMessageType;
 import com.openi40.mes.metamessaging.model.jsonutil.MetaMsgJsonUtil;
 
-@Service
+
+@Component
 @Qualifier(value = MessageReceiver.IOT_KERNEL_RECEIVER)
-public class OI40DatamodelPersisterKernelMessageReceiver implements MessageReceiver {
+public class OI40DatamodelPersisterKernelMessageReceiver implements OI40IOTMessageReceiver {
 	static Logger LOGGER = LoggerFactory.getLogger(OI40DatamodelPersisterKernelMessageReceiver.class);
 	@Autowired
 	DataSource dataSource;
@@ -124,6 +126,7 @@ public class OI40DatamodelPersisterKernelMessageReceiver implements MessageRecei
 			throws JsonGenerationException, JsonMappingException, IOException {
 		_msg.setMessage_uuid(msg.getMsgId());
 		_msg.setMessage_time(msg.getTimestamp());
+		_msg.setMessage_type(msg.getClass().getName());
 		if (_msg.getMessage_time() == null) {
 			_msg.setMessage_time(new Timestamp(System.currentTimeMillis()));
 		}
@@ -152,5 +155,14 @@ public class OI40DatamodelPersisterKernelMessageReceiver implements MessageRecei
 
 		return new ManagedMessageType[0];
 	}
-
+	@Override
+	public String getLayerId() {
+		
+		return "kernel";
+	}
+	@Override
+	public String getHandlerId() {
+		
+		return "openi40::mes::kernel::kernel-persister";
+	}
 }

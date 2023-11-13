@@ -15,5 +15,6 @@
 		<module>WebConfigs</module>
 		<module>Mapper</module>
 		<module>persistence-datamodel-utils</module>
+		<module>openi40-tests-support</module>
 	</modules>
 </project>

@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.platform</groupId>
@@ -118,7 +120,12 @@
 			<scope>test</scope>
 			-->
 		</dependency>
-
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>openi40-tests-support</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -172,8 +179,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>				
-				<configuration>					
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
 					<parallel>suites</parallel>
 					<threadCountSuites>1</threadCountSuites>
 					<reuseForks>false</reuseForks>

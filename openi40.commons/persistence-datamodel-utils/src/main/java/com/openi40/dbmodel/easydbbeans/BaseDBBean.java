@@ -10,6 +10,8 @@ import java.util.Vector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * DB Bean di Base Creation date: (24/04/2002 15.42.21)
  * 
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	static Logger LOGGER = LoggerFactory.getLogger(BaseDBBean.class);
+	static ObjectMapper objectMapper=new ObjectMapper();
 	public final static boolean APPLICATION_CACHING = System.getProperty("APPLICATION_CACHING") == null
 			|| System.getProperty("APPLICATION_CACHING").trim().equalsIgnoreCase("true");
 	public static String TRUE = "1";
@@ -885,6 +888,12 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @exception java.sql.SQLException The exception description.
 	 */
 	public void insert(java.sql.Connection connection, boolean forceInsert) throws PersistenceException {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin insert(...)");
+			try {
+				LOGGER.debug("Inserting==>"+objectMapper.writeValueAsString(this));
+			}catch(Throwable th) {}
+		}
 		if (!forceInsert && !New)
 			throw new IllegalStateException(
 					"The bean " + getClass().getName() + " is not in New state and U R tryng to inserting it");
@@ -984,6 +993,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 			insert.append(values.toString());
 			// PREPARO LO STATEMENT
 			// System.err.println("inserting: " + insert.toString());
+			if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug("Preparing statement=>"+insert.toString());
+			}
 			ps = connection.prepareStatement(insert.toString());
 			// CLEAR (NON LO SHAMPOO)
 			ps.clearParameters();
@@ -1055,6 +1067,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				} catch (Throwable th) {
 				}
 			}
+		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End insert(...)");
 		}
 	}
 
@@ -1583,7 +1598,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @exception java.sql.SQLException The exception description.
 	 */
 	public void update(java.sql.Connection connection) throws PersistenceException {
-
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin update(...)");
+		}
 		if (table == null)
 			throw new IllegalStateException("The bean " + getClass().getName() + " has null table name");
 		if (primaryKeyProperties == null)
@@ -1652,7 +1669,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				}
 			}
 		}
-
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End update(...)");
+		}
 	}
 
 	/**
@@ -1662,7 +1681,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @exception java.sql.SQLException The exception description.
 	 */
 	public void update(java.sql.Connection connection, boolean forceUpdate) throws PersistenceException {
-
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin update(...)");
+		}
 		if (table == null)
 			throw new IllegalStateException("The bean " + getClass().getName() + " has null table name");
 		if (primaryKeyProperties == null)
@@ -1731,7 +1752,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				}
 			}
 		}
-
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End update(...)");
+		}
 	}
 
 	/**

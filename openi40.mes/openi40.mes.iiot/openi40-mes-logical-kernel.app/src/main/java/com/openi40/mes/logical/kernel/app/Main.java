@@ -14,13 +14,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.openi40.mes.metamessaging.kernel.MicroKernel;
-@ComponentScan("com.openi40")
-@ComponentScan("com.openi40.mes.datamodel")
-@EnableAutoConfiguration
+
+
 @SpringBootApplication
 @EnableAsync
 @EntityScan(basePackages = "com.openi40.mes")
 @EnableJpaRepositories(basePackages = "com.openi40")
+@ComponentScan("com.openi40")
+@ComponentScan("com.openi40.mes.datamodel")
+@EnableAutoConfiguration
 public class Main implements CommandLineRunner {
 	
 	private static Logger LOG = LoggerFactory.getLogger(Main.class);

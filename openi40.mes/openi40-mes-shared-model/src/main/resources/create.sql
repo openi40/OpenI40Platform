@@ -16,7 +16,9 @@ CREATE TABLE MES_ASSET_GROUP (
 			CODE VARCHAR(40) NOT NULL PRIMARY KEY,
 			description varchar(50),
 		    removed boolean default false,
-		    modified_ts timestamp
+		    modified_ts timestamp,
+		    context_type varchar(40) NOT NULL,
+		    parent_object_code varchar(250) NOT NULL
 					    
 );
 
@@ -33,9 +35,6 @@ CREATE TABLE MES_ASSET (
 			IP_ADDRESS VARCHAR(20)  			
 );
 
-ALTER TABLE MES_ASSET_GROUP ADD COLUMN context_type varchar(40) NOT NULL;
-ALTER TABLE MES_ASSET_GROUP ADD COLUMN parent_object_code varchar(250) NOT NULL;
-
 ALTER TABLE MES_ASSET_TYPE ADD COLUMN integration_ts timestamp;
 ALTER TABLE MES_ASSET_STATUS ADD COLUMN integration_ts timestamp;
 ALTER TABLE MES_ASSET_GROUP ADD COLUMN integration_ts timestamp;
@@ -48,7 +47,7 @@ CREATE TABLE MES_ASSET_EVENT (
 			 mac_code varchar(250),
 			 ip_address varchar(250),			 
 			 event_type varchar(40),
-			 event_payload TEXT,
+			 event_payload CLOB,
 			 processed_time timestamp,
 			 processed_status varchar(10) 		
 ); 
@@ -68,7 +67,7 @@ CREATE TABLE MES_LOGICAL_MSG (
 	    mes_asset_code varchar(40),
 		mac_code varchar(250),
 		ip_address varchar(250),		
-	    payload text
+	    payload CLOB
 );
 
 create sequence mes_logical_msg_seq as bigint start with 1000;
@@ -87,7 +86,7 @@ CREATE TABLE MES_SPOOL_MSG (
 		mac_code varchar(250),
 		ip_address varchar(250),	
 		sent boolean,	 	
-	    payload text
+	    payload CLOB
 );
 create sequence mes_spool_msg_seq as bigint start with 1000;
 CREATE TABLE MES_UNMANAGED_MSG (
@@ -102,7 +101,7 @@ CREATE TABLE MES_UNMANAGED_MSG (
 	     mes_asset_code varchar(40),
 			 mac_code varchar(250),
 			 ip_address varchar(250),		
-	    payload text
+	    payload CLOB
 );
 create sequence mes_unmanaged_msg_seq as bigint start with 1000;
 
@@ -113,49 +112,49 @@ ALTER TABLE MES_ASSET ADD COLUMN READ_CONTENT_TYPE VARCHAR(40);
 ALTER TABLE MES_ASSET ADD COLUMN INTEGRATION_WRITE_URL VARCHAR(255);
 ALTER TABLE MES_ASSET ADD COLUMN WRITE_CONTENT_TYPE VARCHAR(40);
 ALTER TABLE MES_ASSET ADD COLUMN PROTOCOL_TYPE VARCHAR(20);
-ALTER TABLE MES_ASSET ADD COLUMN JSON_CONFIG TEXT;
+ALTER TABLE MES_ASSET ADD COLUMN JSON_CONFIG CLOB;
 
 
 
 CREATE TABLE aps_task (
 	code varchar(254) NOT NULL,
-	description varchar(253) NULL,
-	cycle_code varchar(253) NULL,
-	removed bool NULL,
-	modified_ts timestamp NULL,
-	op_code varchar(253) NULL,
-	pred_mac_code varchar(253) NULL,
-	scheduled_mac_code varchar(253) NULL,
-	sequence_code varchar(253) NULL,
-	successfully_scheduled bool NULL,
-	work_center_code varchar(253) NULL,
-	work_order_code varchar(253) NULL,
-	forced_mac_code varchar(80) NULL,
-	success_scheduled bool NULL,
-	work_order_root bool NULL,
-	start_preparation timestamp NULL,
-	end_preparation timestamp NULL,
-	start_execution timestamp NULL,
-	end_execution timestamp NULL,
-	equip_spec_code varchar(254) NULL,
-	asked_del_time timestamp NULL,
-	sales_line_code varchar(254) NULL,
-	qty_total float8 NULL,
-	qty_produced float8 NULL,
-	custom_priority int4 NULL,
-	setup_time float8 NULL,
-	work_time float8 NULL,
-	setup_group_code varchar(254) NULL,
-	status varchar(20) NULL,
-	acq_prep_start timestamp NULL,
-	acq_prep_end timestamp NULL,
-	acq_prd_start timestamp NULL,
-	acq_prd_end timestamp NULL,
-	acq_prd_upd timestamp NULL,
-	min_prd_date timestamp NULL,
-	max_prd_date timestamp NULL,
-	acq_machine_code varchar(255) NULL,
-	integration_ts timestamp NULL,
+	description varchar(253) ,
+	cycle_code varchar(253) ,
+	removed boolean ,
+	modified_ts timestamp ,
+	op_code varchar(253) ,
+	pred_mac_code varchar(253) ,
+	scheduled_mac_code varchar(253) ,
+	sequence_code varchar(253) ,
+	successfully_scheduled boolean ,
+	work_center_code varchar(253) ,
+	work_order_code varchar(253),
+	forced_mac_code varchar(80),
+	success_scheduled boolean,
+	work_order_root boolean,
+	start_preparation timestamp,
+	end_preparation timestamp,
+	start_execution timestamp,
+	end_execution timestamp,
+	equip_spec_code varchar(254) ,
+	asked_del_time timestamp ,
+	sales_line_code varchar(254) ,
+	qty_total double ,
+	qty_produced double ,
+	custom_priority integer ,
+	setup_time double ,
+	work_time double ,
+	setup_group_code varchar(254) ,
+	status varchar(20) ,
+	acq_prep_start timestamp ,
+	acq_prep_end timestamp ,
+	acq_prd_start timestamp ,
+	acq_prd_end timestamp ,
+	acq_prd_upd timestamp ,
+	min_prd_date timestamp ,
+	max_prd_date timestamp ,
+	acq_machine_code varchar(255) ,
+	integration_ts timestamp ,
 	CONSTRAINT task_pkey PRIMARY KEY (code)
 );
 

@@ -24,6 +24,7 @@ import com.openi40.mes.metamessaging.model.UnmanageableMessageEnvelope;
 
 @Service
 public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaMessage>, MessagingEnvironment {
+	static Logger LOGGER = LoggerFactory.getLogger(MetaMessagingKernel.class);
 	protected List<OI40IOTMessageReceiver> iotKernelReceivers = null;
 	protected List<OI40IOTMessageReceiver> iotSystemReceivers = null;
 	protected List<OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage>> iotApplicationReceivers = null;
@@ -39,21 +40,27 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 			@Autowired(required = false) @Qualifier(value = IOT_SYSTEM_RECEIVER) List<OI40IOTMessageReceiver> sysreceivers,
 			@Autowired(required = false) @Qualifier(value = IOT_APPLICATION_RECEIVER) List<OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage>> appreceivers) {
 		this.iotKernelReceivers = kernelreceivers;
-		this.iotSystemReceivers = sysreceivers; 
+		this.iotSystemReceivers = sysreceivers;
 		this.iotApplicationReceivers = appreceivers;
-													
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin creating MetaMessagingKernel(....)");
+		}
 		if (this.iotKernelReceivers != null) {
+			
 			for (OI40IOTMessageReceiver oi40iotMessageReceiver : iotKernelReceivers) {
+				LOGGER.info("Kernel receiver:"+oi40iotMessageReceiver.getHandlerId());
 				kernelConditionalReceivers.add(AvoidCycleMessageReceiverWrapper.of(oi40iotMessageReceiver));
 			}
 		}
 		if (this.iotSystemReceivers != null) {
 			for (OI40IOTMessageReceiver oi40iotMessageReceiver : iotSystemReceivers) {
+				LOGGER.info("System receiver:"+oi40iotMessageReceiver.getHandlerId());
 				systemConditionalReceivers.add(AvoidCycleMessageReceiverWrapper.of(oi40iotMessageReceiver));
 			}
 		}
 		if (this.iotApplicationReceivers != null) {
 			for (OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage> oi40iotMessageReceiver : appreceivers) {
+				LOGGER.info("Application receiver:"+oi40iotMessageReceiver.getHandlerId());
 				applicationConditionalReceivers.add(AvoidCycleMessageReceiverWrapper.of(oi40iotMessageReceiver));
 			}
 		}
@@ -104,7 +111,9 @@ public class MetaMessagingKernel implements MessageReceiver<AbstractOI40IOTMetaM
 			};
 		});
 		this.mainMultiplexer = new MessageMultiplexer(mainMultiplexed);
-
+		if(LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End creating MetaMessagingKernel(....)");
+		}
 	}
 
 	@Override

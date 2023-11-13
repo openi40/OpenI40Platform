@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -16,14 +17,14 @@ import com.openi40.mes.io.logical.apsbroker.config.Openi40ApsBrokerConfig;
 import com.openi40.mes.io.logical.apsbroker.model.Openi40ApsOutgoingMessage;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
-
+import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 import com.openi40.scheduler.iomessages.AbortTaskIOMessage;
 
-@Service
+@Component
 @Qualifier(MessageReceiver.IOT_APPLICATION_RECEIVER)
-public class Openi40ApsOutgoingMessageReceiver implements MessageReceiver<AbstractOI40IOTApplicationMessage> {
+public class Openi40ApsOutgoingMessageReceiver implements OI40IOTMessageReceiver<AbstractOI40IOTApplicationMessage> {
 	Openi40ApsBrokerConfig config;
 	static Logger LOGGER = LoggerFactory.getLogger(Openi40ApsOutgoingMessageReceiver.class);
 	@Autowired
@@ -112,6 +113,18 @@ public class Openi40ApsOutgoingMessageReceiver implements MessageReceiver<Abstra
 		} };
 
 		return types;
+	}
+
+	@Override
+	public String getLayerId() {
+
+		return "application";
+	}
+
+	@Override
+	public String getHandlerId() {
+
+		return "openi40::mes::application::openi40-aps-sender";
 	}
 
 }
