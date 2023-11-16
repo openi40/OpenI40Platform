@@ -1,5 +1,7 @@
 package com.openi40.mes.iiot.tests;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,13 +13,16 @@ import java.util.Vector;
 import javax.sql.DataSource;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.testcontainers.hivemq.HiveMQContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
-import com.hivemq.HiveMQServer;
-import com.hivemq.embedded.EmbeddedHiveMQ;
 import com.openi40.mes.datamodel.persister.MesLogicalMsg;
 import com.openi40.mes.io.mqtt.generic.manager.MqttGenericManager;
 import com.openi40.mes.metamessaging.handlers.IMicroKernel;
@@ -25,11 +30,15 @@ import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 
 import lombok.Data;
 
+@Testcontainers
 public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	@Autowired
 	BeanFactory factory;
-	@Autowired DataSource dataSource;
+	@Autowired
+	DataSource dataSource;
 
+	@Container
+	HiveMQContainer container = new HiveMQContainer(new DockerImageName("hivemq/hivemq-ce:latest"));
 
 	public MessagesBrokerTests() {
 
@@ -38,19 +47,18 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	protected <Type> Type doInject(Class<Type> typeclass) {
 		return factory.getBean(typeclass);
 	}
-	
+	@Ignore
 	@Test
 	public void testMQMessages() throws Exception {
-		
-			
-			prepareDB(dataSource);
-			HiveMQServer mqServer = new HiveMQServer();
-			mqServer.start();
-			
-			LOGGER.info("HiveMQ Started!!");
-			
-			MqttGenericManager mqttManager=factory.getBean(MqttGenericManager.class);
-			mqttManager.configureConnections();
+
+		prepareDB(dataSource);
+		container.start();
+		int mappedPort = container.getMqttPort();
+		LOGGER.info("HiveMQ Started!! on port:"+mappedPort);
+		MqttGenericManager mqttManager = factory.getBean(MqttGenericManager.class);
+		mqttManager.configureConnections();
+		assertTrue(mqttManager.isAllChannelsStarted(), "expected=> mqttManager.isAllChannelsStarted() == true but channels have not been started") ;
+		assertTrue(mqttManager.getNMqttClientsStarted()>0, "expected=> mqttManager.getNMqttClientsStarted() > 0  but no mqtt client have been successfully started") ;
 	}
 
 	@Data

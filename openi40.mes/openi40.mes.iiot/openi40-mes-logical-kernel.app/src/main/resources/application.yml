@@ -28,7 +28,16 @@ server:
 com.openi40.mes.logical.kernel.config:
                                   apsMsgRestConfig: 
                                       url: http://localhost:8080/openi40      
-
+com.openi40.mes.integration:
+                      channels:
+                          -
+                            channelId: MQTT_DEFAULT_CHANNEL
+                            endpoints:
+                                 - 
+                                   canRead: true
+                                   protocolType: MQTT
+                                   readUri: zlansub
+                                     
 com.openi40.mes.io.mqtt.generic.config:
                                   integrations:
                                      - 

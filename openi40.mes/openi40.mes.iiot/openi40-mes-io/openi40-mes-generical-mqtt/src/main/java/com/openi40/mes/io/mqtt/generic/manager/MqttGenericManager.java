@@ -72,6 +72,7 @@ public class MqttGenericManager {
 
 			if (endpoints != null) {
 				for (ConfiguredEndpointInfo endPoint : endpoints) {
+
 					if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(IntegrationProtocolTypes.MQTT)
 							&& endPoint.getEndPointInfo().isCanRead()) {
 						receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getReadUri(),
@@ -125,7 +126,12 @@ public class MqttGenericManager {
 		client.publish(message.getTopic(), message.getPayload(), message.getMqttQos(), true);
 	}
 
+	private boolean allChannelsStarted = false;
+	private int nMqttClientsStarted = 0;
+
 	public void configureConnections() {
+		int mqttClientsStarted = 0;
+		boolean _allChannelsStarted = true;
 		if (configuredEndpointsRetriever == null) {
 			LOGGER.warn("No configuredEndpointsRetriever injected");
 		}
@@ -173,6 +179,7 @@ public class MqttGenericManager {
 							LOGGER.info("Setting receivers for: " + brokerConfig.getBrokerUrl());
 							WrappedReceiver receiver = new WrappedReceiver(integratedChannelsConfig, endpoints);
 							client.setCallback(receiver);
+
 							LOGGER.info("Connectiong to: " + brokerConfig.getBrokerUrl() + ".....");
 							if (options != null) {
 								client.connect(options);
@@ -180,6 +187,8 @@ public class MqttGenericManager {
 								client.connect();
 							}
 							LOGGER.info("CONNECTED to: " + brokerConfig.getBrokerUrl() + "!");
+							mqttClientsStarted++;
+							_allChannelsStarted = _allChannelsStarted && true;
 
 						}
 						this.activeClients.put(clientKey, client);
@@ -195,6 +204,12 @@ public class MqttGenericManager {
 
 									if (token == null) {
 										// TODO: CHECK INVALID TOKENS CONDITION TO RENEW
+										if (LOGGER.isDebugEnabled()) {
+											LOGGER.debug("MQTT=>subscribing topic:"
+													+ endPoint.getEndPointInfo().getReadUri() + " for asset:"
+													+ endPoint.getAssetCode() + " integration:"
+													+ endPoint.getHandlerId() + " channel:" + endPoint.getChannelId());
+										}
 										token = client.subscribe(endPoint.getEndPointInfo().getReadUri(), qos);
 									}
 									actualSubscribedTokens.put(key, token);
@@ -206,6 +221,7 @@ public class MqttGenericManager {
 						}
 
 					} catch (Throwable e) {
+						_allChannelsStarted = false;
 						LOGGER.error(
 								"Error trying to get endpoints:" + integratedChannelsConfig.getIntegrationHandlerId()
 										+ " " + integratedChannelsConfig.getChannelId(),
@@ -214,6 +230,8 @@ public class MqttGenericManager {
 				}
 			}
 		}
+		this.allChannelsStarted = _allChannelsStarted;
+		this.nMqttClientsStarted = mqttClientsStarted;
 	}
 
 	public void manageDeliveryComplete(IntegratedChannelsConfig integratedChannelsConfig, IMqttToken token) {
@@ -248,6 +266,14 @@ public class MqttGenericManager {
 			this.configureConnections();
 			LOGGER.info("End mqtt connections initialization");
 		}
+	}
+
+	public boolean isAllChannelsStarted() {
+		return allChannelsStarted;
+	}
+
+	public int getNMqttClientsStarted() {
+		return nMqttClientsStarted;
 	}
 
 }

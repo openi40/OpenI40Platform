@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openi40.mes.shared.model.OI40DBMesAsset;
 import com.openi40.mes.shared.repositories.OI40DBMesAssetRepository;
 
+import lombok.Data;
+
 @Service
 public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40IntegratedEndpointsRetriever {
 	private IntegrationHandlersRepository integrationHandler = null;
 	private OI40DBMesAssetRepository mesAssetRepository;
+	static Logger LOGGER = LoggerFactory.getLogger(OpenI40IntegratedEndpointsRetrieverImpl.class);
 
-	
 	public OpenI40IntegratedEndpointsRetrieverImpl(@Autowired IntegrationHandlersRepository integrationHandler,
 			@Autowired OI40DBMesAssetRepository mesAssetRepository) {
 		this.integrationHandler = integrationHandler;
@@ -25,51 +29,37 @@ public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40Integrat
 	@Override
 	public List<ConfiguredEndpointInfo> getConfiguredEndpoints(String integrationId, String channelId)
 			throws IntegrationHandlerException {
+		List<ConfiguredEndpointInfo> outlist = new ArrayList<ConfiguredEndpointInfo>();
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Begin getConfiguredEndpoints('" + integrationId + "','" + channelId + "')");
+		}
 		IntegrationHandler handler = integrationHandler.getIntegrationHandler(integrationId, channelId);
 		if (handler != null) {
 			List<IntegrationEndpointInfo> configured = handler.getEndPoints(channelId);
-			return elaborateConfigured(configured, integrationId, channelId, handler.getIntegrationHandlerId());
-		} else {
-			return new ArrayList<ConfiguredEndpointInfo>();
+			outlist = elaborateConfigured(configured, integrationId, channelId, handler.getIntegrationHandlerId());
 		}
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("End getConfiguredEndpoints('" + integrationId + "','" + channelId + "') returned "
+					+ outlist.size() + " configured endpoints");
+		}
+		return outlist;
 	}
-
+	@Data
 	static class AssetAssociation implements ConfiguredEndpointInfo {
 
 		String channelId = null;
 		String integrationId = null;
 		String handlerId = null;
 		String assetCode = null;
-		IntegrationEndpointInfo endpoint = null;
+		IntegrationEndpointInfo endPointInfo = null;	
 
-		@Override
-		public String getAssetCode() {
-
-			return assetCode;
-		}
-
-		@Override
-		public String getChannelId() {
-
-			return channelId;
-		}
-
-		@Override
-		public String getHandlerId() {
-
-			return handlerId;
-		}
-
-		@Override
-		public IntegrationEndpointInfo getEndPointInfo() {
-
-			return endpoint;
-		}
+		
 
 	}
 
 	private List<ConfiguredEndpointInfo> elaborateConfigured(List<IntegrationEndpointInfo> configured,
 			String integrationId, String channelId, String handlerId) {
+
 		List<OI40DBMesAsset> assets = this.mesAssetRepository.findByIntegrationIdEquals(integrationId);
 		final List<ConfiguredEndpointInfo> foundMatching = new ArrayList<ConfiguredEndpointInfo>();
 		for (IntegrationEndpointInfo iei : configured) {
@@ -95,8 +85,11 @@ public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40Integrat
 					a.integrationId = integrationId;
 					a.channelId = channelId;
 					a.handlerId = handlerId;
-					a.endpoint = iei;
+					a.endPointInfo = iei;
 					foundMatching.add(a);
+					if (LOGGER.isDebugEnabled()) {
+						LOGGER.debug("Found configured device:"+a.toString());
+					}
 				}
 			});
 

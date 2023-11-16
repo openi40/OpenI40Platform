@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @VolatileMessageType
 public class GenericalMQTTInputMessage extends AbstractOI40IOTMetaMessage {
-	private byte payload[] = null;
+	private byte[] payload = null;
 	private String topic = null;
 	private String channelId = null;
 	private String integrationId = null;

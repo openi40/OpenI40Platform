@@ -1,6 +1,7 @@
 package com.openi40.mes.io.mqtt.generic.input;
 
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,7 +39,10 @@ public class GenericalMQTTInputReceiver implements IMqttArrivedSuccessfully {
 		inputMessage.setChannelId(channelId);
 		inputMessage.setIntegrationId(integrationId);
 		inputMessage.setTopic(topic);
-		inputMessage.setPayload(message.getPayload());
+		byte buffer[] = message.getPayload();
+		if (buffer != null) {
+			inputMessage.setPayload(buffer);
+		}
 		inputMessage.setMqttMsgId(message.getId());
 		inputMessage.setMqttQos(message.getQos());
 		inputMessage.setFrom("mqtt::" + channelId + "::" + integrationId + "::topic:" + topic);

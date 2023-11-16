@@ -15,7 +15,7 @@ import com.openi40.mes.integration.config.ManualChannelConfig;
 @Singleton
 @Service
 public class ManuallyConfiguredIntegrationHandlerImpl implements IntegrationHandler {
-	public static final String HANDLER_ID = "OPENI40::MES::MANUALLY-CONFIGURED-DEVICES";
+	public static final String HANDLER_ID = "MANUALLY-CONFIGURED-DEVICES";
 	IntegrationConfig config = null;
 
 	public ManuallyConfiguredIntegrationHandlerImpl(@Autowired(required = false) IntegrationConfig c) {

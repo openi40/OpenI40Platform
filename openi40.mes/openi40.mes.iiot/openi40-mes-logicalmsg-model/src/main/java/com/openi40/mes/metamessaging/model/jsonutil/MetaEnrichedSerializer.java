@@ -27,8 +27,8 @@ public class MetaEnrichedSerializer extends StdSerializer<AbstractOI40MetaMessag
 		return AbstractOI40MetaMessage.class;
 	}
 
-	private void serializeObjectWithMeta(Object value, String fieldName, JsonGenerator gen,
-			SerializerProvider provider) throws IOException {
+	private void serializeObjectWithMeta(Object value, String fieldName, JsonGenerator gen, SerializerProvider provider)
+			throws IOException {
 		if (value != null) {
 			Class type = value.getClass();
 			boolean isArray = type.isArray() || Collection.class.isAssignableFrom(type);
@@ -49,9 +49,23 @@ public class MetaEnrichedSerializer extends StdSerializer<AbstractOI40MetaMessag
 			if (isArray) {
 
 				if (type.isArray()) {
-					Object array[] = (Object[]) value;
-					for (Object object : array) {
-						serializeObjectWithMeta(object, null, gen, provider);
+					Class elementType = type.getComponentType();
+					if (elementType.isPrimitive()) {
+						if (elementType.equals(byte.class)) {
+							byte buffer[] = (byte[]) value;
+							
+						} else if (elementType.equals(int.class)) {
+
+						} else if (elementType.equals(long.class)) {
+
+						} else if (elementType.equals(boolean.class)) {
+
+						}
+					} else {
+						Object array[] = (Object[]) value;
+						for (Object object : array) {
+							serializeObjectWithMeta(object, null, gen, provider);
+						}
 					}
 				} else {
 					Collection collection = (Collection) value;

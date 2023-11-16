@@ -11,7 +11,7 @@
 	</appender>
 	<appender name="RollingFile"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOGS}/openi40-mes-logical-kernel-app.log</file>
+		<file>${LOGS}/openi40-mes-logical-kernel-app-tests.log</file>
 		<encoder
 			class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>%date [%thread] %-5level %logger{36}:%line - %msg%n
@@ -21,7 +21,7 @@
 		<rollingPolicy
 			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily and when the file reaches 10 MegaBytes -->
-			<fileNamePattern>${LOGS}/archived/openi40-mes-logical-kernel-app-%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOGS}/archived/openi40-mes-logical-kernel-app-tests-%d{yyyy-MM-dd}.%i.log
 			</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -30,7 +30,7 @@
 		</rollingPolicy>
 	</appender>
 	<!-- LOG everything at INFO level -->
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</root>

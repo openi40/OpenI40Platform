@@ -52,7 +52,7 @@ com.openi40.mes.io.mqtt.generic.config:
                                      - 
                                       channelId: MQTT_DEFAULT_CHANNEL
                                       brokerConfig:
-                                         brokerUrl: tcp://127.0.0.1:1883
+                                         brokerUrl: tcp://172.17.0.2:1883
                                          #username: openi40mqtt
                                          #password: openi40mqtt
                               
