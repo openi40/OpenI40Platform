@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class MqttBrokerConfig {
-	String username=null,password=null,brokerUrl=null;;
+	String brokerUrl=null;
+	MqttOptions options=null;
 	public MqttBrokerConfig() {
 		
 	}

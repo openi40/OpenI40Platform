@@ -1,3 +1,4 @@
+java.net.preferIPv4Stack: true
 hibernate.cache.use_second_level_cache: false        
 #spring.datasource.driver-class-name: org.postgresql.Driver
 spring.datasource.hikari.connectionTimeout: 20000
@@ -28,3 +29,12 @@ com.openi40.mes.logical.kernel.config:
                                   apsMsgRestConfig: 
                                       url: http://localhost:8080/openi40      
 
+com.openi40.mes.io.mqtt.generic.config:
+                                  integrations:
+                                     - 
+                                      channelId: MQTT_DEFAULT_CHANNEL
+                                      brokerConfig:
+                                         brokerUrl: tcp://127.0.0.1:1883
+                                         #username: openi40mqtt
+                                         #password: openi40mqtt
+                                                     

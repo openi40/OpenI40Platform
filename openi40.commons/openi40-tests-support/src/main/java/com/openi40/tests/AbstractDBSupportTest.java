@@ -21,15 +21,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class AbstractDBSupportTest {
-	protected Logger LOGGER=LoggerFactory.getLogger(getClass());
-	protected @Autowired DataSource dataSource;
+	static protected Logger LOGGER = LoggerFactory.getLogger(AbstractDBSupportTest.class);
+	
+
 	public AbstractDBSupportTest() {
-		
+
 	}
-	private void executeInputStream(InputStream is, Connection connextion, boolean avoidExitOnException,
+
+	static private void executeInputStream(InputStream is, Connection connextion, boolean avoidExitOnException,
 			boolean logExceptions) throws IOException, SQLException {
-		String sql = this.readAll(is);
-		List<String> sqlCommands = this.splitCommands(sql);
+		String sql = readAll(is);
+		List<String> sqlCommands = splitCommands(sql);
 		Statement statement = null;
 		try {
 			statement = connextion.createStatement();
@@ -60,10 +62,31 @@ public abstract class AbstractDBSupportTest {
 		}
 	}
 
+	static protected void runScript(String path, Class type4loading, java.sql.Connection connection,
+			boolean avoidExitOnException, boolean logExceptions) throws IOException, SQLException {
+		InputStream is = null;
+		if (new File(path).exists()) {
+			is = new FileInputStream(path);
+		} else {
+			is = type4loading.getClassLoader().getResourceAsStream(path);
+		}
+		if (is == null) {
+			throw new FileNotFoundException(
+					"Path: " + path + " does not correspond to external path or classpath resource path");
+		}
+
+		try {
+			connection.setAutoCommit(true);
+			executeInputStream(is, connection, avoidExitOnException, logExceptions);
+		} finally {
+
+		}
+	}
+
 	@Transactional(value = TxType.SUPPORTS)
-	protected void runScript(String path, boolean avoidExitOnException, boolean logExceptions)
+	protected void runScript(DataSource dataSource,String path, boolean avoidExitOnException, boolean logExceptions)
 			throws IOException, SQLException {
-		InputStream is = null; 
+		InputStream is = null;
 		if (new File(path).exists()) {
 			is = new FileInputStream(path);
 		} else {
@@ -86,9 +109,7 @@ public abstract class AbstractDBSupportTest {
 		}
 	}
 
-	
-
-	private List<String> splitCommands(String sql) {
+	static private List<String> splitCommands(String sql) {
 		StringTokenizer tokenizer = new StringTokenizer(sql, ";");
 		List<String> al = new ArrayList<>();
 		while (tokenizer.hasMoreTokens()) {
@@ -100,7 +121,7 @@ public abstract class AbstractDBSupportTest {
 		return al;
 	}
 
-	private String readAll(InputStream is) throws IOException {
+	static private String readAll(InputStream is) throws IOException {
 		byte buffer[] = new byte[4096];
 		StringBuffer sb = new StringBuffer();
 		int nRead = 0;

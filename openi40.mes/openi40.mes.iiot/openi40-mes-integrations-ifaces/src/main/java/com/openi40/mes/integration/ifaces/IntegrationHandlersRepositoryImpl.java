@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class IntegrationHandlersRepositoryImpl implements IntegrationHandlersRepository {
 	List<IntegrationHandler> handlers = null;
 	HashMap<String, IntegrationHandler> handlersMap = new HashMap<String, IntegrationHandler>();
+	static Logger LOGGER = LoggerFactory.getLogger(IntegrationHandlersRepositoryImpl.class);
 
 	public IntegrationHandlersRepositoryImpl(@Autowired(required = false) List<IntegrationHandler> handlers) {
 		if (handlers == null) {
@@ -32,10 +35,10 @@ public class IntegrationHandlersRepositoryImpl implements IntegrationHandlersRep
 		if (!handlersMap.containsKey(integrationId))
 			throw new IntegrationHandlerException("Integration handler:" + integrationId + " is not loaded");
 		IntegrationHandler handler = handlersMap.get(integrationId);
-		if (!handler.hasChannel(channelId))
-			throw new IntegrationHandlerException(
+		if (handler == null || !handler.hasChannel(channelId)) {
+			LOGGER.warn(
 					"Integration handler:" + integrationId + " does not have " + channelId + " configured or setup");
-		if (!handler.isOnline(channelId)) {
+		} else if (!handler.isOnline(channelId)) {
 			handler.tryReconnect(channelId);
 		}
 		return handler;

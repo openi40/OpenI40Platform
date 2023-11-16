@@ -3,6 +3,7 @@ package com.openi40.mes.io.mqtt.generic.manager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Singleton;
 
@@ -19,9 +20,11 @@ import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import com.openi40.mes.integration.ifaces.ConfiguredEndpointInfo;
@@ -31,23 +34,28 @@ import com.openi40.mes.integration.ifaces.IOpenI40IntegratedEndpointsRetriever;
 import com.openi40.mes.io.mqtt.generic.config.GenericMQTTChannelConfig;
 import com.openi40.mes.io.mqtt.generic.config.IntegratedChannelsConfig;
 import com.openi40.mes.io.mqtt.generic.config.MqttBrokerConfig;
+import com.openi40.mes.io.mqtt.generic.config.MqttOptions;
 import com.openi40.mes.io.mqtt.generic.input.GenericalMQTTInputReceiver;
 import com.openi40.mes.io.mqtt.generic.output.GenericalMQTTOutputMessage;
 import com.openi40.mes.metamessaging.handlers.IMicroKernel;
 
 @Singleton
 @Service
-public class MqttGenericManager implements ApplicationContextAware {
+public class MqttGenericManager {
 	static Logger LOGGER = LoggerFactory.getLogger(MqttGenericManager.class);
-	ApplicationContext applicationContext = null;
-	@Autowired(required = false)
+
 	IOpenI40IntegratedEndpointsRetriever configuredEndpointsRetriever;
-	@Autowired(required = false)
+	BeanFactory beanFactory = null;
 	GenericMQTTChannelConfig mqttConfigs;
 	Map<String, IMqttToken> actualSubscribedTokens = new HashMap<String, IMqttToken>();
 	Map<String, MqttClient> activeClients = new HashMap<String, MqttClient>();
 
-	public MqttGenericManager() {
+	public MqttGenericManager(@Autowired(required = false) GenericMQTTChannelConfig mqttConfigs,
+			@Autowired(required = false) IOpenI40IntegratedEndpointsRetriever configuredEndpointsRetriever,
+			@Autowired BeanFactory beanFactory) {
+		this.mqttConfigs = mqttConfigs;
+		this.configuredEndpointsRetriever = configuredEndpointsRetriever;
+		this.beanFactory = beanFactory;
 
 	}
 
@@ -55,18 +63,20 @@ public class MqttGenericManager implements ApplicationContextAware {
 		IntegratedChannelsConfig integratedChannelsConfig = null;
 		GenericalMQTTInputReceiver receiver = null;
 
-		public WrappedReceiver(IntegratedChannelsConfig i) throws IntegrationHandlerException {
+		public WrappedReceiver(IntegratedChannelsConfig i, List<ConfiguredEndpointInfo> endpoints)
+				throws IntegrationHandlerException {
 			integratedChannelsConfig = i;
-			receiver = applicationContext.getBean(GenericalMQTTInputReceiver.class);
+			receiver = beanFactory.getBean(GenericalMQTTInputReceiver.class);
 			receiver.setChannelId(integratedChannelsConfig.getChannelId());
 			receiver.setIntegrationId(integratedChannelsConfig.getIntegrationHandlerId());
-			List<ConfiguredEndpointInfo> endpoints = MqttGenericManager.this.configuredEndpointsRetriever
-					.getConfiguredEndpoints(integratedChannelsConfig.getIntegrationHandlerId(),
-							integratedChannelsConfig.getChannelId());
-			for (ConfiguredEndpointInfo endPoint : endpoints) {
-				if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(IntegrationProtocolTypes.MQTT)
-						&& endPoint.getEndPointInfo().isCanRead()) {
-					receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getReadUri(), endPoint.getAssetCode());
+
+			if (endpoints != null) {
+				for (ConfiguredEndpointInfo endPoint : endpoints) {
+					if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(IntegrationProtocolTypes.MQTT)
+							&& endPoint.getEndPointInfo().isCanRead()) {
+						receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getReadUri(),
+								endPoint.getAssetCode());
+					}
 				}
 			}
 		}
@@ -115,7 +125,7 @@ public class MqttGenericManager implements ApplicationContextAware {
 		client.publish(message.getTopic(), message.getPayload(), message.getMqttQos(), true);
 	}
 
-	public void checkConfiguration() {
+	public void configureConnections() {
 		if (configuredEndpointsRetriever == null) {
 			LOGGER.warn("No configuredEndpointsRetriever injected");
 		}
@@ -140,24 +150,40 @@ public class MqttGenericManager implements ApplicationContextAware {
 								client = null;
 							}
 						}
-						if (client == null || !client.isConnected()) {
-							client = new MqttClient(brokerConfig.getBrokerUrl(), IMicroKernel.MICROKERNEL_ID,
-									new MemoryPersistence());
-							MqttConnectionOptions options = new MqttConnectionOptions();
-							options.setUserName(brokerConfig.getUsername());
-							options.setPassword(brokerConfig.getPassword().getBytes());
-							options.setConnectionTimeout(60);
-							options.setKeepAliveInterval(60);
-
-							WrappedReceiver receiver = new WrappedReceiver(integratedChannelsConfig);
-
-							client.setCallback(receiver);
-							client.connect(options);
-						}
-						this.activeClients.put(clientKey, client);
 						List<ConfiguredEndpointInfo> endpoints = configuredEndpointsRetriever.getConfiguredEndpoints(
 								integratedChannelsConfig.getIntegrationHandlerId(),
 								integratedChannelsConfig.getChannelId());
+						if (client == null || !client.isConnected()) {
+							LOGGER.info("Try to connect to:" + brokerConfig.getBrokerUrl());
+							client = new MqttClient(brokerConfig.getBrokerUrl(),
+									"mqtt-kernel-" + UUID.randomUUID().toString());
+							MqttConnectionOptions options = null;
+							MqttOptions mqttoptions = brokerConfig.getOptions();
+							if (mqttoptions != null) {
+								options = new MqttConnectionOptions();
+								// options.setHttpsHostnameVerificationEnabled(false);
+								options.setAutomaticReconnect(true);
+								if (mqttoptions.getUsername() != null)
+									options.setUserName(mqttoptions.getUsername());
+								if (mqttoptions.getPassword() != null)
+									options.setPassword(mqttoptions.getPassword().getBytes());
+								options.setConnectionTimeout(mqttoptions.getConnectionTimout());
+								options.setKeepAliveInterval(mqttoptions.getKeepAliveInterval());
+							}
+							LOGGER.info("Setting receivers for: " + brokerConfig.getBrokerUrl());
+							WrappedReceiver receiver = new WrappedReceiver(integratedChannelsConfig, endpoints);
+							client.setCallback(receiver);
+							LOGGER.info("Connectiong to: " + brokerConfig.getBrokerUrl() + ".....");
+							if (options != null) {
+								client.connect(options);
+							} else {
+								client.connect();
+							}
+							LOGGER.info("CONNECTED to: " + brokerConfig.getBrokerUrl() + "!");
+
+						}
+						this.activeClients.put(clientKey, client);
+
 						for (ConfiguredEndpointInfo endPoint : endpoints) {
 							if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(
 									IntegrationProtocolTypes.MQTT) && endPoint.getEndPointInfo().isCanRead()) {
@@ -179,7 +205,7 @@ public class MqttGenericManager implements ApplicationContextAware {
 							}
 						}
 
-					} catch (IntegrationHandlerException | MqttException e) {
+					} catch (Throwable e) {
 						LOGGER.error(
 								"Error trying to get endpoints:" + integratedChannelsConfig.getIntegrationHandlerId()
 										+ " " + integratedChannelsConfig.getChannelId(),
@@ -215,9 +241,13 @@ public class MqttGenericManager implements ApplicationContextAware {
 				+ integratedChannelsConfig.getChannelId();
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-
+	@EventListener(value = org.springframework.boot.context.event.ApplicationReadyEvent.class)
+	public void initialize(org.springframework.boot.context.event.ApplicationReadyEvent ready) {
+		if (mqttConfigs != null && !mqttConfigs.isAvoidInitializeOnStartup()) {
+			LOGGER.info("Begin mqtt connections initialization");
+			this.configureConnections();
+			LOGGER.info("End mqtt connections initialization");
+		}
 	}
+
 }

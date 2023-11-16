@@ -15,10 +15,7 @@ public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40Integrat
 	private IntegrationHandlersRepository integrationHandler = null;
 	private OI40DBMesAssetRepository mesAssetRepository;
 
-	private static ConfiguredEndpointInfo transcodeConfiguredEndpoint(AssetAssociation a) {
-		return null;
-	}
-
+	
 	public OpenI40IntegratedEndpointsRetrieverImpl(@Autowired IntegrationHandlersRepository integrationHandler,
 			@Autowired OI40DBMesAssetRepository mesAssetRepository) {
 		this.integrationHandler = integrationHandler;
@@ -29,8 +26,12 @@ public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40Integrat
 	public List<ConfiguredEndpointInfo> getConfiguredEndpoints(String integrationId, String channelId)
 			throws IntegrationHandlerException {
 		IntegrationHandler handler = integrationHandler.getIntegrationHandler(integrationId, channelId);
-		List<IntegrationEndpointInfo> configured = handler.getEndPoints(channelId);
-		return elaborateConfigured(configured, integrationId, channelId, handler.getIntegrationHandlerId());
+		if (handler != null) {
+			List<IntegrationEndpointInfo> configured = handler.getEndPoints(channelId);
+			return elaborateConfigured(configured, integrationId, channelId, handler.getIntegrationHandlerId());
+		} else {
+			return new ArrayList<ConfiguredEndpointInfo>();
+		}
 	}
 
 	static class AssetAssociation implements ConfiguredEndpointInfo {

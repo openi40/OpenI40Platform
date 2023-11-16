@@ -12,6 +12,7 @@ import lombok.Data;
 @ConfigurationProperties(value = "com.openi40.mes.io.mqtt.generic.config")
 @Data
 public class GenericMQTTChannelConfig {
+	boolean avoidInitializeOnStartup=false;
 	List<IntegratedChannelsConfig> integrations = new ArrayList<IntegratedChannelsConfig>();
 
 	public GenericMQTTChannelConfig() {

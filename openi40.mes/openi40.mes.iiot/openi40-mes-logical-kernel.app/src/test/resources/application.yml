@@ -6,7 +6,7 @@ spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
 spring.datasource.username: openi40mes
 spring.datasource.password: openi40mes
-spring.datasource.url:  jdbc:derby:memory:local;create=true 
+spring.datasource.url: jdbc:derby:memory:local;create=true  
 spring:
   jpa:
     hibernate:
@@ -36,3 +36,23 @@ com.openi40.mes.logical.kernel.config:
                                   apsMsgRestConfig: 
                                       url: http://localhost:8080/openi40      
 
+com.openi40.mes.integration:
+                      channels:
+                          -
+                            channelId: MQTT_DEFAULT_CHANNEL
+                            endpoints:
+                                 - 
+                                   canRead: true
+                                   protocolType: MQTT
+                                   readUri: mqtt_test_receive_topic
+                                     
+com.openi40.mes.io.mqtt.generic.config:
+                                  avoidInitializeOnStartup: true
+                                  integrations:
+                                     - 
+                                      channelId: MQTT_DEFAULT_CHANNEL
+                                      brokerConfig:
+                                         brokerUrl: tcp://127.0.0.1:1883
+                                         #username: openi40mqtt
+                                         #password: openi40mqtt
+                              
