@@ -11,18 +11,18 @@ import java.sql.Statement;
  * 
  * @author: architectures@openi40.org
  */
-public final class SCounterManager implements java.io.Serializable {
+public class SCounterManager implements java.io.Serializable {
 
 	/**
 	 * Ritorna il valore attuale di un contatore passatogli come Creation date:
 	 * (26/01/2003 11.46.14)
 	 * 
 	 * @return java.lang.Number
-	 * @param counterName
-	 *            java.lang.String
+	 * @param counterName java.lang.String
 	 * @throws SQLException
 	 */
-	public synchronized Long getActualValue(String table, String counterName, Connection connection) throws SQLException {
+	protected  Long getActualValue(String table, String counterName, Connection connection)
+			throws SQLException {
 		long outValue = 0l;
 		Statement statement = null;
 		ResultSet rs = null;
@@ -50,11 +50,11 @@ public final class SCounterManager implements java.io.Serializable {
 	 * Ritorna il valore del contatore incrementato
 	 * 
 	 * @return long
-	 * @param counterName
-	 *            java.lang.String
+	 * @param counterName java.lang.String
 	 * @throws SQLException
 	 */
-	public synchronized short getNewInt16CounterValue(String table, String counterName, Connection connection) throws SQLException {
+	public  short getNewInt16CounterValue(String table, String counterName, Connection connection)
+			throws SQLException {
 
 		return (short) (getActualValue(table, counterName, connection).intValue() + 1);
 	}
@@ -63,11 +63,11 @@ public final class SCounterManager implements java.io.Serializable {
 	 * Ritorna il valore del contatore incrementato
 	 * 
 	 * @return long
-	 * @param counterName
-	 *            java.lang.String
+	 * @param counterName java.lang.String
 	 * @throws SQLException
 	 */
-	public synchronized int getNewInt32CounterValue(String table, String counterName, Connection connection) throws SQLException {
+	public  int getNewInt32CounterValue(String table, String counterName, Connection connection)
+			throws SQLException {
 
 		return (getActualValue(table, counterName, connection).intValue() + 1);
 	}
@@ -76,11 +76,11 @@ public final class SCounterManager implements java.io.Serializable {
 	 * Ritorna il valore del contatore incrementato
 	 * 
 	 * @return long
-	 * @param counterName
-	 *            java.lang.String
+	 * @param counterName java.lang.String
 	 * @throws SQLException
 	 */
-	public synchronized long getNewInt64CounterValue(String table, String counterName, Connection connection) throws SQLException {
+	public  long getNewInt64CounterValue(String table, String counterName, Connection connection)
+			throws SQLException {
 		return (getActualValue(table, counterName, connection).longValue() + 1l);
 	}
 

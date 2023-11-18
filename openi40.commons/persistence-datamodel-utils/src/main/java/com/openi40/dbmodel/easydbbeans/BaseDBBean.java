@@ -2,15 +2,24 @@ package com.openi40.dbmodel.easydbbeans;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
 import java.util.Vector;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Function;
 
 /**
  * DB Bean di Base Creation date: (24/04/2002 15.42.21)
@@ -20,33 +29,34 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	static Logger LOGGER = LoggerFactory.getLogger(BaseDBBean.class);
-	static ObjectMapper objectMapper=new ObjectMapper();
-	public final static boolean APPLICATION_CACHING = System.getProperty("APPLICATION_CACHING") == null
-			|| System.getProperty("APPLICATION_CACHING").trim().equalsIgnoreCase("true");
+	static ObjectMapper objectMapper = new ObjectMapper();
+
 	public static String TRUE = "1";
 	// protected boolean usedAsJSFPOJO = false;
 
 	public static String FALSE = "0";
+	@JsonIgnore
+	public boolean PUT_ZERO_AUTOINCREMENTS = false; // SE TRUE
 
-	public static boolean PUT_ZERO_AUTOINCREMENTS = false; // SE TRUE
-	protected String applicationName = null;
 	// AUTOINCREMENTARE
 	// E' SUBORDINATO
 	// ALLA PRESENZA DI
 	// UNO 0 O NULL in
 	// CAMPO CONTATORE
+	@JsonIgnore
 	protected String table = null;
-
+	@JsonIgnore
 	protected String primaryKeyProperties[] = null;
-
+	@JsonIgnore
 	protected String autoIncrements[] = null;
-
+	@JsonIgnore
 	protected boolean New = true;
-
+	@JsonIgnore
 	private String tableAlias = "";
-
+	@JsonIgnore
 	protected String application = null;
-	protected static final SCounterManager counterManager = new SCounterManager();
+	@JsonIgnore
+	protected SCounterManager counterManager = new SCounterManager();
 
 	protected BaseDBBean createNewInstance() throws InstantiationException, IllegalAccessException {
 
@@ -54,28 +64,23 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 
 	}
 
-	// TRUE
-
-	// I
-	// CONTATORI
-	// SONO
-	// GESTITI
-	// A
-	// LIVELLO
-	// DI
-	// APPLICAZIONE
-	// ALTRIMENTI
-	// CON
-	// TRIGGERS
-	public static boolean MANAGE_APPLICATION_LEVEL_COUNTERS = true; // SE
-
-	// TRUE
+	@JsonIgnore
+	public boolean MANAGE_APPLICATION_LEVEL_COUNTERS = true;
+	@JsonIgnore
+	public boolean MANAGE_CENTRAL_TABLE_COUNTERS = false;
 
 	/**
 	 * BaseDBBean constructor
 	 */
 	public BaseDBBean() {
 		super();
+	}
+
+	public BaseDBBean(boolean manageCentralTableCounterrs) {
+		MANAGE_CENTRAL_TABLE_COUNTERS = manageCentralTableCounterrs;
+		if (manageCentralTableCounterrs) {
+			this.counterManager = new PersistentCounterManager();
+		}
 	}
 
 	/**
@@ -231,18 +236,16 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 						autoInc = autoIncrements[a].equals(propertyName);
 					}
 					if (autoInc) {
-						synchronized (getClass()) {
 
-							long id = BaseDBBean.counterManager.getNewInt64CounterValue(table,
-									propertyName, connection);
-							if (pds[index].getPropertyType().equals(Integer.class)) {
-								value = new Integer((int) id);
-							} else if (pds[index].getPropertyType().equals(Short.class)) {
-								value = new Short((short) id);
-							} else if (pds[index].getPropertyType().equals(Long.class)) {
-								value = new Long(id);
-							}
+						long id = counterManager.getNewInt64CounterValue(table, propertyName, connection);
+						if (pds[index].getPropertyType().equals(Integer.class)) {
+							value = new Integer((int) id);
+						} else if (pds[index].getPropertyType().equals(Short.class)) {
+							value = new Short((short) id);
+						} else if (pds[index].getPropertyType().equals(Long.class)) {
+							value = new Long(id);
 						}
+
 					} else {
 						value = thlGet(propertyName);
 					}
@@ -268,7 +271,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @param fields com.zconsultancies.threelayers.persistence.PersistenceField[]
 	 * @exception java.sql.SQLException The exception description.
 	 */
-	protected void fillPreparedStatementParameter(java.sql.PreparedStatement ps, Object object, Class objClass,
+	protected static void fillPreparedStatementParameter(java.sql.PreparedStatement ps, Object object, Class objClass,
 			int index) throws java.sql.SQLException {
 		if (objClass.equals(String.class)) {
 			if (object == null)
@@ -353,6 +356,186 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				} catch (Throwable th) {
 				}
 			}
+		}
+	}
+
+	public static <T extends BaseDBBean> Stream<T> streamBy(java.sql.Connection connection, String sql, Class<T> type)
+			throws java.sql.SQLException, InstantiationException, IllegalAccessException {
+		try {
+			final java.sql.Statement st = connection.createStatement();
+			final java.sql.ResultSet rs = st.executeQuery(sql);
+			return streamBy(rs, type, (Void) -> {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (Throwable th) {
+					}
+				}
+				if (st != null) {
+					try {
+						st.close();
+					} catch (Throwable th) {
+					}
+				}
+			});
+		} finally {
+
+		}
+	}
+
+	public static interface CloseablePersister<T extends BaseDBBean> extends Consumer<T> {
+		public void close();
+	};
+
+	public static <T extends BaseDBBean> CloseablePersister<T> getStreamPersister(Connection connection, Class<T> type,
+			boolean updateOrInsert) {
+		if (updateOrInsert) {
+			return new CloseablePersister<T>() {
+
+				@Override
+				public void accept(T t) {
+					try {
+						if (updateOrInsert) {
+							if (!t.update(connection)) {
+								t.insert(connection, true);
+							}
+						} else {
+							t.insert(connection, true);
+						}
+
+					} catch (PersistenceException e) {
+						LOGGER.error("Error persisting stream", e);
+						throw new RuntimeException("Error persisting stream", e);
+					}
+
+				}
+
+				@Override
+				public void close() {
+
+				}
+
+			};
+		} else {
+			return new CloseablePersister<T>() {
+				PreparedStatement psInsert = null;
+
+				@Override
+				public void accept(T t) {
+					try {
+						if (psInsert == null) {
+							psInsert = t.prepareInsertStatement(connection);
+						}
+						
+						t.fillInsertPS(psInsert, connection);
+						
+					} catch (PersistenceException | SQLException e) {
+						LOGGER.error("Error persisting stream", e);
+						throw new RuntimeException("Error persisting stream", e);
+					}
+
+				}
+
+				@Override
+				public void close() {
+					try {
+						psInsert.close();
+					} catch (Throwable th) {
+					}
+				}
+
+			};
+		}
+	}
+
+	public static <T extends BaseDBBean> Stream<T> streamBy(java.sql.Connection connection,
+			java.util.HashMap propertiesTable, String prefix, String postfix, java.util.Vector orderFields,
+			Class<T> type)
+			throws java.sql.SQLException, PersistenceException, InstantiationException, IllegalAccessException {
+
+		try {
+			T sampleObject = type.newInstance();
+			StringBuffer buffer = new StringBuffer("select * from " + sampleObject.table + " T ");
+			java.util.Vector params = new java.util.Vector();
+			java.util.Vector fields = new java.util.Vector();
+			WhereCondition whereCondition = new WhereCondition();
+			if (!propertiesTable.isEmpty()) {
+
+				java.beans.PropertyDescriptor pds[] = sampleObject.thlGetPropertyList();
+				for (int index = 0; index < pds.length; index++) {
+					Object value = propertiesTable.get(prefix + pds[index].getName() + postfix);
+					if (value != null) {
+						if (!value.getClass().equals(pds[index].getPropertyType())) {
+							throw new IllegalArgumentException("La property usata per la ricerca "
+									+ pds[index].getName() + " e' di tipo " + value.getClass().getName()
+									+ " mentre dovrebbe essere di tipo " + pds[index].getPropertyType().getName());
+						}
+						params.addElement(value);
+						fields.addElement(pds[index].getName());
+					}
+				}
+				for (int index = 0; index < fields.size(); index++) {
+					whereCondition.addCondition(fields.elementAt(index) + " = ?");
+				}
+			}
+
+			if (!whereCondition.isEmpty()) {
+				buffer.append(" WHERE ");
+				buffer.append(whereCondition.getWhereCondition());
+			}
+			if (orderFields.size() > 0) {
+				buffer.append(" order by ");
+				for (int index = 0; index < orderFields.size(); index++) {
+					buffer.append(orderFields.elementAt(index));
+					if (index < orderFields.size() - 1)
+						buffer.append(",");
+				}
+			}
+			if (params.isEmpty()) {
+				final Statement st = connection.createStatement();
+				final ResultSet rs = st.executeQuery(buffer.toString());
+				return streamBy(rs, type, (Void) -> {
+					if (rs != null) {
+						try {
+							rs.close();
+						} catch (Throwable th) {
+						}
+					}
+					if (st != null) {
+						try {
+							st.close();
+						} catch (Throwable th) {
+						}
+					}
+
+				});
+			} else {
+				final PreparedStatement ps = connection.prepareStatement(buffer.toString());
+				// com.zconsultancies.threelayers.util.LogUtil.out.println(buffer.toString());
+				ps.clearParameters();
+				for (int index = 0; index < params.size(); index++) {
+					fillPreparedStatementParameter(ps, params.elementAt(index), params.elementAt(index).getClass(),
+							index + 1);
+				}
+				final ResultSet rs = ps.executeQuery();
+				return streamBy(rs, type, (Void) -> {
+					if (rs != null) {
+						try {
+							rs.close();
+						} catch (Throwable th) {
+						}
+					}
+					if (ps != null) {
+						try {
+							ps.close();
+						} catch (Throwable th) {
+						}
+					}
+
+				});
+			}
+
+		} finally {
 		}
 	}
 
@@ -790,6 +973,56 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 		return data;
 	}
 
+	public static <T extends BaseDBBean> Stream<T> streamByWhere(java.sql.Connection connection, String where,
+			Vector params, java.util.Vector orderVector, Class<T> type)
+			throws java.sql.SQLException, InstantiationException, IllegalAccessException {
+
+		try {
+			T sampleObject = type.newInstance();
+			final java.sql.Statement statement = connection.createStatement();
+			String query = "SELECT * FROM " + sampleObject.table + " T  WHERE " + where;
+			if (orderVector.size() > 0) {
+				query += " ORDER BY ";
+				for (int index = 0; index < orderVector.size(); index++) {
+					query += orderVector.elementAt(index).toString();
+					if (index < orderVector.size() - 1) {
+						query += ",";
+					}
+				}
+			}
+
+			final PreparedStatement ps = connection.prepareStatement(query);
+			ps.clearParameters();
+			if (params != null) {
+				TypesManager.fillPreparedStatementParameter(ps, true, params);
+			}
+			final java.sql.ResultSet rs = ps.executeQuery();
+			return streamBy(rs, type, (Void) -> {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (Throwable th) {
+					}
+				}
+				if (ps != null) {
+					try {
+						ps.close();
+					} catch (Throwable th) {
+					}
+				}
+				if (statement != null) {
+					try {
+						statement.close();
+					} catch (Throwable th) {
+					}
+				}
+			});
+		} finally {
+
+		}
+
+	}
+
 	/**
 	 * Deletes the DB image of this bean from DB Creation date: (24/04/2002
 	 * 15.47.43)
@@ -891,8 +1124,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin insert(...)");
 			try {
-				LOGGER.debug("Inserting==>"+objectMapper.writeValueAsString(this));
-			}catch(Throwable th) {}
+				LOGGER.debug("Inserting==>" + objectMapper.writeValueAsString(this));
+			} catch (Throwable th) {
+			}
 		}
 		if (!forceInsert && !New)
 			throw new IllegalStateException(
@@ -922,8 +1156,8 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 						Object value = thlGet(pds[index].getName());
 						if (value == null || (((value instanceof Number) && ((Number) value).intValue() == 0)
 								&& PUT_ZERO_AUTOINCREMENTS)) {
-							String id = "" + BaseDBBean.counterManager
-									.getNewInt64CounterValue(table, pds[index].getName(), connection);
+							String id = ""
+									+ counterManager.getNewInt64CounterValue(table, pds[index].getName(), connection);
 							try {
 								thlSet(pds[index].getName(),
 										TypesManager.convertFromString(pds[index].getPropertyType(), id));
@@ -994,7 +1228,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 			// PREPARO LO STATEMENT
 			// System.err.println("inserting: " + insert.toString());
 			if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug("Preparing statement=>"+insert.toString());
+				LOGGER.debug("Preparing statement=>" + insert.toString());
 			}
 			ps = connection.prepareStatement(insert.toString());
 			// CLEAR (NON LO SHAMPOO)
@@ -1310,6 +1544,62 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 		return readObjects(rs, "");
 	}
 
+	public static <T extends BaseDBBean> Stream<T> streamBy(java.sql.ResultSet rs, Class<T> dbType,
+			java.util.function.Consumer<Void> closingCallback)
+			throws java.sql.SQLException, InstantiationException, IllegalAccessException {
+		UnaryOperator<T> readOperation = new UnaryOperator<T>() {
+			@Override
+			public T apply(T t) {
+				try {
+					t = dbType.newInstance();
+					t.readFromResultSet(rs);
+				} catch (InstantiationException | IllegalAccessException | SQLException e) {
+					try {
+						closingCallback.accept(null);
+					} catch (Throwable t1) {
+					}
+					LOGGER.error("Exception reading resultset Stream", e);
+					throw new RuntimeException("Exception reading resultset Stream", e);
+				}
+				return t;
+			}
+		};
+		T t = dbType.newInstance();
+		if (rs.next()) {
+			t.readFromResultSet(rs);
+		} else {
+			try {
+				closingCallback.accept(null);
+			} catch (Throwable t1) {
+			}
+			return Stream.empty();
+		}
+		return Stream.iterate(t, (a) -> {
+			boolean cont = false;
+			try {
+				if (cont = rs.next()) {
+
+				}
+			} catch (SQLException e) {
+				try {
+					closingCallback.accept(null);
+				} catch (Throwable t1) {
+				}
+				LOGGER.error("Exception reading resultset Stream", e);
+				throw new RuntimeException("Exception reading resultset Stream", e);
+
+			}
+			if (!cont) {
+				try {
+					closingCallback.accept(null);
+				} catch (Throwable t1) {
+				}
+			}
+			return cont;
+		}, readOperation);
+
+	}
+
 	/**
 	 * Reads from ResultSet and returns a Vector of object of this class Creation
 	 * date: (03/05/2002 11.51.04)
@@ -1597,7 +1887,8 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @param connection java.sql.Connection
 	 * @exception java.sql.SQLException The exception description.
 	 */
-	public void update(java.sql.Connection connection) throws PersistenceException {
+	public boolean update(java.sql.Connection connection) throws PersistenceException {
+		boolean updated = false;
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin update(...)");
 		}
@@ -1655,7 +1946,8 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				}
 			}
 			// FACCIO UPDATE
-			ps.executeUpdate();
+			int n = ps.executeUpdate();
+			updated = n > 0;
 			New = false;
 		} catch (java.sql.SQLException exc) {
 			LOGGER.error("Error in update", exc);
@@ -1672,6 +1964,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End update(...)");
 		}
+		return updated;
 	}
 
 	/**
@@ -1680,7 +1973,8 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @param connection java.sql.Connection
 	 * @exception java.sql.SQLException The exception description.
 	 */
-	public void update(java.sql.Connection connection, boolean forceUpdate) throws PersistenceException {
+	public boolean update(java.sql.Connection connection, boolean forceUpdate) throws PersistenceException {
+		boolean updated = false;
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin update(...)");
 		}
@@ -1738,7 +2032,8 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				}
 			}
 			// FACCIO UPDATE
-			ps.executeUpdate();
+			int n = ps.executeUpdate();
+			updated = n > 0;
 			New = false;
 		} catch (java.sql.SQLException exc) {
 			LOGGER.error("Error in update", exc);
@@ -1755,6 +2050,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End update(...)");
 		}
+		return updated;
 	}
 
 	/**

@@ -151,6 +151,7 @@
 		<module>openi40.scheduler</module>
 		<module>openi40.platform</module>
 		<module>openi40.mes</module>
+		<module>com.openi40.logistics.parent</module>
 	</modules>
 
 </project>	
