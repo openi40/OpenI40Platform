@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.openi40.logistics.parent</groupId>
+    <artifactId>com.openi40.logistics.parent</artifactId>
+    <version>00.00.02BC-SNAPSHOT</version>
+  </parent>
+  <artifactId>opemi40-operational-model</artifactId>
+  <dependencies>
+	  <dependency>
+		<groupId>com.openi40.commons</groupId>
+		<artifactId>persistence-datamodel-utils</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+  </dependencies>
+</project>
