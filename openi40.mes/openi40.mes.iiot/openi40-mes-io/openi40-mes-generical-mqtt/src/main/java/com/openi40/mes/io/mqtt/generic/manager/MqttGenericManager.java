@@ -61,22 +61,18 @@ public class MqttGenericManager {
 
 	public class WrappedReceiver implements MqttCallback {
 		IntegratedChannelsConfig integratedChannelsConfig = null;
-		GenericalMQTTInputReceiver receiver = null;
+		HashMap<String, String> topic2assetMap = new HashMap<String, String>();
 
 		public WrappedReceiver(IntegratedChannelsConfig i, List<ConfiguredEndpointInfo> endpoints)
 				throws IntegrationHandlerException {
 			integratedChannelsConfig = i;
-			receiver = beanFactory.getBean(GenericalMQTTInputReceiver.class);
-			receiver.setChannelId(integratedChannelsConfig.getChannelId());
-			receiver.setIntegrationId(integratedChannelsConfig.getIntegrationHandlerId());
 
 			if (endpoints != null) {
 				for (ConfiguredEndpointInfo endPoint : endpoints) {
 
 					if (endPoint.getEndPointInfo().getProtocolType().equalsIgnoreCase(IntegrationProtocolTypes.MQTT)
 							&& endPoint.getEndPointInfo().isCanRead()) {
-						receiver.getTopicToAssetCodeMap().put(endPoint.getEndPointInfo().getReadUri(),
-								endPoint.getAssetCode());
+						topic2assetMap.put(endPoint.getEndPointInfo().getReadUri(), endPoint.getAssetCode());
 					}
 				}
 			}
@@ -96,7 +92,13 @@ public class MqttGenericManager {
 
 		@Override
 		public void messageArrived(String topic, MqttMessage message) throws Exception {
-			receiver.messageArrived(topic, message);
+			GenericalMQTTInputReceiver receiver = null;
+			receiver = beanFactory.getBean(GenericalMQTTInputReceiver.class);
+
+			receiver.setChannelId(integratedChannelsConfig.getChannelId());
+			receiver.setIntegrationId(integratedChannelsConfig.getIntegrationHandlerId());
+			String assetCode = this.topic2assetMap.get(topic);
+			receiver.messageArrived(assetCode, topic, message);
 
 		}
 
@@ -129,7 +131,7 @@ public class MqttGenericManager {
 	private boolean allChannelsStarted = false;
 	private int nMqttClientsStarted = 0;
 
-	public void configureConnections() {
+	public void configureConnections(GenericMQTTChannelConfig mqttConfigs) {
 		int mqttClientsStarted = 0;
 		boolean _allChannelsStarted = true;
 		if (configuredEndpointsRetriever == null) {
@@ -263,7 +265,7 @@ public class MqttGenericManager {
 	public void initialize(org.springframework.boot.context.event.ApplicationReadyEvent ready) {
 		if (mqttConfigs != null && !mqttConfigs.isAvoidInitializeOnStartup()) {
 			LOGGER.info("Begin mqtt connections initialization");
-			this.configureConnections();
+			this.configureConnections(this.mqttConfigs);
 			LOGGER.info("End mqtt connections initialization");
 		}
 	}

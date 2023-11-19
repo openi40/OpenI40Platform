@@ -5,4 +5,8 @@ insert into mes_asset_status (code,description) values ('ONLINE','Online');
 insert into mes_asset_type(code,description) values ('SERIAL','Serial device'); 
 
 insert into mes_asset (code,description,mes_asset_type_code,mes_asset_status_code,mes_asset_group_code,integration_id,protocol_type,integration_read_url)
-values                ('SERIAL001','Serial RS885 to LAN adapter','SERIAL','ONLINE','ASSGRP001','MANUALLY-CONFIGURED-DEVICES','MQTT','zlansub')
+values                ('SERIAL001','Serial RS885 to LAN adapter','SERIAL','ONLINE','ASSGRP001','MANUALLY-CONFIGURED-DEVICES','MQTT','zlansub');
+
+insert into mes_asset (code,description,mes_asset_type_code,mes_asset_status_code,mes_asset_group_code,integration_id,protocol_type,integration_read_url)
+values                ('JUNITDEVICE-001','JUNIT FAKE TEST DEVICE','SERIAL','ONLINE','ASSGRP001','MANUALLY-CONFIGURED-DEVICES','MQTT','mqtt_test_receive_topic');
+

@@ -426,9 +426,9 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 						if (psInsert == null) {
 							psInsert = t.prepareInsertStatement(connection);
 						}
-						
+
 						t.fillInsertPS(psInsert, connection);
-						
+
 					} catch (PersistenceException | SQLException e) {
 						LOGGER.error("Error persisting stream", e);
 						throw new RuntimeException("Error persisting stream", e);
@@ -1515,7 +1515,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * @param rs java.sql.ResultSet
 	 * @exception java.sql.SQLException The exception description.
 	 */
-	public  void readFromResultSet(java.sql.ResultSet rs, String postfix) throws java.sql.SQLException {
+	public void readFromResultSet(java.sql.ResultSet rs, String postfix) throws java.sql.SQLException {
 		java.beans.PropertyDescriptor pds[] = thlGetPropertyList();
 		java.beans.PropertyDescriptor descriptor = null;
 		String tableField = null;
@@ -1553,6 +1553,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 				try {
 					t = dbType.newInstance();
 					t.readFromResultSet(rs);
+					t.New=false;
 				} catch (InstantiationException | IllegalAccessException | SQLException e) {
 					try {
 						closingCallback.accept(null);
@@ -1565,15 +1566,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 			}
 		};
 		T t = dbType.newInstance();
-		if (rs.next()) {
-			t.readFromResultSet(rs);
-		} else {
-			try {
-				closingCallback.accept(null);
-			} catch (Throwable t1) {
-			}
-			return Stream.empty();
-		}
+
 		return Stream.iterate(t, (a) -> {
 			boolean cont = false;
 			try {
@@ -1638,7 +1631,7 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	 * Resets every property to a null value if the first parameter is true or to a
 	 * default value otherwise Creation date: (03/05/2002 15.14.55)
 	 */
-	public  void reset(boolean putNull) {
+	public void reset(boolean putNull) {
 		java.beans.PropertyDescriptor pds[] = thlGetPropertyList();
 		for (int index = 0; index < pds.length; index++) {
 			if (putNull) {

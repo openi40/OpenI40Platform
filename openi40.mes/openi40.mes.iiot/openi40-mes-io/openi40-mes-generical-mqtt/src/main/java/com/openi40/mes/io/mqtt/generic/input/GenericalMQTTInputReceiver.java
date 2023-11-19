@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.eclipse.paho.mqttv5.client.IMqttToken;
 import org.eclipse.paho.mqttv5.client.MqttCallback;
@@ -23,17 +24,17 @@ public class GenericalMQTTInputReceiver implements IMqttArrivedSuccessfully {
 	static Logger LOGGER = LoggerFactory.getLogger(GenericalMQTTInputReceiver.class);
 	private String channelId = null;
 	private String integrationId = null;
+	private String receiverId = UUID.randomUUID().toString();
 	IMicroKernel microKernel = null;
-	private Map<String, String> topicToAssetCodeMap = new HashMap<String, String>();
 
 	public GenericalMQTTInputReceiver(@Autowired IMicroKernel kernel) {
 		this.microKernel = kernel;
 	}
 
 	@Override
-	public void messageArrived(String topic, MqttMessage message) throws Exception {
+	public void messageArrived(String assetCode, String topic, MqttMessage message) throws Exception {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin messageArrived('" + topic + "',message)");
+			LOGGER.debug("Begin messageArrived('" + topic + "',message) receiverId=" + receiverId);
 		}
 		GenericalMQTTInputMessage inputMessage = new GenericalMQTTInputMessage();
 		inputMessage.setChannelId(channelId);
@@ -48,13 +49,13 @@ public class GenericalMQTTInputReceiver implements IMqttArrivedSuccessfully {
 		inputMessage.setFrom("mqtt::" + channelId + "::" + integrationId + "::topic:" + topic);
 		inputMessage.setTo(IMicroKernel.MICROKERNEL_ID);
 		inputMessage.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		inputMessage.setAssetCode(this.topicToAssetCodeMap.get(topic));
+		inputMessage.setAssetCode(assetCode);
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Routing message to microkernel.onMessage(message)");
+			LOGGER.debug("Routing message to microkernel.onMessage(message)  receiverId=" + receiverId);
 		}
 		microKernel.onMessage(inputMessage, null);
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End messageArrived('" + topic + "',message)");
+			LOGGER.debug("End messageArrived('" + topic + "',message)   receiverId=" + receiverId);
 		}
 	}
 
@@ -72,14 +73,6 @@ public class GenericalMQTTInputReceiver implements IMqttArrivedSuccessfully {
 
 	public void setIntegrationId(String integrationId) {
 		this.integrationId = integrationId;
-	}
-
-	public Map<String, String> getTopicToAssetCodeMap() {
-		return topicToAssetCodeMap;
-	}
-
-	public void setTopicToAssetCodeMap(Map<String, String> topicToAssetCodeMap) {
-		this.topicToAssetCodeMap = topicToAssetCodeMap;
 	}
 
 }

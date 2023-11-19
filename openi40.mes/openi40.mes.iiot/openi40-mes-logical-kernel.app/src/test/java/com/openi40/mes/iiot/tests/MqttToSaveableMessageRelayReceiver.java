@@ -7,12 +7,21 @@ import com.openi40.mes.io.mqtt.generic.input.GenericalMQTTInputMessage;
 import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
 import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
+import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
+
+import lombok.Data;
 
 @Component
 @Qualifier(value = MessageReceiver.IOT_SYSTEM_RECEIVER)
 public class MqttToSaveableMessageRelayReceiver implements OI40IOTMessageReceiver<AbstractOI40IOTMetaMessage> {
+	@Data
+	public static class RelayMQTTContentMessage extends AbstractOI40IOTApplicationMessage {
+		String relayedPayload = null;
+		String channelId;
+		String integrationId;
+	}
 
 	public MqttToSaveableMessageRelayReceiver() {
 		// TODO Auto-generated constructor stub
@@ -20,7 +29,16 @@ public class MqttToSaveableMessageRelayReceiver implements OI40IOTMessageReceive
 
 	@Override
 	public void onMessage(AbstractOI40IOTMetaMessage msg, MessagingEnvironment environment) {
-
+		if (msg instanceof GenericalMQTTInputMessage) {
+			GenericalMQTTInputMessage im = (GenericalMQTTInputMessage) msg;
+			String _msg = new String(im.getPayload());
+			RelayMQTTContentMessage relay = new RelayMQTTContentMessage();
+			relay.setRelayedPayload(_msg);
+			relay.setAssetFrom(im.getAssetCode());
+			relay.channelId = im.getChannelId();
+			relay.integrationId = im.getIntegrationId();
+			environment.getLoopbackSender().onMessage(relay, environment);
+		}
 	}
 
 	@Override
