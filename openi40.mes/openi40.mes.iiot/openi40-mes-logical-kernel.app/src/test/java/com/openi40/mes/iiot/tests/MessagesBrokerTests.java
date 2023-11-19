@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -47,11 +48,13 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	protected <Type> Type doInject(Class<Type> typeclass) {
 		return factory.getBean(typeclass);
 	}
-	@Ignore
+	
 	@Test
 	public void testMQMessages() throws Exception {
 
 		prepareDB(dataSource);
+		container.setExposedPorts(List.of(1388));
+		//container.setExtraHosts(List.of("127.0.0.1:1388"));
 		container.start();
 		int mappedPort = container.getMqttPort();
 		LOGGER.info("HiveMQ Started!! on port:"+mappedPort);
