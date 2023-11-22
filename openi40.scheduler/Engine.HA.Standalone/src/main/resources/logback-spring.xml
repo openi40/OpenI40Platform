@@ -64,8 +64,14 @@
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</logger>
-	<logger name="com.openi40.scheduler.inputchannels.dataimporters"
-		level="info" additivity="false">
+	<logger name="com.openi40.scheduler.inputchannels"
+		level="debug" additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
+	<!--  com.openi40.ignite -->
+	<logger name="com.openi40.ignite"
+		level="debug" additivity="false">
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</logger>

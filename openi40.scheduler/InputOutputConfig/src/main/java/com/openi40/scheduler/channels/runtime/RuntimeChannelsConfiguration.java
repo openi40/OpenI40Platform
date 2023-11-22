@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,10 +38,12 @@ import com.openi40.scheduler.apsdatacache.config.ApsDataSourcesConfig;
 import com.openi40.scheduler.apsdatacache.config.ApsDataSourceMixerConfig.ApsDataSourceId;
 import com.openi40.scheduler.common.datamodel.IDataInputValidator;
 import com.openi40.scheduler.engine.OpenI40Exception;
+import com.openi40.scheduler.inputchannels.dataimporters.DataImporterStreamFactoryRepositoryImpl;
 import com.openi40.scheduler.inputchannels.dataimporters.IConfiguredApsDataSourcesRepository;
 import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterAgent;
 import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterFactoryRepository;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
+import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactoryRepository;
 import com.openi40.scheduler.inputchannels.streaminputs.config.ApsInputChannelsConfig;
 import com.openi40.scheduler.inputchannels.streaminputs.handlers.ApsInputMixerDataStreamFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.handlers.HttpClientInputDataStreamFactory;
@@ -291,7 +294,11 @@ public class RuntimeChannelsConfiguration {
 	public List<IInputDataStreamFactory> getInputDataStreamFactories() {
 		return _inputDataStreamFactories;
 	}
-
+	@Bean
+	@Singleton
+	public IInputDataStreamFactoryRepository getInputDataStreamFactoryRepository() {
+		return new DataImporterStreamFactoryRepositoryImpl(_inputDataStreamFactories);
+	}
 	@Bean
 	@Scope("singleton")
 	public IOutputDataConsumerFactoryRepository getOutputDataConsumerFactoryRepository() {

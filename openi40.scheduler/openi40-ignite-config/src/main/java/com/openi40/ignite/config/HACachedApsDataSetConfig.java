@@ -20,6 +20,8 @@ public class HACachedApsDataSetConfig {
 	String sourceDataSourceName = null;
 	String sourceDataSetName = null;
 	String sourceDataSetVariant = null;
+	boolean dataLoaderNode=System.getProperty("dataLoaderNode")!=null && System.getProperty("dataLoaderNode").equalsIgnoreCase("true");
+	Integer dataLoadingFrequency=60000;
 	public HACachedApsDataSetConfig() {
 
 	}

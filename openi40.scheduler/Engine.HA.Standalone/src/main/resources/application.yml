@@ -24,6 +24,8 @@ com.openi40.scheduler.ignite.dataset:
                                 sourceDataSourceName: REST-LINK
                                 sourceDataSetName: REST-DATASET
                                 sourceDataSetVariant: DEFAULT
+                                dataLoaderNode: true
+                                dataLoadingFrequency: 30000
                                 
   
 com.openi40.scheduler.apsinputchannels:
