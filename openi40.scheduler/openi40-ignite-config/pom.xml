@@ -8,17 +8,15 @@
 		<version>00.00.03BC-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40-ignite-config</artifactId>
-	<properties>
-		<ignite.version>2.15.0</ignite.version>
-	</properties>
+
 	<dependencies>
-		
+
 		<dependency>
 			<groupId>org.apache.ignite</groupId>
 			<artifactId>ignite-spring-boot-autoconfigure-ext</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Input.Model</artifactId>
@@ -62,5 +60,17 @@
 			<artifactId>Output.Channels</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>Mapper</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.scheduler</groupId>
+			<artifactId>InputOutputModel2IgniteBinaryObject</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
 	</dependencies>
 </project>

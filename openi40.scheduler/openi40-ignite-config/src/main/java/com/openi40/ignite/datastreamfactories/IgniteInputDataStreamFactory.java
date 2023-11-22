@@ -50,7 +50,7 @@ public class IgniteInputDataStreamFactory implements IInputDataStreamFactory {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin getStream("+requiredType.getName()+")");
 		}
-		IgniteCache<String, DtoEntityType> cache = ignite.getOrCreateCache(requiredType.getSimpleName());
+		IgniteCache<String, DtoEntityType> cache = ignite.getOrCreateCache(requiredType.getName());
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Cache "+requiredType.getSimpleName()+" size="+cache.sizeLong(CachePeekMode.ALL));
 		}

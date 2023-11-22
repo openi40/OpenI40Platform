@@ -11,6 +11,7 @@ import javax.cache.integration.CacheLoader;
 import javax.cache.integration.CacheWriter;
 import javax.inject.Singleton;
 
+import org.apache.ignite.binary.BinaryObject;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.cache.CacheWriteSynchronizationMode;
@@ -50,14 +51,14 @@ public class MiddleLayerIgniteConfig {
 		List<Class<? extends InputDto>> inputTypes = this.inputClassesListProvider.getClassesList();
 		List<CacheConfiguration> cachesConfig = new ArrayList<>();
 		for (final Class<? extends InputDto> type : inputTypes) {
-			CacheConfiguration _cfg = new CacheConfiguration(type.getSimpleName());
+			CacheConfiguration _cfg = new CacheConfiguration(type.getName());
 			_cfg.setTypes(String.class, type);
 			_cfg.setCopyOnRead(true);
 			_cfg.setCacheMode(CacheMode.REPLICATED);
 			_cfg.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
 			_cfg.setSqlSchema("INPUT");
 			_cfg.setWriteSynchronizationMode(CacheWriteSynchronizationMode.FULL_SYNC);
-
+			
 			cachesConfig.add(_cfg);
 		}
 		cfg.setCacheConfiguration(cachesConfig.toArray(new CacheConfiguration[0]));
