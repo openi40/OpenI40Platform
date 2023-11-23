@@ -8,11 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.Vector;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1547,49 +1551,36 @@ public class BaseDBBean extends AutoDescribingObject implements Serializable {
 	public static <T extends BaseDBBean> Stream<T> streamBy(java.sql.ResultSet rs, Class<T> dbType,
 			java.util.function.Consumer<Void> closingCallback)
 			throws java.sql.SQLException, InstantiationException, IllegalAccessException {
-		UnaryOperator<T> readOperation = new UnaryOperator<T>() {
+		Iterator<T> elementsIterator = new Iterator<T>() {
 			@Override
-			public T apply(T t) {
+			public boolean hasNext() {
+
 				try {
-					t = dbType.newInstance();
-					t.readFromResultSet(rs);
-					t.New=false;
-				} catch (InstantiationException | IllegalAccessException | SQLException e) {
-					try {
-						closingCallback.accept(null);
-					} catch (Throwable t1) {
-					}
-					LOGGER.error("Exception reading resultset Stream", e);
-					throw new RuntimeException("Exception reading resultset Stream", e);
+					return rs.next();
+				} catch (SQLException e) {
+					throw new RuntimeException("Exception moving cursor", e);
 				}
-				return t;
+			}
+
+			@Override
+			public T next() {
+				T item;
+				try {
+					item = dbType.newInstance();
+					item.readFromResultSet(rs);
+					return item;
+				} catch (InstantiationException | IllegalAccessException | SQLException e) {
+					throw new RuntimeException("", e);
+				}
+				
 			}
 		};
-		T t = dbType.newInstance();
-
-		return Stream.iterate(t, (a) -> {
-			boolean cont = false;
-			try {
-				if (cont = rs.next()) {
-
-				}
-			} catch (SQLException e) {
-				try {
-					closingCallback.accept(null);
-				} catch (Throwable t1) {
-				}
-				LOGGER.error("Exception reading resultset Stream", e);
-				throw new RuntimeException("Exception reading resultset Stream", e);
-
-			}
-			if (!cont) {
-				try {
-					closingCallback.accept(null);
-				} catch (Throwable t1) {
-				}
-			}
-			return cont;
-		}, readOperation);
+		Spliterator<T> spliterator = Spliterators.spliteratorUnknownSize(elementsIterator, 0);
+		
+		
+		return StreamSupport.stream(spliterator, false).onClose(()->{
+			closingCallback.accept(null);
+		});
 
 	}
 

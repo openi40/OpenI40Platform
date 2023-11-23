@@ -55,7 +55,7 @@ public class IgniteInputDataStreamFactory implements IInputDataStreamFactory {
 			throws InputDataStreamException {
 		Stream<DtoEntityType> stream = null;
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin getStreamInternal(" + requiredType.getName() + ")");
+			LOGGER.debug("Begin getStream(" + requiredType.getName() + ")");
 		}
 		Ignite ignite = beanFactory.getBean(Ignite.class);
 		if (ignite == null)
@@ -82,51 +82,15 @@ public class IgniteInputDataStreamFactory implements IInputDataStreamFactory {
 		};
 		Spliterator<DtoEntityType> spliterator = Spliterators.spliteratorUnknownSize(elementsIterator, 0);
 		
-		/*
-		 * if (iterator.hasNext()) {
-		 * 
-		 * DtoEntityType firstValue = iterator.next().getValue();
-		 * 
-		 * stream = Stream.iterate(firstValue, (t) -> { boolean hasNext =
-		 * iterator.hasNext(); return hasNext; }, (t) -> { DtoEntityType entry =
-		 * iterator.next().getValue(); return entry; }).sequential(); } else return
-		 * Stream.empty();
-		 */
+		
 		stream = StreamSupport.stream(spliterator, false);
 
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End getStreamInternal(" + requiredType.getName() + ")");
+			LOGGER.debug("End getStream(" + requiredType.getName() + ")");
 		}
 		return stream;
 	}
-	/*
-	 * @Override public <DtoEntityType extends InputDto> Stream<DtoEntityType>
-	 * getStream(Class<DtoEntityType> requiredType) throws InputDataStreamException
-	 * { if (LOGGER.isDebugEnabled()) { LOGGER.debug("Begin getStream(" +
-	 * requiredType.getName() + ")"); } IgniteCache<String, BinaryObject> cache =
-	 * ignite.<String, BinaryObject>getOrCreateCache(requiredType.getName())
-	 * .withKeepBinary(); if (LOGGER.isDebugEnabled()) { LOGGER.debug("Cache " +
-	 * requiredType.getSimpleName() + " size=" + cache.sizeLong(CachePeekMode.ALL));
-	 * } Iterator<Entry<String, BinaryObject>> iterator = cache.iterator();
-	 * Stream<DtoEntityType> stream = null; IMapper<BinaryObjectBuilder,
-	 * DtoEntityType> mapper; try { mapper =
-	 * mapperFactory.createMapper(BinaryObjectBuilder.class, requiredType); try {
-	 * stream = Stream.iterate(requiredType.newInstance(), (t) -> { return
-	 * iterator.hasNext(); }, (t) -> { BinaryObject object =
-	 * iterator.next().getValue(); BinaryObjectBuilder builder = object.toBuilder();
-	 * try { return mapper.mapInstance(builder, requiredType,
-	 * DefaultEntitiesFactory.Instance, new HashMap<>(), true); } catch
-	 * (MapperException e) { throw new RuntimeException("", e); } }); } catch
-	 * (InstantiationException | IllegalAccessException e) { throw new
-	 * InputDataStreamException( "Problema streaming ignite data from " +
-	 * requiredType.getSimpleName() + " cache", e); } } catch (MapperException e) {
-	 * throw new InputDataStreamException( "Problema streaming ignite data from " +
-	 * requiredType.getSimpleName() + " cache", e); }
-	 * 
-	 * if (LOGGER.isDebugEnabled()) { LOGGER.debug("End getStream(" +
-	 * requiredType.getName() + ")"); } return stream; }
-	 */
-
+	
 	@Override
 	public <DtoEntityType extends InputDto> Stream<DtoEntityType> getStream(Class<DtoEntityType> requiredType,
 			Date modifiedAfter) throws InputDataStreamException {
