@@ -75,4 +75,9 @@
 		<appender-ref ref="RollingFile" />
 		<appender-ref ref="Console" />
 	</logger>
+	<logger name="org.apache.ignite"
+		level="info" additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
 </configuration>

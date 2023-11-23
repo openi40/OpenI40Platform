@@ -1,7 +1,7 @@
 package com.openi40.ignite.datastreamfactories;
 
+import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -9,25 +9,24 @@ import java.util.stream.Stream;
 import javax.inject.Singleton;
 
 import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteBinary;
 import org.apache.ignite.IgniteCache;
-import org.apache.ignite.binary.BinaryObject;
-import org.apache.ignite.binary.BinaryObjectBuilder;
+import org.apache.ignite.IgniteDataStreamer;
+import org.apache.ignite.IgniteTransactions;
+import org.apache.ignite.transactions.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.openi40.ignite.config.HACachedApsDataSetConfig;
+import com.openi40.ignite.model.SharedConfigurationInfos;
 import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.inputchannels.dataimporters.IImportedClassListProvider;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactoryRepository;
 import com.openi40.scheduler.inputchannels.streaminputs.InputDataStreamException;
-import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
-import com.openi40.scheduler.mapper.IMapper;
-import com.openi40.scheduler.mapper.IMapperFactory;
 import com.openi40.scheduler.mapper.MapperException;
 
 @Singleton
@@ -35,20 +34,18 @@ import com.openi40.scheduler.mapper.MapperException;
 public class IgniteDataLoader {
 	IImportedClassListProvider inputClassesListProvider = null;
 	HACachedApsDataSetConfig dataSetConfig = null;
-	Ignite ignite = null;
+
 	IInputDataStreamFactoryRepository iStreamFactoryRepository = null;
 	static Logger LOGGER = LoggerFactory.getLogger(IgniteDataLoader.class);
-	IMapperFactory mapperFactory = null;
+	BeanFactory beanFactory;
 
 	public IgniteDataLoader(@Autowired IImportedClassListProvider inputClassesListProvider,
-			@Autowired(required = false) HACachedApsDataSetConfig dataSetConfig, @Autowired Ignite ignite,
-			@Autowired IInputDataStreamFactoryRepository iStreamFactoryRepository,
-			@Autowired IMapperFactory mapperFactory) {
+			@Autowired(required = false) HACachedApsDataSetConfig dataSetConfig,
+			@Autowired IInputDataStreamFactoryRepository iStreamFactoryRepository, @Autowired BeanFactory beanFactory) {
 		this.inputClassesListProvider = inputClassesListProvider;
 		this.dataSetConfig = dataSetConfig;
-		this.ignite = ignite;
 		this.iStreamFactoryRepository = iStreamFactoryRepository;
-		this.mapperFactory = mapperFactory;
+		this.beanFactory = beanFactory;
 	}
 
 	class MaxHolder {
@@ -56,32 +53,28 @@ public class IgniteDataLoader {
 		long nREAD = 0L;
 	}
 
-	private <T extends InputDto> void cacheStreamingContent(final MaxHolder holder, Class<T> classType,
-			IInputDataStreamFactory sfactory) throws MapperException, InputDataStreamException {
+	private <T extends InputDto> void cacheStreamingContentUsingDataStreamer(final MaxHolder holder, Class<T> classType,
+			Ignite ignite, IInputDataStreamFactory sfactory) throws MapperException, InputDataStreamException {
 		final Stream<T> stream = sfactory.getStream(classType);
-
-		final IgniteCache<String, BinaryObject> cache = ignite.getOrCreateCache(classType.getName()).withKeepBinary();
-		final IMapper<T, BinaryObjectBuilder> mapper = mapperFactory.createMapper(classType, BinaryObjectBuilder.class);
-		Consumer<T> readerConsumer = new Consumer<T>() {
-			@Override
-			public void accept(T t) {
-				BinaryObjectBuilder ret;
-				try {
-					ret = mapper.mapInstance(t, BinaryObjectBuilder.class, DefaultEntitiesFactory.Instance,
-							new HashMap<>(), true);
-				} catch (MapperException e) {
-					throw new RuntimeException("Cannot map object correctly for type " + classType.getName(), e);
+		try (final IgniteDataStreamer<String, T> streamer = ignite.dataStreamer(classType.getName())) {
+			streamer.deployClass(classType);
+			streamer.allowOverwrite(true);
+			Consumer<T> readerConsumer = new Consumer<T>() {
+				@Override
+				public void accept(T t) {
+					streamer.addData(t.getCode(), t);
+					Date modTs = t.getModifiedTimestamp();
+					holder.nREAD++;
+					if (modTs != null) {
+						holder.utcTs = Math.max(holder.utcTs, modTs.getTime());
+					}
 				}
-				cache.put(t.getCode(), ret.build());
-				Date modTs = t.getModifiedTimestamp();
-				holder.nREAD++;
-				if (modTs != null) {
-					holder.utcTs = Math.max(holder.utcTs, modTs.getTime());
-				}
-			}
-		};
 
-		stream.forEach(readerConsumer);
+			};
+			stream.forEach(readerConsumer);
+			streamer.flush();
+		}
+
 	}
 
 	@EventListener(value = org.springframework.boot.context.event.ApplicationReadyEvent.class)
@@ -90,6 +83,9 @@ public class IgniteDataLoader {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin igniteDataLoader.initialize(...)");
 		}
+		Ignite ignite = beanFactory.getBean(Ignite.class);
+		if (ignite == null)
+			throw new RuntimeException("Ignite not yet injectable");
 		if (this.dataSetConfig != null && this.dataSetConfig.isDataLoaderNode()) {
 			List<IInputDataStreamFactory> ifactories = iStreamFactoryRepository.getDataImporterStreamFactories();
 			IInputDataStreamFactory sfactory = null;
@@ -105,21 +101,47 @@ public class IgniteDataLoader {
 				}
 			}
 			if (sfactory != null) {
-				List<Class<? extends InputDto>> classesList = inputClassesListProvider.getClassesList();
-				for (Class<? extends InputDto> classType : classesList) {
 
-					final MaxHolder holder = new MaxHolder();
-					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug("Begin filling cache:" + classType.getSimpleName());
+				IgniteTransactions transactions = ignite.transactions();
+				IgniteCache<String, SharedConfigurationInfos> cache = ignite
+						.cache(SharedConfigurationInfos.class.getName());
+				SharedConfigurationInfos sharedConfig = cache.get(SharedConfigurationInfos.SHARED_CONFIG_ID);
+				boolean runInitialSync = false;
+				if (sharedConfig == null) {
+					runInitialSync = true;
+					sharedConfig = new SharedConfigurationInfos();
+					sharedConfig.setDataAreLoading(true);
+					sharedConfig.setDataLoaded(false);
+					try (Transaction tx = transactions.txStart()) {
+						cache.put(SharedConfigurationInfos.SHARED_CONFIG_ID, sharedConfig);
+						tx.commit();
 					}
+				}
+				if (runInitialSync) {
+					LOGGER.info("Node with loader configuration and verified non existent shared state, executing initial data loading");
+					try (Transaction tx = transactions.txStart()) {
 
-					cacheStreamingContent(holder, classType, sfactory);
-
-					if (LOGGER.isDebugEnabled()) {
-						LOGGER.debug(
-								"End filling cache:" + classType.getSimpleName() + " nr items read: " + holder.nREAD);
+						List<Class<? extends InputDto>> classesList = inputClassesListProvider.getClassesList();
+						for (Class<? extends InputDto> classType : classesList) {
+							final MaxHolder holder = new MaxHolder();
+							if (LOGGER.isDebugEnabled()) {
+								LOGGER.debug("Begin filling cache:" + classType.getSimpleName());
+							}
+							cacheStreamingContentUsingDataStreamer(holder, classType, ignite, sfactory);
+							if (holder.utcTs>0l) {
+								sharedConfig.getMaximumTimestamps().put(classType.getName(), new Timestamp(holder.utcTs));
+							}
+							if (LOGGER.isDebugEnabled()) {
+								LOGGER.debug("End filling cache:" + classType.getSimpleName() + " nr items read: "
+										+ holder.nREAD);
+							}
+						}
+						sharedConfig.setDataAreLoading(false);
+						sharedConfig.setDataLoaded(true);
+						cache.put(SharedConfigurationInfos.SHARED_CONFIG_ID, sharedConfig);
+						tx.commit();
 					}
-
+					LOGGER.info("Data resident inside Ignite system");
 				}
 			}
 		}
