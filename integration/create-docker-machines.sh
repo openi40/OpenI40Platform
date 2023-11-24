@@ -1,4 +1,9 @@
 #/bin/bash
+echo "Docker images before script:"
+docker images
+cd openi40-postgres-database
+./create-docker.sh
+cd ..
 rm *.jar
 export BOOTABLES=`find ../ -name *.bootable.jar -print`;
 for B in $BOOTABLES 
@@ -12,6 +17,8 @@ export APPNAME=`echo $F|sed s/"com."// | sed s/".bootable.jar"// | sed s/'\.'/'\
 echo "Managing $F with docker name $APPNAME";
 mkdir $APPNAME
 mv $F $APPNAME
-docker image rm $APPNAME
+docker image rm $APPNAME --force
 docker build --build-arg JAVA_EXTRA_SECURITY_DIR=/app -t $APPNAME $APPNAME/
 done
+echo "Docker images after script:"
+docker images
