@@ -16,4 +16,4 @@ docker exec -it openi40-postgres-database bash -c "cat /mnt/openi40-sql/alter.sq
 docker exec -it openi40-postgres-database bash  -c "cat /mnt/openi40mes-sql/create.sql | sed s/CLOB/TEXT/I | psql --user openi40user openi40mes "
 docker exec -it openi40-postgres-database bash -c "cat /mnt/openi40mes-sql/populate-localtests.sql | psql --user openi40user openi40mes "
 docker exec -it openi40-postgres-database bash -c "cat /mnt/openi40mes-sql/alter.sql | psql --user openi40user openi40mes "
-
+docker commit openi40-postgres-database
