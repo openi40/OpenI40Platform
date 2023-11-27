@@ -1,0 +1,17 @@
+DROP TABLE MES_ASSET_EVENT;
+DROP TABLE MES_ASSET;
+DROP TABLE MES_ASSET_GROUP;
+DROP TABLE MES_ASSET_TYPE;
+DROP TABLE MES_ASSET_STATUS;
+DROP TABLE MES_LOGICAL_MSG;
+DROP TABLE MES_SPOOL_MSG;
+DROP TABLE MES_UNMANAGED_MSG;
+DROP table mes_task_event_equip;
+DROP table mes_task_material_event;
+DROP table mes_task_event;
+DROP table mes_task;
+DROP TABLE aps_task;
+DROP sequence mes_unmanaged_msg_seq;
+DROP sequence mes_spool_msg_seq;
+DROP sequence mes_logical_msg_seq;
+DROP sequence mes_asset_event_seq;

@@ -1,0 +1,217 @@
+RestApiConfig:
+  useWebSocket: false 
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    contextPath: /openi40
+spring:
+  profiles:    active:      - "client.rest.api"
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+com.openi40.scheduler.ignite.dataset:
+                                dataSourceName: HA-DATASET
+                                dataSetName: HA-DATASET
+                                dataSetVariant: DEFAULT
+                                dataSourceDescription: Ignite cached datasource
+                                sourceDataSourceName: REST-LINK
+                                sourceDataSetName: REST-DATASET
+                                sourceDataSetVariant: DEFAULT
+                                dataLoaderNode: true
+                                dataLoadingFrequency: 30000
+                                
+  
+com.openi40.scheduler.apsinputchannels:
+                        httpClientInputs:
+                                        -  
+                                          dataSourceName: REST-LINK
+                                          dataSetName: REST-DATASET
+                                          dataSetVariant: DEFAULT
+                                          description: Data loaded from remote rest
+                                          dataImporterId: demosRestImporter
+                                          useBasicAuthentication: false
+                                          baseUrl: http://persistence-server:8081/openi40-restserver/
+                                          entitiesSetting:
+                                            -
+                                              entityName: ApsWindowInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ApsWindow/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TimesheetMetaInfoInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/TimesheetMetaInfo/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: ProductiveCompanyInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ProductiveCompany/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: PlantInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Plant/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: DepartmentInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Department/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false       
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: WorkCenterInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/WorkCenter/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: MachineInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Machine/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: ChangeOverMatrixItemInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ChangeOverMatrixItem/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: ResourceGroupInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ResourceGroup/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: SecondaryResourceInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/SecondaryResource/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: WarehouseInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Warehouse/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: ProductInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Product/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: StockSupplyInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/StockSupply/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: CycleModelInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/CycleModel/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: SalesOrderInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/SalesOrder/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: PurchaseInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Purchase/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: PurchaseOrderInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/PurchaseOrder/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false        
+                                              multipleObjectsAsArray: false            
+                                            -
+                                              entityName: ProductiveCompanyProductSettingInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ProductiveCompanyProductSetting/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: PlantProductSettingInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/PlantProductSetting/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: WarehouseProductSettingInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/WarehouseProductSetting/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: WorkOrderInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/WorkOrder/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TaskInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Task/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TaskRelationInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/TaskRelation/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TaskProductionMaterialReservationInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/TaskProductionMaterialReservation/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false      
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TaskStockMaterialReservationInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/TaskStockMaterialReservation/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: TaskPurchaseMaterialReservationInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/TaskPurchaseMaterialReservation/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: PeggingInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/Pegging/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false
+                                              multipleObjectsAsArray: false
+                                            -
+                                              entityName: ApsSchedulingSetInputDto
+                                              path: http://persistence-server:8081/openi40-restserver/input/ApsSchedulingSet/stream/REST-LINK/REST-DATASET/DEFAULT/
+                                              relativePath: false  
+                                              multipleObjectsAsArray: false
+
+com.openi40.scheduler.apsoutputchannels:
+        restConfigs:
+          -
+            dataSourceName: REST-LINK
+            dataSetName: REST-DATASET
+            dataSetVariant: DEFAULT
+            description: Data loaded from remote rest
+            dataImporterId: demosRestExporter
+            baseURL: http://persistence-server:8081/openi40-restserver/
+            entitiesSetting:
+              - 
+                entityName: TaskOutputDto
+                path: http://persistence-server:8081/openi40-restserver/output/Task/vectorialSave/REST-LINK/REST-DATASET/DEFAULT/
+                nEntriesGrouping: 1000
+                relativePath: false
+              - 
+                entityName: TaskRelationOutputDto
+                path: http://persistence-server:8081/openi40-restserver/output/TaskRelation/vectorialSave/REST-LINK/REST-DATASET/DEFAULT/
+                nEntriesGrouping: 1000
+                relativePath: false
+              - 
+                entityName: WorkOrderOutputDto
+                path: http://persistence-server:8081/openi40-restserver/output/WorkOrder/vectorialSave/REST-LINK/REST-DATASET/DEFAULT/
+                nEntriesGrouping: 1000
+                relativePath: false
+              - 
+                entityName: PeggingOutputDto
+                path: http://persistence-server:8081/openi40-restserver/output/Pegging/vectorialSave/REST-LINK/REST-DATASET/DEFAULT/
+                nEntriesGrouping: 1000
+                relativePath: false
+              - 
+                entityName: ApsSchedulingSetOutputDto
+                path: http://persistence-server:8081/openi40-restserver/output/ApsSchedulingSet/vectorialSave/REST-LINK/REST-DATASET/DEFAULT/
+                nEntriesGrouping: 1000
+                relativePath: false
