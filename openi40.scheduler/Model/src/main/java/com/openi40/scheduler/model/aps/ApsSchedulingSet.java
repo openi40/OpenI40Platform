@@ -2,6 +2,7 @@ package com.openi40.scheduler.model.aps;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 
 	public ApsSchedulingSet(ApsData context) {
 		super(context);
+		this.code=UUID.randomUUID().toString();
 
 	}
 

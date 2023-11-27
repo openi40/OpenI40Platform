@@ -17,18 +17,22 @@ import org.springframework.context.annotation.Configuration;
 import com.openi40.ignite.model.SharedConfigurationInfos;
 import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.inputchannels.dataimporters.IImportedClassListProvider;
+import com.openi40.scheduler.output.model.OutputDto;
+import com.openi40.scheduler.outputchannels.dataexporters.IExportedClassListProvider;
 
 @Configuration
 public class MiddleLayerIgniteConfig {
 	public static final String OPENI40MIDDLE_HA_CACHE = "OPENI40-MIDDLE-LAYER";
 	IImportedClassListProvider inputClassesListProvider = null;
 	HACachedApsDataSetConfig dataSetConfig = null;
+	IExportedClassListProvider exportedClassListProvider = null;
 
 	public MiddleLayerIgniteConfig(@Autowired IImportedClassListProvider inputClassesListProvider,
+			@Autowired IExportedClassListProvider exportedClassListProvider,
 			@Autowired(required = false) HACachedApsDataSetConfig dataSetConfig) {
 		this.inputClassesListProvider = inputClassesListProvider;
 		this.dataSetConfig = dataSetConfig;
-
+		this.exportedClassListProvider = exportedClassListProvider;
 	}
 
 	@Singleton
@@ -41,8 +45,19 @@ public class MiddleLayerIgniteConfig {
 		// cfg.setActiveOnStart(true);
 		// cfg.setAutoActivationEnabled(true);
 		List<Class<? extends InputDto>> inputTypes = this.inputClassesListProvider.getClassesList();
+		List<Class<? extends OutputDto>> outputTypes = this.exportedClassListProvider.getClassesList();
 		List<CacheConfiguration> cachesConfig = new ArrayList<>();
 		for (final Class<? extends InputDto> type : inputTypes) {
+			CacheConfiguration _cfg = new CacheConfiguration(type.getName());
+			_cfg.setTypes(String.class, type);
+			_cfg.setCopyOnRead(true);
+			_cfg.setCacheMode(CacheMode.REPLICATED);
+			_cfg.setAtomicityMode(CacheAtomicityMode.TRANSACTIONAL);
+			_cfg.setSqlSchema("INPUT");
+			_cfg.setWriteSynchronizationMode(CacheWriteSynchronizationMode.FULL_SYNC);
+			cachesConfig.add(_cfg);
+		}
+		for (final Class<? extends OutputDto> type : outputTypes) {
 			CacheConfiguration _cfg = new CacheConfiguration(type.getName());
 			_cfg.setTypes(String.class, type);
 			_cfg.setCopyOnRead(true);
