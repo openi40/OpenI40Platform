@@ -13,9 +13,14 @@
 
 export interface OI40DBSecondaryResource { 
     attributesMap?: any;
+    availability?: string;
     code?: string;
     description?: string;
+    disabled?: boolean;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    resourceGroupCode?: string;
+    timesheetMetaInfoCode?: string;
 }

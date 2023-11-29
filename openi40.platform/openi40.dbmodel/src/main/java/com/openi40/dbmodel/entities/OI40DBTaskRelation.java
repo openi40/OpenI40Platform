@@ -1,12 +1,15 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -38,6 +41,7 @@ import javax.persistence.Table;
 @AttributeOverride(name = "consumptionBatchQty", column = @Column(name = "cons_batch_qty")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
+@Data
 public class OI40DBTaskRelation extends OI40DBBaseEntity implements Serializable{
 	String supplierTaskCode = null, consumerTaskCode = null, alignmentType = null, timeRangeType = null,
 			peggingCode = null, bomItemCode = null, consumptionTransferType = null;

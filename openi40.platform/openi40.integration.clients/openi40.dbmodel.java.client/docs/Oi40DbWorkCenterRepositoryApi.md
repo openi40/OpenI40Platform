@@ -1,6 +1,6 @@
 # Oi40DbWorkCenterRepositoryApi
 
-All URIs are relative to *https://localhost:8082/openi40-integration*
+All URIs are relative to *https://localhost:8083/openi40-backoffice*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

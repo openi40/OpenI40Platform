@@ -14,8 +14,12 @@
 export interface OI40DBResourceGroup { 
     attributesMap?: any;
     code?: string;
+    departmentCode?: string;
     description?: string;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    resourcesNumber?: number;
+    timesheetMetaInfoCode?: string;
 }

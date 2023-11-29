@@ -12,10 +12,19 @@
 
 
 export interface OI40DBSecondaryResourceUseSpecification { 
+    afterStartMinutes?: number;
     attributesMap?: any;
+    beforeStopMinutes?: number;
     code?: string;
     description?: string;
     integrationTs?: Date;
+    maxQty?: number;
+    minQty?: number;
     modifiedTimestamp?: Date;
+    operationEquipmentSpecCode?: string;
+    qty?: number;
     removed?: boolean;
+    secondaryResourceGroupCode?: string;
+    useType?: string;
+    usedTime?: string;
 }

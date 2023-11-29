@@ -1,12 +1,15 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
 
 /**
  * 
@@ -29,6 +32,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
 		@AttributeOverride(name = "infiniteCapacity", column = @Column(name = "infinite_capacity")) })
+@Data
 public class OI40DBStockSupply extends OI40DBBaseEntity implements Serializable {
 	private String productCode = null;
 	private String warehouseCode = null;

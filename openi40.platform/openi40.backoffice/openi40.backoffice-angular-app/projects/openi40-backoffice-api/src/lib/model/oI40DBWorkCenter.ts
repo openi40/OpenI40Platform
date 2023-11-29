@@ -14,8 +14,11 @@
 export interface OI40DBWorkCenter { 
     attributesMap?: any;
     code?: string;
+    departmentCode?: string;
     description?: string;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    timesheetMetaInfoCode?: string;
 }

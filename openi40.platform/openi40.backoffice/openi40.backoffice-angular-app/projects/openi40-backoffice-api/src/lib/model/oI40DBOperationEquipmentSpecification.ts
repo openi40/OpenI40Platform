@@ -14,8 +14,17 @@
 export interface OI40DBOperationEquipmentSpecification { 
     attributesMap?: any;
     code?: string;
+    defaultMachineCode?: string;
     description?: string;
     integrationTs?: Date;
+    machineTime?: number;
+    machineTimeSpec?: string;
+    maxNextPhaseDelay?: number;
+    minNextPhaseDelay?: number;
     modifiedTimestamp?: Date;
+    operationCode?: string;
     removed?: boolean;
+    setupGroupCode?: string;
+    setupTime?: number;
+    workCenterCode?: string;
 }

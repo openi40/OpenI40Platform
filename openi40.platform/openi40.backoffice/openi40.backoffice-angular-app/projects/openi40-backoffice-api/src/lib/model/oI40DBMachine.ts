@@ -13,9 +13,14 @@
 
 export interface OI40DBMachine { 
     attributesMap?: any;
+    availability?: string;
     code?: string;
     description?: string;
+    disabled?: boolean;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    timesheetMetaInfoCode?: string;
+    workCenterCode?: string;
 }

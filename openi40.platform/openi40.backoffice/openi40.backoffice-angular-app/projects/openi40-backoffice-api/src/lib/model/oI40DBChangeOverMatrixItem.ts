@@ -16,6 +16,11 @@ export interface OI40DBChangeOverMatrixItem {
     code?: string;
     description?: string;
     integrationTs?: Date;
+    machineCode?: string;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    setupGroupCodeFrom?: string;
+    setupGroupCodeTo?: string;
+    setupTime?: number;
+    workCenterCode?: string;
 }

@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBTimesheetMetaInfoExceptionRule
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBTimesheetMetaInfoExceptionRule {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
@@ -36,6 +36,9 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("endPeriod")
+  private Date endPeriod = null;
+
   @JsonProperty("integrationTs")
   private Date integrationTs = null;
 
@@ -44,6 +47,15 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
 
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("startPeriod")
+  private Date startPeriod = null;
+
+  @JsonProperty("timesheetMetaCode")
+  private String timesheetMetaCode = null;
+
+  @JsonProperty("working")
+  private Boolean working = null;
 
   public OI40DBTimesheetMetaInfoExceptionRule attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -97,6 +109,24 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public OI40DBTimesheetMetaInfoExceptionRule endPeriod(Date endPeriod) {
+    this.endPeriod = endPeriod;
+    return this;
+  }
+
+   /**
+   * Get endPeriod
+   * @return endPeriod
+  **/
+  @ApiModelProperty(value = "")
+  public Date getEndPeriod() {
+    return endPeriod;
+  }
+
+  public void setEndPeriod(Date endPeriod) {
+    this.endPeriod = endPeriod;
   }
 
   public OI40DBTimesheetMetaInfoExceptionRule integrationTs(Date integrationTs) {
@@ -153,6 +183,60 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
     this.removed = removed;
   }
 
+  public OI40DBTimesheetMetaInfoExceptionRule startPeriod(Date startPeriod) {
+    this.startPeriod = startPeriod;
+    return this;
+  }
+
+   /**
+   * Get startPeriod
+   * @return startPeriod
+  **/
+  @ApiModelProperty(value = "")
+  public Date getStartPeriod() {
+    return startPeriod;
+  }
+
+  public void setStartPeriod(Date startPeriod) {
+    this.startPeriod = startPeriod;
+  }
+
+  public OI40DBTimesheetMetaInfoExceptionRule timesheetMetaCode(String timesheetMetaCode) {
+    this.timesheetMetaCode = timesheetMetaCode;
+    return this;
+  }
+
+   /**
+   * Get timesheetMetaCode
+   * @return timesheetMetaCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getTimesheetMetaCode() {
+    return timesheetMetaCode;
+  }
+
+  public void setTimesheetMetaCode(String timesheetMetaCode) {
+    this.timesheetMetaCode = timesheetMetaCode;
+  }
+
+  public OI40DBTimesheetMetaInfoExceptionRule working(Boolean working) {
+    this.working = working;
+    return this;
+  }
+
+   /**
+   * Get working
+   * @return working
+  **/
+  @ApiModelProperty(value = "")
+  public Boolean isWorking() {
+    return working;
+  }
+
+  public void setWorking(Boolean working) {
+    this.working = working;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -166,14 +250,18 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
     return Objects.equals(this.attributesMap, oi40DBTimesheetMetaInfoExceptionRule.attributesMap) &&
         Objects.equals(this.code, oi40DBTimesheetMetaInfoExceptionRule.code) &&
         Objects.equals(this.description, oi40DBTimesheetMetaInfoExceptionRule.description) &&
+        Objects.equals(this.endPeriod, oi40DBTimesheetMetaInfoExceptionRule.endPeriod) &&
         Objects.equals(this.integrationTs, oi40DBTimesheetMetaInfoExceptionRule.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBTimesheetMetaInfoExceptionRule.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBTimesheetMetaInfoExceptionRule.removed);
+        Objects.equals(this.removed, oi40DBTimesheetMetaInfoExceptionRule.removed) &&
+        Objects.equals(this.startPeriod, oi40DBTimesheetMetaInfoExceptionRule.startPeriod) &&
+        Objects.equals(this.timesheetMetaCode, oi40DBTimesheetMetaInfoExceptionRule.timesheetMetaCode) &&
+        Objects.equals(this.working, oi40DBTimesheetMetaInfoExceptionRule.working);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, description, endPeriod, integrationTs, modifiedTimestamp, removed, startPeriod, timesheetMetaCode, working);
   }
 
 
@@ -185,9 +273,13 @@ public class OI40DBTimesheetMetaInfoExceptionRule {
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    endPeriod: ").append(toIndentedString(endPeriod)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    startPeriod: ").append(toIndentedString(startPeriod)).append("\n");
+    sb.append("    timesheetMetaCode: ").append(toIndentedString(timesheetMetaCode)).append("\n");
+    sb.append("    working: ").append(toIndentedString(working)).append("\n");
     sb.append("}");
     return sb.toString();
   }

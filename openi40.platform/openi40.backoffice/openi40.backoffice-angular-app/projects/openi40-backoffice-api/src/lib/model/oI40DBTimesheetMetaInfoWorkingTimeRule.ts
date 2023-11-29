@@ -9,13 +9,18 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Time } from './time';
 
 
 export interface OI40DBTimesheetMetaInfoWorkingTimeRule { 
     attributesMap?: any;
     code?: string;
+    dayOfWeek?: number;
     description?: string;
+    endTime?: Time;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    startTime?: Time;
+    timesheetMetaCode?: string;
 }

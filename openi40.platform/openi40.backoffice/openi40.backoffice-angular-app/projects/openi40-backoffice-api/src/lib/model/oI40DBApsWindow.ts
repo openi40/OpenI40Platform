@@ -15,7 +15,9 @@ export interface OI40DBApsWindow {
     attributesMap?: any;
     code?: string;
     description?: string;
+    endDateTime?: Date;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    startDateTime?: Date;
 }

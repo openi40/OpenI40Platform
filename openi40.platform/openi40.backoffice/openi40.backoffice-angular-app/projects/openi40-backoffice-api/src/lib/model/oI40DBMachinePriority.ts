@@ -16,6 +16,9 @@ export interface OI40DBMachinePriority {
     code?: string;
     description?: string;
     integrationTs?: Date;
+    machineCode?: string;
     modifiedTimestamp?: Date;
+    operationEquipmentSpecCode?: string;
+    priority?: number;
     removed?: boolean;
 }

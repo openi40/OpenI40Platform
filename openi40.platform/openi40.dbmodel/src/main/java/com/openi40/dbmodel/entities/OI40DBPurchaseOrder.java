@@ -8,6 +8,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -33,6 +35,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "plannedDeliveryDate", column = @Column(name = "pld_del_date")),
 		@AttributeOverride(name = "plantCode", column = @Column(name = "plant_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+@Data
 public class OI40DBPurchaseOrder extends OI40DBBaseEntity implements Serializable {
 	protected String plantCode=null;
 	protected Integer customPriority=null;

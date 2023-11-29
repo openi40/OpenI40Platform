@@ -17,5 +17,11 @@ export interface OI40DBPlantProductSetting {
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
+    produced?: boolean;
+    productCode?: string;
+    productionBySchedulerEnabled?: boolean;
+    purchaseBySchedulerEnabled?: boolean;
+    purchased?: boolean;
     removed?: boolean;
 }

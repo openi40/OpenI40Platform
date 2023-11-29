@@ -31,5 +31,6 @@
 		<module>IOMessages.Processing</module>
 		<module>openi40.backoffice</module>
 		<module>openi40.integration.clients</module>
+		<module>openi40.ha.app</module>
 	</modules>
 </project>

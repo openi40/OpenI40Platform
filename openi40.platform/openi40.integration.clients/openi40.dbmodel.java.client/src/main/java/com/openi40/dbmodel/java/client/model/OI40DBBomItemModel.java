@@ -25,13 +25,19 @@ import java.util.Date;
 /**
  * OI40DBBomItemModel
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBBomItemModel {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
 
   @JsonProperty("code")
   private String code = null;
+
+  @JsonProperty("consumingBatchQty")
+  private Double consumingBatchQty = null;
+
+  @JsonProperty("consumingBatchTransferType")
+  private String consumingBatchTransferType = null;
 
   @JsonProperty("description")
   private String description = null;
@@ -42,8 +48,20 @@ public class OI40DBBomItemModel {
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
 
+  @JsonProperty("operationCode")
+  private String operationCode = null;
+
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("requiredProductCode")
+  private String requiredProductCode = null;
+
+  @JsonProperty("useCoefficient")
+  private Double useCoefficient = null;
+
+  @JsonProperty("warehouseCode")
+  private String warehouseCode = null;
 
   public OI40DBBomItemModel attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -79,6 +97,42 @@ public class OI40DBBomItemModel {
 
   public void setCode(String code) {
     this.code = code;
+  }
+
+  public OI40DBBomItemModel consumingBatchQty(Double consumingBatchQty) {
+    this.consumingBatchQty = consumingBatchQty;
+    return this;
+  }
+
+   /**
+   * Get consumingBatchQty
+   * @return consumingBatchQty
+  **/
+  @ApiModelProperty(value = "")
+  public Double getConsumingBatchQty() {
+    return consumingBatchQty;
+  }
+
+  public void setConsumingBatchQty(Double consumingBatchQty) {
+    this.consumingBatchQty = consumingBatchQty;
+  }
+
+  public OI40DBBomItemModel consumingBatchTransferType(String consumingBatchTransferType) {
+    this.consumingBatchTransferType = consumingBatchTransferType;
+    return this;
+  }
+
+   /**
+   * Get consumingBatchTransferType
+   * @return consumingBatchTransferType
+  **/
+  @ApiModelProperty(value = "")
+  public String getConsumingBatchTransferType() {
+    return consumingBatchTransferType;
+  }
+
+  public void setConsumingBatchTransferType(String consumingBatchTransferType) {
+    this.consumingBatchTransferType = consumingBatchTransferType;
   }
 
   public OI40DBBomItemModel description(String description) {
@@ -135,6 +189,24 @@ public class OI40DBBomItemModel {
     this.modifiedTimestamp = modifiedTimestamp;
   }
 
+  public OI40DBBomItemModel operationCode(String operationCode) {
+    this.operationCode = operationCode;
+    return this;
+  }
+
+   /**
+   * Get operationCode
+   * @return operationCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getOperationCode() {
+    return operationCode;
+  }
+
+  public void setOperationCode(String operationCode) {
+    this.operationCode = operationCode;
+  }
+
   public OI40DBBomItemModel removed(Boolean removed) {
     this.removed = removed;
     return this;
@@ -153,6 +225,60 @@ public class OI40DBBomItemModel {
     this.removed = removed;
   }
 
+  public OI40DBBomItemModel requiredProductCode(String requiredProductCode) {
+    this.requiredProductCode = requiredProductCode;
+    return this;
+  }
+
+   /**
+   * Get requiredProductCode
+   * @return requiredProductCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getRequiredProductCode() {
+    return requiredProductCode;
+  }
+
+  public void setRequiredProductCode(String requiredProductCode) {
+    this.requiredProductCode = requiredProductCode;
+  }
+
+  public OI40DBBomItemModel useCoefficient(Double useCoefficient) {
+    this.useCoefficient = useCoefficient;
+    return this;
+  }
+
+   /**
+   * Get useCoefficient
+   * @return useCoefficient
+  **/
+  @ApiModelProperty(value = "")
+  public Double getUseCoefficient() {
+    return useCoefficient;
+  }
+
+  public void setUseCoefficient(Double useCoefficient) {
+    this.useCoefficient = useCoefficient;
+  }
+
+  public OI40DBBomItemModel warehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+    return this;
+  }
+
+   /**
+   * Get warehouseCode
+   * @return warehouseCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getWarehouseCode() {
+    return warehouseCode;
+  }
+
+  public void setWarehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -165,15 +291,21 @@ public class OI40DBBomItemModel {
     OI40DBBomItemModel oi40DBBomItemModel = (OI40DBBomItemModel) o;
     return Objects.equals(this.attributesMap, oi40DBBomItemModel.attributesMap) &&
         Objects.equals(this.code, oi40DBBomItemModel.code) &&
+        Objects.equals(this.consumingBatchQty, oi40DBBomItemModel.consumingBatchQty) &&
+        Objects.equals(this.consumingBatchTransferType, oi40DBBomItemModel.consumingBatchTransferType) &&
         Objects.equals(this.description, oi40DBBomItemModel.description) &&
         Objects.equals(this.integrationTs, oi40DBBomItemModel.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBBomItemModel.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBBomItemModel.removed);
+        Objects.equals(this.operationCode, oi40DBBomItemModel.operationCode) &&
+        Objects.equals(this.removed, oi40DBBomItemModel.removed) &&
+        Objects.equals(this.requiredProductCode, oi40DBBomItemModel.requiredProductCode) &&
+        Objects.equals(this.useCoefficient, oi40DBBomItemModel.useCoefficient) &&
+        Objects.equals(this.warehouseCode, oi40DBBomItemModel.warehouseCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, consumingBatchQty, consumingBatchTransferType, description, integrationTs, modifiedTimestamp, operationCode, removed, requiredProductCode, useCoefficient, warehouseCode);
   }
 
 
@@ -184,10 +316,16 @@ public class OI40DBBomItemModel {
     
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    consumingBatchQty: ").append(toIndentedString(consumingBatchQty)).append("\n");
+    sb.append("    consumingBatchTransferType: ").append(toIndentedString(consumingBatchTransferType)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    operationCode: ").append(toIndentedString(operationCode)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    requiredProductCode: ").append(toIndentedString(requiredProductCode)).append("\n");
+    sb.append("    useCoefficient: ").append(toIndentedString(useCoefficient)).append("\n");
+    sb.append("    warehouseCode: ").append(toIndentedString(warehouseCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

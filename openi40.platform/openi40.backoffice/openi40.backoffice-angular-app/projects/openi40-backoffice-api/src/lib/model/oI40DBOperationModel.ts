@@ -14,8 +14,15 @@
 export interface OI40DBOperationModel { 
     attributesMap?: any;
     code?: string;
+    consumingBatchQty?: number;
+    consumingBatchTransferType?: string;
+    cycleCode?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
+    producingBatchQty?: number;
+    producingBatchTransferType?: string;
     removed?: boolean;
+    sequenceCode?: string;
 }

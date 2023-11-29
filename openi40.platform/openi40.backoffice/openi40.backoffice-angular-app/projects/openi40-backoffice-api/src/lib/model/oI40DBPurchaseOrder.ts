@@ -12,10 +12,18 @@
 
 
 export interface OI40DBPurchaseOrder { 
+    askedDeliveryDate?: Date;
     attributesMap?: any;
     code?: string;
+    customPriority?: number;
+    departmentCode?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    orderStatus?: string;
+    orderType?: string;
+    partner?: string;
+    plannedDeliveryDate?: Date;
+    plantCode?: string;
     removed?: boolean;
 }

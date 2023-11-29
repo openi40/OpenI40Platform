@@ -17,5 +17,6 @@ export interface OI40DBDepartment {
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
     removed?: boolean;
 }

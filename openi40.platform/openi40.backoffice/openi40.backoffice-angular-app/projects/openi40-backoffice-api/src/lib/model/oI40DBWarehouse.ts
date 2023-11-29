@@ -15,7 +15,10 @@ export interface OI40DBWarehouse {
     attributesMap?: any;
     code?: string;
     description?: string;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
     removed?: boolean;
+    timesheetMetaInfoCode?: string;
 }

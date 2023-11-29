@@ -14,8 +14,21 @@
 export interface OI40DBWorkOrder { 
     attributesMap?: any;
     code?: string;
+    color?: string;
+    cycleCode?: string;
+    deliveryDate?: Date;
     description?: string;
+    endExecutionDate?: Date;
+    idx?: number;
     integrationTs?: Date;
+    maxProductionDateConstraint?: Date;
+    minProductionDateConstraint?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
+    productCode?: string;
     removed?: boolean;
+    rootSalesOrderWorkOrder?: boolean;
+    salesOrderLineCode?: string;
+    startExecutionDate?: Date;
+    totalQty?: number;
 }

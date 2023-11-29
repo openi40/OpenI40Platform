@@ -8,7 +8,10 @@ Name | Type | Description | Notes
 **code** | **String** |  |  [optional]
 **description** | **String** |  |  [optional]
 **integrationTs** | [**Date**](Date.md) |  |  [optional]
+**machineCode** | **String** |  |  [optional]
 **modifiedTimestamp** | [**Date**](Date.md) |  |  [optional]
+**operationEquipmentSpecCode** | **String** |  |  [optional]
+**priority** | **Integer** |  |  [optional]
 **removed** | **Boolean** |  |  [optional]
 
 

@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBChangeOverMatrixItem
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBChangeOverMatrixItem {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;

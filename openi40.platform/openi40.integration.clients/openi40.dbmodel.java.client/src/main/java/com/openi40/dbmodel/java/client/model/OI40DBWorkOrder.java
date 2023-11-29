@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBWorkOrder
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBWorkOrder {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
@@ -33,17 +33,56 @@ public class OI40DBWorkOrder {
   @JsonProperty("code")
   private String code = null;
 
+  @JsonProperty("color")
+  private String color = null;
+
+  @JsonProperty("cycleCode")
+  private String cycleCode = null;
+
+  @JsonProperty("deliveryDate")
+  private Date deliveryDate = null;
+
   @JsonProperty("description")
   private String description = null;
+
+  @JsonProperty("endExecutionDate")
+  private Date endExecutionDate = null;
+
+  @JsonProperty("idx")
+  private Integer idx = null;
 
   @JsonProperty("integrationTs")
   private Date integrationTs = null;
 
+  @JsonProperty("maxProductionDateConstraint")
+  private Date maxProductionDateConstraint = null;
+
+  @JsonProperty("minProductionDateConstraint")
+  private Date minProductionDateConstraint = null;
+
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
 
+  @JsonProperty("plantCode")
+  private String plantCode = null;
+
+  @JsonProperty("productCode")
+  private String productCode = null;
+
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("rootSalesOrderWorkOrder")
+  private Boolean rootSalesOrderWorkOrder = null;
+
+  @JsonProperty("salesOrderLineCode")
+  private String salesOrderLineCode = null;
+
+  @JsonProperty("startExecutionDate")
+  private Date startExecutionDate = null;
+
+  @JsonProperty("totalQty")
+  private Double totalQty = null;
 
   public OI40DBWorkOrder attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -81,6 +120,60 @@ public class OI40DBWorkOrder {
     this.code = code;
   }
 
+  public OI40DBWorkOrder color(String color) {
+    this.color = color;
+    return this;
+  }
+
+   /**
+   * Get color
+   * @return color
+  **/
+  @ApiModelProperty(value = "")
+  public String getColor() {
+    return color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
+
+  public OI40DBWorkOrder cycleCode(String cycleCode) {
+    this.cycleCode = cycleCode;
+    return this;
+  }
+
+   /**
+   * Get cycleCode
+   * @return cycleCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getCycleCode() {
+    return cycleCode;
+  }
+
+  public void setCycleCode(String cycleCode) {
+    this.cycleCode = cycleCode;
+  }
+
+  public OI40DBWorkOrder deliveryDate(Date deliveryDate) {
+    this.deliveryDate = deliveryDate;
+    return this;
+  }
+
+   /**
+   * Get deliveryDate
+   * @return deliveryDate
+  **/
+  @ApiModelProperty(value = "")
+  public Date getDeliveryDate() {
+    return deliveryDate;
+  }
+
+  public void setDeliveryDate(Date deliveryDate) {
+    this.deliveryDate = deliveryDate;
+  }
+
   public OI40DBWorkOrder description(String description) {
     this.description = description;
     return this;
@@ -97,6 +190,42 @@ public class OI40DBWorkOrder {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public OI40DBWorkOrder endExecutionDate(Date endExecutionDate) {
+    this.endExecutionDate = endExecutionDate;
+    return this;
+  }
+
+   /**
+   * Get endExecutionDate
+   * @return endExecutionDate
+  **/
+  @ApiModelProperty(value = "")
+  public Date getEndExecutionDate() {
+    return endExecutionDate;
+  }
+
+  public void setEndExecutionDate(Date endExecutionDate) {
+    this.endExecutionDate = endExecutionDate;
+  }
+
+  public OI40DBWorkOrder idx(Integer idx) {
+    this.idx = idx;
+    return this;
+  }
+
+   /**
+   * Get idx
+   * @return idx
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getIdx() {
+    return idx;
+  }
+
+  public void setIdx(Integer idx) {
+    this.idx = idx;
   }
 
   public OI40DBWorkOrder integrationTs(Date integrationTs) {
@@ -117,6 +246,42 @@ public class OI40DBWorkOrder {
     this.integrationTs = integrationTs;
   }
 
+  public OI40DBWorkOrder maxProductionDateConstraint(Date maxProductionDateConstraint) {
+    this.maxProductionDateConstraint = maxProductionDateConstraint;
+    return this;
+  }
+
+   /**
+   * Get maxProductionDateConstraint
+   * @return maxProductionDateConstraint
+  **/
+  @ApiModelProperty(value = "")
+  public Date getMaxProductionDateConstraint() {
+    return maxProductionDateConstraint;
+  }
+
+  public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+    this.maxProductionDateConstraint = maxProductionDateConstraint;
+  }
+
+  public OI40DBWorkOrder minProductionDateConstraint(Date minProductionDateConstraint) {
+    this.minProductionDateConstraint = minProductionDateConstraint;
+    return this;
+  }
+
+   /**
+   * Get minProductionDateConstraint
+   * @return minProductionDateConstraint
+  **/
+  @ApiModelProperty(value = "")
+  public Date getMinProductionDateConstraint() {
+    return minProductionDateConstraint;
+  }
+
+  public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+    this.minProductionDateConstraint = minProductionDateConstraint;
+  }
+
   public OI40DBWorkOrder modifiedTimestamp(Date modifiedTimestamp) {
     this.modifiedTimestamp = modifiedTimestamp;
     return this;
@@ -133,6 +298,42 @@ public class OI40DBWorkOrder {
 
   public void setModifiedTimestamp(Date modifiedTimestamp) {
     this.modifiedTimestamp = modifiedTimestamp;
+  }
+
+  public OI40DBWorkOrder plantCode(String plantCode) {
+    this.plantCode = plantCode;
+    return this;
+  }
+
+   /**
+   * Get plantCode
+   * @return plantCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getPlantCode() {
+    return plantCode;
+  }
+
+  public void setPlantCode(String plantCode) {
+    this.plantCode = plantCode;
+  }
+
+  public OI40DBWorkOrder productCode(String productCode) {
+    this.productCode = productCode;
+    return this;
+  }
+
+   /**
+   * Get productCode
+   * @return productCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getProductCode() {
+    return productCode;
+  }
+
+  public void setProductCode(String productCode) {
+    this.productCode = productCode;
   }
 
   public OI40DBWorkOrder removed(Boolean removed) {
@@ -153,6 +354,78 @@ public class OI40DBWorkOrder {
     this.removed = removed;
   }
 
+  public OI40DBWorkOrder rootSalesOrderWorkOrder(Boolean rootSalesOrderWorkOrder) {
+    this.rootSalesOrderWorkOrder = rootSalesOrderWorkOrder;
+    return this;
+  }
+
+   /**
+   * Get rootSalesOrderWorkOrder
+   * @return rootSalesOrderWorkOrder
+  **/
+  @ApiModelProperty(value = "")
+  public Boolean isRootSalesOrderWorkOrder() {
+    return rootSalesOrderWorkOrder;
+  }
+
+  public void setRootSalesOrderWorkOrder(Boolean rootSalesOrderWorkOrder) {
+    this.rootSalesOrderWorkOrder = rootSalesOrderWorkOrder;
+  }
+
+  public OI40DBWorkOrder salesOrderLineCode(String salesOrderLineCode) {
+    this.salesOrderLineCode = salesOrderLineCode;
+    return this;
+  }
+
+   /**
+   * Get salesOrderLineCode
+   * @return salesOrderLineCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getSalesOrderLineCode() {
+    return salesOrderLineCode;
+  }
+
+  public void setSalesOrderLineCode(String salesOrderLineCode) {
+    this.salesOrderLineCode = salesOrderLineCode;
+  }
+
+  public OI40DBWorkOrder startExecutionDate(Date startExecutionDate) {
+    this.startExecutionDate = startExecutionDate;
+    return this;
+  }
+
+   /**
+   * Get startExecutionDate
+   * @return startExecutionDate
+  **/
+  @ApiModelProperty(value = "")
+  public Date getStartExecutionDate() {
+    return startExecutionDate;
+  }
+
+  public void setStartExecutionDate(Date startExecutionDate) {
+    this.startExecutionDate = startExecutionDate;
+  }
+
+  public OI40DBWorkOrder totalQty(Double totalQty) {
+    this.totalQty = totalQty;
+    return this;
+  }
+
+   /**
+   * Get totalQty
+   * @return totalQty
+  **/
+  @ApiModelProperty(value = "")
+  public Double getTotalQty() {
+    return totalQty;
+  }
+
+  public void setTotalQty(Double totalQty) {
+    this.totalQty = totalQty;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -165,15 +438,28 @@ public class OI40DBWorkOrder {
     OI40DBWorkOrder oi40DBWorkOrder = (OI40DBWorkOrder) o;
     return Objects.equals(this.attributesMap, oi40DBWorkOrder.attributesMap) &&
         Objects.equals(this.code, oi40DBWorkOrder.code) &&
+        Objects.equals(this.color, oi40DBWorkOrder.color) &&
+        Objects.equals(this.cycleCode, oi40DBWorkOrder.cycleCode) &&
+        Objects.equals(this.deliveryDate, oi40DBWorkOrder.deliveryDate) &&
         Objects.equals(this.description, oi40DBWorkOrder.description) &&
+        Objects.equals(this.endExecutionDate, oi40DBWorkOrder.endExecutionDate) &&
+        Objects.equals(this.idx, oi40DBWorkOrder.idx) &&
         Objects.equals(this.integrationTs, oi40DBWorkOrder.integrationTs) &&
+        Objects.equals(this.maxProductionDateConstraint, oi40DBWorkOrder.maxProductionDateConstraint) &&
+        Objects.equals(this.minProductionDateConstraint, oi40DBWorkOrder.minProductionDateConstraint) &&
         Objects.equals(this.modifiedTimestamp, oi40DBWorkOrder.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBWorkOrder.removed);
+        Objects.equals(this.plantCode, oi40DBWorkOrder.plantCode) &&
+        Objects.equals(this.productCode, oi40DBWorkOrder.productCode) &&
+        Objects.equals(this.removed, oi40DBWorkOrder.removed) &&
+        Objects.equals(this.rootSalesOrderWorkOrder, oi40DBWorkOrder.rootSalesOrderWorkOrder) &&
+        Objects.equals(this.salesOrderLineCode, oi40DBWorkOrder.salesOrderLineCode) &&
+        Objects.equals(this.startExecutionDate, oi40DBWorkOrder.startExecutionDate) &&
+        Objects.equals(this.totalQty, oi40DBWorkOrder.totalQty);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, color, cycleCode, deliveryDate, description, endExecutionDate, idx, integrationTs, maxProductionDateConstraint, minProductionDateConstraint, modifiedTimestamp, plantCode, productCode, removed, rootSalesOrderWorkOrder, salesOrderLineCode, startExecutionDate, totalQty);
   }
 
 
@@ -184,10 +470,23 @@ public class OI40DBWorkOrder {
     
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    color: ").append(toIndentedString(color)).append("\n");
+    sb.append("    cycleCode: ").append(toIndentedString(cycleCode)).append("\n");
+    sb.append("    deliveryDate: ").append(toIndentedString(deliveryDate)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    endExecutionDate: ").append(toIndentedString(endExecutionDate)).append("\n");
+    sb.append("    idx: ").append(toIndentedString(idx)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
+    sb.append("    maxProductionDateConstraint: ").append(toIndentedString(maxProductionDateConstraint)).append("\n");
+    sb.append("    minProductionDateConstraint: ").append(toIndentedString(minProductionDateConstraint)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    plantCode: ").append(toIndentedString(plantCode)).append("\n");
+    sb.append("    productCode: ").append(toIndentedString(productCode)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    rootSalesOrderWorkOrder: ").append(toIndentedString(rootSalesOrderWorkOrder)).append("\n");
+    sb.append("    salesOrderLineCode: ").append(toIndentedString(salesOrderLineCode)).append("\n");
+    sb.append("    startExecutionDate: ").append(toIndentedString(startExecutionDate)).append("\n");
+    sb.append("    totalQty: ").append(toIndentedString(totalQty)).append("\n");
     sb.append("}");
     return sb.toString();
   }

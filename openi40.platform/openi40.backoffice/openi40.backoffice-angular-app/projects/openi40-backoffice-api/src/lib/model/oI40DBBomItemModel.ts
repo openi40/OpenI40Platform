@@ -14,8 +14,14 @@
 export interface OI40DBBomItemModel { 
     attributesMap?: any;
     code?: string;
+    consumingBatchQty?: number;
+    consumingBatchTransferType?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    operationCode?: string;
     removed?: boolean;
+    requiredProductCode?: string;
+    useCoefficient?: number;
+    warehouseCode?: string;
 }

@@ -12,10 +12,13 @@
 
 
 export interface OI40DBScheduledWorkOrder { 
+    apsSchedulingSetCode?: string;
     attributesMap?: any;
     code?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    position?: number;
     removed?: boolean;
+    workOrderCode?: string;
 }

@@ -8,6 +8,8 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -38,6 +40,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
 		@AttributeOverride(name="minProductionDateConstraint",column=@Column(name="min_prd_date")),
 		@AttributeOverride(name="maxProductionDateConstraint",column=@Column(name="max_prd_date"))})
+@Data
 public class OI40DBWorkOrder extends OI40DBBaseEntity implements Serializable {
 	private String salesOrderLineCode = null;
 	private Date startExecutionDate = null;

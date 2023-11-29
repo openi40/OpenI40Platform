@@ -12,10 +12,34 @@
 
 
 export interface OI40DBTask { 
+    askedDeliveryDateTime?: Date;
     attributesMap?: any;
     code?: string;
+    customPriority?: number;
+    cycleCode?: string;
     description?: string;
+    endExecution?: Date;
+    endPreparation?: Date;
+    equipmentSpecCode?: string;
+    forcedMachineCode?: string;
     integrationTs?: Date;
+    maxProductionDateConstraint?: string;
+    minProductionDateConstraint?: string;
     modifiedTimestamp?: Date;
+    operationCode?: string;
+    predefinedMachineCode?: string;
+    qtyProduced?: number;
+    qtyTotal?: number;
     removed?: boolean;
+    salesOrderLineCode?: string;
+    scheduledMachineCode?: string;
+    sequenceCode?: string;
+    setupGroupCode?: string;
+    setupTime?: number;
+    startExecution?: Date;
+    startPreparation?: Date;
+    successfullyScheduled?: boolean;
+    workCenterCode?: string;
+    workOrderRootTask?: boolean;
+    workTime?: number;
 }

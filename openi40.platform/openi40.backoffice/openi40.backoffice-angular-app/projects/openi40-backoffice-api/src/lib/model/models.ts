@@ -126,3 +126,4 @@ export * from './qbeSupportOI40DBWarehouseProductSetting';
 export * from './qbeSupportOI40DBWorkCenter';
 export * from './qbeSupportOI40DBWorkOrder';
 export * from './sort';
+export * from './time';

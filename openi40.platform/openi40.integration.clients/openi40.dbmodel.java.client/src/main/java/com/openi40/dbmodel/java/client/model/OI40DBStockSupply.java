@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBStockSupply
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBStockSupply {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
@@ -36,14 +36,26 @@ public class OI40DBStockSupply {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("infiniteCapacity")
+  private Boolean infiniteCapacity = null;
+
   @JsonProperty("integrationTs")
   private Date integrationTs = null;
 
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
 
+  @JsonProperty("physicalStockQuantity")
+  private Double physicalStockQuantity = null;
+
+  @JsonProperty("productCode")
+  private String productCode = null;
+
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("warehouseCode")
+  private String warehouseCode = null;
 
   public OI40DBStockSupply attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -99,6 +111,24 @@ public class OI40DBStockSupply {
     this.description = description;
   }
 
+  public OI40DBStockSupply infiniteCapacity(Boolean infiniteCapacity) {
+    this.infiniteCapacity = infiniteCapacity;
+    return this;
+  }
+
+   /**
+   * Get infiniteCapacity
+   * @return infiniteCapacity
+  **/
+  @ApiModelProperty(value = "")
+  public Boolean isInfiniteCapacity() {
+    return infiniteCapacity;
+  }
+
+  public void setInfiniteCapacity(Boolean infiniteCapacity) {
+    this.infiniteCapacity = infiniteCapacity;
+  }
+
   public OI40DBStockSupply integrationTs(Date integrationTs) {
     this.integrationTs = integrationTs;
     return this;
@@ -135,6 +165,42 @@ public class OI40DBStockSupply {
     this.modifiedTimestamp = modifiedTimestamp;
   }
 
+  public OI40DBStockSupply physicalStockQuantity(Double physicalStockQuantity) {
+    this.physicalStockQuantity = physicalStockQuantity;
+    return this;
+  }
+
+   /**
+   * Get physicalStockQuantity
+   * @return physicalStockQuantity
+  **/
+  @ApiModelProperty(value = "")
+  public Double getPhysicalStockQuantity() {
+    return physicalStockQuantity;
+  }
+
+  public void setPhysicalStockQuantity(Double physicalStockQuantity) {
+    this.physicalStockQuantity = physicalStockQuantity;
+  }
+
+  public OI40DBStockSupply productCode(String productCode) {
+    this.productCode = productCode;
+    return this;
+  }
+
+   /**
+   * Get productCode
+   * @return productCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getProductCode() {
+    return productCode;
+  }
+
+  public void setProductCode(String productCode) {
+    this.productCode = productCode;
+  }
+
   public OI40DBStockSupply removed(Boolean removed) {
     this.removed = removed;
     return this;
@@ -153,6 +219,24 @@ public class OI40DBStockSupply {
     this.removed = removed;
   }
 
+  public OI40DBStockSupply warehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+    return this;
+  }
+
+   /**
+   * Get warehouseCode
+   * @return warehouseCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getWarehouseCode() {
+    return warehouseCode;
+  }
+
+  public void setWarehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -166,14 +250,18 @@ public class OI40DBStockSupply {
     return Objects.equals(this.attributesMap, oi40DBStockSupply.attributesMap) &&
         Objects.equals(this.code, oi40DBStockSupply.code) &&
         Objects.equals(this.description, oi40DBStockSupply.description) &&
+        Objects.equals(this.infiniteCapacity, oi40DBStockSupply.infiniteCapacity) &&
         Objects.equals(this.integrationTs, oi40DBStockSupply.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBStockSupply.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBStockSupply.removed);
+        Objects.equals(this.physicalStockQuantity, oi40DBStockSupply.physicalStockQuantity) &&
+        Objects.equals(this.productCode, oi40DBStockSupply.productCode) &&
+        Objects.equals(this.removed, oi40DBStockSupply.removed) &&
+        Objects.equals(this.warehouseCode, oi40DBStockSupply.warehouseCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, description, infiniteCapacity, integrationTs, modifiedTimestamp, physicalStockQuantity, productCode, removed, warehouseCode);
   }
 
 
@@ -185,9 +273,13 @@ public class OI40DBStockSupply {
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    infiniteCapacity: ").append(toIndentedString(infiniteCapacity)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    physicalStockQuantity: ").append(toIndentedString(physicalStockQuantity)).append("\n");
+    sb.append("    productCode: ").append(toIndentedString(productCode)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    warehouseCode: ").append(toIndentedString(warehouseCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -25,13 +25,16 @@ import java.util.Date;
 /**
  * OI40DBCycleModel
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBCycleModel {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
 
   @JsonProperty("code")
   private String code = null;
+
+  @JsonProperty("defaultProductCycle")
+  private Boolean defaultProductCycle = null;
 
   @JsonProperty("description")
   private String description = null;
@@ -42,8 +45,17 @@ public class OI40DBCycleModel {
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
 
+  @JsonProperty("plantCode")
+  private String plantCode = null;
+
+  @JsonProperty("productCode")
+  private String productCode = null;
+
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("warehouseCode")
+  private String warehouseCode = null;
 
   public OI40DBCycleModel attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -79,6 +91,24 @@ public class OI40DBCycleModel {
 
   public void setCode(String code) {
     this.code = code;
+  }
+
+  public OI40DBCycleModel defaultProductCycle(Boolean defaultProductCycle) {
+    this.defaultProductCycle = defaultProductCycle;
+    return this;
+  }
+
+   /**
+   * Get defaultProductCycle
+   * @return defaultProductCycle
+  **/
+  @ApiModelProperty(value = "")
+  public Boolean isDefaultProductCycle() {
+    return defaultProductCycle;
+  }
+
+  public void setDefaultProductCycle(Boolean defaultProductCycle) {
+    this.defaultProductCycle = defaultProductCycle;
   }
 
   public OI40DBCycleModel description(String description) {
@@ -135,6 +165,42 @@ public class OI40DBCycleModel {
     this.modifiedTimestamp = modifiedTimestamp;
   }
 
+  public OI40DBCycleModel plantCode(String plantCode) {
+    this.plantCode = plantCode;
+    return this;
+  }
+
+   /**
+   * Get plantCode
+   * @return plantCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getPlantCode() {
+    return plantCode;
+  }
+
+  public void setPlantCode(String plantCode) {
+    this.plantCode = plantCode;
+  }
+
+  public OI40DBCycleModel productCode(String productCode) {
+    this.productCode = productCode;
+    return this;
+  }
+
+   /**
+   * Get productCode
+   * @return productCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getProductCode() {
+    return productCode;
+  }
+
+  public void setProductCode(String productCode) {
+    this.productCode = productCode;
+  }
+
   public OI40DBCycleModel removed(Boolean removed) {
     this.removed = removed;
     return this;
@@ -153,6 +219,24 @@ public class OI40DBCycleModel {
     this.removed = removed;
   }
 
+  public OI40DBCycleModel warehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+    return this;
+  }
+
+   /**
+   * Get warehouseCode
+   * @return warehouseCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getWarehouseCode() {
+    return warehouseCode;
+  }
+
+  public void setWarehouseCode(String warehouseCode) {
+    this.warehouseCode = warehouseCode;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -165,15 +249,19 @@ public class OI40DBCycleModel {
     OI40DBCycleModel oi40DBCycleModel = (OI40DBCycleModel) o;
     return Objects.equals(this.attributesMap, oi40DBCycleModel.attributesMap) &&
         Objects.equals(this.code, oi40DBCycleModel.code) &&
+        Objects.equals(this.defaultProductCycle, oi40DBCycleModel.defaultProductCycle) &&
         Objects.equals(this.description, oi40DBCycleModel.description) &&
         Objects.equals(this.integrationTs, oi40DBCycleModel.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBCycleModel.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBCycleModel.removed);
+        Objects.equals(this.plantCode, oi40DBCycleModel.plantCode) &&
+        Objects.equals(this.productCode, oi40DBCycleModel.productCode) &&
+        Objects.equals(this.removed, oi40DBCycleModel.removed) &&
+        Objects.equals(this.warehouseCode, oi40DBCycleModel.warehouseCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, defaultProductCycle, description, integrationTs, modifiedTimestamp, plantCode, productCode, removed, warehouseCode);
   }
 
 
@@ -184,10 +272,14 @@ public class OI40DBCycleModel {
     
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    defaultProductCycle: ").append(toIndentedString(defaultProductCycle)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    plantCode: ").append(toIndentedString(plantCode)).append("\n");
+    sb.append("    productCode: ").append(toIndentedString(productCode)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    warehouseCode: ").append(toIndentedString(warehouseCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

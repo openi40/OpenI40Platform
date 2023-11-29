@@ -12,10 +12,14 @@
 
 
 export interface OI40DBApsSchedulingSet { 
+    algorithmDirection?: string;
+    algorithmType?: string;
     attributesMap?: any;
     code?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    options?: string;
+    position?: number;
     removed?: boolean;
 }

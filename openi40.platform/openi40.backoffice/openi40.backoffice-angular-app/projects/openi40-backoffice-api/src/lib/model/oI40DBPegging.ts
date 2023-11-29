@@ -14,8 +14,13 @@
 export interface OI40DBPegging { 
     attributesMap?: any;
     code?: string;
+    consumerTaskCode?: string;
+    consumerWorkOrderCode?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    peggingQty?: number;
+    producerTaskCode?: string;
+    producerWorkOrderCode?: string;
     removed?: boolean;
 }

@@ -25,8 +25,11 @@ import java.util.Date;
 /**
  * OI40DBScheduledWorkOrder
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBScheduledWorkOrder {
+  @JsonProperty("apsSchedulingSetCode")
+  private String apsSchedulingSetCode = null;
+
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
 
@@ -42,8 +45,32 @@ public class OI40DBScheduledWorkOrder {
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
 
+  @JsonProperty("position")
+  private Integer position = null;
+
   @JsonProperty("removed")
   private Boolean removed = null;
+
+  @JsonProperty("workOrderCode")
+  private String workOrderCode = null;
+
+  public OI40DBScheduledWorkOrder apsSchedulingSetCode(String apsSchedulingSetCode) {
+    this.apsSchedulingSetCode = apsSchedulingSetCode;
+    return this;
+  }
+
+   /**
+   * Get apsSchedulingSetCode
+   * @return apsSchedulingSetCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getApsSchedulingSetCode() {
+    return apsSchedulingSetCode;
+  }
+
+  public void setApsSchedulingSetCode(String apsSchedulingSetCode) {
+    this.apsSchedulingSetCode = apsSchedulingSetCode;
+  }
 
   public OI40DBScheduledWorkOrder attributesMap(Object attributesMap) {
     this.attributesMap = attributesMap;
@@ -135,6 +162,24 @@ public class OI40DBScheduledWorkOrder {
     this.modifiedTimestamp = modifiedTimestamp;
   }
 
+  public OI40DBScheduledWorkOrder position(Integer position) {
+    this.position = position;
+    return this;
+  }
+
+   /**
+   * Get position
+   * @return position
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getPosition() {
+    return position;
+  }
+
+  public void setPosition(Integer position) {
+    this.position = position;
+  }
+
   public OI40DBScheduledWorkOrder removed(Boolean removed) {
     this.removed = removed;
     return this;
@@ -153,6 +198,24 @@ public class OI40DBScheduledWorkOrder {
     this.removed = removed;
   }
 
+  public OI40DBScheduledWorkOrder workOrderCode(String workOrderCode) {
+    this.workOrderCode = workOrderCode;
+    return this;
+  }
+
+   /**
+   * Get workOrderCode
+   * @return workOrderCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getWorkOrderCode() {
+    return workOrderCode;
+  }
+
+  public void setWorkOrderCode(String workOrderCode) {
+    this.workOrderCode = workOrderCode;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -163,17 +226,20 @@ public class OI40DBScheduledWorkOrder {
       return false;
     }
     OI40DBScheduledWorkOrder oi40DBScheduledWorkOrder = (OI40DBScheduledWorkOrder) o;
-    return Objects.equals(this.attributesMap, oi40DBScheduledWorkOrder.attributesMap) &&
+    return Objects.equals(this.apsSchedulingSetCode, oi40DBScheduledWorkOrder.apsSchedulingSetCode) &&
+        Objects.equals(this.attributesMap, oi40DBScheduledWorkOrder.attributesMap) &&
         Objects.equals(this.code, oi40DBScheduledWorkOrder.code) &&
         Objects.equals(this.description, oi40DBScheduledWorkOrder.description) &&
         Objects.equals(this.integrationTs, oi40DBScheduledWorkOrder.integrationTs) &&
         Objects.equals(this.modifiedTimestamp, oi40DBScheduledWorkOrder.modifiedTimestamp) &&
-        Objects.equals(this.removed, oi40DBScheduledWorkOrder.removed);
+        Objects.equals(this.position, oi40DBScheduledWorkOrder.position) &&
+        Objects.equals(this.removed, oi40DBScheduledWorkOrder.removed) &&
+        Objects.equals(this.workOrderCode, oi40DBScheduledWorkOrder.workOrderCode);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(apsSchedulingSetCode, attributesMap, code, description, integrationTs, modifiedTimestamp, position, removed, workOrderCode);
   }
 
 
@@ -182,12 +248,15 @@ public class OI40DBScheduledWorkOrder {
     StringBuilder sb = new StringBuilder();
     sb.append("class OI40DBScheduledWorkOrder {\n");
     
+    sb.append("    apsSchedulingSetCode: ").append(toIndentedString(apsSchedulingSetCode)).append("\n");
     sb.append("    attributesMap: ").append(toIndentedString(attributesMap)).append("\n");
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
+    sb.append("    workOrderCode: ").append(toIndentedString(workOrderCode)).append("\n");
     sb.append("}");
     return sb.toString();
   }

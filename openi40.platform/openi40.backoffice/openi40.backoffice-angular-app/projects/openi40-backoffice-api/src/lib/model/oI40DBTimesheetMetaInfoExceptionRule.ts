@@ -15,7 +15,11 @@ export interface OI40DBTimesheetMetaInfoExceptionRule {
     attributesMap?: any;
     code?: string;
     description?: string;
+    endPeriod?: Date;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    startPeriod?: Date;
+    timesheetMetaCode?: string;
+    working?: boolean;
 }

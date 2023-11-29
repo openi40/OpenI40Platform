@@ -13,9 +13,21 @@
 
 export interface OI40DBWarehouseProductSetting { 
     attributesMap?: any;
+    averageMinPurchaseQty?: number;
+    averageProductionDays?: number;
+    averageleadTimeDays?: number;
     code?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    produceAccordingToReorderLevel?: boolean;
+    produced?: boolean;
+    productCode?: string;
+    productionBySchedulerEnabled?: boolean;
+    purchaseAccordingToReorderLevel?: boolean;
+    purchaseBySchedulerEnabled?: boolean;
+    purchased?: boolean;
     removed?: boolean;
+    securityStock?: number;
+    warehouseCode?: string;
 }

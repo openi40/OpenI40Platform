@@ -15,7 +15,11 @@ export interface OI40DBStockSupply {
     attributesMap?: any;
     code?: string;
     description?: string;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    physicalStockQuantity?: number;
+    productCode?: string;
     removed?: boolean;
+    warehouseCode?: string;
 }

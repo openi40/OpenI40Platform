@@ -13,9 +13,20 @@
 
 export interface OI40DBTaskStockMaterialReservation { 
     attributesMap?: any;
+    batchQty?: number;
     code?: string;
     description?: string;
+    endTransfer?: Date;
     integrationTs?: Date;
+    machineCode?: string;
     modifiedTimestamp?: Date;
+    nrTransfers?: number;
+    productCode?: string;
+    qtyReserved?: number;
     removed?: boolean;
+    startTransfer?: Date;
+    taskCode?: string;
+    transferType?: string;
+    warehouseCode?: string;
+    workCenterCode?: string;
 }

@@ -17,5 +17,10 @@ export interface OI40DBCoProductItem {
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    operationCode?: string;
+    plantCode?: string;
+    producedQty?: number;
+    productCode?: string;
     removed?: boolean;
+    warehouseCode?: string;
 }

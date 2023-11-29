@@ -15,7 +15,10 @@ export interface OI40DBPlant {
     attributesMap?: any;
     code?: string;
     description?: string;
+    infiniteCapacity?: boolean;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    productiveCompanyCode?: string;
     removed?: boolean;
+    timesheetMetaInfoCode?: string;
 }

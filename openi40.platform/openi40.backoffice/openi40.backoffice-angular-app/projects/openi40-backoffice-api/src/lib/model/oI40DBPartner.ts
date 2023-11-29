@@ -12,10 +12,18 @@
 
 
 export interface OI40DBPartner { 
+    address?: string;
     attributesMap?: any;
+    city?: string;
     code?: string;
+    companyName?: string;
+    country?: string;
+    customer?: boolean;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    provincia?: string;
     removed?: boolean;
+    supplier?: boolean;
+    zipCode?: string;
 }

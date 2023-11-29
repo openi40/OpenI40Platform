@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBMachinePriority
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-10T15:05:07.942+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBMachinePriority {
   @JsonProperty("attributesMap")
   private Object attributesMap = null;
@@ -39,8 +39,17 @@ public class OI40DBMachinePriority {
   @JsonProperty("integrationTs")
   private Date integrationTs = null;
 
+  @JsonProperty("machineCode")
+  private String machineCode = null;
+
   @JsonProperty("modifiedTimestamp")
   private Date modifiedTimestamp = null;
+
+  @JsonProperty("operationEquipmentSpecCode")
+  private String operationEquipmentSpecCode = null;
+
+  @JsonProperty("priority")
+  private Integer priority = null;
 
   @JsonProperty("removed")
   private Boolean removed = null;
@@ -117,6 +126,24 @@ public class OI40DBMachinePriority {
     this.integrationTs = integrationTs;
   }
 
+  public OI40DBMachinePriority machineCode(String machineCode) {
+    this.machineCode = machineCode;
+    return this;
+  }
+
+   /**
+   * Get machineCode
+   * @return machineCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getMachineCode() {
+    return machineCode;
+  }
+
+  public void setMachineCode(String machineCode) {
+    this.machineCode = machineCode;
+  }
+
   public OI40DBMachinePriority modifiedTimestamp(Date modifiedTimestamp) {
     this.modifiedTimestamp = modifiedTimestamp;
     return this;
@@ -133,6 +160,42 @@ public class OI40DBMachinePriority {
 
   public void setModifiedTimestamp(Date modifiedTimestamp) {
     this.modifiedTimestamp = modifiedTimestamp;
+  }
+
+  public OI40DBMachinePriority operationEquipmentSpecCode(String operationEquipmentSpecCode) {
+    this.operationEquipmentSpecCode = operationEquipmentSpecCode;
+    return this;
+  }
+
+   /**
+   * Get operationEquipmentSpecCode
+   * @return operationEquipmentSpecCode
+  **/
+  @ApiModelProperty(value = "")
+  public String getOperationEquipmentSpecCode() {
+    return operationEquipmentSpecCode;
+  }
+
+  public void setOperationEquipmentSpecCode(String operationEquipmentSpecCode) {
+    this.operationEquipmentSpecCode = operationEquipmentSpecCode;
+  }
+
+  public OI40DBMachinePriority priority(Integer priority) {
+    this.priority = priority;
+    return this;
+  }
+
+   /**
+   * Get priority
+   * @return priority
+  **/
+  @ApiModelProperty(value = "")
+  public Integer getPriority() {
+    return priority;
+  }
+
+  public void setPriority(Integer priority) {
+    this.priority = priority;
   }
 
   public OI40DBMachinePriority removed(Boolean removed) {
@@ -167,13 +230,16 @@ public class OI40DBMachinePriority {
         Objects.equals(this.code, oi40DBMachinePriority.code) &&
         Objects.equals(this.description, oi40DBMachinePriority.description) &&
         Objects.equals(this.integrationTs, oi40DBMachinePriority.integrationTs) &&
+        Objects.equals(this.machineCode, oi40DBMachinePriority.machineCode) &&
         Objects.equals(this.modifiedTimestamp, oi40DBMachinePriority.modifiedTimestamp) &&
+        Objects.equals(this.operationEquipmentSpecCode, oi40DBMachinePriority.operationEquipmentSpecCode) &&
+        Objects.equals(this.priority, oi40DBMachinePriority.priority) &&
         Objects.equals(this.removed, oi40DBMachinePriority.removed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(attributesMap, code, description, integrationTs, modifiedTimestamp, removed);
+    return Objects.hash(attributesMap, code, description, integrationTs, machineCode, modifiedTimestamp, operationEquipmentSpecCode, priority, removed);
   }
 
 
@@ -186,7 +252,10 @@ public class OI40DBMachinePriority {
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    integrationTs: ").append(toIndentedString(integrationTs)).append("\n");
+    sb.append("    machineCode: ").append(toIndentedString(machineCode)).append("\n");
     sb.append("    modifiedTimestamp: ").append(toIndentedString(modifiedTimestamp)).append("\n");
+    sb.append("    operationEquipmentSpecCode: ").append(toIndentedString(operationEquipmentSpecCode)).append("\n");
+    sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    removed: ").append(toIndentedString(removed)).append("\n");
     sb.append("}");
     return sb.toString();

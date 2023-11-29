@@ -2,7 +2,7 @@
 echo "Docker images before script:"
 docker images
 docker network rm openi40network --force
-docker create network openi40network
+docker network create openi40network
 cd openi40-postgres-database
 ./create-image.sh
 cd ..

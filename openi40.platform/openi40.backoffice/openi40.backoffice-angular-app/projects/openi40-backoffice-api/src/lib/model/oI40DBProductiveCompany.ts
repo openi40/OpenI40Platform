@@ -12,10 +12,16 @@
 
 
 export interface OI40DBProductiveCompany { 
+    address?: string;
     attributesMap?: any;
+    city?: string;
     code?: string;
+    companyName?: string;
+    country?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    provincia?: string;
     removed?: boolean;
+    zipCode?: string;
 }

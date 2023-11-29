@@ -77,7 +77,7 @@ public class PersistenceChannelsInitializer {
 		if (this.config != null && !this.config.getConfigs().isEmpty()) {
 			this.config.getConfigs().forEach(entry -> {
 
-				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory(dataSource);
+				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory(dataSource); 
 				podcf.setDataSetName(entry.getDataSetName());
 				podcf.setDataSourceName(entry.getDataSourceName());
 				podcf.setDataSetName(entry.getDataSetName());

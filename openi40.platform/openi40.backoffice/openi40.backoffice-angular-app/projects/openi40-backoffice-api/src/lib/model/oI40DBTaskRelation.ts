@@ -12,10 +12,20 @@
 
 
 export interface OI40DBTaskRelation { 
+    alignmentType?: string;
     attributesMap?: any;
+    bomItemCode?: string;
     code?: string;
+    consumerTaskCode?: string;
+    consumptionBatchQty?: number;
+    consumptionTransferType?: string;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    offsetMillisecs?: number;
+    peggingCode?: string;
+    peggingEdge?: boolean;
     removed?: boolean;
+    supplierTaskCode?: string;
+    timeRangeType?: string;
 }

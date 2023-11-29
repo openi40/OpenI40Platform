@@ -15,7 +15,13 @@ export interface OI40DBTaskResourceReservation {
     attributesMap?: any;
     code?: string;
     description?: string;
+    end?: Date;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
     removed?: boolean;
+    resourceCode?: string;
+    secondaryResourceGroupCode?: string;
+    slotType?: string;
+    start?: Date;
+    taskCode?: string;
 }

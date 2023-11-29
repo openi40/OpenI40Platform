@@ -14,8 +14,12 @@
 export interface OI40DBCycleModel { 
     attributesMap?: any;
     code?: string;
+    defaultProductCycle?: boolean;
     description?: string;
     integrationTs?: Date;
     modifiedTimestamp?: Date;
+    plantCode?: string;
+    productCode?: string;
     removed?: boolean;
+    warehouseCode?: string;
 }
