@@ -62,7 +62,7 @@ public abstract class BaseOutputController<OutputType extends OutputDto> {
 			@NotNull @PathVariable("dataSetVariant") String dataSetVariant, @RequestBody List<OutputType> data)
 			throws OutputDataStreamException {
 		IOutputDataConsumerFactory factory = getFactory(dataSourceName, dataSetName, dataSetVariant);
-		factory.<OutputType>consume(data.stream(), outputType);
+		factory.<OutputType>consume(data.stream(), outputType, null);
 
 	}
 

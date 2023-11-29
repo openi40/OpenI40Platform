@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.openi40.scheduler.output.model.OutputDto;
+import com.openi40.scheduler.outputchannels.streamoutputs.IOutputTransactionWrapper;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSetting;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.HttpClientOutputDataConfig;
@@ -67,5 +68,7 @@ public class RestHttpConfigurableOutputDataConsumerFactory
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

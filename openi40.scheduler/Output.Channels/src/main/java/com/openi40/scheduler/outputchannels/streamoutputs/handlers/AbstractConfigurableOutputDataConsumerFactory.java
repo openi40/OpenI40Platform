@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
+import com.openi40.scheduler.outputchannels.streamoutputs.IOutputTransactionWrapper;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.AbstractOutputDataConsumerFactoryConfig;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSetting;
@@ -102,7 +103,7 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 
 	@Override
 	public <DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,
-			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
+			Class<DtoEntityType> requiredType, IOutputTransactionWrapper outputTransactionWrapper) throws OutputDataStreamException {
 		IExtendedConsumer<DtoEntityType> consumer = getConsumer(requiredType);
 		stream.forEach(consumer);
 		consumer.endReached();
@@ -144,5 +145,35 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 
 	protected abstract OutputEntryType createTemplatedEntry(Class<? extends OutputDto> requiredType,
 			String relativeString) throws OutputDataStreamException;
+	@Override
+	public IOutputTransactionWrapper createOutputTransaction() {
+		
+		return new IOutputTransactionWrapper() {
+			
+			@Override
+			public void rollback() {
+				
+				
+			}
+			
+			@Override
+			public void commit() {
+				
+				
+			}
+			
+			@Override
+			public void close() {
+				
+				
+			}
+			
+			@Override
+			public void begin() {
+				
+				
+			}
+		};
+	}
 
 }

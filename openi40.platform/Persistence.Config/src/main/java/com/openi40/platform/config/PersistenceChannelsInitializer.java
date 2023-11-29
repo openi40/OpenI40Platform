@@ -13,6 +13,8 @@ package com.openi40.platform.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -33,14 +35,15 @@ public class PersistenceChannelsInitializer {
 	PersistenceChannelsConfig config = null;
 	List<AbstractPersistenceInputDataStream> persistenceStreams = null;
 	List<AbstractPersistentExtendedConsumerFactory> extendedConsumers = null;
-
+	DataSource dataSource=null;
 	@Autowired
 	public PersistenceChannelsInitializer(PersistenceChannelsConfig config,
 			List<AbstractPersistenceInputDataStream> persistenceStreams,
-			List<AbstractPersistentExtendedConsumerFactory> extendedConsumers) {
+			List<AbstractPersistentExtendedConsumerFactory> extendedConsumers,DataSource dataSource) {
 		this.config = config;
 		this.persistenceStreams = persistenceStreams;
 		this.extendedConsumers = extendedConsumers;
+		this.dataSource=dataSource;
 	}
 
 	@Bean
@@ -74,7 +77,7 @@ public class PersistenceChannelsInitializer {
 		if (this.config != null && !this.config.getConfigs().isEmpty()) {
 			this.config.getConfigs().forEach(entry -> {
 
-				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory();
+				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory(dataSource);
 				podcf.setDataSetName(entry.getDataSetName());
 				podcf.setDataSourceName(entry.getDataSourceName());
 				podcf.setDataSetName(entry.getDataSetName());

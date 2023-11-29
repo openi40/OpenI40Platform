@@ -13,7 +13,9 @@ import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
+import com.openi40.scheduler.outputchannels.streamoutputs.IOutputTransactionWrapper;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
+import com.openi40.scheduler.outputchannels.streamoutputs.OutputTransactionException;
 
 /**
  * 
@@ -37,13 +39,26 @@ public class DataExporterAgentImpl implements IDataExporterAgent {
 	public void doSync(ApsData context, IOutputDataConsumerFactory consumersFactory,
 			IDataExporterFactoryRepository diFactoryRepository)
 			throws DataModelDaoException, MapperException, OutputDataStreamException {
-		List<Class<? extends OutputDto>> classesList = classListProvider.getClassesList();
-		for (Class<? extends OutputDto> exportedType : classesList) {
+		IOutputTransactionWrapper transaction = null;
+		try {
+			transaction = consumersFactory.createOutputTransaction();
+			transaction.begin();
+			List<Class<? extends OutputDto>> classesList = classListProvider.getClassesList();
+			for (Class<? extends OutputDto> exportedType : classesList) {
 
-			IDataExporterFactory exporterFactory = diFactoryRepository.getExporterFactory(exportedType);
-			Stream exporter = exporterFactory.create(context);
-			consumersFactory.consume(exporter, exportedType);
+				IDataExporterFactory exporterFactory = diFactoryRepository.getExporterFactory(exportedType);
+				Stream exporter = exporterFactory.create(context);
+				consumersFactory.consume(exporter, exportedType, transaction);
 
+			}
+			transaction.commit();
+		} catch (OutputTransactionException e) {
+			throw new OutputDataStreamException("Exception managing transaction", e);
+		} finally {
+			try {
+				transaction.close();
+			} catch (Throwable th) {
+			}
 		}
 	}
 

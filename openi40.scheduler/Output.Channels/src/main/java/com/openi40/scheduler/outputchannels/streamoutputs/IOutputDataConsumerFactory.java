@@ -20,7 +20,7 @@ public interface IOutputDataConsumerFactory {
 	String getDataSetName();
 
 	String getDataSetVariant();
-	
-	<DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,Class<DtoEntityType> requiredType ) throws OutputDataStreamException;;
+	IOutputTransactionWrapper createOutputTransaction();
+	<DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,Class<DtoEntityType> requiredType, IOutputTransactionWrapper outputTransactionWrapper ) throws OutputDataStreamException;;
 	String getDataSourceDescription();
 }
