@@ -14,5 +14,6 @@
   	<module>ApsModel2OutputModel</module>
   	<module>Input.IOMessages2ApsModelMappers</module>
   	<module>InputOutputModel2IgniteBinaryObject</module>
+  	<module>OutputModel2InputModel</module>
   </modules>
 </project>

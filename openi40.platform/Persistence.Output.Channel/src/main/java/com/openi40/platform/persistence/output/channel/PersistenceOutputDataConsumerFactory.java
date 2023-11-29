@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 import java.util.Set;
 
 import com.openi40.scheduler.output.model.OutputDto;
@@ -27,8 +28,8 @@ public class PersistenceOutputDataConsumerFactory implements IOutputDataConsumer
 	String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
 	Map<Class<? extends OutputDto>, IExtendedConsumerFactory> consumers = new HashMap<Class<? extends OutputDto>, IExtendedConsumerFactory>();
 
-	@Override
-	public <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
+	
+	private <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
 			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
 		IExtendedConsumerFactory outConsumer = null;
 		if (consumers.containsKey(requiredType)) {
@@ -46,7 +47,14 @@ public class PersistenceOutputDataConsumerFactory implements IOutputDataConsumer
 		}
 		return outConsumer.create();
 	}
-
+	@Override
+	public <DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,
+			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
+		IExtendedConsumer<DtoEntityType> consumer=getConsumer(requiredType);
+		stream.forEach(consumer);
+		consumer.endReached();
+		
+	}
 	public String getDataSourceName() {
 		return dataSourceName;
 	}

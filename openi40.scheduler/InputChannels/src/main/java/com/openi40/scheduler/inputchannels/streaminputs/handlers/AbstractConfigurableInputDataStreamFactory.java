@@ -47,6 +47,7 @@ public abstract class AbstractConfigurableInputDataStreamFactory<ImportEntryType
 	protected IDataInputValidator inputValidator = null;
 	protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 	protected boolean realtime = false;
+	protected boolean canBeCached=true;
 	protected boolean productionControlEnabled = false;
 	public AbstractConfigurableInputDataStreamFactory(CType config, ObjectMapper mapper,
 			IDataInputValidator inputValidator) {
@@ -337,6 +338,14 @@ public abstract class AbstractConfigurableInputDataStreamFactory<ImportEntryType
 
 	public void setProductionControlEnabled(boolean productionControlEnabled) {
 		this.productionControlEnabled = productionControlEnabled;
+	}
+
+	public boolean isCanBeCached() {
+		return canBeCached;
+	}
+
+	public void setCanBeCached(boolean canBeCached) {
+		this.canBeCached = canBeCached;
 	}
 
 }

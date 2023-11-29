@@ -22,7 +22,7 @@ public class WorkOrderOutputDto extends OutputDto {
 	private Date startExecutionDate = null;
 	private Date endExecutionDate = null;
 	private Date deliveryDate = null;
-	private int Idx = 0;
+	private Integer Idx = 0;
 	private double totalQty = 0.0;
 	private String productCode = null;
 	private String plantCode = null;

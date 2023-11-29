@@ -128,4 +128,9 @@ public class IgniteInputDataStreamFactory implements IInputDataStreamFactory {
 
 	}
 
+	@Override
+	public boolean isCanBeCached() {
+		return false;
+	}
+
 }

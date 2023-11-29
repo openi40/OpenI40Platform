@@ -12,6 +12,14 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.Vector;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.RollbackException;
+import javax.transaction.Synchronization;
+import javax.transaction.SystemException;
+import javax.transaction.Transaction;
+import javax.transaction.xa.XAResource;
+
 /**
  * Class rappresenting a transaction hides JDBC complexity,optimizes the use of
  * PreparedStatements and fires events on begin,successfull commit and rollback
@@ -19,8 +27,8 @@ import java.util.Vector;
  * 
  * @author: architectures@openi40.org
  */
-public class PersistenceTransaction {
-
+public class PersistenceTransaction  {
+	
 	private boolean closeConnection = true, readOnly = false;
 	protected boolean useCachedStatements = false;
 

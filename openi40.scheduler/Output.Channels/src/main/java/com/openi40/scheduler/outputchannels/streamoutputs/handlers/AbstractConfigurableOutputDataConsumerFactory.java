@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
@@ -14,13 +15,14 @@ import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSet
 
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -92,11 +94,19 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 		}
 	};
 
-	@Override
-	public <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
+	private <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
 			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
 		OutputEntryType configEntry = getOrProduceConfigurationEntry(requiredType);
 		return new ExtendedConsumer<DtoEntityType>(configEntry);
+	}
+
+	@Override
+	public <DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,
+			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
+		IExtendedConsumer<DtoEntityType> consumer = getConsumer(requiredType);
+		stream.forEach(consumer);
+		consumer.endReached();
+
 	}
 
 	public abstract <DtoEntityType extends OutputDto> void send(CType config, OutputEntryType cfgItem,

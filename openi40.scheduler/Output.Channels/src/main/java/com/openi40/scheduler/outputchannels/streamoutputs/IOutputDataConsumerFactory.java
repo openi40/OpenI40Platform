@@ -1,6 +1,7 @@
 package com.openi40.scheduler.outputchannels.streamoutputs;
 
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import com.openi40.scheduler.output.model.OutputDto;
 /**
@@ -19,9 +20,7 @@ public interface IOutputDataConsumerFactory {
 	String getDataSetName();
 
 	String getDataSetVariant();
-
-	<DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(Class<DtoEntityType> requiredType)
-			throws OutputDataStreamException;
 	
+	<DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,Class<DtoEntityType> requiredType ) throws OutputDataStreamException;;
 	String getDataSourceDescription();
 }

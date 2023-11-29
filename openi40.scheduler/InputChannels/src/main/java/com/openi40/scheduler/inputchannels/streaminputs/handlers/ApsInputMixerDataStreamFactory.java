@@ -23,6 +23,7 @@ import lombok.Data;
 @Data
 public class ApsInputMixerDataStreamFactory implements IInputDataStreamFactory {
 	protected String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
+	protected boolean canBeCached=true;
 	protected List<IInputDataStreamFactory> mixedFactories = new ArrayList<>();
 	protected boolean realtime = false;
 	protected boolean productionControlEnabled = false;

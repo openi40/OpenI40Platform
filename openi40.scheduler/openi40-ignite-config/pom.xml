@@ -58,7 +58,7 @@
 			<artifactId>Output.Channels</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- 
+		 
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
@@ -66,10 +66,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
-			<artifactId>InputOutputModel2IgniteBinaryObject</artifactId>
+			<artifactId>OutputModel2InputModel</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		-->
+		
 
 	</dependencies>
 </project>

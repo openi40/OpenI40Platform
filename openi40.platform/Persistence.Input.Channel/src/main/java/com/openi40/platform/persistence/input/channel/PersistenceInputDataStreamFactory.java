@@ -24,13 +24,15 @@ public class PersistenceInputDataStreamFactory implements IInputDataStreamFactor
 	protected String dataSetName = null;
 	protected String dataSetVariant = null;
 	protected String dataSourceDescription = null;
-	protected Boolean useJpaStreaming=false;
-	protected Integer batchingSize=10000;
+	protected Boolean useJpaStreaming = false;
+	protected Integer batchingSize = 10000;
 	protected List<AbstractPersistenceInputDataStream> persistenceStreams;
 	protected boolean realtime = false;
 	protected boolean productionControlEnabled = false;
-	
-	private <DtoEntityType extends InputDto> AbstractPersistenceInputDataStream findSource(Class<DtoEntityType> requiredType) {
+	protected boolean canBeCached = true;
+
+	private <DtoEntityType extends InputDto> AbstractPersistenceInputDataStream findSource(
+			Class<DtoEntityType> requiredType) {
 		AbstractPersistenceInputDataStream foundStream = null;
 		for (AbstractPersistenceInputDataStream ps : this.persistenceStreams) {
 			if (ps.getInputClass().equals(requiredType)) {
@@ -46,13 +48,14 @@ public class PersistenceInputDataStreamFactory implements IInputDataStreamFactor
 	public <DtoEntityType extends InputDto> Stream<DtoEntityType> getStream(Class<DtoEntityType> requiredType)
 			throws InputDataStreamException {
 
-		return findSource(requiredType).stream(useJpaStreaming!=null && useJpaStreaming,batchingSize);
+		return findSource(requiredType).stream(useJpaStreaming != null && useJpaStreaming, batchingSize);
 	}
 
 	@Override
 	public <DtoEntityType extends InputDto> Stream<DtoEntityType> getStream(Class<DtoEntityType> requiredType,
 			Date modifiedAfter) throws InputDataStreamException {
-		return findSource(requiredType).streamModifiedAfter(new Timestamp(modifiedAfter.getTime()),useJpaStreaming!=null && useJpaStreaming,batchingSize);
+		return findSource(requiredType).streamModifiedAfter(new Timestamp(modifiedAfter.getTime()),
+				useJpaStreaming != null && useJpaStreaming, batchingSize);
 	}
 
 	public String getDataSourceName() {
@@ -125,6 +128,12 @@ public class PersistenceInputDataStreamFactory implements IInputDataStreamFactor
 
 	public void setProductionControlEnabled(boolean productionControlEnabled) {
 		this.productionControlEnabled = productionControlEnabled;
+	}
+
+	@Override
+	public boolean isCanBeCached() {
+
+		return this.canBeCached;
 	}
 
 }
