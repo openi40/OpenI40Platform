@@ -70,6 +70,8 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	public void stop() throws Exception {
 		container.stop();
 	}
+	//Ignoring this test untill all environents have right docker setups
+	@Ignore
 	@Test
 	public void testMQTTMessages() throws Exception {
 		prepareDB(dataSource);
