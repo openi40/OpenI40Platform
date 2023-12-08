@@ -5,8 +5,6 @@ import javax.persistence.MappedSuperclass;
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
 import com.openi40.scheduler.input.model.ApsInputData;
 import com.openi40.scheduler.input.model.companystructure.ProductiveCompanyInputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,7 +15,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class WarehouseProductSettingInputDto extends AbstractProductSettingInputDto {
 	protected String warehouseCode=null;
@@ -36,6 +34,42 @@ public class WarehouseProductSettingInputDto extends AbstractProductSettingInput
 	}
 	public void setWarehouseCode(String warehouseCode) {
 		this.warehouseCode = warehouseCode;
+	}
+	public int getAverageleadTimeDays() {
+		return averageleadTimeDays;
+	}
+	public void setAverageleadTimeDays(int averageleadTimeDays) {
+		this.averageleadTimeDays = averageleadTimeDays;
+	}
+	public int getAverageProductionDays() {
+		return averageProductionDays;
+	}
+	public void setAverageProductionDays(int averageProductionDays) {
+		this.averageProductionDays = averageProductionDays;
+	}
+	public double getSecurityStock() {
+		return securityStock;
+	}
+	public void setSecurityStock(double securityStock) {
+		this.securityStock = securityStock;
+	}
+	public boolean isProduceAccordingToReorderLevel() {
+		return produceAccordingToReorderLevel;
+	}
+	public void setProduceAccordingToReorderLevel(boolean produceAccordingToReorderLevel) {
+		this.produceAccordingToReorderLevel = produceAccordingToReorderLevel;
+	}
+	public boolean isPurchaseAccordingToReorderLevel() {
+		return purchaseAccordingToReorderLevel;
+	}
+	public void setPurchaseAccordingToReorderLevel(boolean purchaseAccordingToReorderLevel) {
+		this.purchaseAccordingToReorderLevel = purchaseAccordingToReorderLevel;
+	}
+	public double getAverageMinPurchaseQty() {
+		return averageMinPurchaseQty;
+	}
+	public void setAverageMinPurchaseQty(double averageMinPurchaseQty) {
+		this.averageMinPurchaseQty = averageMinPurchaseQty;
 	}
 
 }

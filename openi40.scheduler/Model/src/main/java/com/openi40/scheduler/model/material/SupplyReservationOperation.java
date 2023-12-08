@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.material;
 
 import com.openi40.scheduler.common.aps.IOperationActuator;
 import com.openi40.scheduler.common.aps.IOperationActuatorFactory;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class SupplyReservationOperation implements ISupplyReservationOperation {
 	private boolean applied = false;
 
@@ -22,7 +20,7 @@ public class SupplyReservationOperation implements ISupplyReservationOperation {
 
 	
 
-	private SupplyReservation CreatedReservation = null;
+	private SupplyReservation createdReservation = null;
 
 	public  void apply(IOperationActuatorFactory contextualBLFactory) {
 		
@@ -37,5 +35,29 @@ public class SupplyReservationOperation implements ISupplyReservationOperation {
 		actuator.reverse(this);
 		setApplied(false);
 		setReversed(true);
+	}
+
+	public boolean isApplied() {
+		return applied;
+	}
+
+	public void setApplied(boolean applied) {
+		this.applied = applied;
+	}
+
+	public boolean isReversed() {
+		return reversed;
+	}
+
+	public void setReversed(boolean reversed) {
+		this.reversed = reversed;
+	}
+
+	public SupplyReservation getCreatedReservation() {
+		return createdReservation;
+	}
+
+	public void setCreatedReservation(SupplyReservation createdReservation) {
+		createdReservation = createdReservation;
 	}
 }

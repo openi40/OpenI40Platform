@@ -5,8 +5,6 @@ import com.openi40.scheduler.model.material.StockSupply;
 import com.openi40.scheduler.model.material.configuration.PlantProductSetting;
 import com.openi40.scheduler.model.material.configuration.ProductiveCompanyProductSetting;
 import com.openi40.scheduler.model.material.configuration.WarehouseProductSetting;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,7 +15,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class WarehouseProductMaterialTimeLine extends AbstractMaterialTimeLine {
 	protected String productCode = null;
 	protected String warehouseCode = null;
@@ -40,5 +38,45 @@ public class WarehouseProductMaterialTimeLine extends AbstractMaterialTimeLine {
 			LOGGER.debug("warehouse:" + warehouseCode + " product:" + productCode);
 			super.debugLogging();
 		}
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public WarehouseProductSetting getSetting() {
+		return setting;
+	}
+
+	public void setSetting(WarehouseProductSetting setting) {
+		this.setting = setting;
+	}
+
+	public PlantProductSetting getPlantSetting() {
+		return plantSetting;
+	}
+
+	public void setPlantSetting(PlantProductSetting plantSetting) {
+		this.plantSetting = plantSetting;
+	}
+
+	public ProductiveCompanyProductSetting getCompanySetting() {
+		return companySetting;
+	}
+
+	public void setCompanySetting(ProductiveCompanyProductSetting companySetting) {
+		this.companySetting = companySetting;
 	}
 }

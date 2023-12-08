@@ -1,15 +1,12 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -27,7 +24,7 @@ import lombok.Data;
 		@AttributeOverride(name = "removed", column = @Column(name = "removed")),
 		@AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 public class OI40DBTimesheetMetaInfo extends OI40DBBaseEntity implements Serializable {
 	
 }

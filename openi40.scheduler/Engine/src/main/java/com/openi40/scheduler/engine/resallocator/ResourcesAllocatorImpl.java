@@ -37,8 +37,6 @@ import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -53,7 +51,7 @@ import lombok.Data;
 public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IResourcesAllocator {
 	static Logger LOGGER = LoggerFactory.getLogger(ResourcesAllocatorImpl.class);
 
-	@Data
+	
 	public static class UnavailableSolutions {
 		TimeSegmentRequirement SetupTimeRangeSpec = null, WorkTimeRangeSpec = null;
 
@@ -62,6 +60,22 @@ public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IReso
 			this.SetupTimeRangeSpec = SetupTimeRangeSpec;
 			this.WorkTimeRangeSpec = WorkTimeRangeSpec;
 
+		}
+
+		public TimeSegmentRequirement getSetupTimeRangeSpec() {
+			return SetupTimeRangeSpec;
+		}
+
+		public void setSetupTimeRangeSpec(TimeSegmentRequirement setupTimeRangeSpec) {
+			SetupTimeRangeSpec = setupTimeRangeSpec;
+		}
+
+		public TimeSegmentRequirement getWorkTimeRangeSpec() {
+			return WorkTimeRangeSpec;
+		}
+
+		public void setWorkTimeRangeSpec(TimeSegmentRequirement workTimeRangeSpec) {
+			WorkTimeRangeSpec = workTimeRangeSpec;
 		}
 	}
 

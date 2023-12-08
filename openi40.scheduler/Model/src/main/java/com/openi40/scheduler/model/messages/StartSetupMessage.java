@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,12 +14,18 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class StartSetupMessage extends TaskContextMessage {
 	private List<UsedSecondaryResourcesInfo> usedResources=new ArrayList<UsedSecondaryResourcesInfo>();
 	public StartSetupMessage(ApsData context) {
 		super(context);
 		
+	}
+	public List<UsedSecondaryResourcesInfo> getUsedResources() {
+		return usedResources;
+	}
+	public void setUsedResources(List<UsedSecondaryResourcesInfo> usedResources) {
+		this.usedResources = usedResources;
 	}
 
 }

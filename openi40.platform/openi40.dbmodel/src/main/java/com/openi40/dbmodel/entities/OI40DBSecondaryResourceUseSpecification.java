@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -35,7 +33,7 @@ import lombok.Data;
 		@AttributeOverride(name = "usedTime", column = @Column(name = "used_time")),
 		@AttributeOverride(name = "operationEquipmentSpecCode", column = @Column(name = "op_equip_spec_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 public class OI40DBSecondaryResourceUseSpecification extends OI40DBBaseEntity implements Serializable {
 	private String useType = null;
 	private String secondaryResourceGroupCode = null;
@@ -45,4 +43,58 @@ public class OI40DBSecondaryResourceUseSpecification extends OI40DBBaseEntity im
 	private String usedTime = null;
 	private Integer afterStartMinutes = null, beforeStopMinutes = null;
 	private String operationEquipmentSpecCode = null;
+	public String getUseType() {
+		return useType;
+	}
+	public void setUseType(String useType) {
+		this.useType = useType;
+	}
+	public String getSecondaryResourceGroupCode() {
+		return secondaryResourceGroupCode;
+	}
+	public void setSecondaryResourceGroupCode(String secondaryResourceGroupCode) {
+		this.secondaryResourceGroupCode = secondaryResourceGroupCode;
+	}
+	public Integer getQty() {
+		return qty;
+	}
+	public void setQty(Integer qty) {
+		this.qty = qty;
+	}
+	public Integer getMinQty() {
+		return minQty;
+	}
+	public void setMinQty(Integer minQty) {
+		this.minQty = minQty;
+	}
+	public Integer getMaxQty() {
+		return maxQty;
+	}
+	public void setMaxQty(Integer maxQty) {
+		this.maxQty = maxQty;
+	}
+	public String getUsedTime() {
+		return usedTime;
+	}
+	public void setUsedTime(String usedTime) {
+		this.usedTime = usedTime;
+	}
+	public Integer getAfterStartMinutes() {
+		return afterStartMinutes;
+	}
+	public void setAfterStartMinutes(Integer afterStartMinutes) {
+		this.afterStartMinutes = afterStartMinutes;
+	}
+	public Integer getBeforeStopMinutes() {
+		return beforeStopMinutes;
+	}
+	public void setBeforeStopMinutes(Integer beforeStopMinutes) {
+		this.beforeStopMinutes = beforeStopMinutes;
+	}
+	public String getOperationEquipmentSpecCode() {
+		return operationEquipmentSpecCode;
+	}
+	public void setOperationEquipmentSpecCode(String operationEquipmentSpecCode) {
+		this.operationEquipmentSpecCode = operationEquipmentSpecCode;
+	}
 }

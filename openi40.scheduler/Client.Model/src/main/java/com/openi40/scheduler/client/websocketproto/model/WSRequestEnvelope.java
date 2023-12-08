@@ -12,11 +12,21 @@ package com.openi40.scheduler.client.websocketproto.model;
 
 import java.util.UUID;
 
-import lombok.Data;
 
-@Data
 public class WSRequestEnvelope<AbstractWSRequestType extends AbstractWSRequest> extends BaseWSDataItem {
 	protected AbstractWSRequestType request=null; 
 	protected String requestID=UUID.randomUUID().toString();
+	public AbstractWSRequestType getRequest() {
+		return request;
+	}
+	public void setRequest(AbstractWSRequestType request) {
+		this.request = request;
+	}
+	public String getRequestID() {
+		return requestID;
+	}
+	public void setRequestID(String requestID) {
+		this.requestID = requestID;
+	}
 
 }

@@ -7,8 +7,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
 import com.openi40.scheduler.input.model.InputDto;
-
-import lombok.Data;
 @MappedSuperclass
 
 public class UsedSecondaryResourcesInfoInputDto extends InputDto {

@@ -19,11 +19,11 @@ public class AbstractSchedulingEnvironmentNode extends AbstractApsObject impleme
 
 	protected IEnvironment parentNode;
 
-	public final IEnvironment getParentNode() {
+	public  IEnvironment getParentNode() {
 		return parentNode;
 	}
 
-	public final void setParentNode(IEnvironment value) {
+	public  void setParentNode(IEnvironment value) {
 		parentNode = value;
 	}
 

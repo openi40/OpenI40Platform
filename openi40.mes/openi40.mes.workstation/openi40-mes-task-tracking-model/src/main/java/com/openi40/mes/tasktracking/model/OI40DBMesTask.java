@@ -5,11 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_task")
-@Data
+
 public class OI40DBMesTask {
 	@Id
 	@Column(name = "code")
@@ -21,6 +19,30 @@ public class OI40DBMesTask {
 
 	public OI40DBMesTask() {
 
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getApsTaskCode() {
+		return apsTaskCode;
+	}
+
+	public void setApsTaskCode(String apsTaskCode) {
+		this.apsTaskCode = apsTaskCode;
+	}
+
+	public String getMesAssetCode() {
+		return mesAssetCode;
+	}
+
+	public void setMesAssetCode(String mesAssetCode) {
+		this.mesAssetCode = mesAssetCode;
 	}
 
 }

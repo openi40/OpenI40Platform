@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openi40.mes.metamessaging.handlers.IMicroKernel;
-import com.openi40.mes.metamessaging.handlers.MessageReceiver;
 import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;

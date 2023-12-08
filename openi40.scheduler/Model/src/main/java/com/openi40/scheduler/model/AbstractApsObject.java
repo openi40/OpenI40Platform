@@ -15,10 +15,6 @@ import java.util.function.Consumer;
 import com.openi40.scheduler.common.aps.IApsObject;
 import com.openi40.scheduler.common.aps.ICloneable;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -29,7 +25,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneable {
 	protected String id;
 	protected String description;
@@ -140,7 +136,7 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 		return rvalue;
 	}
 
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>> hyerarchyAwareLists = new ArrayList<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>>();
 
 	protected void finalize() throws Throwable {
@@ -156,5 +152,94 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 		hyerarchyAwareLists = null;
 		associative = null;
 		description = null;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public boolean isSimulatedItem() {
+		return simulatedItem;
+	}
+
+	public void setSimulatedItem(boolean simulatedItem) {
+		this.simulatedItem = simulatedItem;
+	}
+
+	public long getUniqueId() {
+		return uniqueId;
+	}
+
+	public void setUniqueId(long uniqueId) {
+		this.uniqueId = uniqueId;
+	}
+
+	public Date getModifiedTimestamp() {
+		return modifiedTimestamp;
+	}
+
+	public void setModifiedTimestamp(Date modifiedTimestamp) {
+		this.modifiedTimestamp = modifiedTimestamp;
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+
+	public Hashtable getAssociative() {
+		return associative;
+	}
+
+	public void setAssociative(Hashtable associative) {
+		this.associative = associative;
+	}
+
+	public ApsData getContext() {
+		return Context;
+	}
+
+	public void setContext(ApsData context) {
+		Context = context;
+	}
+
+	public List<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>> getHyerarchyAwareLists() {
+		return hyerarchyAwareLists;
+	}
+
+	public void setHyerarchyAwareLists(
+			List<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>> hyerarchyAwareLists) {
+		this.hyerarchyAwareLists = hyerarchyAwareLists;
 	}
 }

@@ -3,8 +3,6 @@ package com.openi40.scheduler.engine.taskssort;
 import java.util.Date;
 
 import com.openi40.scheduler.model.tasks.Task;
-
-import lombok.Getter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,7 +13,7 @@ import lombok.Getter;
  * @author architectures@openi40.org
  *
  */
-@Getter
+
 public abstract class SorterHelper {
 	String propertyName;
 	String defaultDirection;
@@ -50,4 +48,23 @@ public abstract class SorterHelper {
 		
 	};
 	public final static SorterHelper PROPERTIES_LIST[]= {CUSTOM_PRIORITY,ASKED_DELIVERY_DATE};
+	public String getPropertyName() {
+		return propertyName;
+	}
+
+	public String getDefaultDirection() {
+		return defaultDirection;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getLongDescription() {
+		return longDescription;
+	}
+
+	public Class getDataType() {
+		return dataType;
+	}
 }

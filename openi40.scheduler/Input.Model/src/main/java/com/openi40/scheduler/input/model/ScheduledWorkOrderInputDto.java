@@ -3,10 +3,7 @@ package com.openi40.scheduler.input.model;
 import javax.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
-import com.openi40.scheduler.input.model.cycles.CycleModelInputDto;
 import com.openi40.scheduler.input.model.orders.WorkOrderInputDto;
-
-import lombok.Data;
 
 /**
  * 

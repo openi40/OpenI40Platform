@@ -1,9 +1,6 @@
 package com.openi40.mes.metamessaging.kernel;
 
-import java.beans.beancontext.BeanContextSupport;
 import java.util.List;
-
-import javax.inject.Singleton;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

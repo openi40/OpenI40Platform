@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.aps;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsResult<T> {
 	protected T content = null;
 	protected boolean success = false;
@@ -36,5 +34,29 @@ public class ApsResult<T> {
 		this.content = c;
 		this.messages = m;
 		this.success = s;
+	}
+
+	public T getContent() {
+		return content;
+	}
+
+	public void setContent(T content) {
+		this.content = content;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public List<ApsMessage> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<ApsMessage> messages) {
+		this.messages = messages;
 	}
 }

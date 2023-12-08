@@ -20,8 +20,6 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.Timesheet;
 import com.openi40.scheduler.model.time.TimesheetAvailableTimeRange;
 import com.openi40.scheduler.model.time.TimesheetReservation;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -152,7 +150,7 @@ import lombok.Data;
 		}
 	}
 
-	@Data
+	
 	static class SlotIndex {
 		Slot slot = null;
 		FreeSegment usedSegment = null;
@@ -185,9 +183,41 @@ import lombok.Data;
 		int getWorkTime() {
 			return endIndex-startIndex;
 		}
+
+		public Slot getSlot() {
+			return slot;
+		}
+
+		public void setSlot(Slot slot) {
+			this.slot = slot;
+		}
+
+		public FreeSegment getUsedSegment() {
+			return usedSegment;
+		}
+
+		public void setUsedSegment(FreeSegment usedSegment) {
+			this.usedSegment = usedSegment;
+		}
+
+		public int getStartIndex() {
+			return startIndex;
+		}
+
+		public void setStartIndex(int startIndex) {
+			this.startIndex = startIndex;
+		}
+
+		public int getEndIndex() {
+			return endIndex;
+		}
+
+		public void setEndIndex(int endIndex) {
+			this.endIndex = endIndex;
+		}
 	}
 
-	@Data
+	
 	static class PotentialSlotRange {
 		List<SlotIndex> slots = new ArrayList<SlotIndex>();
 
@@ -201,6 +231,14 @@ import lombok.Data;
 			if (slots.isEmpty())
 				return null;
 			return slots.get(slots.size() - 1).getEndDate();
+		}
+
+		public List<SlotIndex> getSlots() {
+			return slots;
+		}
+
+		public void setSlots(List<SlotIndex> slots) {
+			this.slots = slots;
 		}
 	}
 

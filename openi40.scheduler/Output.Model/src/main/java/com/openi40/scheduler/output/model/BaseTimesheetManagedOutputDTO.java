@@ -1,8 +1,6 @@
 package com.openi40.scheduler.output.model;
 
 import java.io.Serializable;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,7 +11,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class BaseTimesheetManagedOutputDTO extends OutputDto implements Serializable{
 	/**
 	 * 
@@ -22,6 +20,18 @@ public class BaseTimesheetManagedOutputDTO extends OutputDto implements Serializ
 	
 	private String timesheetMetaInfoCode = null;
 	private boolean infiniteCapacity=false;
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
 	
 	
 

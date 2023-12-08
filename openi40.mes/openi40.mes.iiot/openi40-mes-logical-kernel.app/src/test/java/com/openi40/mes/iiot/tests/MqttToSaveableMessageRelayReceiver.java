@@ -11,16 +11,32 @@ import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 
-import lombok.Data;
-
 @Component
 @Qualifier(value = MessageReceiver.IOT_SYSTEM_RECEIVER)
 public class MqttToSaveableMessageRelayReceiver implements OI40IOTMessageReceiver<AbstractOI40IOTMetaMessage> {
-	@Data
+	
 	public static class RelayMQTTContentMessage extends AbstractOI40IOTApplicationMessage {
 		String relayedPayload = null;
 		String channelId;
 		String integrationId;
+		public String getRelayedPayload() {
+			return relayedPayload;
+		}
+		public void setRelayedPayload(String relayedPayload) {
+			this.relayedPayload = relayedPayload;
+		}
+		public String getChannelId() {
+			return channelId;
+		}
+		public void setChannelId(String channelId) {
+			this.channelId = channelId;
+		}
+		public String getIntegrationId() {
+			return integrationId;
+		}
+		public void setIntegrationId(String integrationId) {
+			this.integrationId = integrationId;
+		}
 	}
 
 	public MqttToSaveableMessageRelayReceiver() {

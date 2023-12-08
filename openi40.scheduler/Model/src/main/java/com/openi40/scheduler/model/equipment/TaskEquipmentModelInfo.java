@@ -3,8 +3,6 @@ package com.openi40.scheduler.model.equipment;
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,7 +13,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaInfo {
 	public TaskEquipmentModelInfo(ApsData context) {
 		super(context);
@@ -27,4 +25,28 @@ public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaIn
 	private TaskPreparationModel preparationModel;
 	private TaskExecutionModel executionModel;
 	private TaskProcessMetaInfo taskMetaInfo = null;
+	public String getSetupGroupCode() {
+		return setupGroupCode;
+	}
+	public void setSetupGroupCode(String setupGroupCode) {
+		this.setupGroupCode = setupGroupCode;
+	}
+	public TaskPreparationModel getPreparationModel() {
+		return preparationModel;
+	}
+	public void setPreparationModel(TaskPreparationModel preparationModel) {
+		this.preparationModel = preparationModel;
+	}
+	public TaskExecutionModel getExecutionModel() {
+		return executionModel;
+	}
+	public void setExecutionModel(TaskExecutionModel executionModel) {
+		this.executionModel = executionModel;
+	}
+	public TaskProcessMetaInfo getTaskMetaInfo() {
+		return taskMetaInfo;
+	}
+	public void setTaskMetaInfo(TaskProcessMetaInfo taskMetaInfo) {
+		this.taskMetaInfo = taskMetaInfo;
+	}
 }

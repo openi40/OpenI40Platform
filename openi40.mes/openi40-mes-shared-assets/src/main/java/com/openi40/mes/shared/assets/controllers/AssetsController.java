@@ -2,21 +2,20 @@ package com.openi40.mes.shared.assets.controllers;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.openi40.mes.shared.assets.model.*;
-
-import lombok.Data;
+import com.openi40.mes.shared.assets.model.AssetContextObject;
+import com.openi40.mes.shared.assets.model.AssetContextObjectTree;
+import com.openi40.mes.shared.assets.model.AssetGroup;
+import com.openi40.mes.shared.assets.model.ContextPosition;
 
 public class AssetsController {
 
 	public AssetsController() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Autowired
@@ -39,9 +38,17 @@ public class AssetsController {
 		return this.assetContextTreeFactory.findPosition(contextObject);
 	}
 
-	@Data
+	
 	public static class WorkstationContext {
 		ContextPosition position = null;
+
+		public ContextPosition getPosition() {
+			return position;
+		}
+
+		public void setPosition(ContextPosition position) {
+			this.position = position;
+		}
 
 	}
 

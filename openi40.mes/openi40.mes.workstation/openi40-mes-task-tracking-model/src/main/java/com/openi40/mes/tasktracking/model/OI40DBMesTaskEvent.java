@@ -7,11 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_task_event")
-@Data
+
 public class OI40DBMesTaskEvent {
 	@Id
 	Long id = null;
@@ -29,6 +27,66 @@ public class OI40DBMesTaskEvent {
 
 	public OI40DBMesTaskEvent() {
 		// TODO Auto-generated constructor stub
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getMesTaskCode() {
+		return mesTaskCode;
+	}
+
+
+	public void setMesTaskCode(String mesTaskCode) {
+		this.mesTaskCode = mesTaskCode;
+	}
+
+
+	public String getMachineCode() {
+		return machineCode;
+	}
+
+
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
+	}
+
+
+	public String getEventType() {
+		return eventType;
+	}
+
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+
+	public Timestamp getEventTime() {
+		return eventTime;
+	}
+
+
+	public void setEventTime(Timestamp eventTime) {
+		this.eventTime = eventTime;
+	}
+
+
+	public String getMesAssetCode() {
+		return mesAssetCode;
+	}
+
+
+	public void setMesAssetCode(String mesAssetCode) {
+		this.mesAssetCode = mesAssetCode;
 	}
 
 }

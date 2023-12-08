@@ -3,8 +3,6 @@ package com.openi40.scheduler.model.equipment;
 import com.openi40.scheduler.common.aps.ICloneable;
 import com.openi40.scheduler.model.AbstractApsObjectReferencingMetaInfo;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,7 +13,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TaskEquipmentInfo extends AbstractApsObjectReferencingMetaInfo<TaskEquipmentModelInfo> {
 	private TaskPreparationPlanned preparation;
 	private String setupGroupCode=null;
@@ -52,6 +50,38 @@ public class TaskEquipmentInfo extends AbstractApsObjectReferencingMetaInfo<Task
 			cp.setTaskInfo((TaskProcessInfo) this.getTaskInfo().cleanClone());
 		}
 		return cp;
+	}
+
+	public TaskPreparationPlanned getPreparation() {
+		return preparation;
+	}
+
+	public void setPreparation(TaskPreparationPlanned preparation) {
+		this.preparation = preparation;
+	}
+
+	public String getSetupGroupCode() {
+		return setupGroupCode;
+	}
+
+	public void setSetupGroupCode(String setupGroupCode) {
+		this.setupGroupCode = setupGroupCode;
+	}
+
+	public TaskExecutionPlanned getExecution() {
+		return execution;
+	}
+
+	public void setExecution(TaskExecutionPlanned execution) {
+		this.execution = execution;
+	}
+
+	public TaskProcessInfo getTaskInfo() {
+		return taskInfo;
+	}
+
+	public void setTaskInfo(TaskProcessInfo taskInfo) {
+		this.taskInfo = taskInfo;
 	}
 
 

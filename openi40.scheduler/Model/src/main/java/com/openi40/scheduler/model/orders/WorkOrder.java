@@ -5,10 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.openi40.scheduler.model.TreeVisitType;
-import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.cycle.CycleModel;
-import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.material.ItemProducedMetaInfo;
 import com.openi40.scheduler.model.material.ProductionSupply;
 import com.openi40.scheduler.model.tasks.ITasksVisitor;
@@ -17,10 +16,6 @@ import com.openi40.scheduler.model.tasks.TaskEdge;
 import com.openi40.scheduler.model.tasks.TaskVisitUtil;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -31,7 +26,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 
 public class WorkOrder extends AbstractWorkOrder {
 
@@ -79,7 +74,7 @@ public class WorkOrder extends AbstractWorkOrder {
 	private TimeSegmentsGroup OrderExecution = null;
 
 	private ApsSchedulingSet parentSchedulingAction = null;
-	@Setter(value = AccessLevel.NONE)
+	
 	private List<Pegging> peggings = createCleanChild(this, PEGGINGS, Pegging.class);
 
 	private ItemProducedMetaInfo producedPart = null;
@@ -187,5 +182,109 @@ public class WorkOrder extends AbstractWorkOrder {
 
 	public ProductionSupply getProductionSupply() {
 		return rootTask != null ? rootTask.getProduction() : null;
+	}
+
+	public Date getMinProductionDateConstraint() {
+		return minProductionDateConstraint;
+	}
+
+	public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+		this.minProductionDateConstraint = minProductionDateConstraint;
+	}
+
+	public Date getMaxProductionDateConstraint() {
+		return maxProductionDateConstraint;
+	}
+
+	public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+		this.maxProductionDateConstraint = maxProductionDateConstraint;
+	}
+
+	public boolean isRootSalesOrderWorkOrder() {
+		return rootSalesOrderWorkOrder;
+	}
+
+	public void setRootSalesOrderWorkOrder(boolean rootSalesOrderWorkOrder) {
+		this.rootSalesOrderWorkOrder = rootSalesOrderWorkOrder;
+	}
+
+	public Date getAskedDeliveryDateTime() {
+		return askedDeliveryDateTime;
+	}
+
+	public void setAskedDeliveryDateTime(Date askedDeliveryDateTime) {
+		this.askedDeliveryDateTime = askedDeliveryDateTime;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getSalesOrderLineCode() {
+		return salesOrderLineCode;
+	}
+
+	public void setSalesOrderLineCode(String salesOrderLineCode) {
+		this.salesOrderLineCode = salesOrderLineCode;
+	}
+
+	public TimeSegmentsGroup getOrderExecution() {
+		return OrderExecution;
+	}
+
+	public void setOrderExecution(TimeSegmentsGroup orderExecution) {
+		OrderExecution = orderExecution;
+	}
+
+	public ItemProducedMetaInfo getProducedPart() {
+		return producedPart;
+	}
+
+	public void setProducedPart(ItemProducedMetaInfo producedPart) {
+		this.producedPart = producedPart;
+	}
+
+	public Task getRootTask() {
+		return rootTask;
+	}
+
+	public void setRootTask(Task rootTask) {
+		this.rootTask = rootTask;
+	}
+
+	public List<Task> getChildTasks() {
+		return childTasks;
+	}
+
+	public void setChildTasks(List<Task> childTasks) {
+		this.childTasks = childTasks;
+	}
+
+	public CycleModel getCycleModel() {
+		return cycleModel;
+	}
+
+	public void setCycleModel(CycleModel cycleModel) {
+		this.cycleModel = cycleModel;
+	}
+
+	public AbstractOrderLine getParentOrderLine() {
+		return parentOrderLine;
+	}
+
+	public void setParentOrderLine(AbstractOrderLine parentOrderLine) {
+		this.parentOrderLine = parentOrderLine;
+	}
+
+	public ApsSchedulingSet getParentSchedulingAction() {
+		return parentSchedulingAction;
+	}
+
+	public List<Pegging> getPeggings() {
+		return peggings;
 	}
 }

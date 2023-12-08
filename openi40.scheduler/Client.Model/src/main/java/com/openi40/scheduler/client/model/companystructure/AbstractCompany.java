@@ -12,9 +12,7 @@ package com.openi40.scheduler.client.model.companystructure;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
 
-@Data
 public abstract class AbstractCompany extends ClientDto {
 	private String Address = null;
 	private String City = null;
@@ -25,6 +23,54 @@ public abstract class AbstractCompany extends ClientDto {
 
 	public AbstractCompany() {
 
+	}
+
+	public String getAddress() {
+		return Address;
+	}
+
+	public void setAddress(String address) {
+		Address = address;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
+
+	public String getCompanyName() {
+		return CompanyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		CompanyName = companyName;
+	}
+
+	public String getCountry() {
+		return Country;
+	}
+
+	public void setCountry(String country) {
+		Country = country;
+	}
+
+	public String getProvincia() {
+		return Provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		Provincia = provincia;
+	}
+
+	public String getZipCode() {
+		return ZipCode;
+	}
+
+	public void setZipCode(String zipCode) {
+		ZipCode = zipCode;
 	}
 
 }

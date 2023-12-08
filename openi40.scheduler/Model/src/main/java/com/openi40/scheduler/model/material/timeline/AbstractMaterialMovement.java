@@ -4,10 +4,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.openi40.scheduler.common.utils.DateUtil;
-import com.openi40.scheduler.common.utils.DateUtil.Week;
-
-import lombok.Data;
-import lombok.Getter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -18,7 +14,7 @@ import lombok.Getter;
  * @author architectures@openi40.org
  *
  */
-@Getter
+
 public abstract class AbstractMaterialMovement<MovementOriginType> {
 	protected AbstractMaterialMovement(MovementOriginType originType) {
 		this.movimentCause = originType;
@@ -41,5 +37,9 @@ public abstract class AbstractMaterialMovement<MovementOriginType> {
 	}
 	public String toString() {
 		return super.toString();
+	}
+
+	public MovementOriginType getMovimentCause() {
+		return movimentCause;
 	}
 }

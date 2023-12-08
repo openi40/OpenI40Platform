@@ -8,8 +8,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -33,7 +31,7 @@ import lombok.Data;
 		@AttributeOverride(name = "start", column = @Column(name = "start_reserv")),
 		@AttributeOverride(name = "end", column = @Column(name = "end_reserv")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 public class OI40DBTaskResourceReservation extends OI40DBBaseEntity implements Serializable {
 
 	String taskCode=null;
@@ -42,5 +40,41 @@ public class OI40DBTaskResourceReservation extends OI40DBBaseEntity implements S
 	String slotType = null;
 	Date start = null;
 	Date end = null;
+	public String getTaskCode() {
+		return taskCode;
+	}
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+	public String getResourceCode() {
+		return resourceCode;
+	}
+	public void setResourceCode(String resourceCode) {
+		this.resourceCode = resourceCode;
+	}
+	public String getSecondaryResourceGroupCode() {
+		return secondaryResourceGroupCode;
+	}
+	public void setSecondaryResourceGroupCode(String secondaryResourceGroupCode) {
+		this.secondaryResourceGroupCode = secondaryResourceGroupCode;
+	}
+	public String getSlotType() {
+		return slotType;
+	}
+	public void setSlotType(String slotType) {
+		this.slotType = slotType;
+	}
+	public Date getStart() {
+		return start;
+	}
+	public void setStart(Date start) {
+		this.start = start;
+	}
+	public Date getEnd() {
+		return end;
+	}
+	public void setEnd(Date end) {
+		this.end = end;
+	}
 
 }

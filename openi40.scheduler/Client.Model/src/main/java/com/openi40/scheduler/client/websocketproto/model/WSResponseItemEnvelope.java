@@ -12,14 +12,42 @@ package com.openi40.scheduler.client.websocketproto.model;
 
 import java.util.UUID;
 
-import lombok.Data;
 
-@Data
 public class WSResponseItemEnvelope<DataType> extends BaseWSDataItem {
 	protected DataType data = null;
 	protected String requestID = null;
 	protected String responseID = UUID.randomUUID().toString();
 	protected int responseItemNr = 0;
 	protected boolean lastItem = true;
+	public DataType getData() {
+		return data;
+	}
+	public void setData(DataType data) {
+		this.data = data;
+	}
+	public String getRequestID() {
+		return requestID;
+	}
+	public void setRequestID(String requestID) {
+		this.requestID = requestID;
+	}
+	public String getResponseID() {
+		return responseID;
+	}
+	public void setResponseID(String responseID) {
+		this.responseID = responseID;
+	}
+	public int getResponseItemNr() {
+		return responseItemNr;
+	}
+	public void setResponseItemNr(int responseItemNr) {
+		this.responseItemNr = responseItemNr;
+	}
+	public boolean isLastItem() {
+		return lastItem;
+	}
+	public void setLastItem(boolean lastItem) {
+		this.lastItem = lastItem;
+	}
 
 }

@@ -5,8 +5,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -27,7 +25,15 @@ import lombok.Data;
 @AttributeOverride(name = "plantCode", column = @Column(name = "plant_code")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBDepartment extends OI40DBBaseEntity{
 	private String plantCode=null;
+
+	public String getPlantCode() {
+		return plantCode;
+	}
+
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
 }

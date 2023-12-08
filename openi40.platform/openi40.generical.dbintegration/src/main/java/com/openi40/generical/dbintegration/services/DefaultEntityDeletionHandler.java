@@ -11,7 +11,6 @@
 package com.openi40.generical.dbintegration.services;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,30 +18,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.ThrowableDeserializer;
 import com.openi40.generical.dbintegration.configuration.EntityIntegrationConfig;
 import com.openi40.generical.dbintegration.handlers.IEntityDeletionHandler;
 import com.openi40.generical.dbintegration.meta.configuration.IntegrationMetaDataConfiguration;
 import com.openi40.generical.dbintegration.utils.MetaDataUtils;
-
-import lombok.Data;
 
 @Service
 @Qualifier(DefaultEntityDeletionHandler.DEFAULT_DELETION_HANDLER_SERVICE)
@@ -55,13 +47,43 @@ public class DefaultEntityDeletionHandler implements IEntityDeletionHandler {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 	}
 
-	@Data
+
 	private static class Oi40DeletedEntries {
 		public String code = null;
 		public String tablename = null;
 		public Timestamp integrationTs = null;
 		public String contentType = null;;
 		public String recordValue;
+		public String getCode() {
+			return code;
+		}
+		public void setCode(String code) {
+			this.code = code;
+		}
+		public String getTablename() {
+			return tablename;
+		}
+		public void setTablename(String tablename) {
+			this.tablename = tablename;
+		}
+		public Timestamp getIntegrationTs() {
+			return integrationTs;
+		}
+		public void setIntegrationTs(Timestamp integrationTs) {
+			this.integrationTs = integrationTs;
+		}
+		public String getContentType() {
+			return contentType;
+		}
+		public void setContentType(String contentType) {
+			this.contentType = contentType;
+		}
+		public String getRecordValue() {
+			return recordValue;
+		}
+		public void setRecordValue(String recordValue) {
+			this.recordValue = recordValue;
+		}
 	}
 
 	@Override
@@ -173,9 +195,17 @@ public class DefaultEntityDeletionHandler implements IEntityDeletionHandler {
 		return codes;
 	}
 
-	@Data
+	
 	public static class CodeItem {
 		private String code = null;
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String code) {
+			this.code = code;
+		}
 	}
 
 	public static class CodeItemArray extends ArrayList<CodeItem> {

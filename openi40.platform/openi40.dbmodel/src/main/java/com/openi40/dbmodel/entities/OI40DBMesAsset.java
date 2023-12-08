@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_asset")
 @AttributeOverrides(value = { @AttributeOverride(name = "code", column = @Column(name = "code")),
@@ -15,7 +13,7 @@ import lombok.Data;
 		@AttributeOverride(name = "removed", column = @Column(name = "removed")),
 		@AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 
 public class OI40DBMesAsset extends OI40DBBaseEntity {
 	private String mesAssetGroupCode = null;
@@ -26,6 +24,42 @@ public class OI40DBMesAsset extends OI40DBBaseEntity {
 	private String ipAddress=null;  	
 	public OI40DBMesAsset() {
 
+	}
+	public String getMesAssetGroupCode() {
+		return mesAssetGroupCode;
+	}
+	public void setMesAssetGroupCode(String mesAssetGroupCode) {
+		this.mesAssetGroupCode = mesAssetGroupCode;
+	}
+	public String getMesAssetTypeCode() {
+		return mesAssetTypeCode;
+	}
+	public void setMesAssetTypeCode(String mesAssetTypeCode) {
+		this.mesAssetTypeCode = mesAssetTypeCode;
+	}
+	public String getMesAssetStatusCode() {
+		return mesAssetStatusCode;
+	}
+	public void setMesAssetStatusCode(String mesAssetStatusCode) {
+		this.mesAssetStatusCode = mesAssetStatusCode;
+	}
+	public String getMacCode() {
+		return macCode;
+	}
+	public void setMacCode(String macCode) {
+		this.macCode = macCode;
+	}
+	public String getAltCode() {
+		return altCode;
+	}
+	public void setAltCode(String altCode) {
+		this.altCode = altCode;
+	}
+	public String getIpAddress() {
+		return ipAddress;
+	}
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
 	}
 
 }

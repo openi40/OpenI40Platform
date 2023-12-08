@@ -1,8 +1,6 @@
 package com.openi40.scheduler.model.planning;
 
 import com.openi40.scheduler.model.rules.Rule;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,7 +11,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class Plan<ConstraintRuleType extends Rule> {
 	public Plan(ConstraintRuleType constraint) {
 		this.constraint = constraint;
@@ -22,5 +20,23 @@ public abstract class Plan<ConstraintRuleType extends Rule> {
 	private ConstraintRuleType constraint;
 	private boolean satisfactory;
 	private PlanChoice choosed = null;
+	public ConstraintRuleType getConstraint() {
+		return constraint;
+	}
+	public void setConstraint(ConstraintRuleType constraint) {
+		this.constraint = constraint;
+	}
+	public boolean isSatisfactory() {
+		return satisfactory;
+	}
+	public void setSatisfactory(boolean satisfactory) {
+		this.satisfactory = satisfactory;
+	}
+	public PlanChoice getChoosed() {
+		return choosed;
+	}
+	public void setChoosed(PlanChoice choosed) {
+		this.choosed = choosed;
+	}
 
 }

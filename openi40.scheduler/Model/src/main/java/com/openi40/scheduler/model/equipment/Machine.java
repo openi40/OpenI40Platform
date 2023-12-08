@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.openi40.scheduler.model.AbstractApsReservableObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,23 +15,47 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class Machine extends AbstractApsReservableObject {
 
 	public Machine(ApsData context) {
 		super(context);
 
 	}
-	String workCenterCode=null;
-	private TaskEquipmentInfo CurrentEquipmentSetting = null;
-	private List<TaskEquipmentInfo> EquipmentSettingHistory = new ArrayList<TaskEquipmentInfo>();
+	private String workCenterCode=null;
+	private TaskEquipmentInfo currentEquipmentSetting = null;
+	private List<TaskEquipmentInfo> equipmentSettingHistory = new ArrayList<TaskEquipmentInfo>();
 	
 	@Override
 	public void resetSchedulingData() {
 		if (getTimesheet() != null) {
 			getTimesheet().resetSchedulingData();
 		}
-		EquipmentSettingHistory.clear();
-		CurrentEquipmentSetting = null;
+		equipmentSettingHistory.clear();
+		currentEquipmentSetting = null;
+	}
+
+	public String getWorkCenterCode() {
+		return workCenterCode;
+	}
+
+	public void setWorkCenterCode(String workCenterCode) {
+		this.workCenterCode = workCenterCode;
+	}
+
+	public TaskEquipmentInfo getCurrentEquipmentSetting() {
+		return currentEquipmentSetting;
+	}
+
+	public void setCurrentEquipmentSetting(TaskEquipmentInfo currentEquipmentSetting) {
+		this.currentEquipmentSetting = currentEquipmentSetting;
+	}
+
+	public List<TaskEquipmentInfo> getEquipmentSettingHistory() {
+		return equipmentSettingHistory;
+	}
+
+	public void setEquipmentSettingHistory(List<TaskEquipmentInfo> equipmentSettingHistory) {
+		this.equipmentSettingHistory = equipmentSettingHistory;
 	}
 }

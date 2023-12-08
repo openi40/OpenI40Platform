@@ -18,8 +18,6 @@ import org.junit.Test;
 import com.openi40.scheduler.common.datapath.DataPathException;
 import com.openi40.scheduler.common.datapath.DataPathExtractorImpl;
 
-import lombok.Data;
-
 public class TestDataPathFeatures {
 
 	public TestDataPathFeatures() {
@@ -29,7 +27,7 @@ public class TestDataPathFeatures {
 	static int indexFourth = 1;
 	static int indexThird = 1;
 
-	@Data
+	
 	public static class FourthBloodyClass {
 		int fourthClassProperty = 0;
 
@@ -37,9 +35,17 @@ public class TestDataPathFeatures {
 			fourthClassProperty = indexFourth;
 			indexFourth++;
 		}
+
+		public int getFourthClassProperty() {
+			return fourthClassProperty;
+		}
+
+		public void setFourthClassProperty(int fourthClassProperty) {
+			this.fourthClassProperty = fourthClassProperty;
+		}
 	}
 
-	@Data
+	
 	public static class ThirdBloodyClass {
 		int thirdClassProperty = 0;
 		List<FourthBloodyClass> fourthBloodyList = new ArrayList<TestDataPathFeatures.FourthBloodyClass>();
@@ -48,23 +54,67 @@ public class TestDataPathFeatures {
 			thirdClassProperty = indexThird;
 			indexThird++;
 		}
+
+		public int getThirdClassProperty() {
+			return thirdClassProperty;
+		}
+
+		public void setThirdClassProperty(int thirdClassProperty) {
+			this.thirdClassProperty = thirdClassProperty;
+		}
+
+		public List<FourthBloodyClass> getFourthBloodyList() {
+			return fourthBloodyList;
+		}
+
+		public void setFourthBloodyList(List<FourthBloodyClass> fourthBloodyList) {
+			this.fourthBloodyList = fourthBloodyList;
+		}
 	}
 
-	@Data
+	
 	public static class SecondStepClass {
 		String propertyValue = null;
 		List<ThirdBloodyClass> thirdBloodyList = new ArrayList<>();
+		public String getPropertyValue() {
+			return propertyValue;
+		}
+		public void setPropertyValue(String propertyValue) {
+			this.propertyValue = propertyValue;
+		}
+		public List<ThirdBloodyClass> getThirdBloodyList() {
+			return thirdBloodyList;
+		}
+		public void setThirdBloodyList(List<ThirdBloodyClass> thirdBloodyList) {
+			this.thirdBloodyList = thirdBloodyList;
+		}
 	}
 
-	@Data
+
 	public static class FirstStepClass {
 		SecondStepClass secondStep = null;
 
+		public SecondStepClass getSecondStep() {
+			return secondStep;
+		}
+
+		public void setSecondStep(SecondStepClass secondStep) {
+			this.secondStep = secondStep;
+		}
+
 	}
 
-	@Data
+	
 	public static class RootClass {
 		FirstStepClass firstStep = null;
+
+		public FirstStepClass getFirstStep() {
+			return firstStep;
+		}
+
+		public void setFirstStep(FirstStepClass firstStep) {
+			this.firstStep = firstStep;
+		}
 
 	}
 

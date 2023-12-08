@@ -5,8 +5,6 @@ import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.ApsModelException;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,7 +15,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class UseModel<EquipmentGroupType extends Group<IObjectWithCalendarType>, IObjectWithCalendarType extends ITimesheetAllocableObject> extends AbstractApsObject implements IMetaInfo {
 	Class<EquipmentGroupType> equipmentGroupClass = null;
 	private boolean fromBegin = false;
@@ -41,6 +39,72 @@ public abstract class UseModel<EquipmentGroupType extends Group<IObjectWithCalen
 		} catch (InstantiationException | IllegalAccessException e) {
 			throw new ApsModelException("Exception allocating ResourceGroup", e);
 		}
+	}
+	public Class<EquipmentGroupType> getEquipmentGroupClass() {
+		return equipmentGroupClass;
+	}
+	public void setEquipmentGroupClass(Class<EquipmentGroupType> equipmentGroupClass) {
+		this.equipmentGroupClass = equipmentGroupClass;
+	}
+	public boolean isFromBegin() {
+		return fromBegin;
+	}
+	public void setFromBegin(boolean fromBegin) {
+		this.fromBegin = fromBegin;
+	}
+	public boolean isFromEnd() {
+		return fromEnd;
+	}
+	public void setFromEnd(boolean fromEnd) {
+		this.fromEnd = fromEnd;
+	}
+	public boolean isFullTime() {
+		return fullTime;
+	}
+	public void setFullTime(boolean fullTime) {
+		this.fullTime = fullTime;
+	}
+	public EquipmentGroupType getGroup() {
+		return group;
+	}
+	public void setGroup(EquipmentGroupType group) {
+		this.group = group;
+	}
+	public GroupingPolicy getGroupingPolicy() {
+		return groupingPolicy;
+	}
+	public void setGroupingPolicy(GroupingPolicy groupingPolicy) {
+		this.groupingPolicy = groupingPolicy;
+	}
+	public int getQty() {
+		return qty;
+	}
+	public void setQty(int qty) {
+		this.qty = qty;
+	}
+	public ResourceRequiredCalculationType getResourceRequiredCalculationType() {
+		return resourceRequiredCalculationType;
+	}
+	public void setResourceRequiredCalculationType(ResourceRequiredCalculationType resourceRequiredCalculationType) {
+		this.resourceRequiredCalculationType = resourceRequiredCalculationType;
+	}
+	public double getResourceCalculatedLot() {
+		return resourceCalculatedLot;
+	}
+	public void setResourceCalculatedLot(double resourceCalculatedLot) {
+		this.resourceCalculatedLot = resourceCalculatedLot;
+	}
+	public Class<IObjectWithCalendarType> getResourcesClass() {
+		return resourcesClass;
+	}
+	public void setResourcesClass(Class<IObjectWithCalendarType> resourcesClass) {
+		this.resourcesClass = resourcesClass;
+	}
+	public long getTime() {
+		return time;
+	}
+	public void setTime(long time) {
+		this.time = time;
 	}
 
 

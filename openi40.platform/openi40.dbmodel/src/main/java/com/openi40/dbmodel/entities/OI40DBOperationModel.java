@@ -5,8 +5,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -35,7 +33,7 @@ import lombok.Data;
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 
 })
-@Data
+
 public class OI40DBOperationModel extends OI40DBBaseEntity {
 	String cycleCode=null;
 	String plantCode = null;
@@ -44,6 +42,48 @@ public class OI40DBOperationModel extends OI40DBBaseEntity {
 	String producingBatchTransferType = null;
 	Double consumingBatchQty = null;
 	Double producingBatchQty = null;
+	public String getCycleCode() {
+		return cycleCode;
+	}
+	public void setCycleCode(String cycleCode) {
+		this.cycleCode = cycleCode;
+	}
+	public String getPlantCode() {
+		return plantCode;
+	}
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
+	public String getSequenceCode() {
+		return sequenceCode;
+	}
+	public void setSequenceCode(String sequenceCode) {
+		this.sequenceCode = sequenceCode;
+	}
+	public String getConsumingBatchTransferType() {
+		return consumingBatchTransferType;
+	}
+	public void setConsumingBatchTransferType(String consumingBatchTransferType) {
+		this.consumingBatchTransferType = consumingBatchTransferType;
+	}
+	public String getProducingBatchTransferType() {
+		return producingBatchTransferType;
+	}
+	public void setProducingBatchTransferType(String producingBatchTransferType) {
+		this.producingBatchTransferType = producingBatchTransferType;
+	}
+	public Double getConsumingBatchQty() {
+		return consumingBatchQty;
+	}
+	public void setConsumingBatchQty(Double consumingBatchQty) {
+		this.consumingBatchQty = consumingBatchQty;
+	}
+	public Double getProducingBatchQty() {
+		return producingBatchQty;
+	}
+	public void setProducingBatchQty(Double producingBatchQty) {
+		this.producingBatchQty = producingBatchQty;
+	}
 	
 
 }

@@ -2,7 +2,6 @@ package com.openi40.mes.integration.ifaces;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.openi40.mes.shared.model.OI40DBMesAsset;
 import com.openi40.mes.shared.repositories.OI40DBMesAssetRepository;
-
-import lombok.Data;
 
 @Service
 public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40IntegratedEndpointsRetriever {
@@ -44,14 +41,44 @@ public class OpenI40IntegratedEndpointsRetrieverImpl implements IOpenI40Integrat
 		}
 		return outlist;
 	}
-	@Data
+
 	static class AssetAssociation implements ConfiguredEndpointInfo {
 
 		String channelId = null;
 		String integrationId = null;
 		String handlerId = null;
 		String assetCode = null;
-		IntegrationEndpointInfo endPointInfo = null;	
+		IntegrationEndpointInfo endPointInfo = null;
+		public String getChannelId() {
+			return channelId;
+		}
+		public void setChannelId(String channelId) {
+			this.channelId = channelId;
+		}
+		public String getIntegrationId() {
+			return integrationId;
+		}
+		public void setIntegrationId(String integrationId) {
+			this.integrationId = integrationId;
+		}
+		public String getHandlerId() {
+			return handlerId;
+		}
+		public void setHandlerId(String handlerId) {
+			this.handlerId = handlerId;
+		}
+		public String getAssetCode() {
+			return assetCode;
+		}
+		public void setAssetCode(String assetCode) {
+			this.assetCode = assetCode;
+		}
+		public IntegrationEndpointInfo getEndPointInfo() {
+			return endPointInfo;
+		}
+		public void setEndPointInfo(IntegrationEndpointInfo endPointInfo) {
+			this.endPointInfo = endPointInfo;
+		}	
 
 		
 

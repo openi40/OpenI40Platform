@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.companystructure;
 
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class AbstractPlantRelatedApsObject extends AbstractApsObject implements IPlantRelatedApsObject {
 
 	public AbstractPlantRelatedApsObject(ApsData context) {
@@ -24,4 +22,16 @@ public class AbstractPlantRelatedApsObject extends AbstractApsObject implements 
 
 	protected String companyCode = null;
 	protected String plantCode = null;
+	public String getCompanyCode() {
+		return companyCode;
+	}
+	public void setCompanyCode(String companyCode) {
+		this.companyCode = companyCode;
+	}
+	public String getPlantCode() {
+		return plantCode;
+	}
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
 }

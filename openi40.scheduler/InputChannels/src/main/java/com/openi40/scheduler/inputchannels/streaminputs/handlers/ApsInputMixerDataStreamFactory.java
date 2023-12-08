@@ -8,8 +8,6 @@ import java.util.stream.Stream;
 import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.InputDataStreamException;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -20,7 +18,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsInputMixerDataStreamFactory implements IInputDataStreamFactory {
 	protected String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
 	protected boolean canBeCached=true;
@@ -56,6 +54,70 @@ public class ApsInputMixerDataStreamFactory implements IInputDataStreamFactory {
 			}
 		}
 		return stream;
+	}
+
+	public String getDataSourceName() {
+		return dataSourceName;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+
+	public String getDataSetName() {
+		return dataSetName;
+	}
+
+	public void setDataSetName(String dataSetName) {
+		this.dataSetName = dataSetName;
+	}
+
+	public String getDataSetVariant() {
+		return dataSetVariant;
+	}
+
+	public void setDataSetVariant(String dataSetVariant) {
+		this.dataSetVariant = dataSetVariant;
+	}
+
+	public String getDataSourceDescription() {
+		return dataSourceDescription;
+	}
+
+	public void setDataSourceDescription(String dataSourceDescription) {
+		this.dataSourceDescription = dataSourceDescription;
+	}
+
+	public boolean isCanBeCached() {
+		return canBeCached;
+	}
+
+	public void setCanBeCached(boolean canBeCached) {
+		this.canBeCached = canBeCached;
+	}
+
+	public List<IInputDataStreamFactory> getMixedFactories() {
+		return mixedFactories;
+	}
+
+	public void setMixedFactories(List<IInputDataStreamFactory> mixedFactories) {
+		this.mixedFactories = mixedFactories;
+	}
+
+	public boolean isRealtime() {
+		return realtime;
+	}
+
+	public void setRealtime(boolean realtime) {
+		this.realtime = realtime;
+	}
+
+	public boolean isProductionControlEnabled() {
+		return productionControlEnabled;
+	}
+
+	public void setProductionControlEnabled(boolean productionControlEnabled) {
+		this.productionControlEnabled = productionControlEnabled;
 	}
 
 }

@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -43,7 +41,7 @@ import lombok.Data;
 @AttributeOverride(name = "netWeight", column = @Column(name = "net_weight")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBProduct extends OI40DBBaseEntity implements Serializable{
 	protected Double averageMinPurchaseQty = null;
 	protected Boolean canBeProducedByScheduler = null;
@@ -60,4 +58,94 @@ public class OI40DBProduct extends OI40DBBaseEntity implements Serializable{
 	protected Double mov2purchCoeff=null;
 	protected Double reorderQty=null;
 	protected Double netWeight=null;
+	public Double getAverageMinPurchaseQty() {
+		return averageMinPurchaseQty;
+	}
+	public void setAverageMinPurchaseQty(Double averageMinPurchaseQty) {
+		this.averageMinPurchaseQty = averageMinPurchaseQty;
+	}
+	public Boolean getCanBeProducedByScheduler() {
+		return canBeProducedByScheduler;
+	}
+	public void setCanBeProducedByScheduler(Boolean canBeProducedByScheduler) {
+		this.canBeProducedByScheduler = canBeProducedByScheduler;
+	}
+	public Boolean getCanBePurchasedByScheduler() {
+		return canBePurchasedByScheduler;
+	}
+	public void setCanBePurchasedByScheduler(Boolean canBePurchasedByScheduler) {
+		this.canBePurchasedByScheduler = canBePurchasedByScheduler;
+	}
+	public Integer getLeadTimeDays() {
+		return leadTimeDays;
+	}
+	public void setLeadTimeDays(Integer leadTimeDays) {
+		this.leadTimeDays = leadTimeDays;
+	}
+	public String getClass1fam1() {
+		return class1fam1;
+	}
+	public void setClass1fam1(String class1fam1) {
+		this.class1fam1 = class1fam1;
+	}
+	public String getClass1fam2() {
+		return class1fam2;
+	}
+	public void setClass1fam2(String class1fam2) {
+		this.class1fam2 = class1fam2;
+	}
+	public String getClass1fam3() {
+		return class1fam3;
+	}
+	public void setClass1fam3(String class1fam3) {
+		this.class1fam3 = class1fam3;
+	}
+	public String getClass2fam1() {
+		return class2fam1;
+	}
+	public void setClass2fam1(String class2fam1) {
+		this.class2fam1 = class2fam1;
+	}
+	public String getClass2fam2() {
+		return class2fam2;
+	}
+	public void setClass2fam2(String class2fam2) {
+		this.class2fam2 = class2fam2;
+	}
+	public String getClass2fam3() {
+		return class2fam3;
+	}
+	public void setClass2fam3(String class2fam3) {
+		this.class2fam3 = class2fam3;
+	}
+	public String getMovUnity() {
+		return movUnity;
+	}
+	public void setMovUnity(String movUnity) {
+		this.movUnity = movUnity;
+	}
+	public String getPurchUnity() {
+		return purchUnity;
+	}
+	public void setPurchUnity(String purchUnity) {
+		this.purchUnity = purchUnity;
+	}
+	public Double getMov2purchCoeff() {
+		return mov2purchCoeff;
+	}
+	public void setMov2purchCoeff(Double mov2purchCoeff) {
+		this.mov2purchCoeff = mov2purchCoeff;
+	}
+	public Double getReorderQty() {
+		return reorderQty;
+	}
+	public void setReorderQty(Double reorderQty) {
+		this.reorderQty = reorderQty;
+	}
+	public Double getNetWeight() {
+		return netWeight;
+	}
+	public void setNetWeight(Double netWeight) {
+		this.netWeight = netWeight;
+	}
 }

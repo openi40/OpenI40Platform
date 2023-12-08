@@ -1,6 +1,5 @@
 package com.openi40.scheduler.model.material.timeline;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -8,7 +7,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.slf4j.Logger;
@@ -18,9 +16,6 @@ import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.material.StockSupply;
-
-import lombok.Getter;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -92,8 +87,7 @@ public class AbstractMaterialTimeLine extends AbstractApsObject {
 		this.initialize();
 	}
 
-	@Getter
-	@Setter
+	
 	protected StockSupply initialStockPosition = null;
 
 	public boolean canDoMovement(AbstractMaterialMovement<?> movement) {
@@ -241,6 +235,22 @@ public class AbstractMaterialTimeLine extends AbstractApsObject {
 		long _ts = DateUtil.discretize(date).getTime();
 		Entry<Long, InventoryTimeNode> entry = this.timeNodes.floorEntry(_ts);
 		return entry != null ? entry.getValue().getStartingSegment() : null;
+	}
+
+	public TreeMap<Long, InventoryTimeNode> getTimeNodes() {
+		return timeNodes;
+	}
+
+	public void setTimeNodes(TreeMap<Long, InventoryTimeNode> timeNodes) {
+		this.timeNodes = timeNodes;
+	}
+
+	public StockSupply getInitialStockPosition() {
+		return initialStockPosition;
+	}
+
+	public void setInitialStockPosition(StockSupply initialStockPosition) {
+		this.initialStockPosition = initialStockPosition;
 	}
 
 }

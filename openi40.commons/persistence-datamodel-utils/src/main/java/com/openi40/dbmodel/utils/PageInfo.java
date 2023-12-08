@@ -2,9 +2,6 @@ package com.openi40.dbmodel.utils;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.repository.support.PageableExecutionUtils;
-
-import lombok.Data;
 
 
 public class PageInfo {

@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -34,7 +32,7 @@ import lombok.Data;
 		@AttributeOverride(name = "plannedDeliveryDate", column = @Column(name = "pld_del_date")),
 		@AttributeOverride(name = "plantCode", column = @Column(name = "plant_code")) ,
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))})
-@Data
+
 public class OI40DBSalesOrder extends OI40DBBaseEntity {
 	protected String plantCode=null;
 	protected Integer customPriority=null;
@@ -44,4 +42,52 @@ public class OI40DBSalesOrder extends OI40DBBaseEntity {
 	protected String orderStatus = null;
 	protected Date askedDeliveryDate = null;
 	protected Date plannedDeliveryDate = null;
+	public String getPlantCode() {
+		return plantCode;
+	}
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
+	public Integer getCustomPriority() {
+		return customPriority;
+	}
+	public void setCustomPriority(Integer customPriority) {
+		this.customPriority = customPriority;
+	}
+	public String getPartner() {
+		return partner;
+	}
+	public void setPartner(String partner) {
+		this.partner = partner;
+	}
+	public String getDepartmentCode() {
+		return departmentCode;
+	}
+	public void setDepartmentCode(String departmentCode) {
+		this.departmentCode = departmentCode;
+	}
+	public String getOrderType() {
+		return orderType;
+	}
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public Date getAskedDeliveryDate() {
+		return askedDeliveryDate;
+	}
+	public void setAskedDeliveryDate(Date askedDeliveryDate) {
+		this.askedDeliveryDate = askedDeliveryDate;
+	}
+	public Date getPlannedDeliveryDate() {
+		return plannedDeliveryDate;
+	}
+	public void setPlannedDeliveryDate(Date plannedDeliveryDate) {
+		this.plannedDeliveryDate = plannedDeliveryDate;
+	}
 }

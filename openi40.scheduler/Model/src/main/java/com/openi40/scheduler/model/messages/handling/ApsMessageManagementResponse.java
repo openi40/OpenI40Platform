@@ -1,6 +1,5 @@
 package com.openi40.scheduler.model.messages.handling;
 
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,11 +10,17 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsMessageManagementResponse {
 	protected boolean reschedule=false;
 	public ApsMessageManagementResponse() {
 		
+	}
+	public boolean isReschedule() {
+		return reschedule;
+	}
+	public void setReschedule(boolean reschedule) {
+		this.reschedule = reschedule;
 	}
 
 }

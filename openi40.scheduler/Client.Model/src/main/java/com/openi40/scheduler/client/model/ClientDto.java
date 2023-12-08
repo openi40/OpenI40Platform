@@ -12,12 +12,28 @@ package com.openi40.scheduler.client.model;
 
 import java.io.Serializable;
 
-import lombok.Data;
 
-@Data
 public class ClientDto implements Serializable {
 	protected String id = null;
 	protected String code = null;
 	protected String description = null;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 }

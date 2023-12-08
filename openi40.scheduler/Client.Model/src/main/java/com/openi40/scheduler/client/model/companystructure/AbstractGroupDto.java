@@ -14,12 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.client.model.ClientDto;
-import com.openi40.scheduler.client.model.time.UsageTimeSegmentDto;
 
-import lombok.Data;
 
-@Data
 public class AbstractGroupDto<ResourceType extends ClientDto> extends ClientDto {
-	protected List<ResourceType> resources = new ArrayList<ResourceType>();	
+	protected List<ResourceType> resources = new ArrayList<ResourceType>();
+
+	public List<ResourceType> getResources() {
+		return resources;
+	}
+
+	public void setResources(List<ResourceType> resources) {
+		this.resources = resources;
+	}	
 
 }

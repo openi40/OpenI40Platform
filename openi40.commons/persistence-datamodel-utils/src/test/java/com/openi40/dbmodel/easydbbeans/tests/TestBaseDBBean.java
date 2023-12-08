@@ -14,9 +14,6 @@ import java.util.stream.Stream;
 import org.apache.derby.jdbc.EmbeddedDriver;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
@@ -27,8 +24,6 @@ import com.openi40.dbmodel.easydbbeans.BaseDBBean.CloseablePersister;
 import com.openi40.dbmodel.easydbbeans.BaseDBBeanDao;
 import com.openi40.dbmodel.easydbbeans.PersistenceException;
 import com.openi40.tests.AbstractDBSupportTest;
-
-import lombok.Data;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -41,7 +36,7 @@ public class TestBaseDBBean extends AbstractDBSupportTest {
 
 	}
 
-	@Data
+	
 	public static class STable extends BaseDBBean {
 		private String code = null;
 		private Timestamp ts = null;
@@ -51,6 +46,30 @@ public class TestBaseDBBean extends AbstractDBSupportTest {
 			super(false);
 			table = "stable";
 			primaryKeyProperties = new String[] { "code" };
+		}
+
+		public String getCode() {
+			return code;
+		}
+
+		public void setCode(String code) {
+			this.code = code;
+		}
+
+		public Timestamp getTs() {
+			return ts;
+		}
+
+		public void setTs(Timestamp ts) {
+			this.ts = ts;
+		}
+
+		public Double getQty() {
+			return qty;
+		}
+
+		public void setQty(Double qty) {
+			this.qty = qty;
 		}
 	}
 

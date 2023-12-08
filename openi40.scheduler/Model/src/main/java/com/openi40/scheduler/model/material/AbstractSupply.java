@@ -1,6 +1,5 @@
 package com.openi40.scheduler.model.material;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +21,11 @@ import com.openi40.scheduler.model.aps.ApsData;
  *
  */
 public abstract class AbstractSupply extends AbstractApsObject implements ISupply {
-	private Date AvailabilityDateTime = null;
+	private Date availabilityDateTime = null;
 	protected String warehouseCode=null; 
 	protected List<SupplyReservation> reservations = new ArrayList<SupplyReservation>();
 
-	private Product SuppliedItem = null;
+	private Product suppliedItem = null;
 
 	public AbstractSupply(ApsData context) {
 		super(context);
@@ -39,7 +38,7 @@ public abstract class AbstractSupply extends AbstractApsObject implements ISuppl
 	public SupplyReservation AddReservation(ISupplyConsumer consumer, Date instant) {
 		ISupplyReservationOperation operation = PlanReservation(consumer, instant);
 		operation.apply(null);
-		SortReservations();
+		sortReservations();
 		return operation.getCreatedReservation();
 	}
 
@@ -48,7 +47,7 @@ public abstract class AbstractSupply extends AbstractApsObject implements ISuppl
 	}
 
 	public Date getAvailabilityDateTime() {
-		return AvailabilityDateTime;
+		return availabilityDateTime;
 	}
 
 	public Date getEndDateTime() {
@@ -78,7 +77,7 @@ public abstract class AbstractSupply extends AbstractApsObject implements ISuppl
 	}
 
 	public Product getSuppliedItem() {
-		return SuppliedItem;
+		return suppliedItem;
 	}
 
 	public ISupplyReservationOperation PlanReservation(ISupplyConsumer consumer, Date instant) {
@@ -113,14 +112,14 @@ public abstract class AbstractSupply extends AbstractApsObject implements ISuppl
 	}
 
 	public void setAvailabilityDateTime(Date value) {
-		AvailabilityDateTime = value;
+		availabilityDateTime = value;
 	}
 
 	public void setSuppliedItem(Product value) {
-		SuppliedItem = value;
+		suppliedItem = value;
 	}
 
-	private void SortReservations() {
+	private void sortReservations() {
 		List<SupplyReservation> _reservations = new ArrayList<SupplyReservation>();
 		TreeMap<Date, List<SupplyReservation>> sortedList = new TreeMap<Date, List<SupplyReservation>>();
 		for (SupplyReservation reservation : this.reservations) {
@@ -137,7 +136,7 @@ public abstract class AbstractSupply extends AbstractApsObject implements ISuppl
 
 		}
 
-		for (Map.Entry<Date, List<SupplyReservation>> item : sortedList.entrySet()) {
+		for (Map.Entry<Date, List<SupplyReservation>> item : sortedList.entrySet()) { 
 			CollectionUtil.getInstance().AddCollection(_reservations, item.getValue());
 		}
 

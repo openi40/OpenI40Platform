@@ -8,12 +8,9 @@ import java.util.Map;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.material.StockSupply;
-import com.openi40.scheduler.model.material.configuration.PlantProductSetting;
 import com.openi40.scheduler.model.material.configuration.WarehouseProductSetting;
 import com.openi40.scheduler.model.material.timeline.WarehouseProductMaterialTimeLine;
 import com.openi40.scheduler.model.time.Timesheet;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -24,7 +21,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 
 public class Warehouse extends AbstractPlantRelatedApsObject
 		implements ICompanyStructureNode<Plant>, ITimesheetAllocableObject {
@@ -62,6 +59,58 @@ public class Warehouse extends AbstractPlantRelatedApsObject
 			stockSupply.resetSchedulingData();
 		}
 		productsMaterialTimeLines.clear();
+	}
+
+	public Plant getParent() {
+		return parent;
+	}
+
+	public void setParent(Plant parent) {
+		this.parent = parent;
+	}
+
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
+
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+
+	public Timesheet getTimesheet() {
+		return timesheet;
+	}
+
+	public void setTimesheet(Timesheet timesheet) {
+		this.timesheet = timesheet;
+	}
+
+	public List<StockSupply> getStockSupplies() {
+		return stockSupplies;
+	}
+
+	public void setStockSupplies(List<StockSupply> stockSupplies) {
+		this.stockSupplies = stockSupplies;
+	}
+
+	public Map<String, WarehouseProductMaterialTimeLine> getProductsMaterialTimeLines() {
+		return productsMaterialTimeLines;
+	}
+
+	public void setProductsMaterialTimeLines(Map<String, WarehouseProductMaterialTimeLine> productsMaterialTimeLines) {
+		this.productsMaterialTimeLines = productsMaterialTimeLines;
+	}
+
+	public List<WarehouseProductSetting> getProductSettings() {
+		return productSettings;
 	}
 
 }

@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.material.configuration;
 
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class AbstractProductSetting extends AbstractApsObject {
 	
 	public AbstractProductSetting(ApsData context) {
@@ -34,6 +32,46 @@ public abstract class AbstractProductSetting extends AbstractApsObject {
 	protected boolean purchaseBySchedulerEnabled = false;
 	
 	protected String productCode=null;
+
+	public boolean isProduced() {
+		return produced;
+	}
+
+	public void setProduced(boolean produced) {
+		this.produced = produced;
+	}
+
+	public boolean isPurchased() {
+		return purchased;
+	}
+
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
+
+	public boolean isProductionBySchedulerEnabled() {
+		return productionBySchedulerEnabled;
+	}
+
+	public void setProductionBySchedulerEnabled(boolean productionBySchedulerEnabled) {
+		this.productionBySchedulerEnabled = productionBySchedulerEnabled;
+	}
+
+	public boolean isPurchaseBySchedulerEnabled() {
+		return purchaseBySchedulerEnabled;
+	}
+
+	public void setPurchaseBySchedulerEnabled(boolean purchaseBySchedulerEnabled) {
+		this.purchaseBySchedulerEnabled = purchaseBySchedulerEnabled;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 	
 
 }

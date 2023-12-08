@@ -14,13 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.client.model.ClientDto;
-import com.openi40.scheduler.client.model.equipment.SecondaryResourceDto;
 
-import lombok.Data;
-@Data
 public class DepartmentDto extends ClientDto {
 
 	List<WorkCenterDto> WorkCenters = new ArrayList<WorkCenterDto>();
 	List<ResourceGroupDto> secondaryResourceGroups = new ArrayList<ResourceGroupDto>();
+	public List<WorkCenterDto> getWorkCenters() {
+		return WorkCenters;
+	}
+	public void setWorkCenters(List<WorkCenterDto> workCenters) {
+		WorkCenters = workCenters;
+	}
+	public List<ResourceGroupDto> getSecondaryResourceGroups() {
+		return secondaryResourceGroups;
+	}
+	public void setSecondaryResourceGroups(List<ResourceGroupDto> secondaryResourceGroups) {
+		this.secondaryResourceGroups = secondaryResourceGroups;
+	}
 
 }

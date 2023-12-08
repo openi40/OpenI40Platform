@@ -1,6 +1,5 @@
 package com.openi40.scheduler.engine.apsdata;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -9,18 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
-import com.openi40.scheduler.engine.timesheet.ITimesheetLogic;
 import com.openi40.scheduler.engine.timesheet.TimeSheetsInitializer;
 import com.openi40.scheduler.engine.workordergeneration.IWorkOrderGenerator;
-import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
-import com.openi40.scheduler.model.companystructure.Department;
 import com.openi40.scheduler.model.companystructure.Plant;
 import com.openi40.scheduler.model.companystructure.ProductiveCompany;
-import com.openi40.scheduler.model.companystructure.WorkCenter;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IWorkOrderDao;
-import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.orders.SalesOrder;
 import com.openi40.scheduler.model.orders.SalesOrderLine;
 import com.openi40.scheduler.model.orders.WorkOrder;

@@ -10,12 +10,16 @@
  */
 package com.openi40.scheduler.client.graphs.model;
 
-import java.util.List;
-
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
-@Data
 public class GraphicContextItemDto<GraphicContentDataType> extends ClientDto {
 	GraphicContentDataType graphicContent = null;
+
+	public GraphicContentDataType getGraphicContent() {
+		return graphicContent;
+	}
+
+	public void setGraphicContent(GraphicContentDataType graphicContent) {
+		this.graphicContent = graphicContent;
+	}
 }

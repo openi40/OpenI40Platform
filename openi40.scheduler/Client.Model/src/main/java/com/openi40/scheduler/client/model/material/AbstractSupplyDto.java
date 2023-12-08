@@ -18,9 +18,7 @@ import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.common.utils.DateUtil.Week;
 
-import lombok.Data;
 
-@Data
 public class AbstractSupplyDto extends ClientDto {
 
 	public AbstractSupplyDto() {
@@ -40,6 +38,62 @@ public class AbstractSupplyDto extends ClientDto {
 		}
 
 		return week == null ? null : week.getPeriod();
+	}
+
+	public double getQtyTotal() {
+		return qtyTotal;
+	}
+
+	public void setQtyTotal(double qtyTotal) {
+		this.qtyTotal = qtyTotal;
+	}
+
+	public double getQtyAvailable() {
+		return qtyAvailable;
+	}
+
+	public void setQtyAvailable(double qtyAvailable) {
+		this.qtyAvailable = qtyAvailable;
+	}
+
+	public double getQtyReserved() {
+		return qtyReserved;
+	}
+
+	public void setQtyReserved(double qtyReserved) {
+		this.qtyReserved = qtyReserved;
+	}
+
+	public Date getAvailabilityDateTime() {
+		return availabilityDateTime;
+	}
+
+	public void setAvailabilityDateTime(Date availabilityDateTime) {
+		this.availabilityDateTime = availabilityDateTime;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public List<SupplyReservationDto> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<SupplyReservationDto> reservations) {
+		this.reservations = reservations;
 	}
 
 }

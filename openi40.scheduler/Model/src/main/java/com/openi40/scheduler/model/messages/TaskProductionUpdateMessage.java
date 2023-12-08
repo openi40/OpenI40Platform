@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.messages;
 
 import com.openi40.scheduler.model.aps.ApsData;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TaskProductionUpdateMessage extends TaskContextMessage {
 	protected double produced = 0.0;
 	protected boolean incremental = false;
@@ -22,6 +20,22 @@ public class TaskProductionUpdateMessage extends TaskContextMessage {
 	public TaskProductionUpdateMessage(ApsData context) {
 		super(context);
 
+	}
+
+	public double getProduced() {
+		return produced;
+	}
+
+	public void setProduced(double produced) {
+		this.produced = produced;
+	}
+
+	public boolean isIncremental() {
+		return incremental;
+	}
+
+	public void setIncremental(boolean incremental) {
+		this.incremental = incremental;
 	}
 
 }

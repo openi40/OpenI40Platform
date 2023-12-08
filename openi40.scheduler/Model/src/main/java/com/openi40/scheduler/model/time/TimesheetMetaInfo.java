@@ -6,10 +6,6 @@ import java.util.List;
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -20,14 +16,22 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TimesheetMetaInfo extends AbstractApsObject implements IMetaInfo{
 
 	public TimesheetMetaInfo(ApsData context) {
 		super(context);		
 	}
-	@Setter(value = AccessLevel.NONE)
+	
 	List<TimesheetMetaInfoWorkingTimeRule> workingTimeRules = new ArrayList<TimesheetMetaInfoWorkingTimeRule>();
-	@Setter(value = AccessLevel.NONE)
+	
 	List<TimesheetMetaInfoExceptionRule> exceptionRules = new ArrayList<TimesheetMetaInfoExceptionRule>();
+
+	public List<TimesheetMetaInfoWorkingTimeRule> getWorkingTimeRules() {
+		return workingTimeRules;
+	}
+
+	public List<TimesheetMetaInfoExceptionRule> getExceptionRules() {
+		return exceptionRules;
+	}
 }

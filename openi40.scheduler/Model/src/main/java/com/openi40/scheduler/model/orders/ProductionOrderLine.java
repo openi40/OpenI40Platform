@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +14,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ProductionOrderLine extends AbstractOrderLine {
 
 	public ProductionOrderLine(ApsData context) {
@@ -24,6 +22,14 @@ public class ProductionOrderLine extends AbstractOrderLine {
 
 	}
 
-	protected List<WorkOrder> WorkOrders = new ArrayList<WorkOrder>();
+	protected List<WorkOrder> workOrders = new ArrayList<WorkOrder>();
+
+	public List<WorkOrder> getWorkOrders() {
+		return workOrders;
+	}
+
+	public void setWorkOrders(List<WorkOrder> workOrders) {
+		workOrders = workOrders;
+	}
 
 }

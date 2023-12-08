@@ -39,8 +39,6 @@ import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IWorkOrderDao;
 import com.openi40.scheduler.model.orders.WorkOrder;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -150,10 +148,22 @@ public abstract class AbstractApsCommandResource<ApsDataMappedType, ApsActionMap
 		}
 	}
 
-	@Data
+	
 	public static class ApsSaveResult {
 		private boolean savedSuccessfully = false;
 		private String errorMessage = null;
+		public boolean isSavedSuccessfully() {
+			return savedSuccessfully;
+		}
+		public void setSavedSuccessfully(boolean savedSuccessfully) {
+			this.savedSuccessfully = savedSuccessfully;
+		}
+		public String getErrorMessage() {
+			return errorMessage;
+		}
+		public void setErrorMessage(String errorMessage) {
+			this.errorMessage = errorMessage;
+		}
 	}
 
 	@GetMapping(value = "save/{dataSourceName}/{dataSetId}/{variantId}/")

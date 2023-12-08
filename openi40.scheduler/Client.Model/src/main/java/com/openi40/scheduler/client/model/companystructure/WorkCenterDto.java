@@ -10,16 +10,9 @@
  */
 package com.openi40.scheduler.client.model.companystructure;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.client.model.equipment.MachineDto;
-import com.openi40.scheduler.client.model.equipment.SecondaryResourceDto;
 
-import lombok.Data;
 
-@Data
 public class WorkCenterDto extends AbstractGroupDto<MachineDto> {
 
 }

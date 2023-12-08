@@ -12,9 +12,7 @@ package com.openi40.scheduler.client.model.equipment;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
 
-@Data
 public class MachineDto extends ClientDto {
 
 }

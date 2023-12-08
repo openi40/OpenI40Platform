@@ -4,12 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.function.Consumer;
@@ -18,7 +16,6 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 import org.eclipse.paho.mqttv5.client.MqttClient;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
@@ -38,8 +35,6 @@ import com.openi40.mes.io.mqtt.generic.config.IntegratedChannelsConfig;
 import com.openi40.mes.io.mqtt.generic.manager.MqttGenericManager;
 import com.openi40.mes.metamessaging.handlers.IMicroKernel;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
-
-import lombok.Data;
 
 @Testcontainers
 public class MessagesBrokerTests extends AbstractMesDBSupportTest {
@@ -133,9 +128,17 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 
 	}
 
-	@Data
+
 	public static class ToBeSavedApplicationMessage extends AbstractOI40IOTApplicationMessage {
 		private String contentField = null;
+
+		public String getContentField() {
+			return contentField;
+		}
+
+		public void setContentField(String contentField) {
+			this.contentField = contentField;
+		}
 	}
 
 	@Test

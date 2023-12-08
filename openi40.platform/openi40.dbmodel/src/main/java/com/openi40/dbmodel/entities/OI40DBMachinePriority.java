@@ -1,15 +1,12 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -30,10 +27,28 @@ import lombok.Data;
 		@AttributeOverride(name = "priority", column = @Column(name = "priority")),
 		@AttributeOverride(name = "operationEquipmentSpecCode", column = @Column(name = "op_equip_spec_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 public class OI40DBMachinePriority extends OI40DBBaseEntity implements Serializable {
 	String machineCode = null;
 	Integer priority = null;
 	String operationEquipmentSpecCode = null;
+	public String getMachineCode() {
+		return machineCode;
+	}
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
+	}
+	public Integer getPriority() {
+		return priority;
+	}
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
+	public String getOperationEquipmentSpecCode() {
+		return operationEquipmentSpecCode;
+	}
+	public void setOperationEquipmentSpecCode(String operationEquipmentSpecCode) {
+		this.operationEquipmentSpecCode = operationEquipmentSpecCode;
+	}
 
 }

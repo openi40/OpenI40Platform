@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -31,7 +29,7 @@ import lombok.Data;
 		@AttributeOverride(name = "algorithmDirection", column = @Column(name = "algo_dir")),
 		@AttributeOverride(name = "algorithmType", column = @Column(name = "algo_type")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))})
-@Data
+
 public class OI40DBApsSchedulingSet extends OI40DBBaseEntity implements Serializable{
 	int position = 0;
 	private String options = null, algorithmDirection = null, algorithmType = null;
@@ -42,6 +40,38 @@ public class OI40DBApsSchedulingSet extends OI40DBBaseEntity implements Serializ
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public String getOptions() {
+		return options;
+	}
+
+	public void setOptions(String options) {
+		this.options = options;
+	}
+
+	public String getAlgorithmDirection() {
+		return algorithmDirection;
+	}
+
+	public void setAlgorithmDirection(String algorithmDirection) {
+		this.algorithmDirection = algorithmDirection;
+	}
+
+	public String getAlgorithmType() {
+		return algorithmType;
+	}
+
+	public void setAlgorithmType(String algorithmType) {
+		this.algorithmType = algorithmType;
 	}
 
 }

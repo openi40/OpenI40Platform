@@ -17,7 +17,6 @@ import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
 import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTMetaMessage;
-import com.openi40.mes.metamessaging.model.AbstractOI40MetaMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
 import com.openi40.mes.metamessaging.model.SpooledRetryEnvelopeMessage;
 import com.openi40.mes.metamessaging.model.UnmanageableMessageEnvelope;

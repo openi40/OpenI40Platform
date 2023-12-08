@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_asset_status")
 @AttributeOverrides(value = {
@@ -17,7 +15,7 @@ import lombok.Data;
 @AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBMesAssetStatus extends OI40DBBaseEntity {
 
 	public OI40DBMesAssetStatus() {

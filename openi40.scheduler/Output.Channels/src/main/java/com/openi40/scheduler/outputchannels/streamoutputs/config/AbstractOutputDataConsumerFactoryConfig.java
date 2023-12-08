@@ -2,8 +2,6 @@ package com.openi40.scheduler.outputchannels.streamoutputs.config;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class AbstractOutputDataConsumerFactoryConfig<ETYPE extends EntityOutputSetting> {
 	String dataImporterId = null;
 	String dataSourceName = null;
@@ -27,4 +25,70 @@ public class AbstractOutputDataConsumerFactoryConfig<ETYPE extends EntityOutputS
 	String relativePathTemplate = null;
 	List<ETYPE> entitiesSetting = new ArrayList<ETYPE>();
 	protected int nEntriesGrouping = -1;
+	public String getDataImporterId() {
+		return dataImporterId;
+	}
+	public void setDataImporterId(String dataImporterId) {
+		this.dataImporterId = dataImporterId;
+	}
+	public String getDataSourceName() {
+		return dataSourceName;
+	}
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+	public String getDataSetName() {
+		return dataSetName;
+	}
+	public void setDataSetName(String dataSetName) {
+		this.dataSetName = dataSetName;
+	}
+	public String getDataSetVariant() {
+		return dataSetVariant;
+	}
+	public void setDataSetVariant(String dataSetVariant) {
+		this.dataSetVariant = dataSetVariant;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public boolean isCreateURIByEntityName() {
+		return createURIByEntityName;
+	}
+	public void setCreateURIByEntityName(boolean createURIByEntityName) {
+		this.createURIByEntityName = createURIByEntityName;
+	}
+	public boolean isHasIncrementalUpdates() {
+		return hasIncrementalUpdates;
+	}
+	public void setHasIncrementalUpdates(boolean hasIncrementalUpdates) {
+		this.hasIncrementalUpdates = hasIncrementalUpdates;
+	}
+	public String getSingleApsInputUri() {
+		return singleApsInputUri;
+	}
+	public void setSingleApsInputUri(String singleApsInputUri) {
+		this.singleApsInputUri = singleApsInputUri;
+	}
+	public String getRelativePathTemplate() {
+		return relativePathTemplate;
+	}
+	public void setRelativePathTemplate(String relativePathTemplate) {
+		this.relativePathTemplate = relativePathTemplate;
+	}
+	public List<ETYPE> getEntitiesSetting() {
+		return entitiesSetting;
+	}
+	public void setEntitiesSetting(List<ETYPE> entitiesSetting) {
+		this.entitiesSetting = entitiesSetting;
+	}
+	public int getnEntriesGrouping() {
+		return nEntriesGrouping;
+	}
+	public void setnEntriesGrouping(int nEntriesGrouping) {
+		this.nEntriesGrouping = nEntriesGrouping;
+	}
 }

@@ -6,9 +6,7 @@ import java.util.List;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
 
-import lombok.Data;
 
-@Data
 public class UsedSecondaryResourcesInfo extends AbstractApsObject {
 
 	private String resourceGroup = null;
@@ -23,5 +21,21 @@ public class UsedSecondaryResourcesInfo extends AbstractApsObject {
 		this.resourceGroup = c.resourceGroup;
 		if (c.usedResourcesCodes != null)
 			this.usedResourcesCodes = new ArrayList<String>(c.usedResourcesCodes);
+	}
+
+	public String getResourceGroup() {
+		return resourceGroup;
+	}
+
+	public void setResourceGroup(String resourceGroup) {
+		this.resourceGroup = resourceGroup;
+	}
+
+	public List<String> getUsedResourcesCodes() {
+		return usedResourcesCodes;
+	}
+
+	public void setUsedResourcesCodes(List<String> usedResourcesCodes) {
+		this.usedResourcesCodes = usedResourcesCodes;
 	}
 }

@@ -7,9 +7,9 @@ import java.util.List;
 
 import com.openi40.scheduler.common.aps.IReferencingMetaInfo;
 import com.openi40.scheduler.common.utils.CollectionUtil;
-import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsMessage;
+import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 import com.openi40.scheduler.model.companystructure.AbstractPlantRelatedApsObject;
 import com.openi40.scheduler.model.cycle.BatchingInfo;
 import com.openi40.scheduler.model.cycle.OperationModel;
@@ -26,10 +26,6 @@ import com.openi40.scheduler.model.time.PeriodsAlignmentType;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -40,7 +36,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class Task extends AbstractPlantRelatedApsObject
 		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity {
 	protected boolean workOrderRootTask = false;
@@ -68,7 +64,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected String forcedMachineCode = null;
 	protected Date askedDeliveryDateTime = null;
 	protected TaskStatus status = TaskStatus.NOT_YET_EXECUTED;
-	@Setter(value = AccessLevel.NONE)
+
 	protected List<TaskEdge> childTasks = createCleanChild(this, "ChildTasks", TaskEdge.class);
 
 	protected PlanGraphItem decisionGraphItem = null;
@@ -78,7 +74,7 @@ public class Task extends AbstractPlantRelatedApsObject
 	protected boolean successfullyScheduled = false;
 
 	protected TimeSegmentsGroup mainTimeRange;
-	@Setter(value = AccessLevel.NONE)
+
 	protected List<ItemConsumed> materialConsumptions = createCleanChild(this, "MaterialConsumptions",
 			ItemConsumed.class);
 
@@ -259,6 +255,342 @@ public class Task extends AbstractPlantRelatedApsObject
 			return this == o || otherTask.getId().equals(getId());
 		} else
 			return super.equals(o);
+	}
+
+	public boolean isWorkOrderRootTask() {
+		return workOrderRootTask;
+	}
+
+	public void setWorkOrderRootTask(boolean workOrderRootTask) {
+		this.workOrderRootTask = workOrderRootTask;
+	}
+
+	public boolean isProductionLock() {
+		return productionLock;
+	}
+
+	public void setProductionLock(boolean productionLock) {
+		this.productionLock = productionLock;
+	}
+
+	public TaskEquipmentInfoSample getSampledTaskEquipmentInfo() {
+		return sampledTaskEquipmentInfo;
+	}
+
+	public void setSampledTaskEquipmentInfo(TaskEquipmentInfoSample sampledTaskEquipmentInfo) {
+		this.sampledTaskEquipmentInfo = sampledTaskEquipmentInfo;
+	}
+
+	public String getSalesOrderLineCode() {
+		return salesOrderLineCode;
+	}
+
+	public void setSalesOrderLineCode(String salesOrderLineCode) {
+		this.salesOrderLineCode = salesOrderLineCode;
+	}
+
+	public String getPredefinedMachineCode() {
+		return predefinedMachineCode;
+	}
+
+	public void setPredefinedMachineCode(String predefinedMachineCode) {
+		this.predefinedMachineCode = predefinedMachineCode;
+	}
+
+	public String getForcedMachineCode() {
+		return forcedMachineCode;
+	}
+
+	public void setForcedMachineCode(String forcedMachineCode) {
+		this.forcedMachineCode = forcedMachineCode;
+	}
+
+	public Date getAskedDeliveryDateTime() {
+		return askedDeliveryDateTime;
+	}
+
+	public void setAskedDeliveryDateTime(Date askedDeliveryDateTime) {
+		this.askedDeliveryDateTime = askedDeliveryDateTime;
+	}
+
+	public TaskStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TaskStatus status) {
+		this.status = status;
+	}
+
+	public PlanGraphItem getDecisionGraphItem() {
+		return decisionGraphItem;
+	}
+
+	public void setDecisionGraphItem(PlanGraphItem decisionGraphItem) {
+		this.decisionGraphItem = decisionGraphItem;
+	}
+
+	public TaskEquipmentInfo getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(TaskEquipmentInfo equipment) {
+		this.equipment = equipment;
+	}
+
+	public boolean isSuccessfullyScheduled() {
+		return successfullyScheduled;
+	}
+
+	public void setSuccessfullyScheduled(boolean successfullyScheduled) {
+		this.successfullyScheduled = successfullyScheduled;
+	}
+
+	public TimeSegmentsGroup getMainTimeRange() {
+		return mainTimeRange;
+	}
+
+	public void setMainTimeRange(TimeSegmentsGroup mainTimeRange) {
+		this.mainTimeRange = mainTimeRange;
+	}
+
+	public List<ApsMessage> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(List<ApsMessage> messages) {
+		this.messages = messages;
+	}
+
+	public OperationModel getMetaInfo() {
+		return metaInfo;
+	}
+
+	public void setMetaInfo(OperationModel metaInfo) {
+		this.metaInfo = metaInfo;
+	}
+
+	public WorkOrder getWorkOrder() {
+		return workOrder;
+	}
+
+	public void setWorkOrder(WorkOrder workOrder) {
+		this.workOrder = workOrder;
+	}
+
+	public ApsSchedulingSet getParentSchedulingSet() {
+		return parentSchedulingSet;
+	}
+
+	public void setParentSchedulingSet(ApsSchedulingSet parentSchedulingSet) {
+		this.parentSchedulingSet = parentSchedulingSet;
+	}
+
+	public TaskEdge getParentTask() {
+		return parentTask;
+	}
+
+	public void setParentTask(TaskEdge parentTask) {
+		this.parentTask = parentTask;
+	}
+
+	public ProductionSupply getProduction() {
+		return production;
+	}
+
+	public void setProduction(ProductionSupply production) {
+		this.production = production;
+	}
+
+	public BatchingInfo getProducingBatchInfo() {
+		return producingBatchInfo;
+	}
+
+	public void setProducingBatchInfo(BatchingInfo producingBatchInfo) {
+		this.producingBatchInfo = producingBatchInfo;
+	}
+
+	public List<Rule> getConstraintRules() {
+		return constraintRules;
+	}
+
+	public void setConstraintRules(List<Rule> constraintRules) {
+		this.constraintRules = constraintRules;
+	}
+
+	public String getCycleCode() {
+		return cycleCode;
+	}
+
+	public void setCycleCode(String cycleCode) {
+		this.cycleCode = cycleCode;
+	}
+
+	public String getOperationCode() {
+		return operationCode;
+	}
+
+	public void setOperationCode(String operationCode) {
+		this.operationCode = operationCode;
+	}
+
+	public String getSequenceCode() {
+		return sequenceCode;
+	}
+
+	public void setSequenceCode(String sequenceCode) {
+		this.sequenceCode = sequenceCode;
+	}
+
+	public TimeSegmentsGroup getSetupPhaseExecution() {
+		return setupPhaseExecution;
+	}
+
+	public void setSetupPhaseExecution(TimeSegmentsGroup setupPhaseExecution) {
+		this.setupPhaseExecution = setupPhaseExecution;
+	}
+
+	public String getWorkOrderCode() {
+		return workOrderCode;
+	}
+
+	public void setWorkOrderCode(String workOrderCode) {
+		this.workOrderCode = workOrderCode;
+	}
+
+	public TimeSegmentsGroup getWorkPhaseExecution() {
+		return workPhaseExecution;
+	}
+
+	public void setWorkPhaseExecution(TimeSegmentsGroup workPhaseExecution) {
+		this.workPhaseExecution = workPhaseExecution;
+	}
+
+	public PeriodsAlignmentType getDefaultPreceidingAlignmentType() {
+		return defaultPreceidingAlignmentType;
+	}
+
+	public void setDefaultPreceidingAlignmentType(PeriodsAlignmentType defaultPreceidingAlignmentType) {
+		this.defaultPreceidingAlignmentType = defaultPreceidingAlignmentType;
+	}
+
+	public double getQtyTotal() {
+		return qtyTotal;
+	}
+
+	public void setQtyTotal(double qtyTotal) {
+		this.qtyTotal = qtyTotal;
+	}
+
+	public double getQtyProduced() {
+		return qtyProduced;
+	}
+
+	public void setQtyProduced(double qtyProduced) {
+		this.qtyProduced = qtyProduced;
+	}
+
+	public Integer getCustomPriority() {
+		return customPriority;
+	}
+
+	public void setCustomPriority(Integer customPriority) {
+		this.customPriority = customPriority;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public Date getMinProductionDateConstraint() {
+		return minProductionDateConstraint;
+	}
+
+	public void setMinProductionDateConstraint(Date minProductionDateConstraint) {
+		this.minProductionDateConstraint = minProductionDateConstraint;
+	}
+
+	public Date getMaxProductionDateConstraint() {
+		return maxProductionDateConstraint;
+	}
+
+	public void setMaxProductionDateConstraint(Date maxProductionDateConstraint) {
+		this.maxProductionDateConstraint = maxProductionDateConstraint;
+	}
+
+	public Date getAcquiredStartSetup() {
+		return acquiredStartSetup;
+	}
+
+	public void setAcquiredStartSetup(Date acquiredStartSetup) {
+		this.acquiredStartSetup = acquiredStartSetup;
+	}
+
+	public Date getAcquiredEndSetup() {
+		return acquiredEndSetup;
+	}
+
+	public void setAcquiredEndSetup(Date acquiredEndSetup) {
+		this.acquiredEndSetup = acquiredEndSetup;
+	}
+
+	public Date getAcquiredStartWork() {
+		return acquiredStartWork;
+	}
+
+	public void setAcquiredStartWork(Date acquiredStartWork) {
+		this.acquiredStartWork = acquiredStartWork;
+	}
+
+	public Date getAcquiredEndWork() {
+		return acquiredEndWork;
+	}
+
+	public void setAcquiredEndWork(Date acquiredEndWork) {
+		this.acquiredEndWork = acquiredEndWork;
+	}
+
+	public Date getAcquiredProductionUpdate() {
+		return acquiredProductionUpdate;
+	}
+
+	public void setAcquiredProductionUpdate(Date acquiredProductionUpdate) {
+		this.acquiredProductionUpdate = acquiredProductionUpdate;
+	}
+
+	public String getAcquiredMachineCode() {
+		return acquiredMachineCode;
+	}
+
+	public void setAcquiredMachineCode(String acquiredMachineCode) {
+		this.acquiredMachineCode = acquiredMachineCode;
+	}
+
+	public List<UsedSecondaryResourcesInfo> getAcquiredSetupUsedResources() {
+		return acquiredSetupUsedResources;
+	}
+
+	public void setAcquiredSetupUsedResources(List<UsedSecondaryResourcesInfo> acquiredSetupUsedResources) {
+		this.acquiredSetupUsedResources = acquiredSetupUsedResources;
+	}
+
+	public List<UsedSecondaryResourcesInfo> getAcquiredWorkUsedResources() {
+		return acquiredWorkUsedResources;
+	}
+
+	public void setAcquiredWorkUsedResources(List<UsedSecondaryResourcesInfo> acquiredWorkUsedResources) {
+		this.acquiredWorkUsedResources = acquiredWorkUsedResources;
+	}
+
+	public List<TaskEdge> getChildTasks() {
+		return childTasks;
+	}
+
+	public List<ItemConsumed> getMaterialConsumptions() {
+		return materialConsumptions;
 	}
 
 }

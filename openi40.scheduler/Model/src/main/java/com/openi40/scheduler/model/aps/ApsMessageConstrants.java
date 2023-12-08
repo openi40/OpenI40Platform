@@ -1,7 +1,5 @@
 package com.openi40.scheduler.model.aps;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -12,7 +10,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsMessageConstrants {
 	String code = null, description = null;
 	ApsMessageLevel msgLevel = ApsMessageLevel.INFO;
@@ -68,5 +66,30 @@ public class ApsMessageConstrants {
 			ApsMessageCategory.CONSTRAINT_UNSATISFIED, ApsMessageLevel.UNSCHEDULABLE_CONDITION,
 			"MAX_PRODUCTION_START_DATE_CONSTRAINT_NOT_MET",
 			"The  task ${task.workOrderCode}/${task.sequenceCode} out of end scheduling time before ${task.minProductionDateConstraint}");
+
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public ApsMessageLevel getMsgLevel() {
+		return msgLevel;
+	}
+	public void setMsgLevel(ApsMessageLevel msgLevel) {
+		this.msgLevel = msgLevel;
+	}
+	public ApsMessageCategory getMsgCategory() {
+		return msgCategory;
+	}
+	public void setMsgCategory(ApsMessageCategory msgCategory) {
+		this.msgCategory = msgCategory;
+	}
 
 }

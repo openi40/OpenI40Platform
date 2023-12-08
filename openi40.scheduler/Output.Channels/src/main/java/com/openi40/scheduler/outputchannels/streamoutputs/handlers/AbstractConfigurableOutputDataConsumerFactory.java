@@ -1,8 +1,6 @@
 package com.openi40.scheduler.outputchannels.streamoutputs.handlers;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -14,9 +12,6 @@ import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamExcept
 import com.openi40.scheduler.outputchannels.streamoutputs.config.AbstractOutputDataConsumerFactoryConfig;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSetting;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -27,11 +22,11 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Setter
+
 public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryType extends EntityOutputSetting, CType extends AbstractOutputDataConsumerFactoryConfig<OutputEntryType>>
 		implements IOutputDataConsumerFactory {
 	protected String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
-	@Getter
+	
 
 	protected CType config = null;
 
@@ -174,6 +169,30 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 				
 			}
 		};
+	}
+
+	public CType getConfig() {
+		return config;
+	}
+
+	public void setConfig(CType config) {
+		this.config = config;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+
+	public void setDataSetName(String dataSetName) {
+		this.dataSetName = dataSetName;
+	}
+
+	public void setDataSetVariant(String dataSetVariant) {
+		this.dataSetVariant = dataSetVariant;
+	}
+
+	public void setDataSourceDescription(String dataSourceDescription) {
+		this.dataSourceDescription = dataSourceDescription;
 	}
 
 }

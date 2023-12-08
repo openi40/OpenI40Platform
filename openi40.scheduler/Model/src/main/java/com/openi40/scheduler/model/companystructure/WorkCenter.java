@@ -9,10 +9,6 @@ import com.openi40.scheduler.model.cycle.ChangeOverMatrixItem;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.equipment.MachinesGroup;
 import com.openi40.scheduler.model.time.Timesheet;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -23,12 +19,12 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class WorkCenter extends MachinesGroup
 		implements ICompanyStructureNode<Department>, IPlantRelatedApsObject, ITimesheetAllocableObject {
 	private boolean infiniteCapacity = false;
 	private List<ChangeOverMatrixItem> changeOverMatrixItems = new ArrayList<>();
-	@Setter(value = AccessLevel.NONE)
+	
 	Department parent = null;
 	protected String timesheetMetaInfoCode = null;
 	protected Timesheet timesheet = null;
@@ -63,5 +59,41 @@ public class WorkCenter extends MachinesGroup
 
 	public void setParent(Department parent) {
 		this.parent = parent;
+	}
+
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
+
+	public List<ChangeOverMatrixItem> getChangeOverMatrixItems() {
+		return changeOverMatrixItems;
+	}
+
+	public void setChangeOverMatrixItems(List<ChangeOverMatrixItem> changeOverMatrixItems) {
+		this.changeOverMatrixItems = changeOverMatrixItems;
+	}
+
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+
+	public Timesheet getTimesheet() {
+		return timesheet;
+	}
+
+	public void setTimesheet(Timesheet timesheet) {
+		this.timesheet = timesheet;
+	}
+
+	public Department getParent() {
+		return parent;
 	}
 }

@@ -1,11 +1,5 @@
 package com.openi40.mes.shared.assets.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lombok.Data;
-
-@Data
 public class AssetContextObjectBidirectionalTree extends AssetContextObjectTree {
 	private AssetContextObjectBidirectionalTree parent = null;
 
@@ -19,6 +13,14 @@ public class AssetContextObjectBidirectionalTree extends AssetContextObjectTree 
 				&& searchedObject.getObjectCode() != null && searchedObject.getObjectType() != null
 				&& (item.getObjectType().equals(searchedObject.getObjectType()))
 				&& (item.getObjectCode().equals(searchedObject.getObjectCode()));
+	}
+
+	public AssetContextObjectBidirectionalTree getParent() {
+		return parent;
+	}
+
+	public void setParent(AssetContextObjectBidirectionalTree parent) {
+		this.parent = parent;
 	}
 
 }

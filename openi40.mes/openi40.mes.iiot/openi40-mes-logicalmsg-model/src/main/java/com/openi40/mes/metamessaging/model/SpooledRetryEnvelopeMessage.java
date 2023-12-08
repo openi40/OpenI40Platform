@@ -4,9 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import lombok.Data;
 
-@Data
 public class SpooledRetryEnvelopeMessage extends AbstractOI40IOTMetaMessage {
 	private AbstractOI40IOTMetaMessage content = null;
 	private Timestamp retryThreshold = null;
@@ -28,6 +26,18 @@ public class SpooledRetryEnvelopeMessage extends AbstractOI40IOTMetaMessage {
 		this.setTo(content.getTo());	
 		this.setMsgId(content.getMsgId()+"::spool-retry");
 		this.retryThreshold = new Timestamp(gregorian.getTimeInMillis());
+	}
+	public AbstractOI40IOTMetaMessage getContent() {
+		return content;
+	}
+	public void setContent(AbstractOI40IOTMetaMessage content) {
+		this.content = content;
+	}
+	public Timestamp getRetryThreshold() {
+		return retryThreshold;
+	}
+	public void setRetryThreshold(Timestamp retryThreshold) {
+		this.retryThreshold = retryThreshold;
 	}
 
 }

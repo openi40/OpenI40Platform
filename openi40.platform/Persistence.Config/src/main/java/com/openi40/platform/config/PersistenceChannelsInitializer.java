@@ -22,13 +22,10 @@ import org.springframework.stereotype.Service;
 
 import com.openi40.platform.persistence.input.channel.AbstractPersistenceInputDataStream;
 import com.openi40.platform.persistence.input.channel.PersistenceInputDataStreamFactory;
-import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumer;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumerFactory;
 import com.openi40.platform.persistence.output.channel.PersistenceOutputDataConsumerFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
-
-import lombok.Data;
 
 @Service
 public class PersistenceChannelsInitializer {

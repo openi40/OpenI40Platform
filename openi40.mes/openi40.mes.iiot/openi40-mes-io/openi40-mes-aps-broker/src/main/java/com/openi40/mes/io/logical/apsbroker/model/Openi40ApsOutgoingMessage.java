@@ -5,9 +5,17 @@ import java.io.Serializable;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.ConfigurableMessageProperty;
 import com.openi40.mes.metamessaging.model.ConfigurableMessageType;
-import com.openi40.scheduler.iomessages.*;
-
-import lombok.Data;
+import com.openi40.scheduler.iomessages.AbortTaskIOMessage;
+import com.openi40.scheduler.iomessages.AbstractBaseIOMessage;
+import com.openi40.scheduler.iomessages.EndSetupIOMessage;
+import com.openi40.scheduler.iomessages.EndWorkIOMessage;
+import com.openi40.scheduler.iomessages.OutOfOrderMachineIOMessage;
+import com.openi40.scheduler.iomessages.PauseTaskIOMessage;
+import com.openi40.scheduler.iomessages.StartSetupIOMessage;
+import com.openi40.scheduler.iomessages.StartWorkIOMessage;
+import com.openi40.scheduler.iomessages.TaskProductionUpdateIOMessage;
+import com.openi40.scheduler.iomessages.UnderMantainmentMachineIOMessage;
+import com.openi40.scheduler.iomessages.UsedSecondaryResourcesInfo;
 
 @ConfigurableMessageType(typeDescription = "Outgoing messages for the OpenI40 APS System")
 

@@ -1,8 +1,6 @@
 package com.openi40.scheduler.input.model.orders;
 
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,9 +11,21 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class SalesOrderLineInputDto extends AbstractOrderLine {
 	private boolean explodeWorkOrders=false; 
 	private String explodeWithCycleCode=null;
+	public boolean isExplodeWorkOrders() {
+		return explodeWorkOrders;
+	}
+	public void setExplodeWorkOrders(boolean explodeWorkOrders) {
+		this.explodeWorkOrders = explodeWorkOrders;
+	}
+	public String getExplodeWithCycleCode() {
+		return explodeWithCycleCode;
+	}
+	public void setExplodeWithCycleCode(String explodeWithCycleCode) {
+		this.explodeWithCycleCode = explodeWithCycleCode;
+	}
 }

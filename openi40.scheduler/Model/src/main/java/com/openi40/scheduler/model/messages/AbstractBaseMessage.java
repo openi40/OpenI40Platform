@@ -6,8 +6,6 @@ import java.util.UUID;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
 
-import lombok.Data;
-
 /***
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -18,13 +16,21 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class AbstractBaseMessage extends AbstractApsObject {
 	protected Date messageTimestamp = null;
 
 	public AbstractBaseMessage(ApsData context) {
 		super(context);
 		this.code = UUID.randomUUID().toString();
+	}
+
+	public Date getMessageTimestamp() {
+		return messageTimestamp;
+	}
+
+	public void setMessageTimestamp(Date messageTimestamp) {
+		this.messageTimestamp = messageTimestamp;
 	}
 
 }

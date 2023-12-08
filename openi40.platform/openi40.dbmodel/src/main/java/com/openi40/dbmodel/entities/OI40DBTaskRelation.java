@@ -1,15 +1,12 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -41,11 +38,71 @@ import lombok.Data;
 @AttributeOverride(name = "consumptionBatchQty", column = @Column(name = "cons_batch_qty")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBTaskRelation extends OI40DBBaseEntity implements Serializable{
 	String supplierTaskCode = null, consumerTaskCode = null, alignmentType = null, timeRangeType = null,
 			peggingCode = null, bomItemCode = null, consumptionTransferType = null;
 	Boolean peggingEdge = null;
 	Long offsetMillisecs = null;
 	Double consumptionBatchQty = null;
+	public String getSupplierTaskCode() {
+		return supplierTaskCode;
+	}
+	public void setSupplierTaskCode(String supplierTaskCode) {
+		this.supplierTaskCode = supplierTaskCode;
+	}
+	public String getConsumerTaskCode() {
+		return consumerTaskCode;
+	}
+	public void setConsumerTaskCode(String consumerTaskCode) {
+		this.consumerTaskCode = consumerTaskCode;
+	}
+	public String getAlignmentType() {
+		return alignmentType;
+	}
+	public void setAlignmentType(String alignmentType) {
+		this.alignmentType = alignmentType;
+	}
+	public String getTimeRangeType() {
+		return timeRangeType;
+	}
+	public void setTimeRangeType(String timeRangeType) {
+		this.timeRangeType = timeRangeType;
+	}
+	public String getPeggingCode() {
+		return peggingCode;
+	}
+	public void setPeggingCode(String peggingCode) {
+		this.peggingCode = peggingCode;
+	}
+	public String getBomItemCode() {
+		return bomItemCode;
+	}
+	public void setBomItemCode(String bomItemCode) {
+		this.bomItemCode = bomItemCode;
+	}
+	public String getConsumptionTransferType() {
+		return consumptionTransferType;
+	}
+	public void setConsumptionTransferType(String consumptionTransferType) {
+		this.consumptionTransferType = consumptionTransferType;
+	}
+	public Boolean getPeggingEdge() {
+		return peggingEdge;
+	}
+	public void setPeggingEdge(Boolean peggingEdge) {
+		this.peggingEdge = peggingEdge;
+	}
+	public Long getOffsetMillisecs() {
+		return offsetMillisecs;
+	}
+	public void setOffsetMillisecs(Long offsetMillisecs) {
+		this.offsetMillisecs = offsetMillisecs;
+	}
+	public Double getConsumptionBatchQty() {
+		return consumptionBatchQty;
+	}
+	public void setConsumptionBatchQty(Double consumptionBatchQty) {
+		this.consumptionBatchQty = consumptionBatchQty;
+	}
 }

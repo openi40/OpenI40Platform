@@ -1,6 +1,5 @@
 package com.openi40.generical.dbintegration.configuration;
 
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,7 +10,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class SqlEntityIntegrationConfig extends EntityIntegrationConfig {
 	String extractSql = null;
 	String incrementalSyncSql = null;
@@ -19,6 +18,30 @@ public class SqlEntityIntegrationConfig extends EntityIntegrationConfig {
 
 	public SqlEntityIntegrationConfig() {
 
+	}
+
+	public String getExtractSql() {
+		return extractSql;
+	}
+
+	public void setExtractSql(String extractSql) {
+		this.extractSql = extractSql;
+	}
+
+	public String getIncrementalSyncSql() {
+		return incrementalSyncSql;
+	}
+
+	public void setIncrementalSyncSql(String incrementalSyncSql) {
+		this.incrementalSyncSql = incrementalSyncSql;
+	}
+
+	public String getModificationTimestampField() {
+		return modificationTimestampField;
+	}
+
+	public void setModificationTimestampField(String modificationTimestampField) {
+		this.modificationTimestampField = modificationTimestampField;
 	}
 
 }

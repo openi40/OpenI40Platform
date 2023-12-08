@@ -4,8 +4,6 @@ import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.aps.ApsMessage;
 import com.openi40.scheduler.model.tasks.Task;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +14,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class Rule extends AbstractApsObject {
 	public enum ConstraintOrigin {
 		DATALOAD, SCHEDULING;
@@ -28,10 +26,10 @@ public abstract class Rule extends AbstractApsObject {
 		MANDATORY, // Must be met otherwise not schedulable
 	}
 
-	private boolean currentlySatisfied = false;
-	private ConstraintOrigin Origin = ConstraintOrigin.SCHEDULING;
-	private ConstraintPriority Priority = ConstraintPriority.MANDATORY;
-	private Task TargetTask = null;
+	private boolean currentlySatisfied = false; 
+	private ConstraintOrigin origin = ConstraintOrigin.SCHEDULING;
+	private ConstraintPriority priority = ConstraintPriority.MANDATORY;
+	private Task targetTask = null;
 	private ApsMessage unmetConstraintMessage = null;
 
 	public Rule(ApsData context) {
@@ -43,6 +41,46 @@ public abstract class Rule extends AbstractApsObject {
 		setOrigin(origin);
 		setPriority(priority);
 		setTargetTask(target);
+	}
+
+	public boolean isCurrentlySatisfied() {
+		return currentlySatisfied;
+	}
+
+	public void setCurrentlySatisfied(boolean currentlySatisfied) {
+		this.currentlySatisfied = currentlySatisfied;
+	}
+
+	public ConstraintOrigin getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(ConstraintOrigin origin) {
+		this.origin = origin;
+	}
+
+	public ConstraintPriority getPriority() {
+		return priority;
+	}
+
+	public void setPriority(ConstraintPriority priority) {
+		this.priority = priority;
+	}
+
+	public Task getTargetTask() {
+		return targetTask;
+	}
+
+	public void setTargetTask(Task targetTask) {
+		this.targetTask = targetTask;
+	}
+
+	public ApsMessage getUnmetConstraintMessage() {
+		return unmetConstraintMessage;
+	}
+
+	public void setUnmetConstraintMessage(ApsMessage unmetConstraintMessage) {
+		this.unmetConstraintMessage = unmetConstraintMessage;
 	}
 
 }

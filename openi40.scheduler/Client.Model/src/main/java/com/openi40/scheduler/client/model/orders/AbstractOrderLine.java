@@ -16,9 +16,7 @@ import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.common.utils.DateUtil.Week;
 
-import lombok.Data;
 
-@Data
 public abstract class AbstractOrderLine extends ClientDto {
 
 	protected String plantCode = null;
@@ -45,5 +43,117 @@ public abstract class AbstractOrderLine extends ClientDto {
 		}
 		
 		return week==null?null:week.getPeriod();
+	}
+
+	public String getPlantCode() {
+		return plantCode;
+	}
+
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
+
+	public Integer getCustomPriority() {
+		return customPriority;
+	}
+
+	public void setCustomPriority(Integer customPriority) {
+		this.customPriority = customPriority;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getDepartmentCode() {
+		return departmentCode;
+	}
+
+	public void setDepartmentCode(String departmentCode) {
+		this.departmentCode = departmentCode;
+	}
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+
+	public String getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(String orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public double getTotalQty() {
+		return totalQty;
+	}
+
+	public void setTotalQty(double totalQty) {
+		this.totalQty = totalQty;
+	}
+
+	public double getResidualQty() {
+		return residualQty;
+	}
+
+	public void setResidualQty(double residualQty) {
+		this.residualQty = residualQty;
+	}
+
+	public double getCompletedQty() {
+		return completedQty;
+	}
+
+	public void setCompletedQty(double completedQty) {
+		this.completedQty = completedQty;
+	}
+
+	public Date getAskedDeliveryDate() {
+		return askedDeliveryDate;
+	}
+
+	public void setAskedDeliveryDate(Date askedDeliveryDate) {
+		this.askedDeliveryDate = askedDeliveryDate;
+	}
+
+	public Date getPlannedDeliveryDate() {
+		return plannedDeliveryDate;
+	}
+
+	public void setPlannedDeliveryDate(Date plannedDeliveryDate) {
+		this.plannedDeliveryDate = plannedDeliveryDate;
+	}
+
+	public String getLineStatus() {
+		return lineStatus;
+	}
+
+	public void setLineStatus(String lineStatus) {
+		this.lineStatus = lineStatus;
 	}
 }

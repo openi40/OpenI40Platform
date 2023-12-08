@@ -3,8 +3,6 @@ package com.openi40.scheduler.model.material;
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,7 +13,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo {
 	public ItemProducedMetaInfo(ApsData context) {
 		super(context);
@@ -37,5 +35,28 @@ public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo
 	private Product suppliedItem = null;
 	private String warehouseCode = null;
 	private double qty;
+	public Product getSuppliedItem() {
+		return suppliedItem;
+	}
+
+	public void setSuppliedItem(Product suppliedItem) {
+		this.suppliedItem = suppliedItem;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public double getQty() {
+		return qty;
+	}
+
+	public void setQty(double qty) {
+		this.qty = qty;
+	}
 
 }

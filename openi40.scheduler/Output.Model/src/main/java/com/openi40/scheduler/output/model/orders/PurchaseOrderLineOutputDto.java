@@ -1,8 +1,5 @@
 package com.openi40.scheduler.output.model.orders;
 
-
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,7 +10,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class PurchaseOrderLineOutputDto extends AbstractOrderLine {
 	
 

@@ -3,8 +3,6 @@ package com.openi40.scheduler.model.aps;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,12 +13,28 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsWindow extends TimeSegment {
 	protected Integer realtimePlanningDays = null;
 	protected Integer realtimePlanningPastDays = null;
 
 	public ApsWindow(ApsData ownerContext) {
 		super(TimeSegmentType.SCHEDULING_WINDOW, ownerContext);
+	}
+
+	public Integer getRealtimePlanningDays() {
+		return realtimePlanningDays;
+	}
+
+	public void setRealtimePlanningDays(Integer realtimePlanningDays) {
+		this.realtimePlanningDays = realtimePlanningDays;
+	}
+
+	public Integer getRealtimePlanningPastDays() {
+		return realtimePlanningPastDays;
+	}
+
+	public void setRealtimePlanningPastDays(Integer realtimePlanningPastDays) {
+		this.realtimePlanningPastDays = realtimePlanningPastDays;
 	}
 }

@@ -5,11 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_task_event_equip")
-@Data
+
 public class OI40DBMesTaskEventEquip {
 	@Id
 	@Column(name = "id")
@@ -25,6 +23,42 @@ public class OI40DBMesTaskEventEquip {
 	Long eventId=null;
 	public OI40DBMesTaskEventEquip() {
 
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getResourceCode() {
+		return resourceCode;
+	}
+	public void setResourceCode(String resourceCode) {
+		this.resourceCode = resourceCode;
+	}
+	public String getResourceGroupCode() {
+		return resourceGroupCode;
+	}
+	public void setResourceGroupCode(String resourceGroupCode) {
+		this.resourceGroupCode = resourceGroupCode;
+	}
+	public int getCardinality() {
+		return cardinality;
+	}
+	public void setCardinality(int cardinality) {
+		this.cardinality = cardinality;
+	}
+	public String getMesAssetCode() {
+		return mesAssetCode;
+	}
+	public void setMesAssetCode(String mesAssetCode) {
+		this.mesAssetCode = mesAssetCode;
+	}
+	public Long getEventId() {
+		return eventId;
+	}
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
 	}
 
 }

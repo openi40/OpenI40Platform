@@ -5,10 +5,7 @@ import javax.persistence.MappedSuperclass;
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
 import com.openi40.scheduler.input.model.ApsInputData;
 import com.openi40.scheduler.input.model.InputDto;
-import com.openi40.scheduler.input.model.companystructure.WarehouseInputDto;
 import com.openi40.scheduler.input.model.material.ProductInputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,7 +16,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public abstract class AbstractProductSettingInputDto extends InputDto {
 	
@@ -44,6 +41,30 @@ public abstract class AbstractProductSettingInputDto extends InputDto {
 	}
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
+	}
+	public boolean isProduced() {
+		return produced;
+	}
+	public void setProduced(boolean produced) {
+		this.produced = produced;
+	}
+	public boolean isPurchased() {
+		return purchased;
+	}
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
+	public boolean isProductionBySchedulerEnabled() {
+		return productionBySchedulerEnabled;
+	}
+	public void setProductionBySchedulerEnabled(boolean productionBySchedulerEnabled) {
+		this.productionBySchedulerEnabled = productionBySchedulerEnabled;
+	}
+	public boolean isPurchaseBySchedulerEnabled() {
+		return purchaseBySchedulerEnabled;
+	}
+	public void setPurchaseBySchedulerEnabled(boolean purchaseBySchedulerEnabled) {
+		this.purchaseBySchedulerEnabled = purchaseBySchedulerEnabled;
 	}
 
 }

@@ -3,9 +3,6 @@ package com.openi40.generical.dbintegration.configuration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +13,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class JavaEntityIntegrationConfig extends EntityIntegrationConfig {
 	String entityIntegrationFactory = null;
 	List<String> params = new ArrayList<String>();
@@ -24,6 +21,30 @@ public class JavaEntityIntegrationConfig extends EntityIntegrationConfig {
 
 	public JavaEntityIntegrationConfig() {
 
+	}
+
+	public String getEntityIntegrationFactory() {
+		return entityIntegrationFactory;
+	}
+
+	public void setEntityIntegrationFactory(String entityIntegrationFactory) {
+		this.entityIntegrationFactory = entityIntegrationFactory;
+	}
+
+	public List<String> getParams() {
+		return params;
+	}
+
+	public void setParams(List<String> params) {
+		this.params = params;
+	}
+
+	public List<HashMap<String, Object>> getMappedEntries() {
+		return mappedEntries;
+	}
+
+	public void setMappedEntries(List<HashMap<String, Object>> mappedEntries) {
+		this.mappedEntries = mappedEntries;
 	}
 
 }

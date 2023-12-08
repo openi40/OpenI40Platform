@@ -1,8 +1,6 @@
 package com.openi40.mes.shared.model;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -13,12 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_asset_event")
 @SequenceGenerator(name = "OI40DBMesAssetEventGen", sequenceName = "mes_asset_event_seq", initialValue = 1000, allocationSize = 1)
-@Data
+
 public class OI40DBMesAssetEvent implements Serializable {
 	/**
 	 * 
@@ -51,6 +47,94 @@ public class OI40DBMesAssetEvent implements Serializable {
 
 	public OI40DBMesAssetEvent() {
 
+	}
+
+	public Long getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(Long eventId) {
+		this.eventId = eventId;
+	}
+
+	public Timestamp getEventTime() {
+		return eventTime;
+	}
+
+	public void setEventTime(Timestamp eventTime) {
+		this.eventTime = eventTime;
+	}
+
+	public String getMacAssetCode() {
+		return macAssetCode;
+	}
+
+	public void setMacAssetCode(String macAssetCode) {
+		this.macAssetCode = macAssetCode;
+	}
+
+	public String getMacCode() {
+		return macCode;
+	}
+
+	public void setMacCode(String macCode) {
+		this.macCode = macCode;
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
+
+	public String getEventType() {
+		return eventType;
+	}
+
+	public void setEventType(String eventType) {
+		this.eventType = eventType;
+	}
+
+	public String getEventPayload() {
+		return eventPayload;
+	}
+
+	public void setEventPayload(String eventPayload) {
+		this.eventPayload = eventPayload;
+	}
+
+	public Timestamp getProcessedTime() {
+		return processedTime;
+	}
+
+	public void setProcessedTime(Timestamp processedTime) {
+		this.processedTime = processedTime;
+	}
+
+	public String getProcessedStatus() {
+		return processedStatus;
+	}
+
+	public void setProcessedStatus(String processedStatus) {
+		this.processedStatus = processedStatus;
+	}
+
+	public String getMesAssetCode() {
+		return mesAssetCode;
+	}
+
+	public void setMesAssetCode(String mesAssetCode) {
+		this.mesAssetCode = mesAssetCode;
+	}
+
+	public String getMesAltCode() {
+		return mesAltCode;
+	}
+
+	public void setMesAltCode(String mesAltCode) {
+		this.mesAltCode = mesAltCode;
 	}
 
 }

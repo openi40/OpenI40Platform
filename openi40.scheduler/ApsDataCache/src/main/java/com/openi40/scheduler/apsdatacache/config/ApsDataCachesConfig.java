@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,11 +17,17 @@ import lombok.Data;
  */
 @Configuration
 @ConfigurationProperties(prefix = "com.openi40.scheduler.apsdatacaches")
-@Data
+
 public class ApsDataCachesConfig {
 
 	public ApsDataCachesConfig() {
 		
 	}
 	List<ApsDataCacheConfig> configs=new ArrayList<ApsDataCacheConfig>();
+	public List<ApsDataCacheConfig> getConfigs() {
+		return configs;
+	}
+	public void setConfigs(List<ApsDataCacheConfig> configs) {
+		this.configs = configs;
+	}
 }

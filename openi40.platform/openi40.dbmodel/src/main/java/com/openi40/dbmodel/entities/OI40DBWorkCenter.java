@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -29,8 +27,16 @@ import lombok.Data;
 		@AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 		@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
-@Data
+
 public class OI40DBWorkCenter extends OI40DBBaseTimesheetManaged implements Serializable {
 	
 	private String departmentCode=null;
+
+	public String getDepartmentCode() {
+		return departmentCode;
+	}
+
+	public void setDepartmentCode(String departmentCode) {
+		this.departmentCode = departmentCode;
+	}
 }

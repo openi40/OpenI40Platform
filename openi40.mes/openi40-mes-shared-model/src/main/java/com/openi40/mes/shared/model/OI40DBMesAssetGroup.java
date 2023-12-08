@@ -6,8 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "mes_asset_group")
 @AttributeOverrides(value = { @AttributeOverride(name = "code", column = @Column(name = "code")),
@@ -17,7 +15,7 @@ import lombok.Data;
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
 		@AttributeOverride(name = "parentObjectType", column = @Column(name = "context_type")),
 		@AttributeOverride(name = "parentObjectCode", column = @Column(name = "parent_object_code")) })
-@Data
+
 
 public class OI40DBMesAssetGroup extends OI40DBMesBaseEntity {
 	private String parentObjectType = null;
@@ -25,6 +23,22 @@ public class OI40DBMesAssetGroup extends OI40DBMesBaseEntity {
 
 	public OI40DBMesAssetGroup() {
 
+	}
+
+	public String getParentObjectType() {
+		return parentObjectType;
+	}
+
+	public void setParentObjectType(String parentObjectType) {
+		this.parentObjectType = parentObjectType;
+	}
+
+	public String getParentObjectCode() {
+		return parentObjectCode;
+	}
+
+	public void setParentObjectCode(String parentObjectCode) {
+		this.parentObjectCode = parentObjectCode;
 	}
 
 }

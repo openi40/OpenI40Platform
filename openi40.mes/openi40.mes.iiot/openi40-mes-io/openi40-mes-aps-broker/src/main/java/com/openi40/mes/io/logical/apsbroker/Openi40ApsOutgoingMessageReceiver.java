@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +19,6 @@ import com.openi40.mes.metamessaging.handlers.MessagingEnvironment;
 import com.openi40.mes.metamessaging.handlers.OI40IOTMessageReceiver;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
 import com.openi40.mes.metamessaging.model.ManagedMessageType;
-import com.openi40.scheduler.iomessages.AbortTaskIOMessage;
 
 @Component
 @Qualifier(MessageReceiver.IOT_APPLICATION_RECEIVER)

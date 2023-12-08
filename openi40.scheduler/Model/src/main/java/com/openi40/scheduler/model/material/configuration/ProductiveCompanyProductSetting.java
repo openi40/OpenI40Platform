@@ -1,8 +1,6 @@
 package com.openi40.scheduler.model.material.configuration;
 
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,7 +11,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ProductiveCompanyProductSetting extends AbstractProductSetting {
 	public ProductiveCompanyProductSetting(ApsData context) {
 		super(context);
@@ -21,6 +19,14 @@ public class ProductiveCompanyProductSetting extends AbstractProductSetting {
 	}
 
 	protected String productiveCompanyCode=null;
+
+	public String getProductiveCompanyCode() {
+		return productiveCompanyCode;
+	}
+
+	public void setProductiveCompanyCode(String productiveCompanyCode) {
+		this.productiveCompanyCode = productiveCompanyCode;
+	}
 	
 	
 

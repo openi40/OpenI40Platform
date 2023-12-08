@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.cycle;
 
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ChangeOverMatrixItem extends AbstractApsObject {
 	protected String setupGroupCodeFrom = null;
 	protected String setupGroupCodeTo = null;
@@ -24,6 +22,36 @@ public class ChangeOverMatrixItem extends AbstractApsObject {
 	public ChangeOverMatrixItem(ApsData context) {
 		super(context);
 		
+	}
+	public String getSetupGroupCodeFrom() {
+		return setupGroupCodeFrom;
+	}
+	public void setSetupGroupCodeFrom(String setupGroupCodeFrom) {
+		this.setupGroupCodeFrom = setupGroupCodeFrom;
+	}
+	public String getSetupGroupCodeTo() {
+		return setupGroupCodeTo;
+	}
+	public void setSetupGroupCodeTo(String setupGroupCodeTo) {
+		this.setupGroupCodeTo = setupGroupCodeTo;
+	}
+	public String getWorkCenterCode() {
+		return workCenterCode;
+	}
+	public void setWorkCenterCode(String workCenterCode) {
+		this.workCenterCode = workCenterCode;
+	}
+	public String getMachineCode() {
+		return machineCode;
+	}
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
+	}
+	public double getSetupTime() {
+		return setupTime;
+	}
+	public void setSetupTime(double setupTime) {
+		this.setupTime = setupTime;
 	}
 
 }

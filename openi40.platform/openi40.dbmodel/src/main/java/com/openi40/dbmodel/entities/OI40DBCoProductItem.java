@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -33,11 +31,41 @@ import lombok.Data;
 @AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBCoProductItem  extends OI40DBBaseEntity implements Serializable{
 	protected String operationCode=null;
 	protected String productCode = null;
 	protected String warehouseCode = null;
 	protected Double producedQty = null;
 	protected String plantCode = null;
+	public String getOperationCode() {
+		return operationCode;
+	}
+	public void setOperationCode(String operationCode) {
+		this.operationCode = operationCode;
+	}
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public Double getProducedQty() {
+		return producedQty;
+	}
+	public void setProducedQty(Double producedQty) {
+		this.producedQty = producedQty;
+	}
+	public String getPlantCode() {
+		return plantCode;
+	}
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
 }

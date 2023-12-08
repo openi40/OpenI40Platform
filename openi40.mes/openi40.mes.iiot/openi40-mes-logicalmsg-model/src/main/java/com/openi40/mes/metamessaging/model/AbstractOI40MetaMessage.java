@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import lombok.Data;
-
 public abstract class AbstractOI40MetaMessage implements Serializable {
 	private String msgId = UUID.randomUUID().toString();
 	private String originalMsgId = null;
@@ -90,6 +88,22 @@ public abstract class AbstractOI40MetaMessage implements Serializable {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getOriginalMsgId() {
+		return originalMsgId;
+	}
+
+	public void setOriginalMsgId(String originalMsgId) {
+		this.originalMsgId = originalMsgId;
+	}
+
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
 	}
 
 }

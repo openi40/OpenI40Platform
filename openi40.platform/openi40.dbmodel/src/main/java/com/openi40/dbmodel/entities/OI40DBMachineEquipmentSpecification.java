@@ -1,15 +1,12 @@
 package com.openi40.dbmodel.entities;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -36,7 +33,7 @@ import lombok.Data;
 		@AttributeOverride(name = "minNextPhaseDelay", column = @Column(name = "min_next_phase_delay")) ,
 		@AttributeOverride(name = "maxNextPhaseDelay", column = @Column(name = "max_next_phase_delay")) ,
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))})
-@Data
+
 public class OI40DBMachineEquipmentSpecification extends OI40DBBaseEntity implements Serializable {
 
 	private String operationCode = null;
@@ -46,4 +43,46 @@ public class OI40DBMachineEquipmentSpecification extends OI40DBBaseEntity implem
 	private String machineTimeSpec = null;
 	private Double minNextPhaseDelay=null;
 	private Double maxNextPhaseDelay=null;
+	public String getOperationCode() {
+		return operationCode;
+	}
+	public void setOperationCode(String operationCode) {
+		this.operationCode = operationCode;
+	}
+	public String getSetupGroupCode() {
+		return setupGroupCode;
+	}
+	public void setSetupGroupCode(String setupGroupCode) {
+		this.setupGroupCode = setupGroupCode;
+	}
+	public Double getSetupTime() {
+		return setupTime;
+	}
+	public void setSetupTime(Double setupTime) {
+		this.setupTime = setupTime;
+	}
+	public Double getMachineTime() {
+		return machineTime;
+	}
+	public void setMachineTime(Double machineTime) {
+		this.machineTime = machineTime;
+	}
+	public String getMachineTimeSpec() {
+		return machineTimeSpec;
+	}
+	public void setMachineTimeSpec(String machineTimeSpec) {
+		this.machineTimeSpec = machineTimeSpec;
+	}
+	public Double getMinNextPhaseDelay() {
+		return minNextPhaseDelay;
+	}
+	public void setMinNextPhaseDelay(Double minNextPhaseDelay) {
+		this.minNextPhaseDelay = minNextPhaseDelay;
+	}
+	public Double getMaxNextPhaseDelay() {
+		return maxNextPhaseDelay;
+	}
+	public void setMaxNextPhaseDelay(Double maxNextPhaseDelay) {
+		this.maxNextPhaseDelay = maxNextPhaseDelay;
+	}
 }

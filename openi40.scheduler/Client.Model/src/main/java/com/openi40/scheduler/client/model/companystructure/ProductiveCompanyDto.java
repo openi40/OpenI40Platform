@@ -13,11 +13,17 @@ package com.openi40.scheduler.client.model.companystructure;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
 
-@Data
 public class ProductiveCompanyDto extends AbstractCompany {
 
 	List<PlantDto> plants = new ArrayList<PlantDto>();
+
+	public List<PlantDto> getPlants() {
+		return plants;
+	}
+
+	public void setPlants(List<PlantDto> plants) {
+		this.plants = plants;
+	}
 
 }

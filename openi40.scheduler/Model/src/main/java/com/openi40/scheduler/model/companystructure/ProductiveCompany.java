@@ -4,11 +4,6 @@ import java.util.List;
 
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.material.configuration.ProductiveCompanyProductSetting;
-import com.openi40.scheduler.model.material.configuration.PlantProductSetting;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,7 +14,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ProductiveCompany extends Company implements ICompanyStructureNode {
 	private static final String PLANTS = "Plants";
 	private static final String PRODUCT_SETTINGS = "ProductSettings";
@@ -28,9 +23,7 @@ public class ProductiveCompany extends Company implements ICompanyStructureNode 
 		super(c);
 	}
 
-	@Setter(value = AccessLevel.NONE)
 	protected List<Plant> plants = createCleanChild(this, PLANTS, Plant.class);
-	@Setter(value = AccessLevel.NONE)
 	protected List<ProductiveCompanyProductSetting> productSettings = createCleanChild(this, PRODUCT_SETTINGS,
 			ProductiveCompanyProductSetting.class);
 
@@ -45,6 +38,14 @@ public class ProductiveCompany extends Company implements ICompanyStructureNode 
 		for (Plant plant : plants) {
 			plant.resetSchedulingData();
 		}
+	}
+
+	public List<Plant> getPlants() {
+		return plants;
+	}
+
+	public List<ProductiveCompanyProductSetting> getProductSettings() {
+		return productSettings;
 	}
 
 }

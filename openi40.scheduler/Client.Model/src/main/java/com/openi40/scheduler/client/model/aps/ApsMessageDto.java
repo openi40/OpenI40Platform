@@ -10,9 +10,6 @@
  */
 package com.openi40.scheduler.client.model.aps;
 
-import lombok.Data;
-
-@Data
 public class ApsMessageDto {
 	private String messageCategory = null;
 	private String MessageCode;
@@ -22,6 +19,42 @@ public class ApsMessageDto {
 	private String SourceObjectClass;
 	public ApsMessageDto() {
 		
+	}
+	public String getMessageCategory() {
+		return messageCategory;
+	}
+	public void setMessageCategory(String messageCategory) {
+		this.messageCategory = messageCategory;
+	}
+	public String getMessageCode() {
+		return MessageCode;
+	}
+	public void setMessageCode(String messageCode) {
+		MessageCode = messageCode;
+	}
+	public String getMessageDescription() {
+		return MessageDescription;
+	}
+	public void setMessageDescription(String messageDescription) {
+		MessageDescription = messageDescription;
+	}
+	public String getMsgLevel() {
+		return MsgLevel;
+	}
+	public void setMsgLevel(String msgLevel) {
+		MsgLevel = msgLevel;
+	}
+	public String getSourceModule() {
+		return SourceModule;
+	}
+	public void setSourceModule(String sourceModule) {
+		SourceModule = sourceModule;
+	}
+	public String getSourceObjectClass() {
+		return SourceObjectClass;
+	}
+	public void setSourceObjectClass(String sourceObjectClass) {
+		SourceObjectClass = sourceObjectClass;
 	}
 
 }

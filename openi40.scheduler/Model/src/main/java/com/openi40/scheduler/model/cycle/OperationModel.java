@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.common.aps.IMetaInfo;
-import com.openi40.scheduler.model.TreeVisitType;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.companystructure.AbstractPlantRelatedApsObject;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.material.ItemProducedMetaInfo;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
