@@ -85,10 +85,10 @@ public class AbstractOutputDataConsumerFactoryConfig<ETYPE extends EntityOutputS
 	public void setEntitiesSetting(List<ETYPE> entitiesSetting) {
 		this.entitiesSetting = entitiesSetting;
 	}
-	public int getnEntriesGrouping() {
+	public int getNEntriesGrouping() {
 		return nEntriesGrouping;
 	}
-	public void setnEntriesGrouping(int nEntriesGrouping) {
+	public void setNEntriesGrouping(int nEntriesGrouping) {
 		this.nEntriesGrouping = nEntriesGrouping;
 	}
 }

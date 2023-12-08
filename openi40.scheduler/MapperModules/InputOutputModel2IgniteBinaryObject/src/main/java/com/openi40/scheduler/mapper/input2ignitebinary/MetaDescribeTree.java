@@ -8,18 +8,15 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
-import lombok.Getter;
 
-@Getter
 public class MetaDescribeTree<T, HierarchyBaseType> {
 	Class<T> describedType = null;
 	Class<HierarchyBaseType> baseType = null;
 
-	@Getter
+
 	public static class MetaPropertyDescriptor {
 		MetaPropertyDescriptor(PropertyDescriptor pd) {
 			this.type = pd.getPropertyType();
@@ -33,14 +30,34 @@ public class MetaDescribeTree<T, HierarchyBaseType> {
 		Method writeMethod = null, readMethod = null;
 		MetaDescribeTree metaDescribeTree = null;
 		boolean isNestedDescribeableObject = false;
+		public Class getType() {
+			return type;
+		}
+		public String getName() {
+			return name;
+		}
+		public Method getWriteMethod() {
+			return writeMethod;
+		}
+		public Method getReadMethod() {
+			return readMethod;
+		}
+		public MetaDescribeTree getMetaDescribeTree() {
+			return metaDescribeTree;
+		}
+		public boolean isNestedDescribeableObject() {
+			return isNestedDescribeableObject;
+		}
 	};
 
-	@Getter
 	public static class CollectionAttributeDescriptor extends MetaPropertyDescriptor {
 		CollectionAttributeDescriptor(PropertyDescriptor pd) {
 			super(pd);
 		}
 		Class elementType=null;
+		public Class getElementType() {
+			return elementType;
+		}
 	}
 
 	List<MetaPropertyDescriptor> properties = new ArrayList<>();
@@ -96,6 +113,22 @@ public class MetaDescribeTree<T, HierarchyBaseType> {
 			descriptionsCache.put(type, desc);
 		}
 		return desc;
+	}
+
+	public Class<T> getDescribedType() {
+		return describedType;
+	}
+
+	public Class<HierarchyBaseType> getBaseType() {
+		return baseType;
+	}
+
+	public List<MetaPropertyDescriptor> getProperties() {
+		return properties;
+	}
+
+	public List<CollectionAttributeDescriptor> getCollections() {
+		return collections;
 	}
 
 }
