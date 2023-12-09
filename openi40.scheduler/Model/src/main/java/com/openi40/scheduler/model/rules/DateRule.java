@@ -48,7 +48,7 @@ public class DateRule extends Rule {
 	}
 
 	public void setDate(java.util.Date date) {
-		date = date;
+		this.date = date;
 	}
 
 	public EndDateTimeAlignment getEndAlignment() {
@@ -72,7 +72,7 @@ public class DateRule extends Rule {
 	}
 
 	public void setDeltaMillisecs(long deltaMillisecs) {
-		deltaMillisecs = deltaMillisecs;
+		this.deltaMillisecs = deltaMillisecs;
 	}
 
 	public TimeSegmentType getTimeRangeType() {
@@ -80,7 +80,7 @@ public class DateRule extends Rule {
 	}
 
 	public void setTimeRangeType(TimeSegmentType timeRangeType) {
-		timeRangeType = timeRangeType;
+		this.timeRangeType = timeRangeType;
 	}
 
 }

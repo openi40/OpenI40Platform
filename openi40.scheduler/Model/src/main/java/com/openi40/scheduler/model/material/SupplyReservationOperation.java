@@ -58,6 +58,6 @@ public class SupplyReservationOperation implements ISupplyReservationOperation {
 	}
 
 	public void setCreatedReservation(SupplyReservation createdReservation) {
-		createdReservation = createdReservation;
+		this.createdReservation = createdReservation;
 	}
 }

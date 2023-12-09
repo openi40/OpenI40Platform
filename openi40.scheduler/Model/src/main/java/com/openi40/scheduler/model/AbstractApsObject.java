@@ -238,8 +238,5 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 		return hyerarchyAwareLists;
 	}
 
-	public void setHyerarchyAwareLists(
-			List<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>> hyerarchyAwareLists) {
-		this.hyerarchyAwareLists = hyerarchyAwareLists;
-	}
+	
 }

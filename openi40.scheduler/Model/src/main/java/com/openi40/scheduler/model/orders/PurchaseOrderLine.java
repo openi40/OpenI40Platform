@@ -32,7 +32,7 @@ public class PurchaseOrderLine extends AbstractOrderLine {
 	}
 
 	public void setSupply(PurchaseSupply supply) {
-		supply = supply;
+		this.supply = supply;
 	}
 
 }

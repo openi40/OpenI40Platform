@@ -48,8 +48,7 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 		this.importedType = importedType;
 		this.apsType = apsType;
 		this.apsDataModelDao = apsDataModelDao;
-		this.mapperFactory = mapperFactory;
-		this.omapper = omapper;
+		this.mapperFactory = mapperFactory;		
 	}
 
 	@Override

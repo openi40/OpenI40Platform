@@ -98,7 +98,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setConstraintGeneratedReservations(List<SupplyReservation> constraintGeneratedReservations) {
-		constraintGeneratedReservations = constraintGeneratedReservations;
+		this.constraintGeneratedReservations = constraintGeneratedReservations;
 	}
 
 	public ISupplyConsumer getConsumer() {
@@ -106,7 +106,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setConsumer(ISupplyConsumer consumer) {
-		consumer = consumer;
+		this.consumer = consumer;
 	}
 
 	public ConsumptionMode getConsumerMode() {
@@ -114,7 +114,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setConsumerMode(ConsumptionMode consumerMode) {
-		consumerMode = consumerMode;
+		this.consumerMode = consumerMode;
 	}
 
 	public CoveringConstraintType getCoveringType() {
@@ -122,7 +122,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setCoveringType(CoveringConstraintType coveringType) {
-		coveringType = coveringType;
+		this.coveringType = coveringType;
 	}
 
 	public MaterialContraintType getMaterialContraint() {
@@ -130,7 +130,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setMaterialContraint(MaterialContraintType materialContraint) {
-		materialContraint = materialContraint;
+		this.materialContraint = materialContraint;
 	}
 
 	public List<ISupply> getMaterialSupplies() {
@@ -138,7 +138,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setMaterialSupplies(List<ISupply> materialSupplies) {
-		materialSupplies = materialSupplies;
+		this.materialSupplies = materialSupplies;
 	}
 
 	public List<SupplyResolutionStrategy> getResolutionStrategies() {
@@ -146,7 +146,7 @@ public class MaterialRule extends Rule {
 	}
 
 	public void setResolutionStrategies(List<SupplyResolutionStrategy> resolutionStrategies) {
-		resolutionStrategies = resolutionStrategies;
+		this.resolutionStrategies = resolutionStrategies;
 	}
 
 }

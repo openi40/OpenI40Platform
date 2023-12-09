@@ -54,7 +54,7 @@ public class TasksRelationRule extends Rule {
 	}
 
 	public void setEdge(TaskEdge edge) {
-		edge = edge;
+		this.edge = edge;
 	}
 
 	public PeriodsAlignmentType getPeriodAlignment() {
@@ -62,7 +62,7 @@ public class TasksRelationRule extends Rule {
 	}
 
 	public void setPeriodAlignment(PeriodsAlignmentType periodAlignment) {
-		periodAlignment = periodAlignment;
+		this.periodAlignment = periodAlignment;
 	}
 
 	public Task getRelatedTask() {
@@ -70,7 +70,7 @@ public class TasksRelationRule extends Rule {
 	}
 
 	public void setRelatedTask(Task relatedTask) {
-		relatedTask = relatedTask;
+		this.relatedTask = relatedTask;
 	}
 
 	public TimeSegmentType getTimeRangeType() {
@@ -78,7 +78,7 @@ public class TasksRelationRule extends Rule {
 	}
 
 	public void setTimeRangeType(TimeSegmentType timeRangeType) {
-		timeRangeType = timeRangeType;
+		this.timeRangeType = timeRangeType;
 	}
 
 }

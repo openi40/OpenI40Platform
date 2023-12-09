@@ -29,7 +29,7 @@ public class ProductionOrderLine extends AbstractOrderLine {
 	}
 
 	public void setWorkOrders(List<WorkOrder> workOrders) {
-		workOrders = workOrders;
+		this.workOrders = workOrders;
 	}
 
 }

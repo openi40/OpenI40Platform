@@ -122,7 +122,7 @@ public class TestBaseDBBean extends AbstractDBSupportTest {
 				}
 			}
 		};
-		stream = stream = dao.streamByWhere(connection, "qty>=10 and qty<=100");
+		 stream = dao.streamByWhere(connection, "qty>=10 and qty<=100");
 		stream.forEach(counterConsumer);
 	}
 
