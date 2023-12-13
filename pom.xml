@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.openi40</groupId>
 	<artifactId>com.openi40.parent</artifactId>
@@ -22,7 +24,8 @@
 		<testcontainers.version>1.10.6</testcontainers.version>
 		<swagger2.version>2.9.2</swagger2.version>
 		<swagger-maven-plugin-version>3.1.8</swagger-maven-plugin-version>
-		<logstash-logback.version>4.9</logstash-logback.version>		
+		<logstash-logback.version>4.9</logstash-logback.version>
+		<junit5.vintage.version>5.10.1</junit5.vintage.version>
 	</properties>
 
 	<dependencies>
@@ -118,13 +121,28 @@
 			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		
+
 		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
 
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>			
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 
