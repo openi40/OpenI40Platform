@@ -16,7 +16,7 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
       serialization:
           INDENT_OUTPUT: true
-  
+
 #com.openi40.scheduler.apsdatasources:
 #        sources:
 #          -

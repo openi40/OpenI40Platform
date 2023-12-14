@@ -24,7 +24,10 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import com.openi40.commons.webconfigs.SwaggerAdditionalModelsProvider;
 /**
  * 
@@ -36,8 +39,10 @@ import com.openi40.commons.webconfigs.SwaggerAdditionalModelsProvider;
  * @author architectures@openi40.org
  *
  */
+
+@EnableSwagger2WebFlux
+@EnableSwagger2WebMvc
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
 	@Autowired(required = false)
 	List<SwaggerAdditionalModelsProvider> swaggerAdditionalModelsProviders;
@@ -94,7 +99,7 @@ public class SwaggerConfig {
 		ApiInfo apiInfo = new ApiInfo("Openi40", "The open source industy 4.0 production scheduler & MES platform", "", "#Term of Services", contact, "License of API", "#API license URL", Collections.emptyList());
 
 		// view https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
-		Docket d = new Docket(DocumentationType.SWAGGER_2).directModelSubstitute(LocalDate.class, String.class)
+		Docket d = new Docket(DocumentationType.SWAGGER_2).directModelSubstitute(LocalDate.class, String.class).host("127.0.0.1")
 				// .securitySchemes(Arrays.asList(securityScheme()))
 				//.directModelSubstitute(Sort.class, OvverridenSort.class)
 		// .securityContexts(Arrays.asList(securityContext()));

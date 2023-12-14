@@ -13,8 +13,6 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.Vector;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
 
 /**
  * DB Bean di Base Creation date: (24/04/2002 15.42.21)

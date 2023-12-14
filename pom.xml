@@ -22,7 +22,7 @@
 		<java.version>9</java.version>
 		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
 		<testcontainers.version>1.10.6</testcontainers.version>
-		<swagger2.version>2.9.2</swagger2.version>
+		<swagger2.version>2.10.5</swagger2.version>
 		<swagger-maven-plugin-version>3.1.8</swagger-maven-plugin-version>
 		<logstash-logback.version>4.9</logstash-logback.version>
 		<junit5.vintage.version>5.10.1</junit5.vintage.version>

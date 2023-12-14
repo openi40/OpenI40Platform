@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.classmate.ResolvedType;
-import com.google.common.base.Optional;
 
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.service.Operation;
@@ -37,7 +36,7 @@ public class SwaggerUniqueIdFix implements OperationBuilderPlugin {
 	@Override
 	public void apply(OperationContext context) {
 
-		Optional<ApiOperation> methodAnnotation = context.findControllerAnnotation(ApiOperation.class);
+		java.util.Optional<ApiOperation> methodAnnotation = context.findControllerAnnotation(ApiOperation.class);
 
 		ResolvedType returnType = context.getReturnType();
 		String typeName = returnType.getTypeName();
@@ -64,7 +63,7 @@ public class SwaggerUniqueIdFix implements OperationBuilderPlugin {
 		uniqueId = avoidNumberedNaming(uniqueId);
 		uniqueId += "_" + typePostfix;
 		// If nickname exists, populate the value of nickname annotation into uniqueId
-		String fillId = methodAnnotation.transform(ApiOperation::nickname).or(uniqueId);
+		String fillId = methodAnnotation.map(ApiOperation::nickname).orElse(uniqueId);
 
 		context.operationBuilder().uniqueId(fillId);
 		context.operationBuilder().codegenMethodNameStem(fillId);
