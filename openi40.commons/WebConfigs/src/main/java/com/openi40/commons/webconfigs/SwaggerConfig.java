@@ -2,16 +2,32 @@ package com.openi40.commons.webconfigs;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
+import org.springframework.boot.actuate.autoconfigure.web.server.ManagementPortType;
+import org.springframework.boot.actuate.endpoint.ExposableEndpoint;
+import org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver;
+import org.springframework.boot.actuate.endpoint.web.EndpointMapping;
+import org.springframework.boot.actuate.endpoint.web.EndpointMediaTypes;
+import org.springframework.boot.actuate.endpoint.web.ExposableWebEndpoint;
+import org.springframework.boot.actuate.endpoint.web.WebEndpointsSupplier;
+import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier;
+import org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier;
+import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 //import org.springframework.data.domain.Sort;
 import org.springframework.util.StopWatch;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.fasterxml.classmate.ResolvedType;
 import com.fasterxml.classmate.TypeResolver;
@@ -24,6 +40,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
@@ -39,9 +56,8 @@ import com.openi40.commons.webconfigs.SwaggerAdditionalModelsProvider;
  * @author architectures@openi40.org
  *
  */
-
-@EnableSwagger2WebFlux
-@EnableSwagger2WebMvc
+@EnableWebMvc
+@EnableSwagger2
 @Configuration
 public class SwaggerConfig {
 	@Autowired(required = false)
@@ -93,6 +109,12 @@ public class SwaggerConfig {
 	@Bean
 	protected Docket swaggerApi() {
 		log.info("Begin swaggerAPI()");
+		 return new Docket(DocumentationType.SWAGGER_2)  
+		          .select()                                  
+		          .apis(RequestHandlerSelectors.any())              
+		          .paths(PathSelectors.any())                          
+		          .build();                  
+		/*
 		StopWatch watch = new StopWatch();
 		watch.start();
 		Contact contact = new Contact("Openi40", "http://www.openi40.org/", "");
@@ -123,10 +145,24 @@ public class SwaggerConfig {
 				.build()
 				.apiInfo(apiInfo);		
 		log.info("End swaggerAPI()");
-		return d;
+		return d;*/
 	}
 
-
+	@Bean
+	public WebMvcEndpointHandlerMapping webEndpointServletHandlerMapping(WebEndpointsSupplier webEndpointsSupplier, ServletEndpointsSupplier servletEndpointsSupplier, ControllerEndpointsSupplier controllerEndpointsSupplier, EndpointMediaTypes endpointMediaTypes, CorsEndpointProperties corsProperties, WebEndpointProperties webEndpointProperties, Environment environment) {
+	    List<ExposableEndpoint<?>> allEndpoints = new ArrayList();
+	    Collection<ExposableWebEndpoint> webEndpoints = webEndpointsSupplier.getEndpoints();
+	    allEndpoints.addAll(webEndpoints);
+	    allEndpoints.addAll(servletEndpointsSupplier.getEndpoints());
+	    allEndpoints.addAll(controllerEndpointsSupplier.getEndpoints());
+	    String basePath = webEndpointProperties.getBasePath();
+	    EndpointMapping endpointMapping = new EndpointMapping(basePath);
+	    boolean shouldRegisterLinksMapping = this.shouldRegisterLinksMapping(webEndpointProperties, environment, basePath);
+	    return new WebMvcEndpointHandlerMapping(endpointMapping, webEndpoints, endpointMediaTypes, corsProperties.toCorsConfiguration(), new EndpointLinksResolver(allEndpoints, basePath), shouldRegisterLinksMapping, null);
+	}
+	private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
+	    return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
+	}
 	@Bean
 	protected UiConfiguration uiConfig() {
 		return UiConfigurationBuilder.builder().build();

@@ -16,7 +16,7 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
       serialization:
           INDENT_OUTPUT: true
-
+spring.mvc.pathmatch.matching-strategy: ANT_PATH_MATCHER
 #com.openi40.scheduler.apsdatasources:
 #        sources:
 #          -

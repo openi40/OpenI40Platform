@@ -60,9 +60,8 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
 		
-		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/").resourceChain(true);
-		registry.addResourceHandler("/swagger-resources/**").addResourceLocations("classpath:/META-INF/resources/swagger-resources/").resourceChain(true);
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/").resourceChain(true);
+		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
 		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {
 					@Override
@@ -73,7 +72,17 @@ public class WebConfig extends WebMvcConfigurationSupport {
 								: new ClassPathResource("/static/index.html");
 					}
 				});
-		
+		/*
+		 * registry.addResourceHandler("/").addResourceLocations("classpath:/static/").
+		 * resourceChain(true) .addResolver(new PathResourceResolver() {
+		 * 
+		 * @Override protected Resource getResource(String resourcePath, Resource
+		 * location) throws IOException { Resource requestedResource =
+		 * location.createRelative(resourcePath);
+		 * 
+		 * return requestedResource.exists() && requestedResource.isReadable() ?
+		 * requestedResource : new ClassPathResource("/static/index.html"); } });
+		 */
 		registry.addResourceHandler("").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {
 					@Override
