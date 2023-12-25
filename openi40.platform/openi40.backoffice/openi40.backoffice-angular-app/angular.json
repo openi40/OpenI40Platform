@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "backoffice-app:build:production"
+              "buildTarget": "backoffice-app:build:production"
             },
             "development": {
-              "browserTarget": "backoffice-app:build:development"
+              "buildTarget": "backoffice-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "backoffice-app:build"
+            "buildTarget": "backoffice-app:build"
           }
         },
         "test": {
