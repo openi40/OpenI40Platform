@@ -207,46 +207,7 @@
         }
       }
     },
-    "openi40-scheduler-ui-model": {
-      "projectType": "library",
-      "root": "projects/openi40-scheduler-ui-model",
-      "sourceRoot": "projects/openi40-scheduler-ui-model/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "projects/openi40-scheduler-ui-model/tsconfig.lib.json",
-            "project": "projects/openi40-scheduler-ui-model/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/openi40-scheduler-ui-model/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/openi40-scheduler-ui-model/src/test.ts",
-            "tsConfig": "projects/openi40-scheduler-ui-model/tsconfig.spec.json",
-            "karmaConfig": "projects/openi40-scheduler-ui-model/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/openi40-scheduler-ui-model/tsconfig.lib.json",
-              "projects/openi40-scheduler-ui-model/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
+
     "openi40-material-planning": {
       "projectType": "library",
       "root": "projects/openi40-material-planning",
@@ -288,7 +249,6 @@
       }
     }
   },
-  "defaultProject": "openi40-scheduler-angular-app",
   "cli": {
     "analytics": false
   }
