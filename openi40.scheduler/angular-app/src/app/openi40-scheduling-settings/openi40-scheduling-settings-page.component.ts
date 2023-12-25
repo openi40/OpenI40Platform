@@ -9,7 +9,7 @@
  *
  */
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, FormGroup } from '@angular/forms';
 import { ApsSchedulingSetDto, ApsCommandResourceService, ApsDataDto } from 'projects/openi40-scheduler-api/src/lib';
 @Component({
   selector: 'openi40-scheduling-settings-page',
@@ -26,7 +26,7 @@ export class Openi40SchedulingSettingsPageComponent implements OnInit,OnChanges{
   public visible=true;
   public canCreateSchedulingSet:boolean=false;
   public tabIndex:number=0;
-  public constructor(protected formBuilder:FormBuilder,protected apsCommandResourceService:ApsCommandResourceService,private changeDetector: ChangeDetectorRef) {
+  public constructor(protected formBuilder:UntypedFormBuilder,protected apsCommandResourceService:ApsCommandResourceService,private changeDetector: ChangeDetectorRef) {
 
   }
   public close(evt){

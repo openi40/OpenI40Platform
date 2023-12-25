@@ -11,7 +11,7 @@
 
 import { stringify } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { ApsSchedulingSetDto, ApsCommandResourceService, ApsDataDto, ClientDto, WorkOrderDto } from 'projects/openi40-scheduler-api/src/lib';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class Openi40SchedulingSettingsWizardComponent implements OnInit, OnChang
   public firstPage: boolean = true;
   public secondPage: boolean = false;
   public loading: boolean = false;
-  constructor(protected formBuilder: FormBuilder, protected apsCommandResourceService: ApsCommandResourceService, private changeDetector: ChangeDetectorRef) {
+  constructor(protected formBuilder: UntypedFormBuilder, protected apsCommandResourceService: ApsCommandResourceService, private changeDetector: ChangeDetectorRef) {
 
   }
 
