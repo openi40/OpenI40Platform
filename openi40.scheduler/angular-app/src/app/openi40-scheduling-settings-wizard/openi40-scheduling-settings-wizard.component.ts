@@ -1,17 +1,16 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
  *
  */
 
-import { stringify } from '@angular/compiler/src/util';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { SelectItem } from 'primeng/api';
 import { ApsSchedulingSetDto, ApsCommandResourceService, ApsDataDto, ClientDto, WorkOrderDto } from 'projects/openi40-scheduler-api/src/lib';
 import { Observable } from 'rxjs';
@@ -77,7 +76,7 @@ export class Openi40SchedulingSettingsWizardComponent implements OnInit, OnChang
       sets.push(this.apsAction);
     }
     this.loading = true;
-    return this.apsCommandResourceService.autoSetTasksListApsSchedulingSetDto(sets, this.apsData.dataSetName, this.apsData.dataSourceName, this.apsData.dataSetVariant).pipe(map(schedulingSets => {
+    return this.apsCommandResourceService.autoSetTasksListApsSchedulingSetDto(sets, this.apsData.dataSetName, this.apsData.dataSourceName, this.apsData.dataSetVariant).pipe(map((schedulingSets:ApsSchedulingSetDto[]) => {
       if (schedulingSets) {
         const foundMatching = schedulingSets.find((entry) => entry.id === this.apsAction.id);
         if (foundMatching) {

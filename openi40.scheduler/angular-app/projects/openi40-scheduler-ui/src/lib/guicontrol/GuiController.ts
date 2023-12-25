@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -11,9 +11,8 @@
 import { BaseGuiItem } from '../guidatamodel/BaseGuiItem';
 import { AbstractSvgComponentRenderer } from '../guirenderers/AbstractSvgComponentRenderer';
 import { Renderer2 } from '@angular/core';
-import { IControllerCallback } from './IControllerCallback'
+import { IControllerCallback } from './IControllerCallback';
 import { IGuiController } from './IGuiController';
-import { debugOutputAstAsTypeScript } from '@angular/compiler';
 export class GuiController<DataType extends BaseGuiItem, RendererType extends AbstractSvgComponentRenderer<DataType>> extends AbstractSvgComponentRenderer<DataType> implements EventListenerObject, IGuiController {
 
   protected _renderer: RendererType = null;
