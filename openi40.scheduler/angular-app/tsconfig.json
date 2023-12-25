@@ -7,6 +7,7 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "strictNullChecks": false,
     "paths": {
       "openi40-material-planning": [
         "dist/openi40-material-planning/openi40-material-planning",
@@ -25,6 +26,6 @@
     {
       "path": "./projects/openi40-scheduler-ui/tsconfig.lib.json"
     }]
-    
-    
+
+
 }
