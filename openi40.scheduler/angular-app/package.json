@@ -1,11 +1,11 @@
 {
   "name": "openi40-scheduler-angular-app",
-  "version": "0.0.1",
+  "version": "0.0.17",
   "scripts": {
     "ng": "ng",
     "start": "ng serve -c development",
-    "build": "ng build",
-    "build-prod": "ng build --base-href /openi40/ --aot --output-hashing all",
+    "build": "ng build  --configuration production ",
+    "build-prod": "ng build  --configuration production  --base-href /openi40/ --aot --output-hashing all",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -37,17 +37,17 @@
     "ts-treemap": "^1.1.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",
-    "zone.js": "~0.13.3"
+    "zone.js": "^0.14.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.8",
     "@angular/cli": "^17.0.8",
     "@angular/compiler-cli": "^17.0.8",
     "@types/jasmine": "~4.0.0",
-    "jasmine-core": "~4.3.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.20.4",
     "codelyzer": "^6.0.1",
+    "jasmine-core": "~4.3.0",
     "ng-packagr": "^17.0.3",
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",

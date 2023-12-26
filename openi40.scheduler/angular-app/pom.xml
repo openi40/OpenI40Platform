@@ -62,8 +62,8 @@
 				<version>1.7.6</version>
 				<configuration>
 					<workingDirectory>./</workingDirectory>
-					<nodeVersion>v12.16.1</nodeVersion>
-					<npmVersion>6.14.11</npmVersion>
+					<nodeVersion>v18.16.1</nodeVersion>
+					<npmVersion>9.5.1</npmVersion>
 				</configuration>
 				<executions>
 					<execution>
@@ -73,7 +73,7 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>npm install</id>
+						<id>npm install --force</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
