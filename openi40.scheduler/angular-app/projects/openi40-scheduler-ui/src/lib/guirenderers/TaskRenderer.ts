@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -65,7 +65,7 @@ export class TaskRenderer extends AbstractSvgComponentRenderer<TaskGuiItem>{
 				this.setAttribute(this.setupElement,"height", this.boundGuiItem.graphicConfig.dimensions.cellHeight - 4);
 				this.setAttribute(this.setupElement,"class", "setupStyle");
         //this.setAttribute(this.setupElement,"style", "fill: url(#setuppattern);fill-opacity: 0.5;background-color:"+this.boundGuiItem?.data?.color);
-				this.setAttribute(this.setupElement,"title", "Setup " + phaseCodes);
+				//this.setAttribute(this.setupElement,"title", "Setup " + phaseCodes);
         this.setAttribute(this.setupElement,"rx","4");
 				this.setAttribute(this.workElement,"x", this.boundGuiItem.xStartWorkLeft);
 				this.setAttribute(this.workElement,"y", this.boundGuiItem.y + 2);
@@ -73,7 +73,7 @@ export class TaskRenderer extends AbstractSvgComponentRenderer<TaskGuiItem>{
 				this.setAttribute(this.workElement,"width",	(this.boundGuiItem.xStopWorkRight - this.boundGuiItem.xStartWorkLeft));
 				this.setAttribute(this.workElement,"height", this.boundGuiItem.graphicConfig.dimensions.cellHeight - 4);
 				this.setAttribute(this.workElement,"class", "workStyle");
-        this.setAttribute(this.workElement,"title", "Work " + phaseCodes);
+        //this.setAttribute(this.workElement,"title", "Work " + phaseCodes);
         if (this.isCanRenderLabel && this.label) {
           this.updateLabel(this.label);
       }

@@ -8,7 +8,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "strictNullChecks": false,
-
+    "target": "ES2022"
   },
   "files": [],
   "references": [

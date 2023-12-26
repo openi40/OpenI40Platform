@@ -4,29 +4,29 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "strictNullChecks": false,
-    "target": "es2015",
-    "module": "es2020",
+    "target": "es2022",
+    "module": "es2022",
     "lib": [
       "es2018",
       "dom"
     ],
     "paths": {
       "openi40-scheduler-api": [
-        "dist/openi40-scheduler-api/openi40-scheduler-api",
+
         "dist/openi40-scheduler-api"
       ],
       "openi40-scheduler-ui": [
-        "dist/openi40-scheduler-ui/openi40-scheduler-ui",
+
         "dist/openi40-scheduler-ui"
       ],
       "openi40-scheduler-ui-model": [
-        "dist/openi40-scheduler-ui-model/openi40-scheduler-ui-model",
+
         "dist/openi40-scheduler-ui-model"
       ]
     }

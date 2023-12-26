@@ -43,14 +43,13 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -63,6 +62,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
@@ -74,6 +81,9 @@
           "configurations": {
             "production": {
               "buildTarget": "openi40-scheduler-angular-app:build:production"
+            },
+            "development": {
+              "buildTarget": "openi40-scheduler-angular-app:build:development"
             }
           }
         },

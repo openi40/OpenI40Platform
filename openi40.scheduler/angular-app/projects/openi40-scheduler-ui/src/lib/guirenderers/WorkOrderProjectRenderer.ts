@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -26,7 +26,7 @@ export class WorkOrderProjectRenderer extends AbstractSvgComponentRenderer<WorkO
     this.executionElement=this.createElement("rect");
     this.setAttribute(this.executionElement,"id","WorkOrder"+this.boundGuiItem.id);
     var phaseCodes = this.boundGuiItem.data.code;
-    this.setAttribute(this.anchor,"title","Work order "+phaseCodes);
+    //this.setAttribute(this.anchor,"title","Work order "+phaseCodes);
     this.setAttribute(this.anchor,"href","javascript:void(0);");
     this.title=this.createElement("title");
     this.title.innerHTML= this.boundGuiItem.visibleLabel;
@@ -47,7 +47,7 @@ public update(): void {
   this.adaptElement(this.g,this.boundGuiItem);
    this.adaptElement(this.executionElement,this.boundGuiItem);
     this.setAttribute(this.executionElement,"class", "workStyle"+(this.boundGuiItem.additionalCSSClass?" "+this.boundGuiItem.additionalCSSClass:""));
-    this.setAttribute(this.executionElement,"title", "WorkOrder " + phaseCodes);
+    //this.setAttribute(this.executionElement,"title", "WorkOrder " + phaseCodes);
     if (this.boundGuiItem?.data?.color) {
       this.setAttribute(this.executionElement,"fill",this.boundGuiItem?.data?.color);
     }else {

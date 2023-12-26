@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -c development",
     "build": "ng build",
     "build-prod": "ng build --base-href /openi40/ --aot --output-hashing all",
     "test": "ng test",
