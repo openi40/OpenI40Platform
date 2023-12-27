@@ -4,79 +4,80 @@
     <p-tabView >
       <p-tabPanel header="Task infos">
         <ng-template pTemplate="content">
-          <div class="p-fluid" *ngFor="let message of task.messages; index as i">
-            <div class="p-col-2 p-md-2">
+
+          <div class="flex grid" *ngFor="let message of task.messages; index as i">
+            <div class="col-2 md-2">
               {{message.msgLevel}}
             </div>
-              <div class="p-col-10 p-md-10">
+              <div class="col-10 md-10">
                 {{message.messageDescription}}
               </div>
 
           </div>
-          <div class="p-fluid">
-            <div class="p-field p-grid">
-              <label for="firstname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">code</label>
-              <div class="p-col-12 p-md-10">
+          <div class="grid">
+            <div class="field grid col-12">
+              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0">code</label>
+              <div class="col-10 md-10">
                 {{task.code}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="firstname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">description</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid  col-12">
+              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0">description</label>
+              <div class="col-10 md-10">
                 {{task.description}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">work order</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid   col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">work order</label>
+              <div class="col-10 p-md-10">
                 {{task.workOrderCode}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">sequence</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 ">sequence</label>
+              <div class="col-10">
                 {{task.sequenceCode}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="scheduledMachineCode" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">assigned machine</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="scheduledMachineCode" class="col-2">assigned machine</label>
+              <div class="col-10">
                 {{task.scheduledMachineCode}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">start setup</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">start setup</label>
+              <div class="col-10 md-10">
                 {{task.setup?.startDateTime | date: 'short'}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">end setup</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">end setup</label>
+              <div class="col-10 md-10">
                 {{task.setup?.endDateTime  | date: 'short'}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">start work</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">start work</label>
+              <div class="col-10 md-10">
                 {{task.work?.startDateTime  | date: 'short'}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">end work</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">end work</label>
+              <div class="col-10 md-10">
                 {{task.work?.endDateTime  | date: 'short'}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">qty total</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">qty total</label>
+              <div class="col-10 md-10">
                 {{task.qtyTotal}}
               </div>
             </div>
-            <div class="p-field p-grid">
-              <label for="lastname" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0">qty produced</label>
-              <div class="p-col-12 p-md-10">
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">qty produced</label>
+              <div class="col-10 md-10">
                 {{task.qtyProduced}}
               </div>
             </div>

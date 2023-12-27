@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -59,9 +59,9 @@ export class WorkOrdersGanttController extends GuiController<WorkOrdersTreeApsDa
         this.workOrdersPanelController=new WorkOrdersPanelController(_data,renderer2,svgPatternsProvider);
         this.timesheetPanelController=new TimesheetPanelController(new TimesheetPanelGuiItem(_data.dataItem.timesheet,_data.graphicConfig,this.workOrdersPanelController.verticalSlices,this.workOrdersPanelController.workOrdersRootController.data.listNodes),renderer2,svgPatternsProvider);
         this.leftDiv = this.createHtmlElement("div");
-        this.setAttribute(this.leftDiv, "class", "p-2");
+        this.setAttribute(this.leftDiv, "class", "col-3");
         this.rightDiv = this.createHtmlElement("div");
-        this.setAttribute(this.rightDiv, "class", "p-10");
+        this.setAttribute(this.rightDiv, "class", "col-9");
         this.setAttribute(this.rightDiv, "style", "overflow-x: auto;");
         this.resourcesMap=this.workOrdersPanelController.workOrdersRootController.data.mappedControls;
 
@@ -198,6 +198,7 @@ export class WorkOrdersGanttController extends GuiController<WorkOrdersTreeApsDa
     private workOrderCoordinatesCalculator:IWorkOrderYCoordinatesCalculator=new WorkOrdersGanttWorkOrderYCoordinatesCalculator();
     public show(rootElement:Element):Element {
         let rootGenerated:Element=super.show(rootElement);
+        this.setAttribute(rootGenerated, "class", "grid");
         if (rootGenerated.childNodes.length==0) {
             this.renderer2.appendChild(rootGenerated, this.leftDiv);
             this.renderer2.appendChild(rootGenerated, this.rightDiv);

@@ -157,10 +157,11 @@
     -->
   </p-tabView>
   <div class="content">
-    <div class="row">
+    <div class="grid">
       <div class="col-12" *ngIf="isCurrentTab(0)">
         <div
           style="overflow-y: hidden; overflow-x: hidden"
+
           openi40-resources-gantt
           [apsData]="data"
           [taskClick]="taskClicked"
@@ -172,6 +173,7 @@
       </div>
       <div class="col-12" *ngIf="isCurrentTab(1)">
         <div
+
           style="overflow-y: hidden; overflow-x: hidden"
           openi40-workorders-gantt
           [apsData]="data"
