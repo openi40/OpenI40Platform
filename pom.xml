@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.openi40</groupId>
 	<artifactId>com.openi40.parent</artifactId>
-	<version>00.00.03BC-SNAPSHOT</version>
+	<version>00.00.04BC-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
