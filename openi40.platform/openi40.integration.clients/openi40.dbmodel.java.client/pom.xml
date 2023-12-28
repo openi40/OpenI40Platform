@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.openi40.platform.integration</groupId>
 		<artifactId>openi40.integration.clients</artifactId>
-		<version>00.00.04BC-SNAPSHOT</version>
+		<version>00.40.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40.dbmodel.java.client</artifactId>
 	<properties>
