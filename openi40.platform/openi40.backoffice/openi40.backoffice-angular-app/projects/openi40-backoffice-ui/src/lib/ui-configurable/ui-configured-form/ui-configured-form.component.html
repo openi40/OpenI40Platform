@@ -7,7 +7,9 @@
   ></ng-container>
   <!--Automatic controls positioning otherwise -->
   <div *ngIf="!formTemplate" [formGroup]="formGroup">
-    <div class="row">
+    
+    <div class="grid">
+      
       <div
         *ngFor="let ctrlConfig of config?.controls"
         [ngClass]="ctrlConfig?.containerCssClasses"

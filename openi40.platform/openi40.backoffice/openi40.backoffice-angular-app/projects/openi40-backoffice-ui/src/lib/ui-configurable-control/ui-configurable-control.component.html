@@ -1,5 +1,6 @@
-<div class="flex  flex-column gap-2" *ngIf="configuration?.type!=='hidden' && formGroup" [formGroup]="formGroup">
-  <label [htmlFor]="configuration.controlName">{{
+<div [ngClass]="configuration.cssClasses">
+<div class="grid" *ngIf="configuration?.type!=='hidden' && formGroup" [formGroup]="formGroup">
+  <label [htmlFor]="configuration.controlName" class="col-12">{{
     configuration.label
   }}</label>
   <input
@@ -9,27 +10,27 @@
     type="text"
     
     [formControlName]="configuration.controlName"
-    [ngClass]="configuration.cssClasses"
+    class="col-12"
     [required]="configuration.required === true ? true : false"
-    [placeholder]="configuration.placeholder"
+    [placeholder]="configuration.placeholder?configuration.placeholder:''"
   />
   <input
     pInputText
     [id]="configuration.controlName"
     *ngIf="configuration?.type === 'number'"
     type="number"
-    
+    class="col-12"
     [formControlName]="configuration.controlName"
-    [ngClass]="configuration.cssClasses"
+    
     [required]="configuration.required === true ? true : false"
-    [placeholder]="configuration.placeholder"
+    [placeholder]="configuration.placeholder?configuration.placeholder:''"
   />
   <p-dropdown
     [id]="configuration.controlName"
     *ngIf="configuration.type === 'dropdown' && (noSearchService || hasDataLoaderService)"
     
     [formControlName]="configuration.controlName"
-    [ngClass]="configuration.cssClasses"
+    class="col-12"
     [required]="configuration.required === true ? true : false"
     [options]="choices" [optionLabel]="optionLabel"
   ></p-dropdown>
@@ -40,7 +41,7 @@
                [suggestions]="choices" 
                (completeMethod)="completeUnpagedSearch($event)" 
                field="code"
-               
+               class="col-12"
                [formControlName]="configuration.controlName"
                >
                <ng-template let-item pTemplate="item">
@@ -59,6 +60,7 @@
                [suggestions]="choices" 
                (completeMethod)="completePagedSearch($event)" 
                field="code"
+               class="col-12"
                [formControlName]="configuration.controlName"
                >
                <ng-template let-item pTemplate="item">
@@ -68,4 +70,7 @@
                 </div>
             </ng-template>
    </p-autoComplete>
+   <p-checkbox *ngIf="configuration?.type === 'boolean'" [id]="configuration.controlName" [binary]="true"  [inputId]="configuration.controlName"  class="col-12"
+   [formControlName]="configuration.controlName"></p-checkbox>
+</div>
 </div>

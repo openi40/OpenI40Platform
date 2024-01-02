@@ -10,7 +10,7 @@ export interface UIControl {
     required?: boolean;
     cssClasses?: string;
     containerCssClasses?: string;
-    type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number";
+    type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number"|"boolean";
     values?: any[];
     mappings?: { label: string, identifier?: string };
     populationService?: Type<AbstractUISearchService> | Type<AbstractUIPagedSearchService> | Type<AbstractUIDataLoaderService>;
@@ -49,7 +49,7 @@ export class OrderMeta {
 }
 export class PageMeta {
     public page: number = 0;
-    public size: number = 0;
+    public size: number = 20;
     public totalElements?: number = 0;
     public order?: OrderMeta[] = [];
 }

@@ -10,11 +10,13 @@ import { RouterModule } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DetailUIFormComponent } from './ui-configurable/detail-ui-form/detail-ui-form.component';
 import { UIConfiguredFormComponent } from './ui-configurable/ui-configured-form/ui-configured-form.component';
+import { BlockUIModule } from 'primeng/blockui';
 @NgModule ({
-    imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule],
+    imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule,CheckboxModule,BlockUIModule],
     declarations:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent],
     exports:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent],
     providers:[FormGroupConfigurationService,DefaultGoToDetailService]

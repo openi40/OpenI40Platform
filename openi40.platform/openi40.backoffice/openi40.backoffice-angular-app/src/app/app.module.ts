@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BASE_PATH } from 'projects/openi40-backoffice-api/src/lib';
 import { HttpClientModule } from '@angular/common/http';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 //import { UIConfigurationRepositoryService, UI_CONFIG } from 'projects/openi40-backoffice-ui/src/lib/services/ui-configurations-repository.service';
 
 export function getBaseUrl() {
@@ -33,7 +34,8 @@ export function getBaseUrl() {
     RouterModule,
     MegaMenuModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BreadcrumbModule
   ],
   providers:[{ provide: BASE_PATH, useFactory: getBaseUrl }],
   

@@ -1,5 +1,8 @@
 
-<div class="content" [formGroup]="frmGroup" *ngIf="frmGroup">
+<div class="content" [formGroup]="frmGroup" *ngIf="frmGroup" #mainContent>
+    <p-blockUI [target]="mainContent" [blocked]="loading">
+        <i class="pi pi-lock" style="font-size: 3rem"></i>
+    </p-blockUI>
     <h1>{{config.title}}</h1>
     <h2>Search filters</h2>
     <div class="row">
@@ -16,7 +19,7 @@
                      [value]="results" 
                      [paginator]="pagedService" 
                      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                     [rowsPerPageOptions]="[20,50,100]" 
+                     [rowsPerPageOptions]="[10,20,50,100]" 
                      [showCurrentPageReport]="pagedService"
                      (onPage)="handlePage($event)"
             >
