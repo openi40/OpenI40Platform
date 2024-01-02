@@ -49,7 +49,7 @@ export class OrderMeta {
 }
 export class PageMeta {
     public page: number = 0;
-    public size: number = 20;
+    public size: number = 10;
     public totalElements?: number = 0;
     public order?: OrderMeta[] = [];
 }

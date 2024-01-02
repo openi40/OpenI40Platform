@@ -14,7 +14,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         public results:ResultType[]=[];
         private searchService?:AbstractUIPagedSearchService|AbstractUISearchService;
         public actualPage: PageMeta=new PageMeta();
-        
+        private actualFilter?:SearchType;
         public pagedService:boolean=false;
         constructor(injector: Injector,  fgConfigurator: FormGroupConfigurationService,@Inject(UI_SEARCH_CONFIG) config:UISearchForm<SearchType,ResultType>, activatedRouter: ActivatedRoute) {
             super(injector,fgConfigurator,config,activatedRouter);
@@ -44,8 +44,8 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 }
             }
         }
-        private invokeSearch(actualFilter:SearchType){
-            
+        private invokeSearch(actualFilter?:SearchType){
+            this.actualFilter=actualFilter;
             if (this.searchService) {
                 if (this.searchService instanceof AbstractUISearchService) {
                     const s:AbstractUISearchService=this.searchService;
@@ -60,6 +60,13 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                     this.loading=true;
                     s.searchPaged(actualFilter,this.actualPage).subscribe(result=>{
                         this.results=result?.data;
+                        this.actualPage={
+                            page:result.page,
+                            size:result.size,
+                            totalElements:result.totalElements,
+                            order:result.order
+                        };
+                       
                         this.loading=false;
                     });
                 }
@@ -72,7 +79,16 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 return [];
         }
         public handlePage(ev:{first:number,rows:number}){
-            
+            this.loading=true;
+            const newPage:number=ev.first/this.actualPage.size;
+            const newPageSize:number=ev.rows;
+            this.actualPage={
+                page:newPage,
+                size:newPageSize,
+                totalElements:this.actualPage?.totalElements,
+                order:this.actualPage.order
+            };
+            this.invokeSearch(this.actualFilter);
 
         }
 }
