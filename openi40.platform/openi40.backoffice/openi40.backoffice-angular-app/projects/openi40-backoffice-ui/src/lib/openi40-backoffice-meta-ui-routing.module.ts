@@ -9,6 +9,7 @@ const routes: Routes = [
         pathMatch:"full",
         path: '',
         component: SearchUIFormComponent,
+        
         children: [
             {
                 path: ':code/edit',

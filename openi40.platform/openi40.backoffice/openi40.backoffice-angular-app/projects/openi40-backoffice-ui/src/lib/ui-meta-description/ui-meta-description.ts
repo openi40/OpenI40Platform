@@ -79,12 +79,12 @@ export interface OperationResult<DataType> {
     msgs?: UIMsg[];
 }
 export abstract class AbstractUISaveService<DataType> {
-    public abstract save?(data: DataType): Observable<OperationResult<DataType>>;
-    public abstract save?(data: DataType[]): Observable<OperationResult<DataType[]>>;
+    public abstract save(data: DataType): Observable<OperationResult<DataType>>;
+    
 }
 export abstract class AbstractUIDeleteService<DataType> {
-    public abstract delete?(data: DataType): Observable<OperationResult<DataType>>;
-    public abstract delete?(data: DataType[]): Observable<OperationResult<DataType[]>>;
+    public abstract delete(data: DataType): Observable<OperationResult<DataType>>;
+    
 }
 export abstract class AbstractUIFindByCodeService<DataType> {
     public abstract findByCode(code: string): Observable<OperationResult<DataType>>;
@@ -114,15 +114,16 @@ export interface UIResultColumn {
     header?: string;
 }
 export abstract class AbstractGoToDetailService {
-    public abstract goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any): void;
+    public abstract goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any,activated: ActivatedRoute): void;
 }
 @Injectable({ providedIn: "root" })
 export class DefaultGoToDetailService extends AbstractGoToDetailService {
-    constructor(private route: Router, private activated: ActivatedRoute) {
+    constructor(private route: Router) {
         super()
     }
-    public override goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any): void {
-        this.route.navigate([actualValue?.code,"edit"], { relativeTo: this.activated });
+    public override goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any,activated: ActivatedRoute): void {
+        const CODE:string=actualValue?.code?encodeURIComponent(actualValue?.code):"";
+        this.route.navigate([CODE,"edit"], { relativeTo: activated });
         
     }
 };

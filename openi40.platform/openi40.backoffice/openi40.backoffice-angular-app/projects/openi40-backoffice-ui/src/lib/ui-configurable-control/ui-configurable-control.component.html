@@ -1,76 +1,91 @@
 <div [ngClass]="configuration.cssClasses">
-<div class="grid" *ngIf="configuration?.type!=='hidden' && formGroup" [formGroup]="formGroup">
-  <label [htmlFor]="configuration.controlName" class="col-12">{{
-    configuration.label
-  }}</label>
-  <input
-    pInputText
-    [id]="configuration.controlName"
-    *ngIf="configuration?.type === 'text'"
-    type="text"
+  <div
+    class="grid"
+    *ngIf="configuration?.type !== 'hidden' && formGroup"
+    [formGroup]="formGroup"
     
-    [formControlName]="configuration.controlName"
-    class="col-12"
-    [required]="configuration.required === true ? true : false"
-    [placeholder]="configuration.placeholder?configuration.placeholder:''"
-  />
-  <input
-    pInputText
-    [id]="configuration.controlName"
-    *ngIf="configuration?.type === 'number'"
-    type="number"
-    class="col-12"
-    [formControlName]="configuration.controlName"
-    
-    [required]="configuration.required === true ? true : false"
-    [placeholder]="configuration.placeholder?configuration.placeholder:''"
-  />
-  <p-dropdown
-    [id]="configuration.controlName"
-    *ngIf="configuration.type === 'dropdown' && (noSearchService || hasDataLoaderService)"
-    
-    [formControlName]="configuration.controlName"
-    class="col-12"
-    [required]="configuration.required === true ? true : false"
-    [options]="choices" [optionLabel]="optionLabel"
-  ></p-dropdown>
-  <p-autoComplete 
-               [id]="configuration.controlName" 
-               *ngIf="configuration.type === 'dropdown' && (hasUnpagedSearchService)"  
-               [dropdown]="true" 
-               [suggestions]="choices" 
-               (completeMethod)="completeUnpagedSearch($event)" 
-               field="code"
-               class="col-12"
-               [formControlName]="configuration.controlName"
-               >
-               <ng-template let-item pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    
-                    <div>{{ item?.code }} - {{item?.description}}</div>
-                </div>
-            </ng-template>
-   </p-autoComplete>
-   <p-autoComplete 
-               [id]="configuration.controlName" 
-               [virtualScroll]="true"
-               [virtualScrollItemSize]="currentPage.size"
-               *ngIf="configuration?.type === 'dropdown' && (hasPagedSearchService)"  
-               [dropdown]="true" 
-               [suggestions]="choices" 
-               (completeMethod)="completePagedSearch($event)" 
-               field="code"
-               class="col-12"
-               [formControlName]="configuration.controlName"
-               >
-               <ng-template let-item pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                    
-                    <div>{{ item?.code }} - {{item?.description}}</div>
-                </div>
-            </ng-template>
-   </p-autoComplete>
-   <p-checkbox *ngIf="configuration?.type === 'boolean'" [id]="configuration.controlName" [binary]="true"  [inputId]="configuration.controlName"  class="col-12"
-   [formControlName]="configuration.controlName"></p-checkbox>
-</div>
+  >
+    <label [htmlFor]="configuration.controlName" class="col-12">{{
+      configuration.label
+    }}</label>
+    <input
+      pInputText
+      [id]="configuration.controlName"
+      *ngIf="configuration?.type === 'text'"
+      type="text"
+      [formControlName]="configuration.controlName"
+      class="col-12"
+      [required]="configuration.required === true ? true : false"
+      [placeholder]="configuration.placeholder ? configuration.placeholder : ''"
+      
+    />
+    <input
+      pInputText
+      [id]="configuration.controlName"
+      *ngIf="configuration?.type === 'number'"
+      type="number"
+      class="col-12"
+      [formControlName]="configuration.controlName"
+      [required]="configuration.required === true ? true : false"
+      [placeholder]="configuration.placeholder ? configuration.placeholder : ''"
+    />
+    <p-dropdown
+      [id]="configuration.controlName"
+      *ngIf="
+        configuration.type === 'dropdown' &&
+        (noSearchService || hasDataLoaderService)
+      "
+      [formControlName]="configuration.controlName"
+      class="col-12"
+      [required]="configuration.required === true ? true : false"
+      [options]="choices"
+      [optionLabel]="optionLabel"
+    ></p-dropdown>
+    <p-autoComplete
+      [id]="configuration.controlName"
+      *ngIf="configuration.type === 'dropdown' && hasUnpagedSearchService"
+      [dropdown]="true"
+      [suggestions]="choices"
+      (completeMethod)="completeUnpagedSearch($event)"
+      field="code"
+      class="col-12"
+      [formControlName]="configuration.controlName"
+      [required]="configuration.required === true ? true : false"
+    >
+      <ng-template let-item pTemplate="item">
+        <div class="grid">
+          <div class="col-3">{{ item?.code }}</div>
+          <div class="col-9">{{ item?.description }}</div>
+        </div>
+      </ng-template>
+    </p-autoComplete>
+    <p-autoComplete
+      [id]="configuration.controlName"
+      [virtualScroll]="true"
+      [virtualScrollItemSize]="currentPage.size"
+      *ngIf="configuration?.type === 'dropdown' && hasPagedSearchService"
+      [dropdown]="true"
+      [suggestions]="choices"
+      (completeMethod)="completePagedSearch($event)"
+      field="code"
+      class="col-12"
+      [formControlName]="configuration.controlName"
+      [required]="configuration.required === true ? true : false"
+    >
+      <ng-template let-item pTemplate="item">
+        <div class="grid">
+          <div class="col-3">{{ item?.code }}</div>
+          <div class="col-9">{{ item?.description }}</div>
+        </div>
+      </ng-template>
+    </p-autoComplete>
+    <p-checkbox
+      *ngIf="configuration?.type === 'boolean'"
+      [id]="configuration.controlName"
+      [binary]="true"
+      [inputId]="configuration.controlName"
+      class="col-12"
+      [formControlName]="configuration.controlName"
+    ></p-checkbox>
+  </div>
 </div>

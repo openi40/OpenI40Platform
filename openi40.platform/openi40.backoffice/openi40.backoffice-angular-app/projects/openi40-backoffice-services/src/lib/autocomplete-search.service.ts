@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
+import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbDepartmentRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBDepartment, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
 import { AbstractUIPagedSearchService, Page, PageMeta, UIControl } from "@openi40/backoffice-ui";
 import { Observable, map } from "rxjs";
 
@@ -89,11 +89,29 @@ export class OI40PlantAutocompleteSearchService extends AbstractAutocompletePage
     }
     public static getControlConfig():UIControl {
         return {
-            controlName:"plant",
+            controlName:"plantCode",
             label:"Plant",
             type:"dropdown",
             placeholder:"Select plant",
             populationService: OI40PlantAutocompleteSearchService
+        };
+    }
+}
+@Injectable({providedIn:"root"})
+export class OI40DepartmentAutocompleteSearchService extends AbstractAutocompletePagedSearchService<PageOI40DBDepartment>{
+    constructor(private remoteService:Oi40DbDepartmentRepositoryService) {
+        super()
+    }
+    protected override doRemoteCall(autoCompleteData: AutoCompleteData): Observable<PageOI40DBDepartment> {
+        return this.remoteService.doAutocompletePageOI40DBDepartment(autoCompleteData);
+    }
+    public static getControlConfig():UIControl {
+        return {
+            controlName:"departmentCode",
+            label:"Department",
+            type:"dropdown",
+            placeholder:"Select department",
+            populationService: OI40DepartmentAutocompleteSearchService
         };
     }
 }

@@ -11,12 +11,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { OrdersModule } from '@openi40/backoffice-screens-dynaload/orders/orders.module';
 import { ProductsModule } from '@openi40/backoffice-screens-dynaload/products/products.module';
 
 
 
 @NgModule({
-  imports: [CommonModule,ProductsModule],
+  imports: [CommonModule,ProductsModule,OrdersModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -18,6 +18,7 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     protected saveService?: AbstractUISaveService<ResultType>;
     protected deleteService?: AbstractUIDeleteService<ResultType>;
     protected createNewService?: AbstractUICreateNewService<ResultType>;
+    public editExistingRecord: boolean = false;
     public isCanSave: boolean = false;
     public isCanDelete: boolean = false;
     public isCanCreateNew: boolean = false;
@@ -46,7 +47,7 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
         super.ngOnInit();
         let searchedByCode: boolean = false;
         if (this.activatedRouter.snapshot.params['code']) {
-            this.code = this.activatedRouter.snapshot.params['code'];
+            this.code = decodeURIComponent(this.activatedRouter.snapshot.params['code']);
             if (this.code && this.code.trim().length > 0) {
                 searchedByCode = false;
                 this.doSearchByCode();
@@ -54,8 +55,16 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
         }
         if (!searchedByCode && this.createNewService) {
             const sampleObject = this.activatedRouter.snapshot.data['sampleObject'];
-            this.execute(sampleObject, this.setModel, this.createNewService.createNew).subscribe(results => {
-                this.showUserMessages(results?.status, results?.msgs);
+            this.execute(sampleObject, this.setModel, this.createNewService.createNew).subscribe({
+                next:
+                    results => {
+                        this.showUserMessages(results?.status, results?.msgs);
+                    },
+                error: error => {
+                    this.loading = false;
+                    console.error(error);
+                }
+
             });
         }
     }
@@ -88,11 +97,12 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
 
             this.model = this.frmGroup.value;
             if (this.model && this.saveService) {
-                const invokeSaveService = (m: ResultType) => { 
-                    if (this.saveService && this.saveService.save) { 
-                        return this.saveService.save(m); 
+                const invokeSaveService = (m: ResultType) => {
+                    if (this.saveService && this.saveService.save) {
+                        this.editExistingRecord = true;
+                        return this.saveService.save(m);
                     } else return undefined;
-                 };
+                };
                 this.execute<ResultType>(this.model, (m) => { this.setModel(m) }, invokeSaveService).subscribe(results => {
                     this.showUserMessages(results?.status, results?.msgs);
                 });
@@ -116,9 +126,18 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
         console.log("Running doSearchByCode()")
         this.loading = true;
         this.model = {} as ResultType;
-        this.execute<string>(this.code, (m) => { this.setModel(m) },(m)=>{return this.findByCodeService?.findByCode(m); }).subscribe(results => {
-            this.showUserMessages(results?.status, results?.msgs);
-        });
+        this.execute<string>(this.code, (m) => { this.setModel(m) }, (m) => {
+            return this.findByCodeService?.findByCode(m);
+        }).subscribe(
+            {
+                next: results => {
+                    this.editExistingRecord = true;
+                    this.showUserMessages(results?.status, results?.msgs);
+                }, error: error => { 
+                    this.loading=false;
+                    console.error(error);
+                }
+            });
 
     }
     private showUserMessages(status?: OperationStatus, msgs?: UIMsg[]) {

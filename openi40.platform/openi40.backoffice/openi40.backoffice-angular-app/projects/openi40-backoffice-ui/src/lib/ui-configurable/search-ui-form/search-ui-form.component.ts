@@ -40,7 +40,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
             if (this.config?.gotoDetailService) {
                 const gotoDetailService:AbstractGoToDetailService=this.injector.get(this.config.gotoDetailService);
                 if (gotoDetailService) {
-                    gotoDetailService.goToDetail(rowData,this.config,this);
+                    gotoDetailService.goToDetail(rowData,this.config,this,this.activatedRouter);
                 }
             }
         }

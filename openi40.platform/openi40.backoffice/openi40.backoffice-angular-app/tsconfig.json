@@ -35,10 +35,10 @@
         "projects/openi40-backoffice-api/src/lib"
       ],
       "@openi40/backoffice-services": [
-        "projects/openi40-backoffice-services/src/lib/public-api"
+        "projects/openi40-backoffice-services/src/public-api"
       ],
       "@openi40/backoffice-screens": [
-        "projects/openi40-backoffice-screens/src/lib/public-api"
+        "projects/openi40-backoffice-screens/src/public-api"
       ],
       "@openi40/backoffice-screens-dynaload/*": [
         "projects/openi40-backoffice-screens/src/lib/*"

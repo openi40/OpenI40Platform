@@ -1,0 +1,23 @@
+<div class="content" #mainContent>
+    <p-blockUI [target]="mainContent" [blocked]="loading">
+      <i class="pi pi-lock" style="font-size: 3rem"></i>
+    </p-blockUI>
+    <ui-configured-form
+      [formGroup]="frmGroup"
+      [config]="config.formGroup"
+      
+    >
+    </ui-configured-form>
+    <div class="row">
+      <div class="col-2">
+        <button
+          pButton
+          pRipple
+          label="Save"
+          class="p-button-success"
+          [disabled]="saveDisabled"
+          (click)="doSave()"
+        ></button>
+      </div>
+    </div>
+  </div>

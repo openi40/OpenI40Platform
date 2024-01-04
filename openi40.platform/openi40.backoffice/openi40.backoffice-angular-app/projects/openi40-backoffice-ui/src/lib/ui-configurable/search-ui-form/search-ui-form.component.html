@@ -23,7 +23,7 @@
                      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                      [rowsPerPageOptions]="[10,20,50,100]" 
                      [showCurrentPageReport]="pagedService"
-                     [totalRecords]="actualPage?.totalElements && actualPage.totalElements ?actualPage.totalElements:0"
+                     [totalRecords]="( actualPage.totalElements )?actualPage.totalElements:0"
                      
                      (onPage)="handlePage($event)"
             >
