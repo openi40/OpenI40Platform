@@ -6,11 +6,12 @@ import { ApiModule, OI40DBSalesOrder, OI40DBSalesOrderLine, Oi40DbSalesOrderLine
 import { RouterModule, Routes } from "@angular/router";
 import { DetailUIFormComponent } from "projects/openi40-backoffice-ui/src/lib/ui-configurable/detail-ui-form/detail-ui-form.component";
 import { SearchUIFormComponent } from "@openi40/backoffice-ui";
-import { OI40DepartmentAutocompleteSearchService, OI40PlantAutocompleteSearchService, Openi40BackofficeServicesModule } from "@openi40/backoffice-services";
+import { OI40DepartmentAutocompleteSearchService, OI40PartnerAutocompleteSearchService, OI40PlantAutocompleteSearchService, Openi40BackofficeServicesModule } from "@openi40/backoffice-services";
 import { OrderComponent } from "./editing/order.component";
 import { GenericOrder } from "./editing/generic-order";
 import { Observable, forkJoin, map, of } from "rxjs";
 import { BlockUIModule } from "primeng/blockui";
+import { ButtonModule } from "primeng/button";
 const DOCUMENT_SEARCH_COMMON_FORMGROUP: UIFormGroup = {
     name: "documentSearch",
     controls: [{
@@ -82,6 +83,60 @@ const PURCHASE_ORDER_SEARCH_CONFIGURATION: UISearchForm<any, any> = {
 /* askedDeliveryDate?: Date;
     attributesMap?: any;
     code?: string;
+    color?: string;
+    completedQty?: number;
+    customPriority?: number;
+    departmentCode?: string;
+    description?: string;
+    integrationTs?: Date;
+    lineStatus?: string;
+    maxProductionDateConstraint?: Date;
+    minProductionDateConstraint?: Date;
+    modifiedTimestamp?: Date;
+    orderCode?: string;
+    orderType?: string;
+    plannedDeliveryDate?: Date;
+    plantCode?: string;
+    productCode?: string;
+    removed?: boolean;
+    residualQty?: number;
+    totalQty?: number;
+    warehouseCode?: string;*/
+const GENERIC_ORDER_ROW_FORMGROUP_CONFIG:UIFormGroup={
+    name:"row",
+    controls:[
+        {
+            controlName:"code",
+            label:"code",
+            type:"text",
+            containerCssClasses:"col-4"
+        },{
+            controlName:"description",
+            label:"description",
+            type:"text",
+            containerCssClasses:"col-8"
+        },{
+            controlName:"orderCode",
+            label:"orderCode",
+            type:"hidden"
+        },
+        OI40PlantAutocompleteSearchService.getControlConfig(), 
+        OI40DepartmentAutocompleteSearchService.getControlConfig(),{
+         controlName:"askedDeliveryDate",
+         label:"asked delivery date",
+         type:"date",
+         containerCssClasses:"col-4"
+        },{
+         controlName:"plannedDeliveryDate",
+         label:"planned delivery date",
+         type:"date",
+         containerCssClasses:"col-4"
+        }
+    ]
+}    
+/* askedDeliveryDate?: Date;
+    attributesMap?: any;
+    code?: string;
     customPriority?: number;
     departmentCode?: string;
     description?: string;
@@ -113,17 +168,24 @@ const GENERIC_ORDER_FORMGROUP_CONFIG:UIFormGroup={
         mappings: {
             label: "description",
             identifier: "code"
-        }
+        },
+        containerCssClasses:"col-4"
     }, OI40PlantAutocompleteSearchService.getControlConfig(), 
-       OI40DepartmentAutocompleteSearchService.getControlConfig(),{
+       OI40DepartmentAutocompleteSearchService.getControlConfig(),
+       OI40PartnerAutocompleteSearchService.getControlConfig(),
+       
+       {
         controlName:"askedDeliveryDate",
         label:"asked delivery date",
-        type:"date"
+        type:"date",
+        containerCssClasses:"col-4"
        },{
         controlName:"plannedDeliveryDate",
         label:"planned delivery date",
-        type:"date"
-       }]
+        type:"date",
+        containerCssClasses:"col-4"
+       }],
+       formArrays:[{...GENERIC_ORDER_ROW_FORMGROUP_CONFIG,length:1,name:"rows"}]
 };
 
 const SALES_ORDER_FORM_CONFIG:UIDetailForm<GenericOrder>={
@@ -197,6 +259,7 @@ const routes: Routes = [
         Openi40BackofficeServicesModule,
         Openi40BackofficeMetaUIModule,
         BlockUIModule,
+        ButtonModule,
         RouterModule.forRoot(routes)], 
     providers: [SalesOrdersSearch, PurchaseOrdersSearch,FindSalesOrderService,SaveSalesOrderService,FindPurchaseOrderService,SavePurchaseOrderService],
     declarations:[OrderComponent],

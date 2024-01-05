@@ -1,0 +1,39 @@
+<p-table [columns]="columnsConfig" 
+                     [value]="data" 
+                     [paginator]="paged" 
+                     [lazy]="externalPagingManagement"
+                     [rows]="actualPage?.size"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [rowsPerPageOptions]="[10,20,50,100]" 
+                     [showCurrentPageReport]="paged"
+                     [totalRecords]="( actualPage.totalElements )?actualPage.totalElements:0"
+                     
+                     (onPage)="handlePage($event)"
+            >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngIf="gotoDetailService">
+
+                        </th>
+                        <th *ngFor="let col of columns;">
+                            {{ col.header }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td *ngIf="gotoDetailService">
+                           <p-button icon="go" (onClick)="goToDetail(rowData)"></p-button> 
+                        </td>
+                        <td *ngFor="let col of columns;">
+                            {{ rowData[col.field] }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>

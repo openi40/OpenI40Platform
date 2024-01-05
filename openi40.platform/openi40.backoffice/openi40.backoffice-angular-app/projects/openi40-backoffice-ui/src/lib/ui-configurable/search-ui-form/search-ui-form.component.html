@@ -15,45 +15,9 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <p-table [columns]="columnsConfig" 
-                     [value]="results" 
-                     [paginator]="pagedService" 
-                     [lazy]="true"
-                     [rows]="actualPage?.size"
-                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                     [rowsPerPageOptions]="[10,20,50,100]" 
-                     [showCurrentPageReport]="pagedService"
-                     [totalRecords]="( actualPage.totalElements )?actualPage.totalElements:0"
-                     
-                     (onPage)="handlePage($event)"
-            >
-                <ng-template pTemplate="header" let-columns>
-                    <tr>
-                        <th *ngIf="config?.gotoDetailService">
-
-                        </th>
-                        <th *ngFor="let col of columns;">
-                            {{ col.header }}
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr>
-                        <td *ngIf="config?.gotoDetailService">
-                           <p-button icon="go" (onClick)="goToDetail(rowData)"></p-button> 
-                        </td>
-                        <td *ngFor="let col of columns;">
-                            {{ rowData[col.field] }}
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="paginatorleft">
-                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
-                </ng-template>
-                <ng-template pTemplate="paginatorright">
-                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
-                </ng-template>
-            </p-table>
+            
+            <ui-configurable-grid [columnsConfig]="columnsConfig" [actualPage]="actualPage" [externalPagingManagement]="true" [paged]="true" [data]="results" [gotoDetailService]="gotoDetailService" (actualPageChange)="pageChange($event)"></ui-configurable-grid>
+           
         </div>
     </div>
 </div>

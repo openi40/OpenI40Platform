@@ -14,6 +14,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         public results:ResultType[]=[];
         private searchService?:AbstractUIPagedSearchService|AbstractUISearchService;
         public actualPage: PageMeta=new PageMeta();
+        public gotoDetailService?:AbstractGoToDetailService;
         private actualFilter?:SearchType;
         public pagedService:boolean=false;
         constructor(injector: Injector,  fgConfigurator: FormGroupConfigurationService,@Inject(UI_SEARCH_CONFIG) config:UISearchForm<SearchType,ResultType>, activatedRouter: ActivatedRoute) {
@@ -27,6 +28,10 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                     this.searchService=service;
                     this.pagedService=(service instanceof AbstractUIPagedSearchService)?true:false;
                 }
+            }
+            if (this.config?.gotoDetailService) {
+                const gotoDetailService:AbstractGoToDetailService=this.injector.get(this.config.gotoDetailService);
+                this.gotoDetailService=gotoDetailService;
             }
         }
         public get disabledSearch():boolean {
@@ -77,6 +82,10 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 return this.config.resultColumns;
             }else 
                 return [];
+        }
+        pageChange(newPage:PageMeta) {
+            this.actualPage=newPage;
+            this.invokeSearch(this.actualFilter);
         }
         public handlePage(ev:{first:number,rows:number}){
             this.loading=true;

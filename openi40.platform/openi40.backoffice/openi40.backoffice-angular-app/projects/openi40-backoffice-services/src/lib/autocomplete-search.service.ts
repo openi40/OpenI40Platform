@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbDepartmentRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBDepartment, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
+import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbDepartmentRepositoryService, Oi40DbPartnerRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBDepartment, PageOI40DBPartner, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
 import { AbstractUIPagedSearchService, Page, PageMeta, UIControl } from "@openi40/backoffice-ui";
 import { Observable, map } from "rxjs";
 
@@ -39,7 +39,27 @@ export class OI40ProductAutocompleteSearchService extends AbstractAutocompletePa
             label:"Product",
             type:"dropdown",
             placeholder:"Select product",
+            containerCssClasses:"col-4",
             populationService: OI40ProductAutocompleteSearchService
+        };
+    }
+}
+@Injectable({providedIn:"root"})
+export class OI40PartnerAutocompleteSearchService extends AbstractAutocompletePagedSearchService<PageOI40DBPartner>{
+    constructor(private remoteService:Oi40DbPartnerRepositoryService) {
+        super()
+    }
+    protected override doRemoteCall(autoCompleteData: AutoCompleteData): Observable<PageOI40DBPartner> {
+        return this.remoteService.doAutocompletePageOI40DBPartner(autoCompleteData);
+    }
+    public static getControlConfig():UIControl {
+        return {
+            controlName:"partner",
+            label:"Partner",
+            type:"dropdown",
+            placeholder:"Select partner",
+            containerCssClasses:"col-4",
+            populationService: OI40PartnerAutocompleteSearchService
         };
     }
 }
@@ -57,6 +77,7 @@ export class OI40CoProductItemAutocompleteSearchService extends AbstractAutocomp
             label:"Co-product",
             type:"dropdown",
             placeholder:"Select co-product",
+            containerCssClasses:"col-4",
             populationService: OI40CoProductItemAutocompleteSearchService
         };
     }
@@ -75,6 +96,7 @@ export class OI40ProductiveCompanyAutocompleteSearchService extends AbstractAuto
             label:"Company",
             type:"dropdown",
             placeholder:"Select company",
+            containerCssClasses:"col-4",
             populationService: OI40ProductiveCompanyAutocompleteSearchService
         };
     }
@@ -93,6 +115,7 @@ export class OI40PlantAutocompleteSearchService extends AbstractAutocompletePage
             label:"Plant",
             type:"dropdown",
             placeholder:"Select plant",
+            containerCssClasses:"col-4",
             populationService: OI40PlantAutocompleteSearchService
         };
     }
@@ -111,6 +134,7 @@ export class OI40DepartmentAutocompleteSearchService extends AbstractAutocomplet
             label:"Department",
             type:"dropdown",
             placeholder:"Select department",
+            containerCssClasses:"col-4",
             populationService: OI40DepartmentAutocompleteSearchService
         };
     }
@@ -129,6 +153,7 @@ export class OI40WarehouseAutocompleteSearchService extends AbstractAutocomplete
             label:"Warehouse",
             type:"dropdown",
             placeholder:"Select warehouse",
+            containerCssClasses:"col-4",
             populationService: OI40WarehouseAutocompleteSearchService
         };
     }

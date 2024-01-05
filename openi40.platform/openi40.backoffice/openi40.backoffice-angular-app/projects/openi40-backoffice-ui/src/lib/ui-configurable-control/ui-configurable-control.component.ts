@@ -20,10 +20,9 @@ interface IEvent {
 })
 export class UIConfigurableControlComponent implements OnInit, OnChanges {
     @Input() public configuration: UIControl=NULLCONTROL;
-    
     @Input() public formGroup?:FormGroup;
     public disabled: boolean = false;
-    public readonly: boolean = false;
+    @Input() public readonly: boolean = false;
     public loading: boolean = false;
     public choices: any[] = [];
     public currentPage: PageMeta = { page: 0, size:30, totalElements: 0 };
@@ -57,11 +56,11 @@ export class UIConfigurableControlComponent implements OnInit, OnChanges {
 
     }
     public completeUnpagedSearch(filter:IEvent) {
-        if (filter.query)
+        if (filter.query !== undefined)
         this.doAutocomplete(filter?.query);
     }
     public completePagedSearch(filter:IEvent) {
-        if (filter.query)
+        if (filter.query  !== undefined)
         this.doAutocomplete(filter?.query);
     }
     private doAutocomplete(query?: any) {

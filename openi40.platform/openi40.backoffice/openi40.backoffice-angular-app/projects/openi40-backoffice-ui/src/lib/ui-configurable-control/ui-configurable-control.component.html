@@ -17,6 +17,7 @@
       class="col-12"
       [required]="configuration.required === true ? true : false"
       [placeholder]="configuration.placeholder ? configuration.placeholder : ''"
+      [readonly]="readonly"
       
     />
     <input
@@ -28,6 +29,7 @@
       [formControlName]="configuration.controlName"
       [required]="configuration.required === true ? true : false"
       [placeholder]="configuration.placeholder ? configuration.placeholder : ''"
+      [readonly]="readonly"
     />
     <p-dropdown
       [id]="configuration.controlName"
@@ -40,6 +42,7 @@
       [required]="configuration.required === true ? true : false"
       [options]="choices"
       [optionLabel]="optionLabel"
+      [readonly]="readonly"
     ></p-dropdown>
     <p-autoComplete
       [id]="configuration.controlName"
@@ -51,6 +54,7 @@
       class="col-12"
       [formControlName]="configuration.controlName"
       [required]="configuration.required === true ? true : false"
+      [readonly]="readonly"
     >
       <ng-template let-item pTemplate="item">
         <div class="grid">
@@ -71,6 +75,7 @@
       class="col-12"
       [formControlName]="configuration.controlName"
       [required]="configuration.required === true ? true : false"
+      [readonly]="readonly"
     >
       <ng-template let-item pTemplate="item">
         <div class="grid">
@@ -86,6 +91,7 @@
       [inputId]="configuration.controlName"
       class="col-12"
       [formControlName]="configuration.controlName"
+      [readonly]="readonly"
     ></p-checkbox>
     <p-calendar *ngIf="configuration?.type === 'date'" [id]="configuration.controlName" class="col-12"
     [formControlName]="configuration.controlName" [showIcon]="true" ></p-calendar>
