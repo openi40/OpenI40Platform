@@ -77,6 +77,11 @@ export class Oi40DbWorkCenterRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid39.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbWorkCenterRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBWorkCenter/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBWorkCenter/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbWorkCenterRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBWorkCenter.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbWorkCenterRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBWorkCenter>(`${this.basePath}/integration/OI40DBWorkCenter/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBWorkCenter>(`${this.basePath}/integration/OI40DBWorkCenter/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

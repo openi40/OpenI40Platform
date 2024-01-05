@@ -77,6 +77,11 @@ export class Oi40DbSalesOrderLineRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid22.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbSalesOrderLineRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBSalesOrderLine/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBSalesOrderLine/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbSalesOrderLineRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBSalesOrderLine.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbSalesOrderLineRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBSalesOrderLine>(`${this.basePath}/integration/OI40DBSalesOrderLine/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBSalesOrderLine>(`${this.basePath}/integration/OI40DBSalesOrderLine/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

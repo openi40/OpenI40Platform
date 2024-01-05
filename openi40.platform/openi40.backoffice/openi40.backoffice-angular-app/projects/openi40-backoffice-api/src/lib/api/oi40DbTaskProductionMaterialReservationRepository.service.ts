@@ -77,6 +77,11 @@ export class Oi40DbTaskProductionMaterialReservationRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid28.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbTaskProductionMaterialReservationRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBTaskProductionMaterialReservation/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBTaskProductionMaterialReservation/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbTaskProductionMaterialReservationRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBTaskProductionMaterialReservation.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbTaskProductionMaterialReservationRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBTaskProductionMaterialReservation>(`${this.basePath}/integration/OI40DBTaskProductionMaterialReservation/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBTaskProductionMaterialReservation>(`${this.basePath}/integration/OI40DBTaskProductionMaterialReservation/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

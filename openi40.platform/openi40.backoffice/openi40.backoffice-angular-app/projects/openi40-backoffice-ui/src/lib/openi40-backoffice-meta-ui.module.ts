@@ -15,8 +15,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DetailUIFormComponent } from './ui-configurable/detail-ui-form/detail-ui-form.component';
 import { UIConfiguredFormComponent } from './ui-configurable/ui-configured-form/ui-configured-form.component';
 import { BlockUIModule } from 'primeng/blockui';
+import { CalendarModule } from 'primeng/calendar';
 @NgModule ({
-    imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule,CheckboxModule,BlockUIModule],
+    imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule,CheckboxModule,CalendarModule,BlockUIModule],
     declarations:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent],
     exports:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent],
     providers:[FormGroupConfigurationService,DefaultGoToDetailService]

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openi40.dbmodel.entities.OI40DBBaseEntity;
 import com.openi40.dbmodel.utils.AutoCompleteData;
@@ -39,8 +40,8 @@ import com.openi40.dbmodel.utils.QbeSupport;
  */
 @NoRepositoryBean
 public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends JpaRepository<OI40Type, String> {
-	@GetMapping(path = "byCode/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
-	default public OI40Type findByCode(@PathVariable("code") String code) {
+	@GetMapping(path = "byCode", produces = MediaType.APPLICATION_JSON_VALUE)
+	default public OI40Type findByCode(@NotNull @RequestParam("code") String code) {
 		Optional<OI40Type> value = this.findById(code);
 		if (value.isPresent())
 			return value.get();
@@ -48,9 +49,9 @@ public interface OI40BaseRepository<OI40Type extends OI40DBBaseEntity> extends J
 			return null;
 	}
 
-	@GetMapping(path = "deleteByCode/{code}")
+	@GetMapping(path = "deleteByCode")
 	@Transactional
-	default public void deleteByCode(@PathVariable("code") String code) {
+	default public void deleteByCode(@NotNull @RequestParam("code") String code) {
 		this.deleteById(code);
 	}
 

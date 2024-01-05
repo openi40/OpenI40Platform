@@ -77,6 +77,11 @@ export class Oi40DbSecondaryResourceUseSpecificationRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid26.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbSecondaryResourceUseSpecificationRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBSecondaryResourceUseSpecification/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBSecondaryResourceUseSpecification/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbSecondaryResourceUseSpecificationRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBSecondaryResourceUseSpecification.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbSecondaryResourceUseSpecificationRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBSecondaryResourceUseSpecification>(`${this.basePath}/integration/OI40DBSecondaryResourceUseSpecification/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBSecondaryResourceUseSpecification>(`${this.basePath}/integration/OI40DBSecondaryResourceUseSpecification/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

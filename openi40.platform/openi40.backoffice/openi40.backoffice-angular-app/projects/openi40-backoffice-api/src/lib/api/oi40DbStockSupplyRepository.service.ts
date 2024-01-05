@@ -77,6 +77,11 @@ export class Oi40DbStockSupplyRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid27.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbStockSupplyRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBStockSupply/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBStockSupply/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbStockSupplyRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBStockSupply.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbStockSupplyRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBStockSupply>(`${this.basePath}/integration/OI40DBStockSupply/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBStockSupply>(`${this.basePath}/integration/OI40DBStockSupply/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

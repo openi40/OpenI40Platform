@@ -87,5 +87,7 @@
       class="col-12"
       [formControlName]="configuration.controlName"
     ></p-checkbox>
+    <p-calendar *ngIf="configuration?.type === 'date'" [id]="configuration.controlName" class="col-12"
+    [formControlName]="configuration.controlName" [showIcon]="true" ></p-calendar>
   </div>
 </div>

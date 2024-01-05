@@ -77,6 +77,11 @@ export class Oi40DbScheduledWorkOrderRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling deleteByCodeVoid24.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -92,8 +97,9 @@ export class Oi40DbScheduledWorkOrderRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBScheduledWorkOrder/deleteByCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<any>(`${this.basePath}/integration/OI40DBScheduledWorkOrder/deleteByCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -424,6 +430,11 @@ export class Oi40DbScheduledWorkOrderRepositoryService {
             throw new Error('Required parameter code was null or undefined when calling findByCodeOI40DBScheduledWorkOrder.');
         }
 
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
+        }
+
         let headers = this.defaultHeaders;
 
         // to determine the Accept header
@@ -439,8 +450,9 @@ export class Oi40DbScheduledWorkOrderRepositoryService {
         const consumes: string[] = [
         ];
 
-        return this.httpClient.get<OI40DBScheduledWorkOrder>(`${this.basePath}/integration/OI40DBScheduledWorkOrder/byCode/${encodeURIComponent(String(code))}`,
+        return this.httpClient.get<OI40DBScheduledWorkOrder>(`${this.basePath}/integration/OI40DBScheduledWorkOrder/byCode`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
