@@ -22,7 +22,7 @@ export class UIConfigurableControlComponent implements OnInit, OnChanges {
     @Input() public configuration: UIControl=NULLCONTROL;
     @Input() public formGroup?:FormGroup;
     public disabled: boolean = false;
-    @Input() public readonly: boolean = false;
+    @Input() public readonly: boolean = false;    
     public loading: boolean = false;
     public choices: any[] = [];
     public currentPage: PageMeta = { page: 0, size:30, totalElements: 0 };
@@ -98,6 +98,9 @@ export class UIConfigurableControlComponent implements OnInit, OnChanges {
         }
     }
     ngOnChanges(changes: SimpleChanges): void {
+        if (changes["readonly"]) {
+            console.log("Switching readonly attribute of "+this.configuration?.controlName+" to "+this.readonly);
+        }
         if (changes["configuration"] && this.configuration) {
             if (this.configuration.values) {
                 this.choices = this.configuration.values;

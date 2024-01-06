@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbDepartmentRepositoryService, Oi40DbPartnerRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBDepartment, PageOI40DBPartner, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
+import { AutoCompleteData, OI40DBCoProductItem, OI40DBProduct, Oi40DbCoProductItemRepositoryService, Oi40DbDepartmentRepositoryService, Oi40DbPartnerRepositoryService, Oi40DbPlantRepositoryService, Oi40DbProductRepositoryService, Oi40DbProductiveCompanyRepositoryService, Oi40DbTimesheetMetaInfoRepositoryService, Oi40DbWarehouseRepositoryService, PageOI40DBCoProductItem, PageOI40DBDepartment, PageOI40DBPartner, PageOI40DBPlant, PageOI40DBProduct, PageOI40DBProductiveCompany, PageOI40DBTimesheetMetaInfo, PageOI40DBWarehouse, Pageable, Sort } from "@openi40/backoffice-api";
 import { AbstractUIPagedSearchService, Page, PageMeta, UIControl } from "@openi40/backoffice-ui";
 import { Observable, map } from "rxjs";
 
@@ -84,15 +84,15 @@ export class OI40CoProductItemAutocompleteSearchService extends AbstractAutocomp
 }
 @Injectable({providedIn:"root"})
 export class OI40ProductiveCompanyAutocompleteSearchService extends AbstractAutocompletePagedSearchService<PageOI40DBProductiveCompany>{
-    constructor(private remoteService:Oi40DbProductRepositoryService) {
+    constructor(private remoteService:Oi40DbProductiveCompanyRepositoryService) {
         super()
     }
     protected override doRemoteCall(autoCompleteData: AutoCompleteData): Observable<PageOI40DBProductiveCompany> {
-        return this.remoteService.doAutocompletePageOI40DBProduct(autoCompleteData);
+        return this.remoteService.doAutocompletePageOI40DBProductiveCompany(autoCompleteData);
     }
     public static getControlConfig():UIControl {
         return {
-            controlName:"productiveCompany",
+            controlName:"productiveCompanyCode",
             label:"Company",
             type:"dropdown",
             placeholder:"Select company",
@@ -155,6 +155,25 @@ export class OI40WarehouseAutocompleteSearchService extends AbstractAutocomplete
             placeholder:"Select warehouse",
             containerCssClasses:"col-4",
             populationService: OI40WarehouseAutocompleteSearchService
+        };
+    }
+}
+@Injectable({providedIn:"root"})
+export class OI40TimesheetMetaInfoAutocompleteSearchService extends AbstractAutocompletePagedSearchService<PageOI40DBTimesheetMetaInfo>{
+    constructor(private remoteService:Oi40DbTimesheetMetaInfoRepositoryService) {
+        super()
+    }
+    protected override doRemoteCall(autoCompleteData: AutoCompleteData): Observable<PageOI40DBTimesheetMetaInfo> {
+        return this.remoteService.doAutocompletePageOI40DBTimesheetMetaInfo(autoCompleteData);
+    }
+    public static getControlConfig():UIControl {
+        return {
+            controlName:"timesheetMetaInfoCode",
+            label:"calendar",
+            type:"dropdown",
+            placeholder:"Select calendar",
+            containerCssClasses:"col-4",
+            populationService: OI40TimesheetMetaInfoAutocompleteSearchService
         };
     }
 }

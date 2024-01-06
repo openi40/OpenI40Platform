@@ -1,14 +1,13 @@
 
 import { Injector, Component, Inject } from "@angular/core";
 import { BaseUIForm } from "../base-ui-form/base-ui-form.component";
-import { AbstractGoToDetailService, AbstractUIPagedSearchService, AbstractUISearchService, PageMeta, UIResultColumn, UISearchForm, UI_SEARCH_CONFIG } from "../../ui-meta-description/ui-meta-description";
+import { AbstractGoToDetailService, AbstractUIPagedSearchService, AbstractUISearchService, DEFAULT_FIELD_TRANSLATORS, PageMeta, UIResultColumn, UISearchForm, UI_SEARCH_CONFIG } from "../ui-meta-description/ui-meta-description";
 
 import { FormGroupConfigurationService } from "../../services/formgroup-configurator.service";
 import { ActivatedRoute } from "@angular/router";
 @Component({
     selector:"search-ui-form",
-    templateUrl:"search-ui-form.component.html",
-    styleUrls:[]
+    templateUrl:"search-ui-form.component.html"
 })
 export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UISearchForm<SearchType,ResultType>> {
         public results:ResultType[]=[];
@@ -38,9 +37,25 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
         public get disabledSearch():boolean {
             return this.frmGroup?.valid===true?false:true;
         }
+        private transduceFields(v?:any):any {
+            const ov:any={};
+            if (v) {
+                if (this.config?.formGroup?.controls) {
+                    this.config.formGroup.controls.forEach(ctrl=>{
+                        if (v[ctrl.controlName] && ctrl.customOutputTranslator) {
+                            ov[ctrl.controlName]=ctrl.customOutputTranslator(v[ctrl.controlName]);
+                        }else if (ctrl.type){
+                            ov[ctrl.controlName]=DEFAULT_FIELD_TRANSLATORS[ctrl.type](v[ctrl.controlName]);
+                        }
+                    });
+                }
+            }
+            return ov;
+        }
         public doSearch(){
             const actualFilter=this.frmGroup?.value;
-            this.invokeSearch(actualFilter);
+            const remappedValues=this.transduceFields(actualFilter);
+            this.invokeSearch(remappedValues);
         }
         public goToDetail(rowData:ResultType){
             if (this.config?.gotoDetailService) {

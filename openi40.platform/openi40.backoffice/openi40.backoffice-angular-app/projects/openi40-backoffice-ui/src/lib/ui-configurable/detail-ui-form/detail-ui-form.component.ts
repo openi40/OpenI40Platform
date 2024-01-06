@@ -1,6 +1,6 @@
 import { Injector, Component, Inject, Input } from "@angular/core";
 import { BaseUIForm } from "../base-ui-form/base-ui-form.component";
-import { AbstractGoToDetailService, AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, OperationResult, OperationStatus, PageMeta, UIDetailForm, UIEditableForm, UIMsg, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG } from "../../ui-meta-description/ui-meta-description";
+import { AbstractGoToDetailService, AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DEFAULT_FIELD_TRANSLATORS, OperationResult, OperationStatus, PageMeta, UIDetailForm, UIEditableForm, UIMsg, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG } from "../ui-meta-description/ui-meta-description";
 
 import { FormGroupConfigurationService } from "../../services/formgroup-configurator.service";
 import { ActivatedRoute } from "@angular/router";
@@ -12,8 +12,11 @@ import { Observable, map, of } from "rxjs";
 })
 export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<ResultType>> {
     public model?: ResultType;
-
     @Input() code: string = '';
+    @Input() checkModifyMode:(data?:ResultType)=>boolean=(data?:any)=>{
+        const ret:boolean=data?.code?true:false;
+        return ret;
+    }
     protected findByCodeService?: AbstractUIFindByCodeService<ResultType>;
     protected saveService?: AbstractUISaveService<ResultType>;
     protected deleteService?: AbstractUIDeleteService<ResultType>;
@@ -22,6 +25,7 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     public isCanSave: boolean = false;
     public isCanDelete: boolean = false;
     public isCanCreateNew: boolean = false;
+    public modifyMode:boolean=false;
     public get saveDisabled(): boolean {
         return (this.isCanSave && this?.frmGroup && this?.frmGroup.valid) ? false : true;
     }
@@ -89,13 +93,29 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     private setModel(m: ResultType) {
         this.model = m;
         this.frmGroup.patchValue(this.model ? this.model : {});
+        this.modifyMode=this.checkModifyMode(this.model);
+    }
+    private transduceFields(v?:any):any {
+        const ov:any={};
+        if (v) {
+            if (this.config?.formGroup?.controls) {
+                this.config.formGroup.controls.forEach(ctrl=>{
+                    if (v[ctrl.controlName] && ctrl.customOutputTranslator) {
+                        ov[ctrl.controlName]=ctrl.customOutputTranslator(v[ctrl.controlName]);
+                    }else if (ctrl.type){
+                        ov[ctrl.controlName]=DEFAULT_FIELD_TRANSLATORS[ctrl.type](v[ctrl.controlName]);
+                    }
+                });
+            }
+        }
+        return ov;
     }
     public doSave(): void {
         console.log("Running doSave()")
 
         if (this.saveService !== undefined) {
-
-            this.model = this.frmGroup.value;
+            const actualModel=this.frmGroup.value;
+            this.model = this.transduceFields(actualModel);
             if (this.model && this.saveService) {
                 const invokeSaveService = (m: ResultType) => {
                     if (this.saveService && this.saveService.save) {
@@ -133,6 +153,8 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
                 next: results => {
                     this.editExistingRecord = true;
                     this.showUserMessages(results?.status, results?.msgs);
+                    
+                    
                 }, error: error => { 
                     this.loading=false;
                     console.error(error);

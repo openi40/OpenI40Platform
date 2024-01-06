@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { OI40CoProductItemAutocompleteSearchService, OI40DepartmentAutocompleteSearchService, OI40PartnerAutocompleteSearchService, OI40PlantAutocompleteSearchService, OI40ProductAutocompleteSearchService, OI40ProductiveCompanyAutocompleteSearchService, OI40WarehouseAutocompleteSearchService } from './autocomplete-search.service';
+import { OI40CoProductItemAutocompleteSearchService, OI40DepartmentAutocompleteSearchService, OI40PartnerAutocompleteSearchService, OI40PlantAutocompleteSearchService, OI40ProductAutocompleteSearchService, OI40ProductiveCompanyAutocompleteSearchService, OI40TimesheetMetaInfoAutocompleteSearchService, OI40WarehouseAutocompleteSearchService } from './autocomplete-search.service';
 
 
 
@@ -19,6 +19,7 @@ import { OI40CoProductItemAutocompleteSearchService, OI40DepartmentAutocompleteS
     OI40ProductiveCompanyAutocompleteSearchService,
     OI40PlantAutocompleteSearchService,
     OI40DepartmentAutocompleteSearchService,
-    OI40WarehouseAutocompleteSearchService]
+    OI40WarehouseAutocompleteSearchService,
+    OI40TimesheetMetaInfoAutocompleteSearchService]
 })
 export class Openi40BackofficeServicesModule { }

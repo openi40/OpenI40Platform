@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import { UIControl, UIFormGroup, UIFormGroupArray } from '../ui-meta-description/ui-meta-description';
+import { UIControl, UIFormGroup, UIFormGroupArray } from '../ui-configurable/ui-meta-description/ui-meta-description';
 @Injectable({providedIn:"root"})
 export class FormGroupConfigurationService {
     public static CFG_DATA="UI_CFG_DATA";

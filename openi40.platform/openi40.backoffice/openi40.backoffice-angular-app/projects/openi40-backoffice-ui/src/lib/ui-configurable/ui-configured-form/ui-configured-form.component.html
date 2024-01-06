@@ -17,6 +17,7 @@
       >
         <ui-configurable-component
           [configuration]="ctrlConfig"
+          [readonly]="readonly===true || (modifyMode===true && ctrlConfig?.readOnlyOnModify===true)"
           
           [formGroup]="formGroup"
         ></ui-configurable-component>

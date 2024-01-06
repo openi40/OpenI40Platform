@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     label: 'items & items production cfg',
     icon: 'pi pi-fw pi-cog',
     items: [
-      [{ label: "products", automationId: true, items: [{ label: "products", automationId: true, url: "products-search" }] },
+      [{ label: "products", automationId: true, items: [{ label: "products", automationId: true, url: "products" }] },
       { label: "cycle/operations", automationId: true, items: [{ label: "cycles", automationId: true, url: "cycles-search" }, { label: "operations", automationId: true, url: "operations-search" }] }]
     ]
   }, {

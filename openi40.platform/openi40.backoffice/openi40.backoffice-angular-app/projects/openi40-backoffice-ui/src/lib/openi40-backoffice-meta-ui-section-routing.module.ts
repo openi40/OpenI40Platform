@@ -1,8 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { EnvironmentProviders, ModuleWithProviders, NgModule, Provider, Type } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DefaultGoToDetailService, UIControl, UIDetailForm, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "./ui-meta-description/ui-meta-description";
-import { ProductFindByCodeService } from "@openi40/backoffice-screens-dynaload/products/product-detail.service";
+import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DefaultGoToDetailService, UIControl, UIDetailForm, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "./ui-configurable/ui-meta-description/ui-meta-description";
 
 @NgModule({
     imports: [CommonModule]

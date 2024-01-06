@@ -1,9 +1,10 @@
 import { CommonModule } from "@angular/common";
 import { Injectable, NgModule } from "@angular/core";
-import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUISaveService, OpenI40BackofficeMetaUISectionRoutingModule, OperationResult, OperationStatus } from "@openi40/backoffice-ui";
+import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUISaveService, OpenI40BackofficeMetaUISectionRoutingModule, OperationResult, OperationStatus, UIControl, UIResultColumn } from "@openi40/backoffice-ui";
 import { Observable, map, of } from "rxjs";
 import { AbstractBasePagedSearch } from "../reusable/abstract-paged-search-service";
 import { OI40DBPlant, Oi40DbPlantRepositoryService, Pageable, Sort } from "@openi40/backoffice-api";
+import { OI40ProductAutocompleteSearchService, OI40ProductiveCompanyAutocompleteSearchService, OI40TimesheetMetaInfoAutocompleteSearchService, Openi40BackofficeServicesModule } from "@openi40/backoffice-services";
 @Injectable()
 class PlantPagedSearchService extends AbstractBasePagedSearch<OI40DBPlant> {
 
@@ -79,8 +80,12 @@ class PlantDeleteService extends AbstractUIDeleteService<any> {
         }));
     }
 }
-const configuredModule = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSection("plants", "plants", [], [], PlantPagedSearchService, "edit plant", [], PlantFindByCodeService, PlantCreateNewService, PlantSaveService, PlantDeleteService);
+
+const ADDITIONAL_SEARCH_MODULE:UIControl[]=[{...OI40ProductiveCompanyAutocompleteSearchService.getControlConfig()},{...OI40TimesheetMetaInfoAutocompleteSearchService.getControlConfig()}];
+const ADDITIONAL_EDIT_MODULE:UIControl[]=[{...OI40ProductiveCompanyAutocompleteSearchService.getControlConfig(),readOnlyOnModify:true},{...OI40TimesheetMetaInfoAutocompleteSearchService.getControlConfig(),readOnlyOnModify:true}];
+const ADDITIONAL_RESULT_TABLE_MODULE:UIResultColumn[]=[{field:"productiveCompanyCode",header:"company code"},{field:"timesheetMetaInfoCode",header:"calendar code"}];
+const configuredModule = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSection("plants", "plants", ADDITIONAL_SEARCH_MODULE, ADDITIONAL_RESULT_TABLE_MODULE, PlantPagedSearchService, "edit plant", ADDITIONAL_EDIT_MODULE, PlantFindByCodeService, PlantCreateNewService, PlantSaveService, PlantDeleteService);
 @NgModule({
-    imports: [CommonModule, configuredModule]
+    imports: [CommonModule,Openi40BackofficeServicesModule, configuredModule]
 })
 export class PlantModule { }

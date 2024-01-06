@@ -3,6 +3,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
 export const UI_SEARCH_CONFIG = new InjectionToken<UI>('ui-search-configuration');
 export const UI_DETAIL_CONFIG = new InjectionToken<UI>('ui-detail-configuration');
+export function identityTranslator(v: any): any {
+    return v;
+};
+export function codeTranslator(v: any): any {
+    if (typeof v ==='string') {
+        return v;
+    }
+    return v?.code;
+};
+export const DEFAULT_FIELD_TRANSLATORS: any = {
+    "text": identityTranslator, "lookup": codeTranslator, "dropdown": codeTranslator, "multiselect": codeTranslator, "hidden": identityTranslator, "custom": identityTranslator, "date": identityTranslator, "datetime": identityTranslator
+    , "number": identityTranslator, "boolean": identityTranslator
+};
 export interface UIControl {
     controlName: string;
     label: string;
@@ -10,18 +23,20 @@ export interface UIControl {
     required?: boolean;
     cssClasses?: string;
     containerCssClasses?: string;
-    type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number"|"boolean";
+    type: "text" | "lookup" | "dropdown" | "multiselect" | "hidden" | "custom" | "date" | "datetime" | "number" | "boolean";
     values?: any[];
     mappings?: { label: string, identifier?: string };
     populationService?: Type<AbstractUISearchService> | Type<AbstractUIPagedSearchService> | Type<AbstractUIDataLoaderService>;
-    customComponent?:any;
+    customComponent?: any;
+    readOnlyOnModify?: boolean;
+    customOutputTranslator?: (v: any) => any;
 };
 export interface UIControlRepositoryEntry extends UIControl {
-    uniqueControlKey:string;
+    uniqueControlKey: string;
 }
 
-export interface UIControlsRepository{
-    controls:UIControlRepositoryEntry[];
+export interface UIControlsRepository {
+    controls: UIControlRepositoryEntry[];
 };
 
 
@@ -64,7 +79,7 @@ export abstract class AbstractUISearchService {
 }
 
 export abstract class AbstractUIDataLoaderService {
-    public abstract load():Observable<any[]>;
+    public abstract load(): Observable<any[]>;
 }
 
 export enum OperationStatus {
@@ -80,29 +95,29 @@ export interface OperationResult<DataType> {
 }
 export abstract class AbstractUISaveService<DataType> {
     public abstract save(data: DataType): Observable<OperationResult<DataType>>;
-    
+
 }
 export abstract class AbstractUIDeleteService<DataType> {
     public abstract delete(data: DataType): Observable<OperationResult<DataType>>;
-    
+
 }
 export abstract class AbstractUIFindByCodeService<DataType> {
     public abstract findByCode(code: string): Observable<OperationResult<DataType>>;
 }
-export abstract class  AbstractUIFindByCodeServiceAdapter<DataType> extends AbstractUIFindByCodeService<DataType>{
-    public  findByCode(code: string): Observable<OperationResult<DataType>>{
-        return this.invokeFindByCode(code).pipe(map(returned=>{
-            const ors:OperationResult<DataType>={
-                status:OperationStatus.SUCCESS,
-                data:returned
+export abstract class AbstractUIFindByCodeServiceAdapter<DataType> extends AbstractUIFindByCodeService<DataType>{
+    public findByCode(code: string): Observable<OperationResult<DataType>> {
+        return this.invokeFindByCode(code).pipe(map(returned => {
+            const ors: OperationResult<DataType> = {
+                status: OperationStatus.SUCCESS,
+                data: returned
             };
             return ors;
         }));
     }
-    protected  abstract  invokeFindByCode(code:string):Observable<DataType>;
+    protected abstract invokeFindByCode(code: string): Observable<DataType>;
 }
 export abstract class AbstractUICreateNewService<DataType> {
-    public abstract createNew(modelObject:DataType):Observable<OperationResult<DataType>>;
+    public abstract createNew(modelObject: DataType): Observable<OperationResult<DataType>>;
 }
 
 export interface UIEditableForm<DataType> extends UI {
@@ -114,23 +129,23 @@ export interface UIResultColumn {
     header?: string;
 }
 export abstract class AbstractGoToDetailService {
-    public abstract goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any,activated: ActivatedRoute): void;
+    public abstract goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any, activated: ActivatedRoute): void;
 }
 @Injectable({ providedIn: "root" })
 export class DefaultGoToDetailService extends AbstractGoToDetailService {
     constructor(private route: Router) {
         super()
     }
-    public override goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any,activated: ActivatedRoute): void {
-        const CODE:string=actualValue?.code?encodeURIComponent(actualValue?.code):"";
-        this.route.navigate([CODE,"edit"], { relativeTo: activated });
-        
+    public override goToDetail(actualValue: any, configuration: UISearchForm<any, any>, runtimeComponent: any, activated: ActivatedRoute): void {
+        const CODE: string = actualValue?.code ? encodeURIComponent(actualValue?.code) : "";
+        this.route.navigate([CODE, "edit"], { relativeTo: activated });
+
     }
 };
 export interface UISearchForm<SearchType, ResultType> extends UI {
     searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService> | any;
     resultColumns?: UIResultColumn[];
-    gotoDetailService?: Type<AbstractGoToDetailService>|any;
+    gotoDetailService?: Type<AbstractGoToDetailService> | any;
 }
 
 export interface UIModifiableSearchForm<SearchType, ResultType> extends UISearchForm<SearchType, ResultType>, UIEditableForm<ResultType> {
@@ -139,5 +154,5 @@ export interface UIModifiableSearchForm<SearchType, ResultType> extends UISearch
 
 export interface UIDetailForm<DataType> extends UIEditableForm<DataType> {
     findByCodeService: Type<AbstractUIFindByCodeService<DataType>>;
-    createNewService?:Type<AbstractUICreateNewService<DataType>>;
+    createNewService?: Type<AbstractUICreateNewService<DataType>>;
 }

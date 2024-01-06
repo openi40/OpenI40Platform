@@ -1,4 +1,4 @@
-import { UI, UI_SEARCH_CONFIG } from "../../ui-meta-description/ui-meta-description";
+import { UI, UI_SEARCH_CONFIG } from "../ui-meta-description/ui-meta-description";
 import { OnInit, Injector, Component, Inject, Directive, Input, TemplateRef } from "@angular/core";
 import { FormGroup, UntypedFormGroup } from '@angular/forms';
 import { FormGroupConfigurationService } from "../../services/formgroup-configurator.service";

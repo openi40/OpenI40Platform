@@ -1,6 +1,6 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormGroupConfigurationService } from './services/formgroup-configurator.service';
 
 import { DefaultGoToDetailService, UIConfigurableControlComponent } from '../public-api';
@@ -16,7 +16,7 @@ import { DetailUIFormComponent } from './ui-configurable/detail-ui-form/detail-u
 import { UIConfiguredFormComponent } from './ui-configurable/ui-configured-form/ui-configured-form.component';
 import { BlockUIModule } from 'primeng/blockui';
 import { CalendarModule } from 'primeng/calendar';
-import { UIConfigurableGridComponent } from './ui-configurable-grid/ui-configurable-grid.component';
+import { UIConfigurableGridComponent } from './ui-configurable/ui-configurable-grid/ui-configurable-grid.component';
 @NgModule ({
     imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule,CheckboxModule,CalendarModule,BlockUIModule],
     declarations:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent,UIConfigurableGridComponent],
