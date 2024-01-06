@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     items: [
       [{
         label: "work orders/tasks", automationId: true,
-        items: [{ label: "work orders", automationId: true, url: "work-orders" }, { label: "production tasks", automationId: true, url: "production-tasks" }]
+        items: [{ label: "work orders", automationId: true, url: "workorders" }, { label: "production tasks", automationId: true, url: "tasks" }]
       }]
     ]
   }];

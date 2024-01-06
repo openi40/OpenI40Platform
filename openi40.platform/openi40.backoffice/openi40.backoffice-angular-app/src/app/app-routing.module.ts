@@ -19,13 +19,15 @@ import { ProductiveCompanyModule } from '@openi40/backoffice-screens-dynaload/pr
 import { ProductsModule } from '@openi40/backoffice-screens-dynaload/products/products.module';
 import { ResourceGroupModule } from '@openi40/backoffice-screens-dynaload/resource-group/resource-group.module';
 import { ResourceModule } from '@openi40/backoffice-screens-dynaload/resource/resource.module';
+import { TaskModule } from '@openi40/backoffice-screens-dynaload/task/task.module';
 import { WarehouseModule } from '@openi40/backoffice-screens-dynaload/warehouse/warehouse.module';
+import { WorkOrderModule } from '@openi40/backoffice-screens-dynaload/work-order/work-order.module';
 import { WorkCenterModule } from '@openi40/backoffice-screens-dynaload/workcenters/workcenter.module';
 
 
 
 @NgModule({
-  imports: [CommonModule,ProductsModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule],
+  imports: [CommonModule,ProductsModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
