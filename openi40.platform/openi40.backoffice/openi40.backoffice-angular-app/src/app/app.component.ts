@@ -20,17 +20,17 @@ export class AppComponent implements OnInit {
       [
         {
           label: "companies/plants...", automationId: true, items: [
-            { label: "companies", automationId: true, url: "companies-search" },
-            { label: "plants", automationId: true, url: "plants-search" },
-            { label: "departments", automationId: true, url: "departments-search" },
-            { label: "warehouses", automationId: true, url: "warehouses-search" }
+            { label: "companies", automationId: true, url: "productive-companies" },
+            { label: "plants", automationId: true, url: "plants" },
+            { label: "departments", automationId: true, url: "departments" },
+            { label: "warehouses", automationId: true, url: "warehouses" }
           ]
         }, {
           label: "shop floor", automationId: true, items: [
-            { label: "workcenters", automationId: true, url: "workcenters-search" },
-            { label: "machines", automationId: true, url: "machines-search" },
-            { label: "resources group", automationId: true, url: "resource-groups-search" },
-            { label: "resources", automationId: true, url: "resources-search" }
+            { label: "workcenters", automationId: true, url: "workcenters" },
+            { label: "machines", automationId: true, url: "machines" },
+            { label: "resources group", automationId: true, url: "resource-groups" },
+            { label: "resources", automationId: true, url: "resources" }
           ]
         }]
     ]

@@ -6,10 +6,10 @@ import { SearchUIFormComponent } from "./ui-configurable/search-ui-form/search-u
 import { DetailUIFormComponent } from "./ui-configurable/detail-ui-form/detail-ui-form.component";
 const routes: Routes = [
     {
-        pathMatch:"full",
+        pathMatch: "full",
         path: '',
         component: SearchUIFormComponent,
-        
+
         children: [
             {
                 path: ':code/edit',
@@ -33,6 +33,7 @@ const routes: Routes = [
     imports: [CommonModule, Openi40BackofficeMetaUIModule, RouterModule.forChild(routes)]
 
 })
-export class OpenI40BackofficeMetaUIRoutingModule { 
+export class OpenI40BackofficeMetaUIRoutingModule {
+    
     
 }

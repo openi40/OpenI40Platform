@@ -33,6 +33,7 @@ export class SearchUIFormComponent<SearchType,ResultType> extends BaseUIForm<UIS
                 const gotoDetailService:AbstractGoToDetailService=this.injector.get(this.config.gotoDetailService);
                 this.gotoDetailService=gotoDetailService;
             }
+            this.doSearch();
         }
         public get disabledSearch():boolean {
             return this.frmGroup?.valid===true?false:true;

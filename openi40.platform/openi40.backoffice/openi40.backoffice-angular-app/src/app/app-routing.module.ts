@@ -11,13 +11,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { DepartmentModule } from '@openi40/backoffice-screens-dynaload/department/department.module';
+import { MachineModule } from '@openi40/backoffice-screens-dynaload/machine/machine.module';
 import { OrdersModule } from '@openi40/backoffice-screens-dynaload/orders/orders.module';
+import { PlantModule } from '@openi40/backoffice-screens-dynaload/plant/plant.module';
+import { ProductiveCompanyModule } from '@openi40/backoffice-screens-dynaload/productiveCompany/productive-companies.module';
 import { ProductsModule } from '@openi40/backoffice-screens-dynaload/products/products.module';
+import { ResourceGroupModule } from '@openi40/backoffice-screens-dynaload/resource-group/resource-group.module';
+import { ResourceModule } from '@openi40/backoffice-screens-dynaload/resource/resource.module';
+import { WarehouseModule } from '@openi40/backoffice-screens-dynaload/warehouse/warehouse.module';
+import { WorkCenterModule } from '@openi40/backoffice-screens-dynaload/workcenters/workcenter.module';
 
 
 
 @NgModule({
-  imports: [CommonModule,ProductsModule,OrdersModule],
+  imports: [CommonModule,ProductsModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
