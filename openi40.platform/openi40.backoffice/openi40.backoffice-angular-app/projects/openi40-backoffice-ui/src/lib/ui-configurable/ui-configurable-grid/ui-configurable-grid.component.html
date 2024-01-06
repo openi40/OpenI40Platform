@@ -23,7 +23,7 @@
                 <ng-template pTemplate="body" let-rowData let-columns="columns">
                     <tr>
                         <td *ngIf="gotoDetailService">
-                           <p-button icon="go" (onClick)="goToDetail(rowData)"></p-button> 
+                           <p-button type="button" icon="pi pi-pencil" [rounded]="true" [outlined]="true" (onClick)="goToDetail(rowData)"></p-button> 
                         </td>
                         <td *ngFor="let col of columns;">
                             {{ rowData[col.field] }}

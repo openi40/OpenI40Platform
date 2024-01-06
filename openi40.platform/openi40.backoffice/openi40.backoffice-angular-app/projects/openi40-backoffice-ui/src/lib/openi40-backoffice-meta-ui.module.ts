@@ -17,10 +17,11 @@ import { UIConfiguredFormComponent } from './ui-configurable/ui-configured-form/
 import { BlockUIModule } from 'primeng/blockui';
 import { CalendarModule } from 'primeng/calendar';
 import { UIConfigurableGridComponent } from './ui-configurable/ui-configurable-grid/ui-configurable-grid.component';
-@NgModule ({
-    imports:[CommonModule,FormsModule,ReactiveFormsModule,TableModule,RouterModule,InputTextModule,DropdownModule,ButtonModule,AutoCompleteModule,CheckboxModule,CalendarModule,BlockUIModule],
-    declarations:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent,UIConfigurableGridComponent],
-    exports:[UIConfigurableControlComponent,SearchUIFormComponent,DetailUIFormComponent,UIConfiguredFormComponent,UIConfigurableGridComponent],
-    providers:[FormGroupConfigurationService,DefaultGoToDetailService]
+import { InputMaskModule } from 'primeng/inputmask';
+@NgModule({
+    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule],
+    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent],
+    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent],
+    providers: [FormGroupConfigurationService, DefaultGoToDetailService]
 })
-export class Openi40BackofficeMetaUIModule {}
+export class Openi40BackofficeMetaUIModule { }

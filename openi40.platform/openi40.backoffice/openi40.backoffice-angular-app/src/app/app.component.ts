@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
             { label: "companies", automationId: true, url: "productive-companies" },
             { label: "plants", automationId: true, url: "plants" },
             { label: "departments", automationId: true, url: "departments" },
-            { label: "warehouses", automationId: true, url: "warehouses" }
+            { label: "warehouses", automationId: true, url: "warehouses" },
+            { label: "calendars", automationId: true, url: "timesheet-meta-infos" }
           ]
         }, {
           label: "shop floor", automationId: true, items: [

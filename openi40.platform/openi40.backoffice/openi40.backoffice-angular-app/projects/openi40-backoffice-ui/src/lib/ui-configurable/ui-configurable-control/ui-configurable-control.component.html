@@ -1,10 +1,11 @@
-<div [ngClass]="configuration.cssClasses">
+<div [ngClass]="configuration.cssClasses" style="display: block;">
   <div
     class="grid"
     *ngIf="configuration?.type !== 'hidden' && formGroup"
     [formGroup]="formGroup"
     
   >
+  
     <label [htmlFor]="configuration.controlName" class="col-12">{{
       configuration.label
     }}</label>
@@ -17,7 +18,7 @@
       class="col-12"
       [required]="configuration.required === true ? true : false"
       [placeholder]="configuration.placeholder ? configuration.placeholder : ''"
-      [readonly]="readonly"
+      [readonly]="readonly"     
       
     />
     <input
@@ -50,18 +51,19 @@
       [dropdown]="true"
       [suggestions]="choices"
       (completeMethod)="completeUnpagedSearch($event)"
+      [lazy]="true"
       field="code"
       class="col-12"
       [formControlName]="configuration.controlName"
       [required]="configuration.required === true ? true : false"
+      [forceSelection]="true"
       [readonly]="readonly"
     >
       <ng-template let-item pTemplate="item">
-        <div class="grid">
-          <!-- 
-          <div class="col-3">{{ item?.code }}</div>
-          -->
-          <div class="col-12">{{ item?.description }}</div>
+        <div class="flex align-items-center">
+          
+          <span>{{ item?.code }} {{ item?.description }}</span>
+          
         </div>
       </ng-template>
     </p-autoComplete>
@@ -74,19 +76,20 @@
       [suggestions]="choices"
       (completeMethod)="completePagedSearch($event)"
       field="code"
+      dataKey="code"
       class="col-12"
       [formControlName]="configuration.controlName"
       [required]="configuration.required === true ? true : false"
       [readonly]="readonly"
+      [forceSelection]="true"
     >
-      <ng-template let-item pTemplate="item">
-        <div class="grid">
-          <!-- 
-          <div class="col-3">{{ item?.code }}</div>
-          -->
-          <div class="col-12">{{ item?.description }}</div>
-        </div>
-      </ng-template>
+    <ng-template let-item pTemplate="item">
+      <div class="flex align-items-center">
+        
+        <span>{{ item?.code }} {{ item?.description }}</span>
+        
+      </div>
+    </ng-template>
     </p-autoComplete>
     <p-checkbox
       *ngIf="configuration?.type === 'boolean'"

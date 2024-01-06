@@ -20,6 +20,7 @@ import { ProductModule } from '@openi40/backoffice-screens-dynaload/products/pro
 import { ResourceGroupModule } from '@openi40/backoffice-screens-dynaload/resource-group/resource-group.module';
 import { ResourceModule } from '@openi40/backoffice-screens-dynaload/resource/resource.module';
 import { TaskModule } from '@openi40/backoffice-screens-dynaload/task/task.module';
+import { TimesheetMetaInfoModule } from '@openi40/backoffice-screens-dynaload/timesheet-meta-info/timesheet-meta-info.module';
 import { WarehouseModule } from '@openi40/backoffice-screens-dynaload/warehouse/warehouse.module';
 import { WorkOrderModule } from '@openi40/backoffice-screens-dynaload/work-order/work-order.module';
 import { WorkCenterModule } from '@openi40/backoffice-screens-dynaload/workcenters/workcenter.module';
@@ -27,7 +28,7 @@ import { WorkCenterModule } from '@openi40/backoffice-screens-dynaload/workcente
 
 
 @NgModule({
-  imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule],
+  imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule,TimesheetMetaInfoModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
