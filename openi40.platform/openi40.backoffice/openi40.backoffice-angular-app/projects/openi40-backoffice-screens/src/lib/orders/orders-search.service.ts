@@ -3,7 +3,7 @@ import { Observable, forkJoin, map } from "rxjs";
 import { AbstractBasePagedSearch } from "../reusable/abstract-paged-search-service";
 import { Injectable } from "@angular/core";
 import { AbstractUIFindByCodeService, AbstractUISaveService, OperationResult, OperationStatus } from "@openi40/backoffice-ui";
-import { GenericOrder } from "./editing/generic-order";
+import { GenericOrder } from "./generic-order";
 
 @Injectable({ providedIn: "root" })
 export class SalesOrdersSearch  extends AbstractBasePagedSearch<OI40DBSalesOrder>  {

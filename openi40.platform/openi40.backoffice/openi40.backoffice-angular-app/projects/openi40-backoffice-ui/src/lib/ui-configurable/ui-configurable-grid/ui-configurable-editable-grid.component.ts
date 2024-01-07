@@ -38,6 +38,7 @@ export class UIConfigurableEditableGridComponent implements OnInit, OnChanges {
                     });
                 });
             }
+            this.columnsConfig=cCfg;
         }
     }
     

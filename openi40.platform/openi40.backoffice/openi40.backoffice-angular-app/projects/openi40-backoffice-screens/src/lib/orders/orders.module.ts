@@ -1,15 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { Injectable, NgModule } from "@angular/core";
+import { NgModule } from "@angular/core";
 import { FindPurchaseOrderService, FindSalesOrderService, PurchaseOrdersSearch, SalesOrdersSearch, SavePurchaseOrderService, SaveSalesOrderService } from "./orders-search.service";
-import { AbstractUIFindByCodeService, AbstractUISaveService, DefaultGoToDetailService, Openi40BackofficeMetaUIModule, OperationResult, OperationStatus, UIDetailForm, UIFormGroup, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "@openi40/backoffice-ui";
-import { ApiModule, OI40DBSalesOrder, OI40DBSalesOrderLine, Oi40DbSalesOrderLineRepositoryService, Oi40DbSalesOrderRepositoryService } from "@openi40/backoffice-api";
+import { DefaultGoToDetailService, OpenI40BackofficeMetaUISectionRoutingModule, Openi40BackofficeMetaUIModule, UIDetailForm, UIFormGroup, UIResultColumn, UISearchForm } from "@openi40/backoffice-ui";
+import { ApiModule } from "@openi40/backoffice-api";
 import { RouterModule, Routes } from "@angular/router";
-import { DetailUIFormComponent } from "projects/openi40-backoffice-ui/src/lib/ui-configurable/detail-ui-form/detail-ui-form.component";
-import { SearchUIFormComponent } from "@openi40/backoffice-ui";
-import { OI40DepartmentAutocompleteSearchService, OI40PartnerAutocompleteSearchService, OI40PlantAutocompleteSearchService, Openi40BackofficeServicesModule } from "@openi40/backoffice-services";
-import { OrderComponent } from "./editing/order.component";
-import { GenericOrder } from "./editing/generic-order";
-import { Observable, forkJoin, map, of } from "rxjs";
+import { OI40DepartmentAutocompleteSearchService, OI40PartnerAutocompleteSearchService, OI40PlantAutocompleteSearchService, OI40ProductAutocompleteSearchService, OI40WarehouseAutocompleteSearchService, Openi40BackofficeServicesModule } from "@openi40/backoffice-services";
+import { GenericOrder } from "./generic-order";
 import { BlockUIModule } from "primeng/blockui";
 import { ButtonModule } from "primeng/button";
 const DOCUMENT_SEARCH_COMMON_FORMGROUP: UIFormGroup = {
@@ -36,8 +32,8 @@ const DOCUMENT_SEARCH_COMMON_FORMGROUP: UIFormGroup = {
             label: "description",
             identifier: "code"
         }
-    }, OI40PlantAutocompleteSearchService.getControlConfig(), 
-       OI40DepartmentAutocompleteSearchService.getControlConfig()
+    }, OI40PlantAutocompleteSearchService.getControlConfig(),
+    OI40DepartmentAutocompleteSearchService.getControlConfig()
       /*askedDeliveryDate?: Date;
       attributesMap?: any;
       code?: string;
@@ -102,38 +98,42 @@ const PURCHASE_ORDER_SEARCH_CONFIGURATION: UISearchForm<any, any> = {
     residualQty?: number;
     totalQty?: number;
     warehouseCode?: string;*/
-const GENERIC_ORDER_ROW_FORMGROUP_CONFIG:UIFormGroup={
-    name:"row",
-    controls:[
+const GENERIC_ORDER_ROW_FORMGROUP_CONFIG: UIFormGroup = {
+    name: "row",
+    controls: [
         {
-            controlName:"code",
-            label:"code",
-            type:"text",
-            containerCssClasses:"col-4"
-        },{
-            controlName:"description",
-            label:"description",
-            type:"text",
-            containerCssClasses:"col-8"
-        },{
-            controlName:"orderCode",
-            label:"orderCode",
-            type:"hidden"
+            controlName: "code",
+            label: "code",
+            type: "text"
+        }, {
+            controlName: "description",
+            label: "description",
+            type: "text"
         },
-        OI40PlantAutocompleteSearchService.getControlConfig(), 
-        OI40DepartmentAutocompleteSearchService.getControlConfig(),{
-         controlName:"askedDeliveryDate",
-         label:"asked delivery date",
-         type:"date",
-         containerCssClasses:"col-4"
-        },{
-         controlName:"plannedDeliveryDate",
-         label:"planned delivery date",
-         type:"date",
-         containerCssClasses:"col-4"
+        OI40ProductAutocompleteSearchService.getControlConfig(),
+        {
+            controlName: "totalQty",
+            label: "total qty",
+            type: "number"
+        },
+        OI40PlantAutocompleteSearchService.getControlConfig(),
+        OI40DepartmentAutocompleteSearchService.getControlConfig(), 
+        OI40WarehouseAutocompleteSearchService.getControlConfig(),
+        {
+            controlName: "askedDeliveryDate",
+            label: "asked delivery date",
+            type: "date"
+        }, {
+            controlName: "plannedDeliveryDate",
+            label: "planned delivery date",
+            type: "date"
+        }, {
+            controlName: "orderCode",
+            label: "orderCode",
+            type: "hidden"
         }
     ]
-}    
+}
 /* askedDeliveryDate?: Date;
     attributesMap?: any;
     code?: string;
@@ -148,18 +148,18 @@ const GENERIC_ORDER_ROW_FORMGROUP_CONFIG:UIFormGroup={
     plannedDeliveryDate?: Date;
     plantCode?: string;
     removed?: boolean;*/
-const GENERIC_ORDER_FORMGROUP_CONFIG:UIFormGroup={
-    name:"modelForm",
-    controls:[{
-        controlName:"code",
-        label:"code",
-        type:"text",
-        containerCssClasses:"col-4"
-    },{
-        controlName:"description",
-        label:"description",
-        type:"text",
-        containerCssClasses:"col-8"
+const GENERIC_ORDER_FORMGROUP_CONFIG: UIFormGroup = {
+    name: "modelForm",
+    controls: [{
+        controlName: "code",
+        label: "code",
+        type: "text",
+        containerCssClasses: "col-4"
+    }, {
+        controlName: "description",
+        label: "description",
+        type: "text",
+        containerCssClasses: "col-8"
     }, {
         controlName: "orderStatus",
         label: "Order status",
@@ -169,99 +169,53 @@ const GENERIC_ORDER_FORMGROUP_CONFIG:UIFormGroup={
             label: "description",
             identifier: "code"
         },
-        containerCssClasses:"col-4"
-    }, OI40PlantAutocompleteSearchService.getControlConfig(), 
-       OI40DepartmentAutocompleteSearchService.getControlConfig(),
-       OI40PartnerAutocompleteSearchService.getControlConfig(),
-       
-       {
-        controlName:"askedDeliveryDate",
-        label:"asked delivery date",
-        type:"date",
-        containerCssClasses:"col-4"
-       },{
-        controlName:"plannedDeliveryDate",
-        label:"planned delivery date",
-        type:"date",
-        containerCssClasses:"col-4"
-       }],
-       formArrays:[{...GENERIC_ORDER_ROW_FORMGROUP_CONFIG,length:1,name:"rows"}]
+        containerCssClasses: "col-4"
+    }, OI40PlantAutocompleteSearchService.getControlConfig(),
+    OI40DepartmentAutocompleteSearchService.getControlConfig(),
+    OI40PartnerAutocompleteSearchService.getControlConfig(),
+
+    {
+        controlName: "askedDeliveryDate",
+        label: "asked delivery date",
+        type: "date",
+        containerCssClasses: "col-4"
+    }, {
+        controlName: "plannedDeliveryDate",
+        label: "planned delivery date",
+        type: "date",
+        containerCssClasses: "col-4"
+    }],
+    formArrays: [{ ...GENERIC_ORDER_ROW_FORMGROUP_CONFIG, length: 1, name: "rows" }]
 };
 
-const SALES_ORDER_FORM_CONFIG:UIDetailForm<GenericOrder>={
-    title:"Sales order editing"    ,
-    formGroup:GENERIC_ORDER_FORMGROUP_CONFIG,
-    findByCodeService:FindSalesOrderService,
-    uniqueUiKey:"sales-order-editing",
-    saveService:SaveSalesOrderService
+const SALES_ORDER_FORM_CONFIG: UIDetailForm<GenericOrder> = {
+    title: "Sales order editing",
+    formGroup: GENERIC_ORDER_FORMGROUP_CONFIG,
+    findByCodeService: FindSalesOrderService,
+    uniqueUiKey: "sales-order-editing",
+    saveService: SaveSalesOrderService
 };
-const PURCHASE_ORDER_FORM_CONFIG:UIDetailForm<GenericOrder>={
-    title:"Purchase order editing",
-    formGroup:GENERIC_ORDER_FORMGROUP_CONFIG,
-    findByCodeService:FindPurchaseOrderService,
-    uniqueUiKey:"sales-order-editing",
-    saveService:SavePurchaseOrderService
+const PURCHASE_ORDER_FORM_CONFIG: UIDetailForm<GenericOrder> = {
+    title: "Purchase order editing",
+    formGroup: GENERIC_ORDER_FORMGROUP_CONFIG,
+    findByCodeService: FindPurchaseOrderService,
+    uniqueUiKey: "sales-order-editing",
+    saveService: SavePurchaseOrderService
 }
-const routes: Routes = [
-    {
-        pathMatch: "full",
-        path: 'sales-orders',
-        component: SearchUIFormComponent,
-        providers: [{
-            provide: UI_SEARCH_CONFIG,
-            useValue: SALES_ORDER_SEARCH_CONFIGURATION, multi: false
-        }]
-    },
-    {
-        path: 'sales-orders/:code/edit',
-        component: OrderComponent,
-        providers: [{
-            provide: UI_DETAIL_CONFIG,
-            useValue: SALES_ORDER_FORM_CONFIG, multi: false
-        }]
-    }, {
-        path: 'sales-orders/new',
-        component: OrderComponent,
-        providers: [{
-            provide: UI_DETAIL_CONFIG,
-            useValue: SALES_ORDER_FORM_CONFIG, multi: false
-        }]
-    },
-    {
-        pathMatch: "full",
-        path: 'purchase-orders',
-        component: SearchUIFormComponent,
-        providers: [{
-            provide: UI_SEARCH_CONFIG,
-            useValue: PURCHASE_ORDER_SEARCH_CONFIGURATION, multi: false
-        }]
-    },
-    {
-        path: 'purchase-orders/:code/edit',
-        component: OrderComponent,
-        providers: [{
-            provide: UI_DETAIL_CONFIG,
-            useValue: PURCHASE_ORDER_FORM_CONFIG, multi: false
-        }]
-    }, {
-        path: 'purchase-orders/new',
-        component: OrderComponent,
-        providers: [{
-            provide: UI_DETAIL_CONFIG,
-            useValue: PURCHASE_ORDER_FORM_CONFIG, multi: false
-        }]
-    }
-];
-@NgModule({ 
+
+const salesOrdersRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredRoutes("sales-orders", SALES_ORDER_SEARCH_CONFIGURATION, SALES_ORDER_FORM_CONFIG);
+const purchaseOrdersRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredRoutes("purchase-orders", PURCHASE_ORDER_SEARCH_CONFIGURATION, PURCHASE_ORDER_FORM_CONFIG);
+@NgModule({
     imports: [
         CommonModule,
-        ApiModule, 
+        ApiModule,
         Openi40BackofficeServicesModule,
         Openi40BackofficeMetaUIModule,
         BlockUIModule,
         ButtonModule,
-        RouterModule.forRoot(routes)], 
-    providers: [SalesOrdersSearch, PurchaseOrdersSearch,FindSalesOrderService,SaveSalesOrderService,FindPurchaseOrderService,SavePurchaseOrderService],
-    declarations:[OrderComponent],
-    exports:[OrderComponent] })
+        RouterModule.forRoot(salesOrdersRoutes), RouterModule.forRoot(purchaseOrdersRoutes)],
+    providers: [SalesOrdersSearch, PurchaseOrdersSearch, FindSalesOrderService, SaveSalesOrderService, FindPurchaseOrderService, SavePurchaseOrderService],
+    declarations: [],
+    exports: []
+})
 export class OrdersModule { }

@@ -35,7 +35,7 @@ export class OI40ProductAutocompleteSearchService extends AbstractAutocompletePa
     }
     public static getControlConfig():UIControl {
         return {
-            controlName:"product",
+            controlName:"productCode",
             label:"Product",
             type:"dropdown",
             placeholder:"Select product",
@@ -149,7 +149,7 @@ export class OI40WarehouseAutocompleteSearchService extends AbstractAutocomplete
     }
     public static getControlConfig():UIControl {
         return {
-            controlName:"warehouse",
+            controlName:"warehouseCode",
             label:"Warehouse",
             type:"dropdown",
             placeholder:"Select warehouse",
