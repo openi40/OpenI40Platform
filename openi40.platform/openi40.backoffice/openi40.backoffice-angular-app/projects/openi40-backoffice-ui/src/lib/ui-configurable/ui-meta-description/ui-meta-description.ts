@@ -42,12 +42,17 @@ export interface UIControlsRepository {
 
 export interface UIFormGroup {
     name: string;
+    title?:string;
     controls?: UIControl[];
     formGroups?: UIFormGroup[];
     formArrays?: UIFormGroupArray[];
+    allowAdd?:boolean;
+    allowDelete?:boolean;
 }
 export interface UIFormGroupArray extends UIFormGroup {
     length: number;
+    displayMode?:"grid"|"forms"|"accordion";
+    
 };
 export interface UIAccessRight {
 

@@ -9,9 +9,9 @@ export  class BaseUIForm<FormConfig extends UI> implements OnInit {
     public loading:boolean=false;
     @Input() formTemplate?: TemplateRef<any>=undefined;
     public frmGroup: UntypedFormGroup=new UntypedFormGroup({});    
-    constructor(protected injector: Injector,protected fgConfigurator: FormGroupConfigurationService,public config :FormConfig,protected activatedRouter:ActivatedRoute) {
+    constructor(protected injector: Injector,protected advancedFormGroupSupport: FormGroupConfigurationService,public config :FormConfig,protected activatedRouter:ActivatedRoute) {
         if (this.config && this.config.formGroup) {
-            this.frmGroup = this.fgConfigurator.createFormGroup(this.config.formGroup);
+            this.frmGroup = this.advancedFormGroupSupport.createFormGroup(this.config.formGroup);
         }
     }
 

@@ -18,10 +18,13 @@ import { BlockUIModule } from 'primeng/blockui';
 import { CalendarModule } from 'primeng/calendar';
 import { UIConfigurableGridComponent } from './ui-configurable/ui-configurable-grid/ui-configurable-grid.component';
 import { InputMaskModule } from 'primeng/inputmask';
+import { UIConfiguredFormArray } from './ui-configurable/ui-configured-form/ui-configured-formarray.component';
+import { UIConfigurableEditableGridComponent } from './ui-configurable/ui-configurable-grid/ui-configurable-editable-grid.component';
+import { AccordionModule } from 'primeng/accordion';
 @NgModule({
-    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule],
-    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent],
-    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent],
+    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule,AccordionModule],
+    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray],
+    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray],
     providers: [FormGroupConfigurationService, DefaultGoToDetailService]
 })
 export class Openi40BackofficeMetaUIModule { }

@@ -6,7 +6,7 @@
     
   >
   
-    <label [htmlFor]="configuration.controlName" class="col-12">{{
+    <label [htmlFor]="configuration.controlName" class="col-12" *ngIf="compact===false">{{
       configuration.label
     }}</label>
     <input

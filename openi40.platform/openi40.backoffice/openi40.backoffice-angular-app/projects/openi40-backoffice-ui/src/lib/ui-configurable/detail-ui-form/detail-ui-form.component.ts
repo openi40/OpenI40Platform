@@ -29,8 +29,8 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     public get saveDisabled(): boolean {
         return (this.isCanSave && this?.frmGroup && this?.frmGroup.valid) ? false : true;
     }
-    constructor(injector: Injector, fgConfigurator: FormGroupConfigurationService, @Inject(UI_DETAIL_CONFIG) config: UIDetailForm<ResultType>, activatedRouter: ActivatedRoute) {
-        super(injector, fgConfigurator, config, activatedRouter);
+    constructor(injector: Injector, advancedFormGroupSupport: FormGroupConfigurationService, @Inject(UI_DETAIL_CONFIG) config: UIDetailForm<ResultType>, activatedRouter: ActivatedRoute) {
+        super(injector, advancedFormGroupSupport, config, activatedRouter);
         if (this.config.findByCodeService) {
             this.findByCodeService = this.injector.get(this.config.findByCodeService);
         }
@@ -92,30 +92,16 @@ export class DetailUIFormComponent<ResultType> extends BaseUIForm<UIDetailForm<R
     }
     private setModel(m: ResultType) {
         this.model = m;
-        this.frmGroup.patchValue(this.model ? this.model : {});
+        this.advancedFormGroupSupport.setValue(this.model,this.frmGroup);
         this.modifyMode=this.checkModifyMode(this.model);
     }
-    private transduceFields(v?:any):any {
-        const ov:any={};
-        if (v) {
-            if (this.config?.formGroup?.controls) {
-                this.config.formGroup.controls.forEach(ctrl=>{
-                    if (v[ctrl.controlName] && ctrl.customOutputTranslator) {
-                        ov[ctrl.controlName]=ctrl.customOutputTranslator(v[ctrl.controlName]);
-                    }else if (ctrl.type){
-                        ov[ctrl.controlName]=DEFAULT_FIELD_TRANSLATORS[ctrl.type](v[ctrl.controlName]);
-                    }
-                });
-            }
-        }
-        return ov;
-    }
+   
     public doSave(): void {
         console.log("Running doSave()")
 
         if (this.saveService !== undefined) {
-            const actualModel=this.frmGroup.value;
-            this.model = this.transduceFields(actualModel);
+            const actualModel=this.advancedFormGroupSupport.getTransducedValue(this.frmGroup);
+            this.model = actualModel;
             if (this.model && this.saveService) {
                 const invokeSaveService = (m: ResultType) => {
                     if (this.saveService && this.saveService.save) {

@@ -2,13 +2,17 @@ import { CommonModule } from "@angular/common";
 import { EnvironmentProviders, ModuleWithProviders, NgModule, Provider, Type } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DefaultGoToDetailService, UIControl, UIDetailForm, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "./ui-configurable/ui-meta-description/ui-meta-description";
-
+function addConditional(o:(Provider | EnvironmentProviders)[],e?:(Provider | EnvironmentProviders)) {
+    if (e) {
+        o.push(e);
+    }
+}
 @NgModule({
     imports: [CommonModule]
 })
 export class OpenI40BackofficeMetaUISectionRoutingModule {
-    static getConfiguredBackendSection(mainSectionUriFragment: string, searchTitle: string,additionalSearchControls: UIControl[],additionalResultColumns: UIResultColumn[] , searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string,additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
-        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>,additionalServicesProviders?:(Provider | EnvironmentProviders)[]): ModuleWithProviders<RouterModule> {
+    static getConfiguredBackendSectionRoutes(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): Routes {
         const searchControls: UIControl[] = [{
             controlName: "code",
             label: "code",
@@ -22,7 +26,7 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
             type: "text",
             required: false,
             containerCssClasses: "col-8"
-        },...additionalSearchControls];
+        }, ...additionalSearchControls];
         const editControls: UIControl[] = [{
             controlName: "code",
             label: "code",
@@ -36,8 +40,8 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
             type: "text",
             required: true,
             containerCssClasses: "col-8"
-        },...additionalEditControls];
-        const resultColumns: UIResultColumn[] = [{ field: "code", header: "code" }, { field: "description", header: "description" },...additionalResultColumns];
+        }, ...additionalEditControls];
+        const resultColumns: UIResultColumn[] = [{ field: "code", header: "code" }, { field: "description", header: "description" }, ...additionalResultColumns];
         const UI_SEARCH: UISearchForm<any, any> = {
             title: searchTitle,
             uniqueUiKey: mainSectionUriFragment + "-search",
@@ -46,7 +50,7 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
             accessRights: [],
             resultColumns: resultColumns,
             formGroup: {
-                name: mainSectionUriFragment+"_search_formgroup",
+                name: mainSectionUriFragment + "_search_formgroup",
                 controls: searchControls
             }
         };
@@ -58,12 +62,12 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
             deleteService: deleteService,
             uniqueUiKey: mainSectionUriFragment + "-detail",
             formGroup: {
-                name: mainSectionUriFragment+"_edit_formgroup",
+                name: mainSectionUriFragment + "_edit_formgroup",
                 controls: editControls
             }
         }
         const moduleRoutes: Routes = [{
-           
+
             path: mainSectionUriFragment,
             loadChildren: () => import("./openi40-backoffice-meta-ui-routing.module").then(m => m.OpenI40BackofficeMetaUIRoutingModule),
             providers: [{
@@ -81,6 +85,47 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
         if (additionalServicesProviders && moduleRoutes[0].providers) {
             moduleRoutes[0].providers.push(additionalServicesProviders);
         }
+        return moduleRoutes;
+    }
+    static getConfiguredBackendSection(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): ModuleWithProviders<RouterModule> {
+        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders);
         return RouterModule.forRoot(moduleRoutes);
     }
+    static getConfiguredBackendSectionRelative(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): ModuleWithProviders<RouterModule> {
+        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders);
+        return RouterModule.forChild(moduleRoutes);
+    }
+    static getConfiguredRoutes(mainSectionUriFragment: string, UI_SEARCH: UISearchForm<any, any>, UI_DETAIL: UIDetailForm<any>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): Routes {
+        const moduleRoutes: Routes = [{
+            path: mainSectionUriFragment,
+            loadChildren: () => import("./openi40-backoffice-meta-ui-routing.module").then(m => m.OpenI40BackofficeMetaUIRoutingModule),
+            providers: [{
+                provide: UI_SEARCH_CONFIG,
+                useValue: UI_SEARCH, multi: false
+            }, {
+                provide: UI_DETAIL_CONFIG,
+                useValue: UI_DETAIL,
+                multi: false
+            },
+                ...OpenI40BackofficeMetaUISectionRoutingModule.getProvidersToBind(UI_SEARCH,UI_DETAIL)
+            ]
+        }];
+        if (additionalServicesProviders && moduleRoutes[0].providers) {
+            moduleRoutes[0].providers.push(additionalServicesProviders);
+        }
+       return moduleRoutes;
+    }
+    private static getProvidersToBind(UI_SEARCH: UISearchForm<any, any>, UI_DETAIL: UIDetailForm<any>):(Provider | EnvironmentProviders)[] {
+        const o:(Provider | EnvironmentProviders)[]=[];
+        addConditional(o,UI_SEARCH.gotoDetailService);
+        addConditional(o,UI_SEARCH.searchService);
+        addConditional(o,UI_DETAIL.createNewService);
+        addConditional(o,UI_DETAIL.deleteService);
+        addConditional(o,UI_DETAIL.findByCodeService);
+        addConditional(o,UI_DETAIL.saveService);
+        return o;
+    }
+    
 }

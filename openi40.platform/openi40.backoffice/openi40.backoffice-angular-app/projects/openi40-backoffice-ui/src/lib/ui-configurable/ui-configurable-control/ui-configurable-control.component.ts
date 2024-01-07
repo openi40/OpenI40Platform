@@ -21,6 +21,7 @@ interface IEvent {
 export class UIConfigurableControlComponent implements OnInit, OnChanges {
     @Input() public configuration: UIControl=NULLCONTROL;
     @Input() public formGroup?:FormGroup;
+    @Input() public compact:boolean=false;
     public disabled: boolean = false;
     @Input() public readonly: boolean = false;    
     public loading: boolean = false;
