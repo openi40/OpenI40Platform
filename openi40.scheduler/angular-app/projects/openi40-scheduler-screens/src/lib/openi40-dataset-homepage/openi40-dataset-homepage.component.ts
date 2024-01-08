@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -10,17 +10,17 @@
  */
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApsCommandResourceService, ApsDataDto, ApsDataListService, DataSetEntry, TaskDto, WSScheduleTaskResponseItem } from 'projects/openi40-scheduler-api/src/lib';
+import { ApsCommandResourceService, ApsDataDto, ApsDataListService, DataSetEntry, TaskDto, WSScheduleTaskResponseItem } from '../../../../openi40-scheduler-api/src/lib';
 import {BlockUI} from 'primeng/blockui';
 import {Panel} from 'primeng/panel'
 import {Button} from 'primeng/button'
-import { TaskController } from 'projects/openi40-scheduler-ui/src/lib/guicontrol/TaskController';
+import { TaskController } from '../../../../openi40-scheduler-ui/src/lib/guicontrol/TaskController';
 import {Dialog} from 'primeng/dialog';
 import {Openi40TasksDatatableComponent} from '../openi40-tasks-datatable/openi40-tasks-datatable.component'
-import { DIMENSION_CHOICES, Openi40GraphicConfiguration, RESOLUTION_CONFIGURATIONS } from 'projects/openi40-scheduler-ui/src/lib/screenconstants';
-import { WorkOrderProjectController } from 'projects/openi40-scheduler-ui/src/lib/guicontrol/WorkOrderProjectController';
-import { MachineController } from 'projects/openi40-scheduler-ui/src/lib/guicontrol/MachineController';
-import {WebsocketService} from '../websocket-service'
+import { DIMENSION_CHOICES, Openi40GraphicConfiguration, RESOLUTION_CONFIGURATIONS } from '../../../../openi40-scheduler-ui/src/lib/screenconstants';
+import { WorkOrderProjectController } from '../../../../openi40-scheduler-ui/src/lib/guicontrol/WorkOrderProjectController';
+import { MachineController } from '../../../../openi40-scheduler-ui/src/lib/guicontrol/MachineController';
+import {WebsocketService} from './websocket-service';
 import { Subject } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import{ faBolt } from '@fortawesome/free-solid-svg-icons'
@@ -36,14 +36,14 @@ export class Openi40DatasetHomepageComponent implements OnInit,OnChanges {
   private dataSetName: string;
   private dataSetVariant: string;
   public faBolt=faBolt;
-  public apsListItem: DataSetEntry=null;
+  public apsListItem: DataSetEntry={};
   public get schedulingAdvancedMode():boolean{
-    const length:number=this.data?.schedulingSets?.length;
-    return length && length>1;
+    const length:number=this.data?.schedulingSets?.length?this.data.schedulingSets.length:0;
+    return length && length>1?true:false;
   }
   public schedulingModes:SelectItem[]=[{value:false,label:"Standard"},{value:true,label:"Advanced"}];
   @Input("blockedDocument")  public blockedDocument:boolean=false;
-  @Input("data") public data:ApsDataDto=null;
+  @Input("data") public data:ApsDataDto={};
   public graphicConfigurations:Openi40GraphicConfiguration[]=DIMENSION_CHOICES[0].configurations;
   @Input("currentGraphicConfigIndex")  private currentGraphicConfigIndex:number=1;
   public currentGraphicConfiguration:Openi40GraphicConfiguration=this.graphicConfigurations[this.currentGraphicConfigIndex];

@@ -28,7 +28,11 @@
       "openi40-scheduler-ui-model": [
 
         "dist/openi40-scheduler-ui-model"
-      ]
+      ],
+      "@openi40/scheduler-api":["projects/openi40-scheduler-api/src/public-api"],
+      "@openi40/scheduler-ui":["projects/openi40-scheduler-ui/src/public-api"],
+      "@openi40/material-planning":["projects/openi40-material-planning/src/public-api"],
+      "@openi40/scheduler-screens":["projects/openi40-scheduler-screens/src/public-api"]
     }
   }
 }

@@ -7,6 +7,11 @@
 {
   "compilerOptions": {
     "experimentalDecorators": true,
+    "paths": {
+      "openi40-scheduler-screens": [
+        "./dist/openi40-scheduler-screens"
+      ]
+    },
     "strictNullChecks": false,
     "target": "ES2022"
   },

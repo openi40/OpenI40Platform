@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -24,7 +24,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CardModule, } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TagModule } from 'primeng/tag';
-import {Openi40MaterialScenarioPanelModule} from 'projects/openi40-material-planning/src/public-api'
+import {Openi40MaterialScenarioPanelModule} from '../../../../openi40-material-planning/src/public-api';
 @NgModule({
   imports:[CommonModule,FormsModule,ReactiveFormsModule, DropdownModule,OrderListModule,TabViewModule,SelectButtonModule,AccordionModule,ButtonModule,PickListModule,DialogModule,CardModule,TagModule,FieldsetModule,PanelModule,Openi40MaterialScenarioPanelModule],
   declarations:[Openi40MaterialProductPlanningComponent],

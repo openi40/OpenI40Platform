@@ -17,7 +17,7 @@ import { IconModule } from '@ant-design/icons-angular';
 import { ApiModule as Openi40ClientRestModule, BASE_PATH } from 'projects/openi40-scheduler-api/src/lib/';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { WebsocketService } from './websocket-service';
+import { WebsocketService } from '../../projects/openi40-scheduler-screens/src/lib/openi40-dataset-homepage/websocket-service';
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
