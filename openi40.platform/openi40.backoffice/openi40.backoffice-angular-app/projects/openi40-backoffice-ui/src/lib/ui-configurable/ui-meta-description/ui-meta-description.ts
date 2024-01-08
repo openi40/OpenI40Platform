@@ -48,6 +48,7 @@ export interface UIFormGroup {
     formArrays?: UIFormGroupArray[];
     allowAdd?:boolean;
     allowDelete?:boolean;
+    
 }
 export interface UIFormGroupArray extends UIFormGroup {
     length: number;
@@ -62,6 +63,7 @@ export interface UI {
     title: string;
     formGroup?: UIFormGroup;
     accessRights?: UIAccessRight[];
+    entitiesReferences?:UIRelatedEntities[];
 }
 export class OrderMeta {
     fieldName?: string;
@@ -160,4 +162,20 @@ export interface UIModifiableSearchForm<SearchType, ResultType> extends UISearch
 export interface UIDetailForm<DataType> extends UIEditableForm<DataType> {
     findByCodeService: Type<AbstractUIFindByCodeService<DataType>>;
     createNewService?: Type<AbstractUICreateNewService<DataType>>;
+}
+export interface UIRelatedEntities{
+    actualEntity:string;
+    actualAttribute?:string;
+    targetEntity:string;
+    targetAttribute:string;
+    relativeTargetUri:string;
+    description:string;
+    outlet?:string;
+    openModal?:boolean;
+}
+
+export interface UISearchParams {
+    lockSearchControl?:boolean;
+    searchQbe?:any;
+    page?:PageMeta;
 }

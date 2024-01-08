@@ -16,7 +16,16 @@
     <div class="row">
         <div class="col-12">
             
-            <ui-configurable-grid [columnsConfig]="columnsConfig" [actualPage]="actualPage" [externalPagingManagement]="true" [paged]="true" [data]="results" [gotoDetailService]="gotoDetailService" (actualPageChange)="pageChange($event)"></ui-configurable-grid>
+            <ui-configurable-grid 
+                    [columnsConfig]="columnsConfig" 
+                    [actualPage]="actualPage" 
+                    [externalPagingManagement]="true" 
+                    [paged]="true" 
+                    [data]="results" 
+                    [gotoDetailService]="gotoDetailService" 
+                    (actualPageChange)="pageChange($event)" 
+                    [entitiesReferences]="config?.entitiesReferences">
+                </ui-configurable-grid>
            
         </div>
     </div>

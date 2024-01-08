@@ -12,8 +12,10 @@
             >
                 <ng-template pTemplate="header" let-columns>
                     <tr>
-                        <th *ngIf="gotoDetailService">
+                        <th *ngIf="gotoDetailService" style="width: 50px;">
 
+                        </th>
+                        <th *ngIf="entitiesReferences" style="width: 50px;">
                         </th>
                         <th *ngFor="let col of columns;">
                             {{ col.header }}
@@ -24,6 +26,9 @@
                     <tr>
                         <td *ngIf="gotoDetailService">
                            <p-button type="button" icon="pi pi-pencil" [rounded]="true" [outlined]="true" (onClick)="goToDetail(rowData)"></p-button> 
+                        </td>
+                        <td *ngIf="entitiesReferences">
+                            <ui-entities-related [entitiesReferences]="entitiesReferences" [currentObject]="rowData"></ui-entities-related>
                         </td>
                         <td *ngFor="let col of columns;">
                             {{ rowData[col.field] }}

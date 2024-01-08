@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { AbstractGoToDetailService, PageMeta, UIResultColumn, UISearchForm } from "../ui-meta-description/ui-meta-description";
+import { AbstractGoToDetailService, PageMeta, UIRelatedEntities, UIResultColumn, UISearchForm } from "../ui-meta-description/ui-meta-description";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -15,6 +15,7 @@ export class UIConfigurableGridComponent {
     @Input() public searchFormConfig: UISearchForm<any, any> = { title: "", searchService: null, uniqueUiKey: "" };
     @Input() public paged: boolean = false;
     @Input() public externalPagingManagement:boolean=false;
+    @Input() entitiesReferences?:UIRelatedEntities[]=[];
     constructor(private activatedRoute: ActivatedRoute) { }
     goToDetail(rowData?: any) {
         this.gotoDetailService?.goToDetail(rowData, this.searchFormConfig, this, this.activatedRoute);

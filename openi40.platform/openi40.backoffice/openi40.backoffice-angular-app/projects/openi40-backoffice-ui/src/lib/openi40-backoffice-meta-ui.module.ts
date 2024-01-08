@@ -21,10 +21,12 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { UIConfiguredFormArray } from './ui-configurable/ui-configured-form/ui-configured-formarray.component';
 import { UIConfigurableEditableGridComponent } from './ui-configurable/ui-configurable-grid/ui-configurable-editable-grid.component';
 import { AccordionModule } from 'primeng/accordion';
+import { UIEntitesRelatedComponent } from './ui-configurable/ui-entities-related/ui-entities-related.component';
+import { ContextMenuModule } from 'primeng/contextmenu';
 @NgModule({
-    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule,AccordionModule],
-    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray],
-    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray],
+    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule,AccordionModule,ContextMenuModule],
+    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent],
+    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent],
     providers: [FormGroupConfigurationService, DefaultGoToDetailService]
 })
 export class Openi40BackofficeMetaUIModule { }

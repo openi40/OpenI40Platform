@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { EnvironmentProviders, ModuleWithProviders, NgModule, Provider, Type } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DefaultGoToDetailService, UIControl, UIDetailForm, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "./ui-configurable/ui-meta-description/ui-meta-description";
+import { AbstractUICreateNewService, AbstractUIDeleteService, AbstractUIFindByCodeService, AbstractUIPagedSearchService, AbstractUISaveService, AbstractUISearchService, DefaultGoToDetailService, UIControl, UIDetailForm, UIRelatedEntities, UIResultColumn, UISearchForm, UI_DETAIL_CONFIG, UI_SEARCH_CONFIG } from "./ui-configurable/ui-meta-description/ui-meta-description";
 function addConditional(o:(Provider | EnvironmentProviders)[],e?:(Provider | EnvironmentProviders)) {
     if (e) {
         o.push(e);
@@ -12,7 +12,7 @@ function addConditional(o:(Provider | EnvironmentProviders)[],e?:(Provider | Env
 })
 export class OpenI40BackofficeMetaUISectionRoutingModule {
     static getConfiguredBackendSectionRoutes(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
-        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): Routes {
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[],entitiesReferences?:UIRelatedEntities[]): Routes {
         const searchControls: UIControl[] = [{
             controlName: "code",
             label: "code",
@@ -45,6 +45,7 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
         const UI_SEARCH: UISearchForm<any, any> = {
             title: searchTitle,
             uniqueUiKey: mainSectionUriFragment + "-search",
+            entitiesReferences:entitiesReferences,
             searchService: searchService,
             gotoDetailService: DefaultGoToDetailService,
             accessRights: [],
@@ -56,11 +57,13 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
         };
         const UI_DETAIL: UIDetailForm<any> = {
             title: detailTitle,
+            
             findByCodeService: findByCodeService,
             saveService: saveService,
             createNewService: createNewService,
             deleteService: deleteService,
             uniqueUiKey: mainSectionUriFragment + "-detail",
+            entitiesReferences:entitiesReferences,
             formGroup: {
                 name: mainSectionUriFragment + "_edit_formgroup",
                 controls: editControls
@@ -88,13 +91,13 @@ export class OpenI40BackofficeMetaUISectionRoutingModule {
         return moduleRoutes;
     }
     static getConfiguredBackendSection(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
-        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): ModuleWithProviders<RouterModule> {
-        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders);
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[],entitiesReferences?:UIRelatedEntities[]): ModuleWithProviders<RouterModule> {
+        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders,entitiesReferences);
         return RouterModule.forRoot(moduleRoutes);
     }
     static getConfiguredBackendSectionRelative(mainSectionUriFragment: string, searchTitle: string, additionalSearchControls: UIControl[], additionalResultColumns: UIResultColumn[], searchService: Type<AbstractUIPagedSearchService> | Type<AbstractUISearchService>, detailTitle: string, additionalEditControls: UIControl[], findByCodeService: Type<AbstractUIFindByCodeService<any>>,
-        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): ModuleWithProviders<RouterModule> {
-        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders);
+        createNewService: Type<AbstractUICreateNewService<any>>, saveService: Type<AbstractUISaveService<any>>, deleteService: Type<AbstractUIDeleteService<any>>, additionalServicesProviders?: (Provider | EnvironmentProviders)[],entitiesReferences?:UIRelatedEntities[]): ModuleWithProviders<RouterModule> {
+        const moduleRoutes: Routes = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSectionRoutes(mainSectionUriFragment, searchTitle, additionalSearchControls, additionalResultColumns, searchService, detailTitle, additionalEditControls, findByCodeService, createNewService, saveService, deleteService, additionalServicesProviders,entitiesReferences);
         return RouterModule.forChild(moduleRoutes);
     }
     static getConfiguredRoutes(mainSectionUriFragment: string, UI_SEARCH: UISearchForm<any, any>, UI_DETAIL: UIDetailForm<any>, additionalServicesProviders?: (Provider | EnvironmentProviders)[]): Routes {

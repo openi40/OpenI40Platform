@@ -31,7 +31,7 @@ export class FormGroupConfigurationService {
     public createFormArray(fa:UIFormGroupArray):FormArray{
         const fgs:FormGroup[]=[];
         
-        for(let i=0;i<fa.length;i++) {
+        for(let i:number=0;i<fa.length;i++) {
             fgs.push(this.createFormGroup(fa));
         }
         const fao:FormArray=new FormArray(fgs);
@@ -68,12 +68,17 @@ export class FormGroupConfigurationService {
             for(let i:number=0;formGroupArray.length>0;i++) {
                 formGroupArray.removeAt(0);
             }
+            
             for(let i:number=0;i<configuration.length;i++) {
                 const fg=this.createFormGroup(configuration);
                 formGroupArray.push(fg,options);               
             }
         }
-        assignedFormGroupArray.patchValue(rootValue,options);
+        //assignedFormGroupArray.patchValue(rootValue,options);
+        for(let i:number=0;i<rootValue.length;i++){
+            const entry=rootValue[i];
+            this.setValue(entry,assignedFormGroupArray.at(i) as FormGroup);
+        }
     }
     public getTransducedValue(formGroup:FormGroup):any {
         const ov:any={};
