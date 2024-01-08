@@ -11,24 +11,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DepartmentModule } from '@openi40/backoffice-screens-dynaload/department/department.module';
-import { MachineModule } from '@openi40/backoffice-screens-dynaload/machine/machine.module';
-import { OrdersModule } from '@openi40/backoffice-screens-dynaload/orders/orders.module';
-import { PlantModule } from '@openi40/backoffice-screens-dynaload/plant/plant.module';
-import { ProductiveCompanyModule } from '@openi40/backoffice-screens-dynaload/productiveCompany/productive-companies.module';
-import { ProductModule } from '@openi40/backoffice-screens-dynaload/products/product.module';
-import { ResourceGroupModule } from '@openi40/backoffice-screens-dynaload/resource-group/resource-group.module';
-import { ResourceModule } from '@openi40/backoffice-screens-dynaload/resource/resource.module';
-import { TaskModule } from '@openi40/backoffice-screens-dynaload/task/task.module';
-import { TimesheetMetaInfoModule } from '@openi40/backoffice-screens-dynaload/timesheet-meta-info/timesheet-meta-info.module';
-import { WarehouseModule } from '@openi40/backoffice-screens-dynaload/warehouse/warehouse.module';
-import { WorkOrderModule } from '@openi40/backoffice-screens-dynaload/work-order/work-order.module';
-import { WorkCenterModule } from '@openi40/backoffice-screens-dynaload/workcenters/workcenter.module';
+import { OpenI40BackofficeScreens } from '@openi40/backoffice-screens-dynaload/openi40-backoffice-screens.module';
 
 
 
 @NgModule({
-  imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule,TimesheetMetaInfoModule],
+  imports: [CommonModule,OpenI40BackofficeScreens],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

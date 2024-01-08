@@ -1,8 +1,10 @@
 import { Injectable, InjectionToken, Type } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MegaMenu } from 'primeng/megamenu';
 import { Observable, map } from 'rxjs';
 export const UI_SEARCH_CONFIG = new InjectionToken<UI>('ui-search-configuration');
 export const UI_DETAIL_CONFIG = new InjectionToken<UI>('ui-detail-configuration');
+export const UI_MENU = new InjectionToken<MegaMenu>('ui-menu');
 export function identityTranslator(v: any): any {
     return v;
 };

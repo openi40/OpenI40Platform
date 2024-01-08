@@ -4,12 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MegaMenuModule } from 'primeng/megamenu';
+
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BASE_PATH } from 'projects/openi40-backoffice-api/src/lib';
 import { HttpClientModule } from '@angular/common/http';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MegaMenuModule } from 'primeng/megamenu';
 //import { UIConfigurationRepositoryService, UI_CONFIG } from 'projects/openi40-backoffice-ui/src/lib/services/ui-configurations-repository.service';
 
 export function getBaseUrl() {

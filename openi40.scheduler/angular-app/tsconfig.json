@@ -8,6 +8,18 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "paths": {
+      "openi40-backoffice-api": [
+        "./dist/openi40-backoffice-api"
+      ],
+      "openi40-backoffice-screen": [
+        "./dist/openi40-backoffice-screen"
+      ],
+      "openi40-backoffice-services": [
+        "./dist/openi40-backoffice-services"
+      ],
+      "openi40-backoffice-ui": [
+        "./dist/openi40-backoffice-ui"
+      ],
       "openi40-scheduler-screens": [
         "./dist/openi40-scheduler-screens"
       ]

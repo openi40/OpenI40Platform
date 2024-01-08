@@ -12,6 +12,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MegaMenuModule } from 'primeng/megamenu';
 import { DetailUIFormComponent } from './ui-configurable/detail-ui-form/detail-ui-form.component';
 import { UIConfiguredFormComponent } from './ui-configurable/ui-configured-form/ui-configured-form.component';
 import { BlockUIModule } from 'primeng/blockui';
@@ -23,10 +25,11 @@ import { UIConfigurableEditableGridComponent } from './ui-configurable/ui-config
 import { AccordionModule } from 'primeng/accordion';
 import { UIEntitesRelatedComponent } from './ui-configurable/ui-entities-related/ui-entities-related.component';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { UINavigationComponent } from './ui-configurable/ui-navigation/ui-navigation.component';
 @NgModule({
-    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule,AccordionModule,ContextMenuModule],
-    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent],
-    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent],
+    imports: [CommonModule,  FormsModule, ReactiveFormsModule, TableModule, RouterModule, InputTextModule, DropdownModule, ButtonModule, AutoCompleteModule, CheckboxModule, CalendarModule, BlockUIModule, InputMaskModule,AccordionModule,ContextMenuModule,BreadcrumbModule,MegaMenuModule],
+    declarations: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent,UINavigationComponent],
+    exports: [UIConfigurableControlComponent, SearchUIFormComponent, DetailUIFormComponent, UIConfiguredFormComponent, UIConfigurableGridComponent,UIConfigurableEditableGridComponent,UIConfiguredFormArray,UIEntitesRelatedComponent,UINavigationComponent],
     providers: [FormGroupConfigurationService, DefaultGoToDetailService]
 })
 export class Openi40BackofficeMetaUIModule { }
