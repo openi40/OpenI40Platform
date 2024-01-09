@@ -8,7 +8,6 @@
   <artifactId>openi40.backoffice</artifactId>
   <packaging>pom</packaging>
   <modules>
-  	<module>openi40.backoffice-angular-app</module>
   	<module>openi40.backoffice.app</module>
   </modules>
 </project>

@@ -152,6 +152,9 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/openi40-scheduler-api/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-scheduler-api/tsconfig.lib.json"
             }
           }
         },
@@ -192,6 +195,9 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/openi40-scheduler-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-scheduler-ui/tsconfig.lib.json"
             }
           }
         },
@@ -233,6 +239,9 @@
           "configurations": {
             "production": {
               "tsConfig": "projects/openi40-material-planning/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-material-planning/tsconfig.lib.json"
             }
           }
         },
@@ -324,23 +333,23 @@
         }
       }
     },
-    "openi40-backoffice-screen": {
+    "openi40-backoffice-screens": {
       "projectType": "library",
-      "root": "projects/openi40-backoffice-screen",
-      "sourceRoot": "projects/openi40-backoffice-screen/src",
+      "root": "projects/openi40-backoffice-screens",
+      "sourceRoot": "projects/openi40-backoffice-screens/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/openi40-backoffice-screen/ng-package.json"
+            "project": "projects/openi40-backoffice-screens/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/openi40-backoffice-screen/tsconfig.lib.prod.json"
+              "tsConfig": "projects/openi40-backoffice-screens/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/openi40-backoffice-screen/tsconfig.lib.json"
+              "tsConfig": "projects/openi40-backoffice-screens/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -348,7 +357,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "tsConfig": "projects/openi40-backoffice-screen/tsconfig.spec.json",
+            "tsConfig": "projects/openi40-backoffice-screens/tsconfig.spec.json",
             "polyfills": [
               "zone.js",
               "zone.js/testing"

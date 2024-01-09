@@ -9,13 +9,14 @@
  *
  */
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import {OpenI40SchedulerScreensModule} from '@openi40/scheduler-screens';
+import { RouterModule } from '@angular/router';
+import { OpenI40SchedulerScreensModule } from '@openi40/scheduler-screens';
+import { OpenI40BackofficeScreensModule } from '@openi40/backoffice-screens';
 
 
 
 @NgModule({
-  imports: [OpenI40SchedulerScreensModule ],
+  imports: [OpenI40SchedulerScreensModule ,OpenI40BackofficeScreensModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

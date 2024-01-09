@@ -131,7 +131,7 @@ const CUSTOM_DETAIL_EDITABLE_FIELDS:UIControl[]=[{
     label: "removed",
     type: "hidden"
   }];
-const configuredModule = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSection("products", "products", [], [], ProductPagedSearchService, "edit product", CUSTOM_DETAIL_EDITABLE_FIELDS, ProductFindByCodeService, ProductCreateNewService, ProductSaveService, ProductDeleteService);
+const  configuredModule = OpenI40BackofficeMetaUISectionRoutingModule.getConfiguredBackendSection("products", "products", [], [], ProductPagedSearchService, "edit product", CUSTOM_DETAIL_EDITABLE_FIELDS, ProductFindByCodeService, ProductCreateNewService, ProductSaveService, ProductDeleteService);
 @NgModule({
     imports: [CommonModule, configuredModule]
 })

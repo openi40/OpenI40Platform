@@ -40,12 +40,7 @@
 			<artifactId>WebConfigs</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.openi40.platform</groupId>
-			<artifactId>openi40.backoffice-angular-app</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

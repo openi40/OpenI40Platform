@@ -1,8 +1,8 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
@@ -27,7 +27,7 @@ import { WorkCenterModule } from './workcenters/workcenter.module';
 import { MegaMenuItem } from 'primeng/api';
 import { UI_MENU } from '@openi40/backoffice-ui';
 
-const items: MegaMenuItem[] = [{
+const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
   label: 'companies organization',
   icon: 'pi pi-fw pi-sitemap',
   items: [
@@ -87,7 +87,7 @@ const items: MegaMenuItem[] = [{
 
 @NgModule({
   imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule,TimesheetMetaInfoModule],
-  exports: [RouterModule],
-  providers:[{provide: UI_MENU,useValue:items}]
+  exports: [],
+  providers:[{provide: UI_MENU,useValue:BACKOFFICE_MENU_ITEMS}]
 })
-export class OpenI40BackofficeScreens { }
+export class OpenI40BackofficeScreensModule { }
