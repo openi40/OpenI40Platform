@@ -24,7 +24,6 @@
 		<module>Client.Model</module>		
 		<module>Model.Daos</module>
 		<module>MapperModules</module>		
-		<module>angular-app</module>
 		<module>InputChannels</module>
 		<module>Input.Model</module>
 		<module>CommonDatamodel</module>		

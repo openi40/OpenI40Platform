@@ -26,6 +26,7 @@ import { WorkOrderModule } from './work-order/work-order.module';
 import { WorkCenterModule } from './workcenters/workcenter.module';
 import { MegaMenuItem } from 'primeng/api';
 import { UI_MENU } from '@openi40/backoffice-ui';
+import { BASE_PATH } from '@openi40/backoffice-api';
 
 const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
   label: 'companies organization',
@@ -84,10 +85,20 @@ const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
     }]
   ]
 }];
-
+export function getBaseUrl() {
+  let host=document.location.hostname;
+  let port=document.location.port;
+  let protocol=document.location.protocol;
+  if (port==="4200") {
+    port="8080";
+  }
+  let openi40Base=protocol+"//"+host+":"+port+"/openi40";
+  console.log("Setting basePath: "+openi40Base);
+  return openi40Base;
+}
 @NgModule({
   imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule,TimesheetMetaInfoModule],
   exports: [],
-  providers:[{provide: UI_MENU,useValue:BACKOFFICE_MENU_ITEMS}]
+  providers:[{provide: UI_MENU,useValue:BACKOFFICE_MENU_ITEMS},{ provide: BASE_PATH, useFactory: getBaseUrl }]
 })
 export class OpenI40BackofficeScreensModule { }

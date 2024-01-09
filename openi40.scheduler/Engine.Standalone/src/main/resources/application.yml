@@ -1,5 +1,6 @@
 RestApiConfig:
   useWebSocket: false 
+angular-ui: true    
 server:
   port: 8080
   compression:

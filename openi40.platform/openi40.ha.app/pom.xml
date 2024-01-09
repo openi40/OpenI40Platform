@@ -41,8 +41,8 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.openi40.scheduler</groupId>
-			<artifactId>angular-app</artifactId>
+			<groupId>com.openi40.ui</groupId>
+			<artifactId>openi40-scheduling-ui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

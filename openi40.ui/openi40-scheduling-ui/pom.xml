@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.openi40.scheduler</groupId>
-		<artifactId>com.openi40.scheduler.parent</artifactId>
+		<groupId>com.openi40.ui</groupId>
+		<artifactId>com.openi40.ui.parent</artifactId>
 		<version>00.40.BETA-SNAPSHOT</version>
 
 	</parent>
-	<artifactId>angular-app</artifactId>
+	<artifactId>openi40-scheduling-ui</artifactId>
 	<properties>
 		<swagger.file>${project.basedir}/Client.RestApi.Swagger/swagger.json</swagger.file>
 		<generated-sources-path>${project.basedir}/projects/openi40-scheduler-api/src/lib</generated-sources-path>

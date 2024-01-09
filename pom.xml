@@ -153,6 +153,7 @@
 		<module>openi40.scheduler</module>
 		<module>openi40.platform</module>
 		<module>openi40.mes</module>
+		<module>openi40.ui</module>
 		<module>com.openi40.logistics.parent</module>
 	</modules>
 
