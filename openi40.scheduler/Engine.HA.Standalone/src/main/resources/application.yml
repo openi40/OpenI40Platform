@@ -1,7 +1,8 @@
 RestApiConfig:
   useWebSocket: false 
-
-angular-ui: true  
+com.openi40.webcfg: 
+                angularUi: true
+                swaggerUi: true  
 
 server:
   port: 8080

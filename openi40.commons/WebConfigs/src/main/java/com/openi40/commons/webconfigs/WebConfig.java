@@ -35,14 +35,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Configuration
 @EnableAsync
 public class WebConfig extends WebMvcConfigurationSupport {
-	static boolean angularUI = System.getProperty("angular-ui") != null
-			&& System.getProperty("angular-ui").trim().equalsIgnoreCase("true");
+
 	ObjectMapper objectMapper = null;
 	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/resources/",
 			"classpath:/resources/", "classpath:/static/", "classpath:/public/" };
+	OpenI40WebConfig webConfig = null;
 
-	public WebConfig(@Autowired ObjectMapper objectMapper) {
+	public WebConfig(@Autowired ObjectMapper objectMapper, @Autowired(required = false) OpenI40WebConfig webConfig) {
 		this.objectMapper = objectMapper;
+		this.webConfig = webConfig;
 	}
 
 	@Override
@@ -58,9 +59,11 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-		if (angularUI) {
+		if (this.webConfig == null || this.webConfig.getSwaggerUi() == null || this.webConfig.getSwaggerUi()) {
+			registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+			registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		}
+		if (this.webConfig != null && this.webConfig.getAngularUi() != null && this.webConfig.getAngularUi()) {
 			registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 					.addResolver(new PathResourceResolver() {
 						@Override

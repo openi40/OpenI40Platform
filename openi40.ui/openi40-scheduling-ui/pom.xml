@@ -11,8 +11,14 @@
 	<artifactId>openi40-scheduling-ui</artifactId>
 	<properties>
 		<swagger.file>${project.basedir}/Client.RestApi.Swagger/swagger.json</swagger.file>
-		<generated-sources-path>${project.basedir}/projects/openi40-scheduler-api/src/lib</generated-sources-path>
+		<backoffice.swagger.file>${project.basedir}/Backoffice.Swagger/swagger.json</backoffice.swagger.file>
+		<generated-sources-path>
+			${project.basedir}/projects/openi40-scheduler-api/src/lib</generated-sources-path>
 		<generated-sources-java-path>/projects/openi40-scheduler-api/src/lib</generated-sources-java-path>
+		<generated-backoffice-sources-path>
+			${project.basedir}/projects/openi40-backoffice-api/src/lib</generated-backoffice-sources-path>
+		<generated-backoffice-sources-java-path>
+			/projects/openi40-dbmodel-api/src/lib</generated-backoffice-sources-java-path>
 		<version.swagger.codegen>2.4.14</version.swagger.codegen>
 	</properties>
 	<packaging>jar</packaging>
@@ -28,34 +34,7 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>io.swagger</groupId>
-				<artifactId>swagger-codegen-maven-plugin</artifactId>
-				<version>${version.swagger.codegen}</version>
-				<configuration>
-					<inputSpec>${swagger.file}</inputSpec>
-					<configOptions>
-						<sourceFolder>${generated-sources-java-path}</sourceFolder>
-					</configOptions>
-					<output>${generated-sources-path}</output>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-swagger-angular</id>
-						<phase>${generate.angular.phase}</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<language>typescript-angular</language>
-							<modelPackage>model</modelPackage>
-							<apiPackage>api</apiPackage>
-							<invokerPackage>invoker</invokerPackage>
-							<additionalProperties>ngVersion=10.0.6,libraryName=openi40.client.rest</additionalProperties>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
@@ -91,4 +70,79 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>regenerate-scheduler-api</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.swagger</groupId>
+						<artifactId>swagger-codegen-maven-plugin</artifactId>
+						<version>${version.swagger.codegen}</version>
+						<configuration>
+							<inputSpec>${swagger.file}</inputSpec>
+							<configOptions>
+								<sourceFolder>${generated-sources-java-path}</sourceFolder>
+							</configOptions>
+							<output>${generated-sources-path}</output>
+						</configuration>
+						<executions>
+							<execution>
+								<id>generate-swagger-angular</id>
+								<phase>${generate.angular.phase}</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<language>typescript-angular</language>
+									<modelPackage>model</modelPackage>
+									<apiPackage>api</apiPackage>
+									<invokerPackage>invoker</invokerPackage>
+									<additionalProperties>
+										ngVersion=10.0.6,libraryName=openi40.client.rest</additionalProperties>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>regenerate-backoffice-api</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.swagger</groupId>
+						<artifactId>swagger-codegen-maven-plugin</artifactId>
+						<version>${version.swagger.codegen}</version>
+						<configuration>
+							<inputSpec>${backoffice.swagger.file}</inputSpec>
+							<configOptions>
+								<sourceFolder>
+									${generated-backoffice-sources-java-path}</sourceFolder>
+							</configOptions>
+							<output>${generated-backoffice-sources-path}</output>
+						</configuration>
+						<executions>
+							<execution>
+								<id>generate-swagger-angular</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<language>typescript-angular</language>
+									<modelPackage>model</modelPackage>
+									<apiPackage>api</apiPackage>
+									<invokerPackage>invoker</invokerPackage>
+									<additionalProperties>
+										ngVersion=10.0.6,libraryName=openi40.backoffice.rest</additionalProperties>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

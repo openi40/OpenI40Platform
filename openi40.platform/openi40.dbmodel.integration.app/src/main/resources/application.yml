@@ -8,6 +8,9 @@ server:
     enabled: true
   servlet:
     contextPath: /openi40-integration
+com.openi40.webcfg: 
+                angularUi: false
+                swaggerUi: true    
 spring:
   profiles:    active:      - "server.rest.api"
   jackson:
