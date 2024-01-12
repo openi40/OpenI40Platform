@@ -12,11 +12,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { OpenI40SchedulerScreensModule } from '@openi40/scheduler-screens';
 import { OpenI40BackofficeScreensModule } from '@openi40/backoffice-screens';
+import {Openi40CommonUiModule} from "@openi40/common-ui";
 
 
 
 @NgModule({
-  imports: [OpenI40SchedulerScreensModule ,OpenI40BackofficeScreensModule],
+  imports: [OpenI40SchedulerScreensModule ,OpenI40BackofficeScreensModule,Openi40CommonUiModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

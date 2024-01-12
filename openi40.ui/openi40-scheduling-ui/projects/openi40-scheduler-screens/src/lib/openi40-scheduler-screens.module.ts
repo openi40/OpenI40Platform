@@ -2,24 +2,11 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { BASE_PATH } from "@openi40/scheduler-api";
-export function getBaseUrl() {
-  let host=document.location.hostname;
-  let port=document.location.port;
-  let protocol=document.location.protocol;
-  if (port==="4200") {
-    port="8080";
-  }
-  let openi40Base=protocol+"//"+host+":"+port+"/openi40";
-  console.log("Setting basePath: "+openi40Base);
-  return openi40Base;
-}
+import { getBaseUrl } from "@openi40/common-ui";
 const routes: Routes = [
-  { path: '',
-    redirectTo: '/openi40-homepage',
-    pathMatch: 'full'
-  },
+
   {
-    path:'openi40-homepage',
+    path:'openi40-scheduler-home',
     loadChildren: () => import('./openi40-homepage/openi40-homepage.module').then(m => m.Openi40HomepageModule)
   },
   {

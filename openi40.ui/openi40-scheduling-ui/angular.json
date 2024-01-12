@@ -431,6 +431,39 @@
           }
         }
       }
+    },
+    "openi40-common-ui": {
+      "projectType": "library",
+      "root": "projects/openi40-common-ui",
+      "sourceRoot": "projects/openi40-common-ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-common-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-common-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-common-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-common-ui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
     }
   },
   "cli": {

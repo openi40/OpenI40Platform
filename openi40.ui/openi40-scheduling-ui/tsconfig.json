@@ -46,12 +46,9 @@
 
         "dist/openi40-scheduler-ui-model"
       ],
-      "@openi40/scheduler-api":["projects/openi40-scheduler-api/src/public-api"],
-      "@openi40/scheduler-ui":["projects/openi40-scheduler-ui/src/public-api"],
-      "@openi40/material-planning":["projects/openi40-material-planning/src/public-api"],
-      "@openi40/scheduler-screens":["projects/openi40-scheduler-screens/src/public-api"],
-      "@openi40/backoffice-ui": [
-        "projects/openi40-backoffice-ui/src/public-api"
+
+      "openi40-common-ui": [
+        "./dist/openi40-common-ui"
       ],
       "@openi40/backoffice-api": [
         "projects/openi40-backoffice-api/src/lib"
@@ -64,7 +61,15 @@
       ],
       "@openi40/backoffice-screens-dynaload/*": [
         "projects/openi40-backoffice-screens/src/lib/*"
-      ]
+      ],
+      "@openi40/scheduler-api":["projects/openi40-scheduler-api/src/public-api"],
+      "@openi40/scheduler-ui":["projects/openi40-scheduler-ui/src/public-api"],
+      "@openi40/material-planning":["projects/openi40-material-planning/src/public-api"],
+      "@openi40/scheduler-screens":["projects/openi40-scheduler-screens/src/public-api"],
+      "@openi40/backoffice-ui": [
+        "projects/openi40-backoffice-ui/src/public-api"
+      ],
+      "@openi40/common-ui":["projects/openi40-common-ui/src/public-api"]
   }
     },
   "files": [],

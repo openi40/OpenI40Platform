@@ -10,7 +10,6 @@
  */
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { DepartmentModule } from './department/department.module';
 import { MachineModule } from './machine/machine.module';
 import { OrdersModule } from './orders/orders.module';
@@ -24,10 +23,11 @@ import { TimesheetMetaInfoModule } from './timesheet-meta-info/timesheet-meta-in
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { WorkOrderModule } from './work-order/work-order.module';
 import { WorkCenterModule } from './workcenters/workcenter.module';
+import { OpenI40BackofficeHomeModule } from "./home/openi40-backoffice-home.module";
 import { MegaMenuItem } from 'primeng/api';
 import { UI_MENU } from '@openi40/backoffice-ui';
 import { BASE_PATH } from '@openi40/backoffice-api';
-
+import { getBaseUrl } from "@openi40/common-ui";
 const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
   label: 'companies organization',
   icon: 'pi pi-fw pi-sitemap',
@@ -85,20 +85,10 @@ const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
     }]
   ]
 }];
-export function getBaseUrl() {
-  let host=document.location.hostname;
-  let port=document.location.port;
-  let protocol=document.location.protocol;
-  if (port==="4200") {
-    port="8080";
-  }
-  let openi40Base=protocol+"//"+host+":"+port+"/openi40";
-  console.log("Setting basePath: "+openi40Base);
-  return openi40Base;
-}
+
 @NgModule({
-  imports: [CommonModule,ProductModule,OrdersModule,ProductiveCompanyModule,PlantModule,DepartmentModule,WarehouseModule,WorkCenterModule,MachineModule,ResourceGroupModule,ResourceModule,WorkOrderModule,TaskModule,TimesheetMetaInfoModule],
+  imports: [CommonModule, ProductModule, OrdersModule, ProductiveCompanyModule, PlantModule, DepartmentModule, WarehouseModule, WorkCenterModule, MachineModule, ResourceGroupModule, ResourceModule, WorkOrderModule, TaskModule, TimesheetMetaInfoModule, OpenI40BackofficeHomeModule],
   exports: [],
-  providers:[{provide: UI_MENU,useValue:BACKOFFICE_MENU_ITEMS},{ provide: BASE_PATH, useFactory: getBaseUrl }]
+  providers: [{ provide: UI_MENU, useValue: BACKOFFICE_MENU_ITEMS }, { provide: BASE_PATH, useFactory: getBaseUrl }]
 })
 export class OpenI40BackofficeScreensModule { }
