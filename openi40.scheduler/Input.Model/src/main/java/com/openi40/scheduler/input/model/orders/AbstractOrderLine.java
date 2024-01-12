@@ -32,9 +32,9 @@ public abstract class AbstractOrderLine extends InputDto {
 	protected String orderType = null;
 	protected String warehouseCode=null;
 	protected String productCode = null;
-	protected double totalQty = 0.0;
-	protected double residualQty = 0.0;
-	protected double completedQty = 0.0;
+	protected Double totalQty = 0.0;
+	protected Double residualQty = 0.0;
+	protected Double completedQty = 0.0;
 	protected Date minProductionDateConstraint=null;
 	protected Date maxProductionDateConstraint=null;
 	protected Date askedDeliveryDate = null;
@@ -79,22 +79,22 @@ public abstract class AbstractOrderLine extends InputDto {
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
-	public double getTotalQty() {
-		return totalQty;
+	public Double getTotalQty() {
+		return totalQty!=null?totalQty:0.0;
 	}
-	public void setTotalQty(double totalQty) {
+	public void setTotalQty(Double totalQty) {
 		this.totalQty = totalQty;
 	}
-	public double getResidualQty() {
-		return residualQty;
+	public Double getResidualQty() {
+		return residualQty!=null?residualQty:0.0;
 	}
-	public void setResidualQty(double residualQty) {
+	public void setResidualQty(Double residualQty) {
 		this.residualQty = residualQty;
 	}
-	public double getCompletedQty() {
-		return completedQty;
+	public Double getCompletedQty() {
+		return completedQty!=null?completedQty:0.0;
 	}
-	public void setCompletedQty(double completedQty) {
+	public void setCompletedQty(Double completedQty) {
 		this.completedQty = completedQty;
 	}
 	public Date getAskedDeliveryDate() {
