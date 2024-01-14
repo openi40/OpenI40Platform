@@ -25,10 +25,10 @@ public class Product extends AbstractApsObject {
 	protected Double mov2purchCoeff = null;
 	protected Double reorderQty = null;
 	protected Double netWeight = null;
-	private boolean canBePurchasedByScheduler = true;
-	private boolean canBeProducedByScheduler = true;
-	private double averageMinPurchaseQty = 0;
-	private int leadTimeDays = 0;
+	private Boolean canBePurchasedByScheduler = null;
+	private Boolean canBeProducedByScheduler = null;
+	private Double averageMinPurchaseQty = 0.0;
+	private Integer leadTimeDays = 0;
 
 	public Product(ApsData context) {
 		super(context);
@@ -138,35 +138,35 @@ public class Product extends AbstractApsObject {
 		this.netWeight = netWeight;
 	}
 
-	public boolean isCanBePurchasedByScheduler() {
+	public Boolean getCanBePurchasedByScheduler() {
 		return canBePurchasedByScheduler;
 	}
 
-	public void setCanBePurchasedByScheduler(boolean canBePurchasedByScheduler) {
+	public void setCanBePurchasedByScheduler(Boolean canBePurchasedByScheduler) {
 		this.canBePurchasedByScheduler = canBePurchasedByScheduler;
 	}
 
-	public boolean isCanBeProducedByScheduler() {
+	public Boolean getCanBeProducedByScheduler() {
 		return canBeProducedByScheduler;
 	}
 
-	public void setCanBeProducedByScheduler(boolean canBeProducedByScheduler) {
+	public void setCanBeProducedByScheduler(Boolean canBeProducedByScheduler) {
 		this.canBeProducedByScheduler = canBeProducedByScheduler;
 	}
 
-	public double getAverageMinPurchaseQty() {
+	public Double getAverageMinPurchaseQty() {
 		return averageMinPurchaseQty;
 	}
 
-	public void setAverageMinPurchaseQty(double averageMinPurchaseQty) {
+	public void setAverageMinPurchaseQty(Double averageMinPurchaseQty) {
 		this.averageMinPurchaseQty = averageMinPurchaseQty;
 	}
 
-	public int getLeadTimeDays() {
+	public Integer getLeadTimeDays() {
 		return leadTimeDays;
 	}
 
-	public void setLeadTimeDays(int leadTimeDays) {
+	public void setLeadTimeDays(Integer leadTimeDays) {
 		this.leadTimeDays = leadTimeDays;
 	}
 

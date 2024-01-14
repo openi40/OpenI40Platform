@@ -192,7 +192,7 @@
 			"description": "Bicomponent epoxy glue",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
-			"canBePurchasedByScheduler": false,
+			"canBePurchasedByScheduler": true,
 			"leadTimeDays": 7
 		},
 		{
@@ -200,7 +200,7 @@
 			"description": "Dark brown paint",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
-			"canBePurchasedByScheduler": false,
+			"canBePurchasedByScheduler": true,
 			"leadTimeDays": 7
 		},
 		{
@@ -208,7 +208,7 @@
 			"description": "Dark green paint",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
-			"canBePurchasedByScheduler": false,
+			"canBePurchasedByScheduler": true,
 			"leadTimeDays": 7
 		},
 		{
@@ -216,7 +216,7 @@
 			"description": "Transparent poliyrethanic paint",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
-			"canBePurchasedByScheduler": false,
+			"canBePurchasedByScheduler": true,
 			"leadTimeDays": 7
 		},
 		{
@@ -1386,7 +1386,7 @@
 			"productCode": "MAHOGANY160x40x5",
 			"description": "Mahogany table 16x40x5 cm",
 			"warehouseCode": "WH001",
-			"physicalStockQuantity": 1000
+			"physicalStockQuantity": 100000
 		},
 		{
 			"code": "INVENTORY001A",

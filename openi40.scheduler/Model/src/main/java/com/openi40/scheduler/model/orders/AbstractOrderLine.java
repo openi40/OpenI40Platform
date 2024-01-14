@@ -28,15 +28,15 @@ public abstract class AbstractOrderLine extends AbstractPlantRelatedApsObject {
 	protected String orderType = null;
 	protected Product product = null;
 	protected String warehouseCode=null;
-	protected double totalQty = 0.0;
-	protected double doneQty = 0.0;
+	protected Double totalQty = 0.0;
+	protected Double doneQty = 0.0;
 	protected Date askedDeliveryDate = null;
 	protected Date plannedDeliveryDate = null;
 	protected String lineStatus = null;
 	protected String color = null;
 	protected Date minProductionDateConstraint=null;
 	protected Date maxProductionDateConstraint=null;
-	public final double getResidualQty() {
+	public  Double getResidualQty() {
 		return (getTotalQty() > getDoneQty() ? getTotalQty() - getDoneQty() : 0.0);
 	}
 	public Integer getCustomPriority() {
@@ -75,16 +75,16 @@ public abstract class AbstractOrderLine extends AbstractPlantRelatedApsObject {
 	public void setWarehouseCode(String warehouseCode) {
 		this.warehouseCode = warehouseCode;
 	}
-	public double getTotalQty() {
-		return totalQty;
+	public Double getTotalQty() {
+		return totalQty!=null?totalQty:0.0;
 	}
-	public void setTotalQty(double totalQty) {
+	public void setTotalQty(Double totalQty) {
 		this.totalQty = totalQty;
 	}
-	public double getDoneQty() {
-		return doneQty;
+	public Double getDoneQty() {
+		return doneQty!=null?doneQty:0.0;
 	}
-	public void setDoneQty(double doneQty) {
+	public void setDoneQty(Double doneQty) {
 		this.doneQty = doneQty;
 	}
 	public Date getAskedDeliveryDate() {

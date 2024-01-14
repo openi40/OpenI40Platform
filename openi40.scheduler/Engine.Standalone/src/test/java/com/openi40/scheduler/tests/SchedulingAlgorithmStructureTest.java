@@ -477,7 +477,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setWarehouseCode("WH002");
 				sline.setPlannedDeliveryDate(Timestamp.valueOf("2021-06-01 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(100);
+				sline.setTotalQty(100.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				plant.getSalesOrders().add(salesOrder);
@@ -533,7 +533,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-01-12 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-02-08 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				sline = new SalesOrderLine(apsData);
@@ -545,7 +545,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-18 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				sline = new SalesOrderLine(apsData);
@@ -557,7 +557,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-30 23:59:59"));
 				sline.setProduct(complexProduct);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				plant.getSalesOrders().add(salesOrder);

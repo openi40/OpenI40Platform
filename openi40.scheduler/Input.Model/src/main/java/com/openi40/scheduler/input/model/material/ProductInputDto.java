@@ -45,7 +45,7 @@ public class ProductInputDto extends InputDto {
 		this.averageMinPurchaseQty = averageMinPurchaseQty;
 	}
 
-	public Boolean isCanBeProducedByScheduler() {
+	public Boolean getCanBeProducedByScheduler() {
 		return canBeProducedByScheduler != null ? canBeProducedByScheduler : false;
 	}
 
@@ -53,7 +53,7 @@ public class ProductInputDto extends InputDto {
 		this.canBeProducedByScheduler = canBeProducedByScheduler;
 	}
 
-	public Boolean isCanBePurchasedByScheduler() {
+	public Boolean getCanBePurchasedByScheduler() {
 		return canBePurchasedByScheduler != null ? canBePurchasedByScheduler : false;
 	}
 
