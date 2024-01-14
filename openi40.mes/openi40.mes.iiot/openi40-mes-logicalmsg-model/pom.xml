@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.openi40.mes.iiot</groupId>
 		<artifactId>com.openi40.mes.iiot.parent</artifactId>
-		<version>00.40.BETA-SNAPSHOT</version>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40-mes-logicalmsg-model</artifactId>
 </project>

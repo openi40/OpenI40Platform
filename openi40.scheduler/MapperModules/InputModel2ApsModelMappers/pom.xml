@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.openi40.scheduler</groupId>
 		<artifactId>MapperModules</artifactId>
-		<version>00.40.BETA-SNAPSHOT</version>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>InputModel2ApsModelMappers</artifactId>
 	<dependencies>
