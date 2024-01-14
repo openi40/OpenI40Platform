@@ -19,6 +19,7 @@ import { ApsDataDto, TaskDto } from 'projects/openi40-scheduler-api/src/lib';
 export class Openi40TaskDetailsComponent implements OnInit {
   @Input("task") task:TaskDto=null;
   @Input("apsData") apsData:ApsDataDto=null;
+  @Output() viewTaskDetails:EventEmitter<TaskDto>=new EventEmitter();
   constructor() { }
   visible:boolean=true;
   @Output("close") close:EventEmitter<boolean>=new EventEmitter<boolean>();
@@ -29,6 +30,9 @@ export class Openi40TaskDetailsComponent implements OnInit {
     this.close.emit(true);
   }
   ngOnInit(): void {
+  }
+  public viewDetailsClicked(task:TaskDto):void {
+    this.viewTaskDetails.emit(task);
   }
 
 }

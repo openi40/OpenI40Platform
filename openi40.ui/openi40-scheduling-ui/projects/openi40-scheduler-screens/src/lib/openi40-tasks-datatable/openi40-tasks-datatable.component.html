@@ -79,5 +79,5 @@
     </p-table>
   </div>
   <openi40-task-details [task]="selectedItem.data" [apsData]="apsData" *ngIf="
-  selectedItem!=null" (close)="selectedItem=null">
+  selectedItem!=null" (close)="selectedItem=null" (viewTaskDetails)="viewDetailsClicked($event)">
   </openi40-task-details>

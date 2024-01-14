@@ -111,6 +111,7 @@
         <openi40-tasks-datatable
           [apsData]="data"
           (taskClick)="taskClicked($event)"
+          (viewTaskDetails)="addviewedTask($event)"
         ></openi40-tasks-datatable>
       </ng-template>
     </p-tabPanel>
@@ -196,9 +197,12 @@
         selectedTask.data.data
       "
       (close)="viewTaskWindow = false"
+      (viewTaskDetails)="addviewedTask($event)"
     >
     </openi40-task-details>
+    <openi40-task-details *ngFor="let t of browsedTasks;" [task]="t" [apsData]="data" (close)="removeViewedTask(t)" (viewTaskDetails)="addviewedTask($event)">
 
+    </openi40-task-details>
     <p-dialog
       header="Header"
       [(visible)]="viewWorkOrder"

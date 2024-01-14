@@ -192,6 +192,9 @@ export class ResourcesGanttController extends GuiController<ApsDataGuiItem, Reso
       this.renderer2.appendChild(rootGenerated, this.rightDiv);
     }
     this.resourcesPanelController.show(this.leftDiv);
+    if (this.resourcesPanelController?.data?.width) {
+      this.renderer2.setAttribute(this.leftDiv,"style","width:"+this.resourcesPanelController.data.width+"px;")  ;
+    }
     let timesheetPanel: Element = this.timesheetPanelController.show(this.rightDiv);
     if (this._taskControllers) {
       this._taskControllers.forEach((taskController) => {

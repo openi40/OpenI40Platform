@@ -59,7 +59,7 @@ export class WorkOrdersGanttController extends GuiController<WorkOrdersTreeApsDa
         this.workOrdersPanelController=new WorkOrdersPanelController(_data,renderer2,svgPatternsProvider);
         this.timesheetPanelController=new TimesheetPanelController(new TimesheetPanelGuiItem(_data.dataItem.timesheet,_data.graphicConfig,this.workOrdersPanelController.verticalSlices,this.workOrdersPanelController.workOrdersRootController.data.listNodes),renderer2,svgPatternsProvider);
         this.leftDiv = this.createHtmlElement("div");
-        this.setAttribute(this.leftDiv, "class", "col-3");
+        //this.setAttribute(this.leftDiv, "class", "col-3");
         this.rightDiv = this.createHtmlElement("div");
         this.setAttribute(this.rightDiv, "class", "col-9");
         this.setAttribute(this.rightDiv, "style", "overflow-x: auto;");
@@ -204,6 +204,9 @@ export class WorkOrdersGanttController extends GuiController<WorkOrdersTreeApsDa
             this.renderer2.appendChild(rootGenerated, this.rightDiv);
         }
         this.workOrdersPanelController.show(this.leftDiv);
+        if (this.workOrdersPanelController?.data?.width) {
+          this.renderer2.setAttribute(this.leftDiv,"style","width:"+this.workOrdersPanelController.data.width+"px;")  ;
+        }
         let timesheetPanel:Element=this.timesheetPanelController.show(this.rightDiv);
         if (this._taskControllers) {
             this._taskControllers.forEach((taskController)=>{

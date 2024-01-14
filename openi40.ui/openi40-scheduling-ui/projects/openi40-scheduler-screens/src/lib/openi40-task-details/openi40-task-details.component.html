@@ -1,91 +1,124 @@
-<p-dialog header="Task overview" [(visible)]="visible" [modal]="true" [style]="{ width: '95vw' }" [baseZIndex]="10000"
-  [draggable]="false" [resizable]="false" (onHide)="hideClick($event)">
-  <p class="p-m-0" style="height: 100%;">
-    <p-tabView >
+<p-dialog
+  header="Task overview"
+  [(visible)]="visible"
+  [modal]="true"
+  [style]="{ width: '95vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+  (onHide)="hideClick($event)"
+>
+  <p class="p-m-0" style="height: 100%">
+    <p-tabView>
       <p-tabPanel header="Task infos">
         <ng-template pTemplate="content">
-
-          <div class="flex grid" *ngFor="let message of task.messages; index as i">
+          <div
+            class="flex grid"
+            *ngFor="let message of task.messages; index as i"
+          >
             <div class="col-2 md-2">
-              {{message.msgLevel}}
+              {{ message.msgLevel }}
             </div>
-              <div class="col-10 md-10">
-                {{message.messageDescription}}
-              </div>
-
+            <div class="col-10 md-10">
+              {{ message.messageDescription }}
+            </div>
           </div>
           <div class="grid">
             <div class="field grid col-12">
-              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0">code</label>
+              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0"
+                >code</label
+              >
               <div class="col-10 md-10">
-                {{task.code}}
+                {{ task.code }}
               </div>
             </div>
-            <div class="field grid  col-12">
-              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0">description</label>
+            <div class="field grid col-12">
+              <label for="firstname" class="col-2 mb-2 md-2 mb-md-0"
+                >description</label
+              >
               <div class="col-10 md-10">
-                {{task.description}}
+                {{ task.description }}
               </div>
             </div>
-            <div class="field grid   col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">work order</label>
+            <div class="field grid col-12">
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >work order</label
+              >
               <div class="col-10 p-md-10">
-                {{task.workOrderCode}}
+                {{ task.workOrderCode }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 ">sequence</label>
+              <label for="lastname" class="col-2">sequence</label>
               <div class="col-10">
-                {{task.sequenceCode}}
+                {{ task.sequenceCode }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="scheduledMachineCode" class="col-2">assigned machine</label>
+              <label for="scheduledMachineCode" class="col-2"
+                >assigned machine</label
+              >
               <div class="col-10">
-                {{task.scheduledMachineCode}}
+                {{ task.scheduledMachineCode }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">start setup</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >start setup</label
+              >
               <div class="col-10 md-10">
-                {{task.setup?.startDateTime | date: 'short'}}
+                {{ task.setup?.startDateTime | date : "short" }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">end setup</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >end setup</label
+              >
               <div class="col-10 md-10">
-                {{task.setup?.endDateTime  | date: 'short'}}
+                {{ task.setup?.endDateTime | date : "short" }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">start work</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >start work</label
+              >
               <div class="col-10 md-10">
-                {{task.work?.startDateTime  | date: 'short'}}
+                {{ task.work?.startDateTime | date : "short" }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">end work</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >end work</label
+              >
               <div class="col-10 md-10">
-                {{task.work?.endDateTime  | date: 'short'}}
+                {{ task.work?.endDateTime | date : "short" }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">qty total</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >qty total</label
+              >
               <div class="col-10 md-10">
-                {{task.qtyTotal}}
+                {{ task.qtyTotal }}
               </div>
             </div>
             <div class="field grid col-12">
-              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0">qty produced</label>
+              <label for="lastname" class="col-2 mb-2 md-2 mb-md-0"
+                >qty produced</label
+              >
               <div class="col-10 md-10">
-                {{task.qtyProduced}}
+                {{ task.qtyProduced }}
               </div>
             </div>
           </div>
-
         </ng-template>
       </p-tabPanel>
-      <p-tabPanel header="Material" *ngIf="task.materialConsumptions && task.materialConsumptions.length>0">
+      <p-tabPanel
+        header="Material"
+        *ngIf="
+          task.materialConsumptions && task.materialConsumptions.length > 0
+        "
+      >
         <ng-template pTemplate="content">
           <p-table [value]="task.materialConsumptions">
             <ng-template pTemplate="header">
@@ -100,46 +133,72 @@
               <tr>
                 <td>{{ mater.product?.code }}</td>
                 <td>{{ mater.product?.description }}</td>
-                <td>{{ mater.requiredQty | number: '1.2-2'}}</td>
+                <td>{{ mater.requiredQty | number : "1.2-2" }}</td>
                 <td>
-                    <ul *ngIf="mater.ownedReservations?true:false" >
-                      <li *ngFor="let reservation of mater.ownedReservations; index as i">
-                         <span *ngIf="reservation.supplyType==='ProductionSupply'">
-                          {{reservation.qtyProvided| number: '1.2-2'}} from work order {{reservation.workOrderCode}}
-                         </span>
-                         <span *ngIf="reservation.supplyType==='PurchaseSupply'">
-                          {{reservation.qtyProvided| number: '1.2-2'}} from order {{reservation.documentCode}}
-                         </span>
-                         <span *ngIf="reservation.supplyType==='StockSupply'">
-                          {{reservation.qtyProvided| number: '1.2-2'}} from warehouse {{reservation.warehouseCode}}
-                         </span>
-                      </li>
-                    </ul>
+                  <ul *ngIf="mater.ownedReservations ? true : false">
+                    <li
+                      *ngFor="
+                        let reservation of mater.ownedReservations;
+                        index as i
+                      "
+                    >
+                      <span
+                        *ngIf="reservation.supplyType === 'ProductionSupply'"
+                      >
+                        {{ reservation.qtyProvided | number : "1.2-2" }} from
+                        work order {{ reservation.workOrderCode }}
+                      </span>
+                      <span *ngIf="reservation.supplyType === 'PurchaseSupply'">
+                        {{ reservation.qtyProvided | number : "1.2-2" }} from
+                        order {{ reservation.documentCode }}
+                      </span>
+                      <span *ngIf="reservation.supplyType === 'StockSupply'">
+                        {{ reservation.qtyProvided | number : "1.2-2" }} from
+                        warehouse {{ reservation.warehouseCode }}
+                      </span>
+                    </li>
+                  </ul>
                 </td>
               </tr>
             </ng-template>
           </p-table>
-
         </ng-template>
       </p-tabPanel>
       <p-tabPanel header="Equipment infos">
         <ng-template pTemplate="content">
-          <openi40-task-equipment-details [task]="task"></openi40-task-equipment-details>
+          <openi40-task-equipment-details
+            [task]="task"
+          ></openi40-task-equipment-details>
         </ng-template>
       </p-tabPanel>
       <p-tabPanel header="Production cycle/operation">
         <ng-template pTemplate="content">
-            <openi40-cycle-model [cycleCode]="task.cycleCode" [highlightOperationModelCode]="task.operationCode" [dataSetName]="apsData.dataSetName" [dataSourceName]="apsData.dataSourceName" [dataSetVariant]="apsData.dataSetVariant"></openi40-cycle-model>
+          <openi40-cycle-model
+            [cycleCode]="task.cycleCode"
+            [highlightOperationModelCode]="task.operationCode"
+            [dataSetName]="apsData.dataSetName"
+            [dataSourceName]="apsData.dataSourceName"
+            [dataSetVariant]="apsData.dataSetVariant"
+          ></openi40-cycle-model>
         </ng-template>
       </p-tabPanel>
       <p-tabPanel header="Task chain of dependencies">
         <ng-template pTemplate="content">
-            <openi40-dependency-graph [apsData]="apsData" [taskInFilter]="task"></openi40-dependency-graph>
+          <openi40-dependency-graph
+            [apsData]="apsData"
+            [taskInFilter]="task"
+            (viewTaskDetails)="viewDetailsClicked($event)"
+          ></openi40-dependency-graph>
         </ng-template>
       </p-tabPanel>
     </p-tabView>
   </p>
   <ng-template pTemplate="footer">
-    <p-button icon="pi pi-check" (click)="okClick($event)" label="Ok" class="p-button-text"></p-button>
+    <p-button
+      icon="pi pi-check"
+      (click)="okClick($event)"
+      label="Ok"
+      class="p-button-text"
+    ></p-button>
   </ng-template>
 </p-dialog>

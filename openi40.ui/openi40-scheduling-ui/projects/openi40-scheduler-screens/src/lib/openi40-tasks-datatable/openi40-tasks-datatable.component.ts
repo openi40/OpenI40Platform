@@ -1,14 +1,14 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
  *
  */
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ApsDataDto, PlantDto, ProductiveCompanyDto, TaskDto, WorkOrderDto } from 'projects/openi40-scheduler-api/src/lib';
 export class TaskDataItem {
     public data:TaskDto=null;
@@ -95,7 +95,8 @@ export class Openi40TasksDatatableComponent implements OnInit {
   get apsData():ApsDataDto{
     return this._apsData;
   }
-  @Input("taskClick")  taskClick:EventEmitter<{data?:TaskDto}>=new EventEmitter();
+  @Output("taskClick")  taskClick:EventEmitter<{data?:TaskDto}>=new EventEmitter();
+  @Output() viewTaskDetails:EventEmitter<TaskDto>=new EventEmitter();
   loading: boolean = true;
   constructor(private changeDetector: ChangeDetectorRef) { }
   public selectedTasks:TaskDataItem[]=[];
@@ -181,4 +182,7 @@ saveAsExcelFile(buffer: any, fileName: string): void {
     this.selectedItem=item;
     this.changeDetector.markForCheck();
   }
+  public viewDetailsClicked(task:TaskDto):void {
+    this.viewTaskDetails.emit(task);
+  }e
 }

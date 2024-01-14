@@ -1,17 +1,16 @@
 /**
- * 
+ *
  * This code is part of the OpenI40 open source advanced production scheduler
  * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
+ * Web site: http://openi40.org/
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
  * @author architectures@openi40.org
  *
  */
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { TreeNode } from 'primeng/api';
-import { ApsCommandResourceService, ApsDataDto, TaskDto, WSScheduleTaskResponseItem } from 'projects/openi40-scheduler-api/src/lib';
-import { TreeNodeController } from 'projects/openi40-scheduler-ui/src/lib/guicontrol/TreeNodeController';
+import { ApsDataDto, TaskDto } from 'projects/openi40-scheduler-api/src/lib';
 @Component({
   selector: 'openi40-dependency-graph',
   templateUrl: './openi40-dependency-graph.component.html',
@@ -22,6 +21,7 @@ export class Openi40DependencyGraphComponent implements OnInit, OnChanges {
   @Input("taskInFilter") public taskInFilter: TaskDto = null;
   trees: TreeNode<TaskDto>[] = [];
   selectedNode: TreeNode<TaskDto> = null;
+  @Output() viewTaskDetails:EventEmitter<TaskDto>=new EventEmitter();
   constructor() { }
   ngOnChanges(changes: SimpleChanges): void {
     this.refreshTrees();
@@ -113,5 +113,7 @@ export class Openi40DependencyGraphComponent implements OnInit, OnChanges {
     }
     return ret;
   }
-
+  public viewDetailsClicked(task:TaskDto):void {
+    this.viewTaskDetails.emit(task);
+  }
 }
