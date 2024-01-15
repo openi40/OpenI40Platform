@@ -1,32 +1,44 @@
 <ui-navigation></ui-navigation>
 <div class="content" [formGroup]="frmGroup" *ngIf="frmGroup" #mainContent>
-    <p-blockUI [target]="mainContent" [blocked]="loading">
-        <i class="pi pi-lock" style="font-size: 3rem"></i>
-    </p-blockUI>
-    <h1>{{config.title}}</h1>
-    <h2>Search filters</h2>
-    <div class="row">
-        <ui-configured-form [formGroup]="frmGroup" [config]="config.formGroup" [formTemplate]="formTemplate">
-            
-        </ui-configured-form>
-        <div class="col-2">
-            <p-button label="Search" (onClick)="doSearch()" [disabled]="disabledSearch"></p-button>
-        </div>
+  <p-blockUI [target]="mainContent" [blocked]="loading">
+    <i class="pi pi-lock" style="font-size: 3rem"></i>
+  </p-blockUI>
+  <h1>{{ config.title }}</h1>
+
+  <p-fieldset legend="Search filters">
+
+
+  <div class="row">
+    <ui-configured-form
+      [formGroup]="frmGroup"
+      [config]="config.formGroup"
+      [formTemplate]="formTemplate"
+    >
+    </ui-configured-form>
+    <div class="col-2">
+      <p-button
+        label="Search"
+        (onClick)="doSearch()"
+        [disabled]="disabledSearch"
+      ></p-button>
     </div>
-    <div class="row">
-        <div class="col-12">
-            
-            <ui-configurable-grid 
-                    [columnsConfig]="columnsConfig" 
-                    [actualPage]="actualPage" 
-                    [externalPagingManagement]="true" 
-                    [paged]="true" 
-                    [data]="results" 
-                    [gotoDetailService]="gotoDetailService" 
-                    (actualPageChange)="pageChange($event)" 
-                    [entitiesReferences]="config?.entitiesReferences">
-                </ui-configurable-grid>
-           
-        </div>
+  </div>
+</p-fieldset>
+<p-fieldset legend="Search results">
+  <div class="grid">
+    <div class="col-12">
+      <ui-configurable-grid
+        [columnsConfig]="columnsConfig"
+        [actualPage]="actualPage"
+        [externalPagingManagement]="true"
+        [paged]="true"
+        [data]="results"
+        [gotoDetailService]="gotoDetailService"
+        (actualPageChange)="pageChange($event)"
+        [entitiesReferences]="config?.entitiesReferences"
+      >
+      </ui-configurable-grid>
     </div>
+  </div>
+</p-fieldset>
 </div>

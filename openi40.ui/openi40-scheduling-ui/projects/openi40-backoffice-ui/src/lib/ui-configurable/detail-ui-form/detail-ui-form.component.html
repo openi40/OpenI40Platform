@@ -1,8 +1,10 @@
 <ui-navigation></ui-navigation>
+<h1>{{config.title}}</h1>
 <div class="content" #mainContent>
   <p-blockUI [target]="mainContent" [blocked]="loading">
     <i class="pi pi-lock" style="font-size: 3rem"></i>
   </p-blockUI>
+  <p-fieldset legend="Edit/view form">
   <ui-configured-form
     [formGroup]="frmGroup"
     [config]="config.formGroup"
@@ -22,4 +24,5 @@
       ></button>
     </div>
   </div>
+</p-fieldset>
 </div>

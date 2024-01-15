@@ -28,7 +28,9 @@ import { MegaMenuItem } from 'primeng/api';
 import { UI_MENU } from '@openi40/backoffice-ui';
 import { BASE_PATH } from '@openi40/backoffice-api';
 import { getBaseUrl } from "@openi40/common-ui";
-const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [{
+const BACKOFFICE_MENU_ITEMS: MegaMenuItem[] = [
+  { label:"Home",icon:"pi pi-home",automationId:true,url:"/"}
+  ,{
   label: 'companies organization',
   icon: 'pi pi-fw pi-sitemap',
   items: [
