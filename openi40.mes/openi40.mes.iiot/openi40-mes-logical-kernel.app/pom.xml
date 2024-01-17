@@ -67,6 +67,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>com.openi40.mes.io</groupId>
+			<artifactId>openi40-mes-rabbitmq</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
@@ -112,7 +117,7 @@
 			<version>1.19.2</version>
 			<scope>test</scope>
 		</dependency>
-<!-- 
+		<!-- 
 		-->
 	</dependencies>
 	<build>

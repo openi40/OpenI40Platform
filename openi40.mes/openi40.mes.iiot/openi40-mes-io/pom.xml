@@ -12,6 +12,7 @@
 	  <module>openi40-mes-aps-broker</module>
 	  <module>openi40-mes-generical-mqtt</module>
 	  <module>openi40-mes-generical-rest</module>
+	  <module>openi40-mes-rabbitmq</module>
   </modules>
   <dependencies>
 		<dependency>
