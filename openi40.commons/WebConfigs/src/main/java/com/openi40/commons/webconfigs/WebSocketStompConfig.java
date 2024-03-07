@@ -25,8 +25,8 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry config) {
-		config.enableSimpleBroker(WebSocketChannels.COMMON_SCHEDULING_TOPIC_CHANNEL_PREFIX, "/openi40.queue/");
-		config.setApplicationDestinationPrefixes("/openi40.scheduler");
+		config.enableSimpleBroker("/topic");
+		config.setApplicationDestinationPrefixes("/app");
 	}
 
 }

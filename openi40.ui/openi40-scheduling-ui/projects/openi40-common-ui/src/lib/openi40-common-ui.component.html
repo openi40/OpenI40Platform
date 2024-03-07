@@ -2,14 +2,27 @@
 <p-blockUI [blocked]="loading">
 </p-blockUI>
 <div class="grid">
-  <div class="col-6" *ngIf="loadedConfig?.schedulerUI===true">
+  <div class="col-3"></div>
+  <div class="col-3" *ngIf="loadedConfig?.schedulerUI===true">
+       <h2>Scheduler</h2>
+  </div>
+  <div class="col-3" *ngIf="loadedConfig?.backofficeUI===true">
+    <h2>Backoffice</h2>
+  </div>
+  <div class="col-3"></div>
+
+</div>
+<div class="grid">
+  <div class="col-3"></div>
+  <div class="col-3" *ngIf="loadedConfig?.schedulerUI===true">
       <a [routerLink]="'/openi40-scheduler-home'">
-          Go to scheduler
+          <img src="assets/scheduler-icon.jpg">
       </a>
   </div>
-  <div class="col-6" *ngIf="loadedConfig?.backofficeUI===true">
+  <div class="col-3" *ngIf="loadedConfig?.backofficeUI===true">
     <a [routerLink]="'/openi40-backoffice-home'">
-      Edit data
+      <img src="assets/backoffice-icon.jpg">
    </a>
   </div>
+  <div class="col-3"></div>
 </div>
