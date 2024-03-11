@@ -20,6 +20,8 @@ import com.openi40.scheduler.model.material.ProductionSupply;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.planning.PlanGraphItem;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.time.ITimePlacedEntity;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
@@ -38,7 +40,7 @@ import com.openi40.scheduler.model.time.TimeSegmentsGroup;
  */
 
 public class Task extends AbstractPlantRelatedApsObject
-		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity {
+		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity,IApsResourcesDependencyTreeObject {
 	protected boolean workOrderRootTask = false;
 	protected boolean productionLock = false;
 	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
@@ -591,6 +593,21 @@ public class Task extends AbstractPlantRelatedApsObject
 
 	public List<ItemConsumed> getMaterialConsumptions() {
 		return materialConsumptions;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		
+		return ResourceDepsItemMetaInfo.of(this);
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		List<IApsResourcesDependencyTreeObject> childs=new ArrayList<IApsResourcesDependencyTreeObject>();
+		if (metaInfo!=null) {
+			childs.add(metaInfo);
+		}
+		return childs;
 	}
 
 }

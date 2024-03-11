@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "com.openi40.commons.multithreading.config")
 public class OpenI40MultithreadingConfig {
 	private boolean useMultithreading=false;
+	private boolean resourceGraphSplitSchedule=false;
 	private Integer maxThreads=1;
 	private Integer minThreads=1;
 	private Integer executorQueueCapacity=100;
@@ -42,5 +43,13 @@ public class OpenI40MultithreadingConfig {
 
 	public void setMaxThreads(Integer maxThreads) {
 		this.maxThreads = maxThreads;
+	}
+
+	public boolean isResourceGraphSplitSchedule() {
+		return resourceGraphSplitSchedule;
+	}
+
+	public void setResourceGraphSplitSchedule(boolean resourceGraphSplitSchedule) {
+		this.resourceGraphSplitSchedule = resourceGraphSplitSchedule;
 	}
 }

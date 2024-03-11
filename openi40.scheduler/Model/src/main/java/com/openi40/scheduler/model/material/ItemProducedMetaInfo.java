@@ -1,8 +1,13 @@
 package com.openi40.scheduler.model.material;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +19,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  *
  */
 
-public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo {
+public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo , IApsResourcesDependencyTreeObject{
 	public ItemProducedMetaInfo(ApsData context) {
 		super(context);
 	}
@@ -57,6 +62,22 @@ public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo
 
 	public void setQty(double qty) {
 		this.qty = qty;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info = new ResourceDepsItemMetaInfo();
+		info.setResourceType("SUPPLY");
+		info.setResourceUniqueCode(
+				"WH:" + warehouseCode + ",ITEM:" + suppliedItem != null ? suppliedItem.getCode() : "");
+		info.setResource(true);
+		return info;
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return List.of();
 	}
 
 }

@@ -1,8 +1,13 @@
 package com.openi40.scheduler.model.equipment;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +19,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  *
  */
 
-public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaInfo {
+public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaInfo,IApsResourcesDependencyTreeObject {
 	public TaskEquipmentModelInfo(ApsData context) {
 		super(context);
 		setPreparationModel(new TaskPreparationModel(context));
@@ -48,5 +53,16 @@ public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaIn
 	}
 	public void setTaskMetaInfo(TaskProcessMetaInfo taskMetaInfo) {
 		this.taskMetaInfo = taskMetaInfo;
+	}
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		
+		return info;
+	}
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return aggregateChilds(List.of(preparationModel),List.of(executionModel));
 	}
 }

@@ -5,7 +5,8 @@ com.openi40.commons.multithreading.config:
                                      useMultithreading: true
                                      minThreads: 4
                                      maxThreads: 12
-                                     executeQueueCapacity: 1000   
+                                     executeQueueCapacity: 1000  
+                                     resourceGraphSplitSchedule: true 
 server:
   compression:
     enabled: true

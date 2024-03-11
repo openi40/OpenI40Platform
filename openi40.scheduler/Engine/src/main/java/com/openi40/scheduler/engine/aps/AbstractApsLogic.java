@@ -5,14 +5,20 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.common.aps.IEnvironment;
 import com.openi40.scheduler.common.aps.IOperation;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
+import com.openi40.scheduler.engine.equipment.allocation.EquipmentAllocation;
 import com.openi40.scheduler.engine.material.IMaterialTimeLineManager;
 import com.openi40.scheduler.engine.rules.IRuleBuilder;
 import com.openi40.scheduler.engine.rules.IRulePlanSolver;
@@ -58,6 +64,14 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 
 	public abstract ApsLogicDirection getDirection();
 
+	protected OpenI40MultithreadingConfig multithreadingConfig = null;
+	protected AsyncDelegateService delegateService = null;
+
+	public AbstractApsLogic(OpenI40MultithreadingConfig multithreadingConfig, AsyncDelegateService delegateService) {
+		this.multithreadingConfig = multithreadingConfig;
+		this.delegateService = delegateService;
+	}
+
 	public ApsLogicOptions createDefaultOptions(ApsSchedulingSet EntityObject) {
 
 		ApsLogicOptions defaultOptions = new ApsLogicOptions();
@@ -77,23 +91,11 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		return defaultOptions;
 	}
 
-	public void schedule(ApsSchedulingSet action, ApsLogicNotifiedObjects observer) {
-		if (LOGGER.isDebugEnabled())
-			LOGGER.debug("Begin AbstractSchedulingAlgorithm.Schedule(action)", "Running main scheduler loop");
-		ApsData context = action.getContext();
-		ApsLogicOptions options = action.getOptions();
-		IEnvironment environment = action.getContext();
-		List<Task> tasks = createCustomOrderedTaskList(action);
-		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Listing Tasks order for action:" + action.getId());
-			for (Task task : tasks) {
-				LOGGER.debug("Task:" + task.getCode());
-			}
-			LOGGER.debug("Listed!");
-		}
+	private boolean scheduleTasksList(List<Task> tasks, ApsSchedulingSet action, ApsLogicNotifiedObjects observer,
+			ApsData context) {
+		Hashtable hashTable = new Hashtable();
 		List<PlanGraphItem> decisionNodes = new ArrayList<PlanGraphItem>();
 		boolean scheduled = true;
-		Hashtable hashTable = new Hashtable();
 		for (Task task : tasks) {
 			PlanGraphItem decisionNode = null;
 			task.setDecisionGraphItem(null);
@@ -132,7 +134,50 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 			}
 
 		}
-		action.setScheduled(scheduled);
+		return scheduled;
+	}
+
+	public void schedule(ApsSchedulingSet action, ApsLogicNotifiedObjects observer) {
+		if (LOGGER.isDebugEnabled())
+			LOGGER.debug("Begin AbstractSchedulingAlgorithm.Schedule(action)", "Running main scheduler loop");
+		ApsData context = action.getContext();
+		ApsLogicOptions options = action.getOptions();
+		IEnvironment environment = action.getContext();
+		List<Task> tasks = createCustomOrderedTaskList(action);
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Listing Tasks order for action:" + action.getId());
+			for (Task task : tasks) {
+				LOGGER.debug("Task:" + task.getCode());
+			}
+			LOGGER.debug("Listed!");
+		}
+		if (multithreadingConfig.isResourceGraphSplitSchedule()) {
+			List<List<Task>> taskGroups = TasksDependencySplitter.Instance.splitByDependencies(tasks);
+
+			CompletableFuture<Boolean>[] executions = new CompletableFuture[taskGroups.size()];
+			int j = 0;
+			for (final List<Task> grp : taskGroups) {
+				CompletableFuture<Boolean> completable = this.delegateService
+						.runAsync(() -> this.scheduleTasksList(grp, action, observer, context));
+				executions[j] = completable;
+				j++;
+			}
+			try {
+				CompletableFuture.allOf(executions).get();
+			} catch (InterruptedException | ExecutionException e) {
+
+			}
+			List<Boolean> results = Stream.of(executions).map(CompletableFuture::join)
+					.collect(Collectors.toUnmodifiableList());
+			boolean ok=true;
+			for (Boolean r : results) {
+				ok=ok && r!=null && r;
+			}
+			action.setScheduled(ok);
+		} else {
+			boolean scheduled = scheduleTasksList(tasks, action, observer, context);
+			action.setScheduled(scheduled);
+		}
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("End AbstractSchedulingAlgorithm.Schedule(action)", "Running main scheduler loop");
 	}
@@ -140,7 +185,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 	protected PlanGraphItem scheduleUnderProductionTask(Task task, ApsSchedulingSet action,
 			ApsLogicNotifiedObjects observer) {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+			LOGGER.debug("Begin scheduleUnderProductionTask([task=" + task.getCode() + "],...)");
 		}
 		if (observer != null && observer.getObserver() != null) {
 			try {
@@ -149,7 +194,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		//Regenerate task constraints including equipment organization
+		// Regenerate task constraints including equipment organization
 		regenerateTaskConstraints(task);
 		PlanGraphItem decisionNode = null;
 		task.setDecisionGraphItem(null);
@@ -166,7 +211,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 			}
 		}
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End scheduleUnderProductionTask([task="+task.getCode()+"],...)");
+			LOGGER.debug("End scheduleUnderProductionTask([task=" + task.getCode() + "],...)");
 		}
 		return decisionNode;
 	}

@@ -1,10 +1,13 @@
 package com.openi40.scheduler.model.cycle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +19,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  *
  */
 
-public class CycleModel extends AbstractApsObject {
+public class CycleModel extends AbstractApsObject implements IApsResourcesDependencyTreeObject {
 	protected String plantCode = null;
 	protected String productCode = null;
 	protected boolean defaultProductCycle = false;
@@ -79,6 +82,18 @@ public class CycleModel extends AbstractApsObject {
 
 	public void setRootOperation(OperationModel rootOperation) {
 		this.rootOperation = rootOperation;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		
+		return ResourceDepsItemMetaInfo.of(this);
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return new ArrayList<IApsResourcesDependencyTreeObject>(operations);
 	}
 
 }

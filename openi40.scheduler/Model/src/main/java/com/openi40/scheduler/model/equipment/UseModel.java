@@ -1,10 +1,16 @@
 package com.openi40.scheduler.model.equipment;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.ApsModelException;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +22,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  *
  */
 
-public abstract class UseModel<EquipmentGroupType extends Group<IObjectWithCalendarType>, IObjectWithCalendarType extends ITimesheetAllocableObject> extends AbstractApsObject implements IMetaInfo {
+public abstract class UseModel<EquipmentGroupType extends Group<IObjectWithCalendarType>, IObjectWithCalendarType extends ITimesheetAllocableObject> extends AbstractApsObject implements IMetaInfo,IApsResourcesDependencyTreeObject {
 	Class<EquipmentGroupType> equipmentGroupClass = null;
 	private boolean fromBegin = false;
 	private boolean fromEnd = false;
@@ -105,6 +111,19 @@ public abstract class UseModel<EquipmentGroupType extends Group<IObjectWithCalen
 	}
 	public void setTime(long time) {
 		this.time = time;
+	}
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		return info;
+	}
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		List<IApsResourcesDependencyTreeObject> nodes=new ArrayList<IApsResourcesDependencyTreeObject>();
+		if (group!=null) {
+			nodes.add(group);
+		}
+		return nodes;
 	}
 
 
