@@ -20,6 +20,8 @@ import com.openi40.scheduler.model.material.ProductionSupply;
 import com.openi40.scheduler.model.messages.UsedSecondaryResourcesInfo;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.planning.PlanGraphItem;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.time.ITimePlacedEntity;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
@@ -38,7 +40,7 @@ import com.openi40.scheduler.model.time.TimeSegmentsGroup;
  */
 
 public class Task extends AbstractPlantRelatedApsObject
-		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity {
+		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity, IApsResourcesDependencyTreeObject {
 	protected boolean workOrderRootTask = false;
 	protected boolean productionLock = false;
 	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
@@ -591,6 +593,81 @@ public class Task extends AbstractPlantRelatedApsObject
 
 	public List<ItemConsumed> getMaterialConsumptions() {
 		return materialConsumptions;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info = ResourceDepsItemMetaInfo.of(this);
+		info.setResource(true);
+		return info;
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		List<IApsResourcesDependencyTreeObject> childs = new ArrayList<IApsResourcesDependencyTreeObject>();
+		if (this.childTasks != null) {
+			for (TaskEdge ct : this.childTasks) {
+				Task consumer = ct.getConsumerTask();
+				Task producer = ct.getProducerTask();
+				if (consumer != this) {
+					final ResourceDepsItemMetaInfo consumerNode = consumer.getResourceItemInfo();
+					childs.add(new IApsResourcesDependencyTreeObject() {
+
+						@Override
+						public ResourceDepsItemMetaInfo getResourceItemInfo() {
+
+							return consumerNode;
+						}
+
+						@Override
+						public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+
+							return List.of();
+						}
+					});
+				}
+				if (producer != this) {
+					final ResourceDepsItemMetaInfo producerNode = producer.getResourceItemInfo();
+					childs.add(new IApsResourcesDependencyTreeObject() {
+
+						@Override
+						public ResourceDepsItemMetaInfo getResourceItemInfo() {
+
+							return producerNode;
+						}
+
+						@Override
+						public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+
+							return List.of();
+						}
+					});
+				}
+			}
+		}
+		if (parentTask != null) {
+
+			final ResourceDepsItemMetaInfo producerNode = parentTask.getProducerTask().getResourceItemInfo();
+			childs.add(new IApsResourcesDependencyTreeObject() {
+
+				@Override
+				public ResourceDepsItemMetaInfo getResourceItemInfo() {
+
+					return producerNode;
+				}
+
+				@Override
+				public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+
+					return List.of();
+				}
+			});
+		}
+		if (metaInfo != null) {
+			childs.add(metaInfo);
+		}
+
+		return childs;
 	}
 
 }

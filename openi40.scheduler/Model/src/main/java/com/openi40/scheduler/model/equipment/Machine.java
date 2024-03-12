@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.openi40.scheduler.model.AbstractApsReservableObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -34,7 +35,14 @@ public class Machine extends AbstractApsReservableObject {
 		equipmentSettingHistory.clear();
 		currentEquipmentSetting = null;
 	}
-
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info = super.getResourceItemInfo();
+		info.setResourceType("Machine");
+		info.setResourceUniqueCode("Machine:"+getCode());
+		info.setResource(true);
+		return info;
+	}
 	public String getWorkCenterCode() {
 		return workCenterCode;
 	}

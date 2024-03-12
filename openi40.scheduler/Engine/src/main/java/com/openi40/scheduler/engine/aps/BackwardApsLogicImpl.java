@@ -9,6 +9,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.contextualplugarch.AlternativeImplementation;
 import com.openi40.scheduler.engine.rules.planner.IPlanner;
@@ -38,6 +39,11 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
  */
 @AlternativeImplementation(implemented = IApsLogic.class, entityClass = ApsSchedulingSet.class, key = ApsLogics.BACKWARD_APS, switchImplementationProperty = "algorithmType")
 public class BackwardApsLogicImpl extends AbstractApsLogic implements IBackwardApsLogic {
+	public BackwardApsLogicImpl(OpenI40MultithreadingConfig multithreadingConfig, AsyncDelegateService delegateService) {
+		super(multithreadingConfig, delegateService);
+		
+	}
+
 	Logger LOGGER = LoggerFactory.getLogger(getClass());
 
 	@Override

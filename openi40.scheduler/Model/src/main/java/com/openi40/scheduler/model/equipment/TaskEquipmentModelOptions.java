@@ -1,11 +1,14 @@
 package com.openi40.scheduler.model.equipment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +19,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  * @author architectures@openi40.org
  *
  */
-public class TaskEquipmentModelOptions extends AbstractApsObject implements IMetaInfo {
+public class TaskEquipmentModelOptions extends AbstractApsObject implements IMetaInfo ,IApsResourcesDependencyTreeObject{
 
 	public TaskEquipmentModelOptions(ApsData context) {
 		super(context);
@@ -32,6 +35,18 @@ public class TaskEquipmentModelOptions extends AbstractApsObject implements IMet
 
 	public final void setEquipmentModels(List<TaskEquipmentModelInfo> value) {
 		EquipmentModels = value;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		return info;
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return new ArrayList<IApsResourcesDependencyTreeObject>(EquipmentModels);
 	}
 
 }

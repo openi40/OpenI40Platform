@@ -2,10 +2,17 @@ package com.openi40.scheduler.engine.equipment.allocation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiConsumer;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.aps.IApsLogic;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
@@ -37,9 +44,11 @@ import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 @DefaultImplementation(implemented = IEquipmentAllocator.class, entityClass = EquipmentRule.class)
 public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> implements IEquipmentAllocator {
 	static Logger LOGGER = LoggerFactory.getLogger(EquipmentAllocatorImpl.class);
-
-	public EquipmentAllocatorImpl() {
-
+	private OpenI40MultithreadingConfig multiThreadingConfig = null;
+	private MachineHipotesysActuatorAsyncWrapper hipotesisActuatorWrapper=null;
+	public EquipmentAllocatorImpl(OpenI40MultithreadingConfig multiThreadingConfig,MachineHipotesysActuatorAsyncWrapper hipotesisActuatorWrapper) {
+		this.multiThreadingConfig = multiThreadingConfig;
+		this.hipotesisActuatorWrapper=hipotesisActuatorWrapper;
 	}
 
 	@Override
@@ -76,6 +85,7 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 		}
 		return results;
 	}
+
 	@Override
 	public List<EquipmentAllocation> calculateAllocations(EquipmentRule constraint,
 			List<TaskEquipmentInfo> equipmentInfos, TimeSegmentRequirement SetupTimeRange,
@@ -108,6 +118,7 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 					return !machine.getCode().equals(forcedMachine);
 				});
 			}
+			List<Machine> selectableMachines =new ArrayList<Machine>();
 			for (Machine resourceOption : machines) {
 				if (resourceOption.isDisabled()) {
 					if (LOGGER.isDebugEnabled()) {
@@ -115,30 +126,60 @@ public class EquipmentAllocatorImpl extends BusinessLogic<EquipmentRule> impleme
 					}
 					continue;
 				}
-				List<EquipmentAllocation> _results = MachineHipotesysActuator.Instance.allocateMachine(
-						taskEquipmentInfo, direction, constraint, SetupTimeRange, WorkTimeRange, resourceOption,
-						apsLogicOptions, componentsFactory, task, context);
-				results.addAll(_results);
+				selectableMachines.add(resourceOption);
 			}
-
+			if (multiThreadingConfig.isUseMultithreading() && selectableMachines.size()>1) {
+				CompletableFuture<List<EquipmentAllocation>>[] runnedLogics=new CompletableFuture[selectableMachines.size()];
+				int idx=0;
+				for (Machine resourceOption : selectableMachines) {
+					runnedLogics[idx]=(hipotesisActuatorWrapper.allocateMachine(taskEquipmentInfo, direction, constraint, SetupTimeRange, WorkTimeRange, resourceOption, apsLogicOptions, componentsFactory, task, context));
+					idx++;
+				}
+				CompletableFuture<Void> completed = CompletableFuture.allOf(runnedLogics);
+				try {
+					completed.get();
+				} catch (InterruptedException | ExecutionException e) {
+					String msg="Multithreaded resources allocation exception";
+					LOGGER.error(msg,e);
+					throw new RuntimeException(msg,e);
+				}
+				
+				List<List<EquipmentAllocation>> resultMatrix = Stream.of(runnedLogics)
+				  .map(CompletableFuture::join)
+				  .collect(Collectors.toUnmodifiableList());
+				for (List<EquipmentAllocation> list : resultMatrix) {
+					results.addAll(list);
+				}
+				
+			} else {
+				for (Machine resourceOption : selectableMachines) {
+					
+					List<EquipmentAllocation> _results = MachineHipotesysActuator.Instance.allocateMachine(
+							taskEquipmentInfo, direction, constraint, SetupTimeRange, WorkTimeRange, resourceOption,
+							apsLogicOptions, componentsFactory, task, context);
+					results.addAll(_results);
+				}
+			}
 		}
 		return results;
 	}
 
 	@Override
-	public List<EquipmentAllocation> calculateRealtimeProductionAllocations(Machine usedMachine,EquipmentRule constraint,
-			TaskEquipmentInfo taskEquipmentInfo, RealTimeSegmentRequirements realtimeTaskRequirements,
-			ApsSchedulingSet schedulingSet, Task task, ApsLogicDirection direction,
-			IRuleSolutionListener constraintSolutionListener, ApsData context) {
-		List<EquipmentAllocation> _results =new ArrayList<>();
+	public List<EquipmentAllocation> calculateRealtimeProductionAllocations(Machine usedMachine,
+			EquipmentRule constraint, TaskEquipmentInfo taskEquipmentInfo,
+			RealTimeSegmentRequirements realtimeTaskRequirements, ApsSchedulingSet schedulingSet, Task task,
+			ApsLogicDirection direction, IRuleSolutionListener constraintSolutionListener, ApsData context) {
+		List<EquipmentAllocation> _results = new ArrayList<>();
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Begin calculateRealtimeProductionAllocations(..) [machine="+usedMachine.getCode()+",task="+task.getCode()+"]");
+			LOGGER.debug("Begin calculateRealtimeProductionAllocations(..) [machine=" + usedMachine.getCode() + ",task="
+					+ task.getCode() + "]");
 		}
-		_results = MachineHipotesysActuator.Instance.allocateUnderProductionMachine(
-				taskEquipmentInfo, direction, constraint, realtimeTaskRequirements, usedMachine,
-				schedulingSet.getOptions(), componentsFactory, task, context);
+		_results = MachineHipotesysActuator.Instance.allocateUnderProductionMachine(taskEquipmentInfo, direction,
+				constraint, realtimeTaskRequirements, usedMachine, schedulingSet.getOptions(), componentsFactory, task,
+				context);
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("End calculateRealtimeProductionAllocations(..) [machine="+usedMachine.getCode()+",task="+task.getCode()+"]");
+			LOGGER.debug("End calculateRealtimeProductionAllocations(..) [machine=" + usedMachine.getCode() + ",task="
+					+ task.getCode() + "]");
 		}
 		return _results;
 	}

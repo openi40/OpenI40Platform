@@ -16,5 +16,6 @@
 		<module>Mapper</module>
 		<module>persistence-datamodel-utils</module>
 		<module>openi40-tests-support</module>
+		<module>multithreading-config</module>
 	</modules>
 </project>

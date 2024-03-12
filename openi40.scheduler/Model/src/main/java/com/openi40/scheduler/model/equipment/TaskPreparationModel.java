@@ -1,11 +1,14 @@
 package com.openi40.scheduler.model.equipment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +19,7 @@ import com.openi40.scheduler.model.aps.ApsData;
  * @author architectures@openi40.org
  *
  */
-public class TaskPreparationModel extends AbstractApsObject implements IMetaInfo {
+public class TaskPreparationModel extends AbstractApsObject implements IMetaInfo ,IApsResourcesDependencyTreeObject{
 
 	public TaskPreparationModel(ApsData context) {
 		super(context);
@@ -40,6 +43,18 @@ public class TaskPreparationModel extends AbstractApsObject implements IMetaInfo
 
 	public  void setSecondaryResources(List<TaskPreparationUseModel<Resource, ResourceGroup>> value) {
 		SecondaryResources = value;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		return info;
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return aggregateChilds(List.of(Machine),new ArrayList<IApsResourcesDependencyTreeObject>(SecondaryResources));
 	}
 
 	
