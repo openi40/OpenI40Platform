@@ -276,7 +276,7 @@
 			"leadTimeDays": 7
 		},
 		{
-			"code": "TRIGGER001",
+			"code": "PTRIGGER001",
 			"description": "Inox trigger mechanism",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
@@ -292,7 +292,7 @@
 			"leadTimeDays": 7
 		},
 		{
-			"code": "SHAFT130CM",
+			"code": "PSHAFT130CM",
 			"description": "Shaft 130 cm",
 			"averageMinPurchaseQty": 120,
 			"canBeProducedByScheduler": false,
@@ -1247,18 +1247,18 @@
 							"consumingBatchTransferType": "CONTINUOUS"
 						},
 						{
-							"code": "OP-CAMOSPEARGUN95-001-TRIGGER001",
+							"code": "OP-CAMOSPEARGUN95-001-PTRIGGER001",
 							"description": "",
-							"requiredProductCode": "TRIGGER001",
+							"requiredProductCode": "PTRIGGER001",
 							"warehouseCode": "WH001",
 							"useCoefficient": 1,
 							"consumingBatchQty": 1.0,
 							"consumingBatchTransferType": "CONTINUOUS"
 						},
 						{
-							"code": "OP-CAMOSPEARGUN95-001-SHAFT130CM",
+							"code": "OP-CAMOSPEARGUN95-001-PSHAFT130CM",
 							"description": "",
-							"requiredProductCode": "SHAFT130CM",
+							"requiredProductCode": "PSHAFT130CM",
 							"warehouseCode": "WH001",
 							"useCoefficient": 1,
 							"consumingBatchQty": 1.0,
@@ -1495,7 +1495,7 @@
 		},
 		{
 			"code": "INVENTORY015",
-			"productCode": "TRIGGER001",
+			"productCode": "PTRIGGER001",
 			"description": "Inox triggher mechanism",
 			"warehouseCode": "WH001",
 			"physicalStockQuantity": 1000
@@ -1509,7 +1509,7 @@
 		},
 		{
 			"code": "INVENTORY017",
-			"productCode": "SHAFT130CM",
+			"productCode": "PSHAFT130CM",
 			"description": "Shaft 130 cm",
 			"warehouseCode": "WH001",
 			"physicalStockQuantity": 1000

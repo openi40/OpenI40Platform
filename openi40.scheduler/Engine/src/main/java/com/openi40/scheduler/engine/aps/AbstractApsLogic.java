@@ -144,6 +144,9 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		ApsLogicOptions options = action.getOptions();
 		IEnvironment environment = action.getContext();
 		List<Task> tasks = createCustomOrderedTaskList(action);
+		for (Task task : tasks) {
+			regenerateTaskConstraints(task);
+		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Listing Tasks order for action:" + action.getId());
 			for (Task task : tasks) {
@@ -195,7 +198,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 			}
 		}
 		// Regenerate task constraints including equipment organization
-		regenerateTaskConstraints(task);
+		//regenerateTaskConstraints(task);
 		PlanGraphItem decisionNode = null;
 		task.setDecisionGraphItem(null);
 		IPlanner planner = this.componentsFactory.create(IPlanner.class, action, action.getContext());

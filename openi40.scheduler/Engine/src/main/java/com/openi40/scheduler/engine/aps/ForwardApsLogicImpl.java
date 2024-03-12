@@ -55,7 +55,7 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		regenerateTaskConstraints(task);
+		//regenerateTaskConstraints(task);
 
 		boolean allChildsOk = true;
 		int nChilds = 0;

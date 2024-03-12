@@ -104,6 +104,24 @@ public class SchedulingAlgorithmStructureTest {
 	}
 
 	@Test
+	public void testSpearfishingHoldingLoadedFromDiskForward() throws ApsDataCacheException {
+		String dataSourceName = "SPEARFISHING-HOLDING";
+		String dataSetName = "SPEARFISHING-HOLDING";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+	}
+
+	@Test
+	public void testSpearfishingHoldingLoadedFromDiskBackward() throws ApsDataCacheException {
+		String dataSourceName = "SPEARFISHING-HOLDING";
+		String dataSetName = "SPEARFISHING-HOLDING";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		TestScheduling(ApsLogics.BACKWARD_APS, apsData);
+	}
+
+	@Test
 	public void testArbaleteLoadedFromDiskForward() throws ApsDataCacheException {
 		String dataSourceName = "ARBALETE-DEMO";
 		String dataSetName = "ARBALETE-COMPANY";
@@ -141,6 +159,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
+
 	@Test
 	public void testStainlessSteelCompanyPurchaseSimulationTestLoadedFromDiskForward() throws ApsDataCacheException {
 
@@ -150,6 +169,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
+
 	@Ignore
 	@Test
 	public void testStainlessSteelCompanyLoadedFromDiskBackwardUntillUnschedulable() throws ApsDataCacheException {
@@ -508,7 +528,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		String finalOrderProductCode = "AISI316SQUARE50x50x3mm";
 		Product product = productDao.findByCode(finalOrderProductCode, apsData); // Reset all orders
-		String complexProductCode="TRIGGER001";
+		String complexProductCode = "TRIGGER001";
 		Product complexProduct = productDao.findByCode(complexProductCode, apsData);
 		for (ProductiveCompany pc : apsData.getProductiveCompanies()) {
 			for (Plant plant : pc.getPlants()) {

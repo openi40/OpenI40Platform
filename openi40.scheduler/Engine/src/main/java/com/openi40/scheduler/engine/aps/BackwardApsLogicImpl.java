@@ -60,7 +60,7 @@ public class BackwardApsLogicImpl extends AbstractApsLogic implements IBackwardA
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		regenerateTaskConstraints(task);
+		//regenerateTaskConstraints(task);
 		Date initDateTime = EntityObject.getContext().getSchedulingWindow().getStartDateTime();
 		Date endDateTime = EntityObject.getContext().getSchedulingWindow().getEndDateTime();
 		boolean parentIsOK = true;

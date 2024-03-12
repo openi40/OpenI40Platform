@@ -21,7 +21,6 @@ spring:
       date-format: yyyy-MM-dd HH:mm:ss
       serialization:
           INDENT_OUTPUT: true
-  
 com.openi40.scheduler.apsdatasources:
         sources:
           -
@@ -30,7 +29,23 @@ com.openi40.scheduler.apsdatasources:
           -
             dataSourceName: SS-COMPANY-DEMO
             dataImporterId: demosImporter1
-            
+        sourceMixers:
+          -
+            dataSourceName: SPEARFISHING-HOLDING
+            dataSetName: SPEARFISHING-HOLDING
+            dataSetVariant: DEFAULT
+            description: Spearfishing holding company
+            joined:
+              -
+                dataSourceName: ARBALETE-DEMO
+                dataSetName: ARBALETE-COMPANY
+                dataSetVariant: DEFAULT
+              -
+                dataSourceName: SS-COMPANY-DEMO
+                dataSetName: STAINLESS-STEEL-COMPANY
+                dataSetVariant: DEFAULT                 
+  
+           
 com.openi40.scheduler.apsinputchannels:              
         jsonFileInputs:
           -
