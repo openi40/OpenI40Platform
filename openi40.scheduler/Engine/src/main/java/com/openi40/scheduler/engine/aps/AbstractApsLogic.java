@@ -147,7 +147,7 @@ public abstract class AbstractApsLogic extends BusinessLogic<ApsSchedulingSet> i
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Listing Tasks order for action:" + action.getId());
 			for (Task task : tasks) {
-				LOGGER.debug("Task:" + task.getCode());
+				LOGGER.debug("Task:" + task.getCode()+" description:"+task.getDescription());
 			}
 			LOGGER.debug("Listed!");
 		}
