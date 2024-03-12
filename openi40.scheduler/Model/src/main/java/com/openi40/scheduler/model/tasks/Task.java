@@ -40,7 +40,7 @@ import com.openi40.scheduler.model.time.TimeSegmentsGroup;
  */
 
 public class Task extends AbstractPlantRelatedApsObject
-		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity,IApsResourcesDependencyTreeObject {
+		implements IReferencingMetaInfo<OperationModel>, ITimePlacedEntity, IApsResourcesDependencyTreeObject {
 	protected boolean workOrderRootTask = false;
 	protected boolean productionLock = false;
 	protected TaskEquipmentInfoSample sampledTaskEquipmentInfo = null;
@@ -597,15 +597,52 @@ public class Task extends AbstractPlantRelatedApsObject
 
 	@Override
 	public ResourceDepsItemMetaInfo getResourceItemInfo() {
-		
+
 		return ResourceDepsItemMetaInfo.of(this);
 	}
 
 	@Override
 	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
-		List<IApsResourcesDependencyTreeObject> childs=new ArrayList<IApsResourcesDependencyTreeObject>();
-		if (metaInfo!=null) {
+		List<IApsResourcesDependencyTreeObject> childs = new ArrayList<IApsResourcesDependencyTreeObject>();
+		if (metaInfo != null) {
 			childs.add(metaInfo);
+		}
+		if (this.childTasks != null) {
+			for (TaskEdge ct : this.childTasks) {
+				Task consumer = ct.getConsumerTask();
+				final ResourceDepsItemMetaInfo consumerNode = consumer.getResourceItemInfo();
+				childs.add(new IApsResourcesDependencyTreeObject() {
+
+					@Override
+					public ResourceDepsItemMetaInfo getResourceItemInfo() {
+
+						return consumerNode;
+					}
+
+					@Override
+					public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+
+						return List.of();
+					}
+				});
+			}
+		}
+		if (parentTask != null) {
+			final ResourceDepsItemMetaInfo producerNode = parentTask.getProducerTask().getResourceItemInfo();
+			childs.add(new IApsResourcesDependencyTreeObject() {
+
+				@Override
+				public ResourceDepsItemMetaInfo getResourceItemInfo() {
+
+					return producerNode;
+				}
+
+				@Override
+				public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+
+					return List.of();
+				}
+			});
 		}
 		return childs;
 	}

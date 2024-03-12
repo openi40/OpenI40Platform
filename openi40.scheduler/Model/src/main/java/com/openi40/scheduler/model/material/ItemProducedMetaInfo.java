@@ -69,7 +69,7 @@ public class ItemProducedMetaInfo extends AbstractApsObject implements IMetaInfo
 		ResourceDepsItemMetaInfo info = new ResourceDepsItemMetaInfo();
 		info.setResourceType("SUPPLY");
 		info.setResourceUniqueCode(
-				"WH:" + warehouseCode + ",ITEM:" + suppliedItem != null ? suppliedItem.getCode() : "");
+				"WH:" + warehouseCode + "-ITEM:" + (suppliedItem != null ? suppliedItem.getCode() : ""));
 		info.setResource(true);
 		return info;
 	}

@@ -69,7 +69,7 @@ public class BomItemModel extends AbstractApsObject implements IMetaInfo, IApsRe
 		ResourceDepsItemMetaInfo info = new ResourceDepsItemMetaInfo();
 		info.setResourceType("SUPPLY");
 		info.setResourceUniqueCode(
-				"WH:" + warehouseCode + ",ITEM:" + ConsumedItem != null ? ConsumedItem.getCode() : "");
+				"WH:" + warehouseCode + "-ITEM:" + (ConsumedItem != null ? ConsumedItem.getCode() : ""));
 		info.setResource(true);
 		return info;
 	}
