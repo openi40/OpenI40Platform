@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 
 import com.openi40.scheduler.common.aps.IApsObject;
 import com.openi40.scheduler.common.aps.ICloneable;
+import com.openi40.scheduler.common.aps.ICustomObject;
 import com.openi40.scheduler.model.aps.ApsData;
 /**
  * 
@@ -33,6 +34,7 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 	protected String owner;
 	protected boolean simulatedItem;
 	protected long uniqueId = 0l;
+	protected ICustomObject customObject=null;
 	static long idxCtrl = 1l;
 	private Date modifiedTimestamp = null;
 	private boolean locked = false;
@@ -236,6 +238,14 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 
 	public List<IHyerarchyAwareList<? extends IHyerarchyAwareNode, ? extends IApsObject>> getHyerarchyAwareLists() {
 		return hyerarchyAwareLists;
+	}
+
+	public ICustomObject getCustomObject() {
+		return customObject;
+	}
+
+	public void setCustomObject(ICustomObject customObject) {
+		this.customObject = customObject;
 	}
 
 	

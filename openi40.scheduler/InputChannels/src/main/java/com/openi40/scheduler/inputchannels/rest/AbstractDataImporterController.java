@@ -16,6 +16,7 @@ import com.openi40.scheduler.apsdatacache.IApsDataCache;
 import com.openi40.scheduler.apsdatacache.IApsDataCacheAggregator;
 import com.openi40.scheduler.common.aps.IApsObject;
 import com.openi40.scheduler.input.model.InputDto;
+import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterConsumer;
 import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterFactory;
 import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
 import com.openi40.scheduler.mapper.IMapper;
@@ -24,18 +25,19 @@ import com.openi40.scheduler.mapper.MapperException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IApsDataModelDao;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 public abstract class AbstractDataImporterController<ImportedData extends InputDto, ApsDataType extends IApsObject, IDataImporterFactoryType extends IDataImporterFactory<ImportedData, ApsDataType>, IDaoType extends IApsDataModelDao<ApsDataType>> {
-	public static final String RESTINPUTPROFILE="restinput";
+	public static final String RESTINPUTPROFILE = "restinput";
 	protected IApsDataCacheAggregator apsDataCacheAggregator = null;
 	protected IDataImporterFactoryType importerFactory = null;
 	protected IDaoType dao = null;
@@ -54,8 +56,9 @@ public abstract class AbstractDataImporterController<ImportedData extends InputD
 		IApsDataCache apsDataCache = apsDataCacheAggregator.getDataCache(dataSourceName);
 		ApsData apsData = staging ? apsDataCache.getStagedData(dataSetName, dataSetVariant)
 				: apsDataCache.getCachedData(dataSetName, dataSetVariant);
-		Consumer<ImportedData> consumer = importerFactory.create(apsData);
+		IDataImporterConsumer<ImportedData> consumer = importerFactory.create(apsData);
 		imported.forEach(consumer);
+		consumer.endOfStream();
 	}
 
 	protected List<ImportedData> get(String dataSourceName, String dataSetName, String dataSetVariant, boolean staging)

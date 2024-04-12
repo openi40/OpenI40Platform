@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.openi40.scheduler.common.aps.IApsData;
+import com.openi40.scheduler.common.aps.ICustomObject;
 import com.openi40.scheduler.model.AbstractSchedulingEnvironmentNode;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.companystructure.ProductiveCompany;
@@ -25,6 +26,7 @@ import com.openi40.scheduler.model.time.TimesheetMetaInfo;
  */
 
 public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsData, ITimesheetAllocableObject {
+	protected ICustomObject customObject=null;
 	private static final String PRODUCTS = "Products";
 	private static final String PRODUCTIVE_COMPANIES = "ProductiveCompanies";
 	private static final String SCHEDULING_SETS = "SchedulingSets";
@@ -282,5 +284,13 @@ public class ApsData extends AbstractSchedulingEnvironmentNode implements IApsDa
 
 	public List<Product> getProducts() {
 		return products;
+	}
+
+	public ICustomObject getCustomObject() {
+		return customObject;
+	}
+
+	public void setCustomObject(ICustomObject customObject) {
+		this.customObject = customObject;
 	}
 }

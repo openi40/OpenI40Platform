@@ -10,5 +10,5 @@ package com.openi40.scheduler.common.aps;
  *
  */
 public interface IApsData extends IApsObject {
-
+	
 }
