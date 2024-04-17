@@ -51,7 +51,6 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
 public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IResourcesAllocator {
 	static Logger LOGGER = LoggerFactory.getLogger(ResourcesAllocatorImpl.class);
 
-	
 	public static class UnavailableSolutions {
 		TimeSegmentRequirement SetupTimeRangeSpec = null, WorkTimeRangeSpec = null;
 
@@ -413,9 +412,29 @@ public class ResourcesAllocatorImpl extends BusinessLogic<Task> implements IReso
 		if (!choiceCombinations.isEmpty()) {
 			ResourcesCombination activeCombination = chooseResources(choiceCombinations, schedulingOptions, direction,
 					schedulingSet.getContext());
-
+			choiceCombinations.forEach(entry -> {
+				if (entry != activeCombination) {
+					discardResourcesOptions(entry);
+				}
+			});
 			return activeCombination;
 		} else
 			return null;
+	}
+
+	@Override
+	public void discardResourcesOptions(ResourcesCombination combination) {
+
+		for (IOperation operation : combination.getEquipmentAllocationOption().getOperations()) {
+			operation.discardOperation();
+		}
+		for (MaterialEvaluatedChoice materialAllocationOption : combination.getMaterialAllocationOptions()) {
+			materialAllocationOption.choose();
+			for (IOperation operation : materialAllocationOption.getOperations()) {
+				operation.discardOperation();
+			}
+
+		}
+
 	}
 }
