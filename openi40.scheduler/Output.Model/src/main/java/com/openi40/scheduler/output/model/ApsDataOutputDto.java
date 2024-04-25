@@ -1,6 +1,5 @@
 package com.openi40.scheduler.output.model;
 
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,7 +10,31 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsDataOutputDto extends OutputDto {
 	String dataSourceName = null, dataSetName = null, dataSetVariant = null;
+
+	public String getDataSourceName() {
+		return dataSourceName;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+
+	public String getDataSetName() {
+		return dataSetName;
+	}
+
+	public void setDataSetName(String dataSetName) {
+		this.dataSetName = dataSetName;
+	}
+
+	public String getDataSetVariant() {
+		return dataSetVariant;
+	}
+
+	public void setDataSetVariant(String dataSetVariant) {
+		this.dataSetVariant = dataSetVariant;
+	}
 }

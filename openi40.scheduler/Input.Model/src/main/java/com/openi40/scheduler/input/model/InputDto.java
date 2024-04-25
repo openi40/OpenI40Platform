@@ -7,8 +7,6 @@ import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

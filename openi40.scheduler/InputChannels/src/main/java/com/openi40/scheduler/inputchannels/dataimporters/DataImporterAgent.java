@@ -34,13 +34,14 @@ import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.material.configuration.PlantProductSetting;
 import com.openi40.scheduler.model.material.configuration.ProductiveCompanyProductSetting;
 import com.openi40.scheduler.model.material.configuration.WarehouseProductSetting;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -63,15 +64,16 @@ public class DataImporterAgent implements IDataImporterAgent {
 		synchronized (context) {
 			context.setRealtime(streamFactory.isRealtime());
 			context.setProductionControlEnabled(streamFactory.isProductionControlEnabled());
-			
+
 			for (Class<? extends InputDto> entityClass : entitiesToSync) {
 				Stream<? extends InputDto> stream = streamFactory.getStream(entityClass);
 				IDataImporterFactory importerFactory = diFactoryRepository.getImporterFactory(entityClass);
 				if (importerFactory == null)
 					throw new InputDataStreamException(
 							"Cannot retrieve IDataImporterFactory for class:" + entityClass.getName());
-				Consumer importer = importerFactory.create(context);
+				IDataImporterConsumer importer = importerFactory.create(context);
 				stream.forEach(importer);
+				importer.endOfStream();
 			}
 			IApsDataManager apsDataManager = this.lazyBusinessLogicFactory.getComponentFactory()
 					.create(IApsDataManager.class, context, context);

@@ -2,8 +2,6 @@ package com.openi40.scheduler.model.orders;
 
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.material.PurchaseSupply;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,19 +12,27 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class PurchaseOrderLine extends AbstractOrderLine {
 	public PurchaseOrderLine(ApsData context) {
 		super(context);
 	}
 
-	protected PurchaseSupply Supply = null;
+	protected PurchaseSupply supply = null;
 
 	@Override
 	public void resetSchedulingData() {
 		super.resetSchedulingData();
-		if (Supply != null)
-			Supply.resetSchedulingData();
+		if (supply != null)
+			supply.resetSchedulingData();
+	}
+
+	public PurchaseSupply getSupply() {
+		return supply;
+	}
+
+	public void setSupply(PurchaseSupply supply) {
+		this.supply = supply;
 	}
 
 }

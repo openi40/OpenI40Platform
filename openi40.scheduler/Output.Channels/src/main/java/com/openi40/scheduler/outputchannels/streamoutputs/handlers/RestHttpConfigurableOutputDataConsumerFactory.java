@@ -12,8 +12,6 @@ import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSetting;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.HttpClientOutputDataConfig;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -28,15 +26,43 @@ public class RestHttpConfigurableOutputDataConsumerFactory
 		extends AbstractConfigurableOutputDataConsumerFactory<EntityOutputSetting, HttpClientOutputDataConfig> {
 	RestTemplate restTemplate = null;
 
-	@Data
+	
 	public static class ErrorMSG {
 		String errorCode = null, errorDescription = null;
+
+		public String getErrorCode() {
+			return errorCode;
+		}
+
+		public void setErrorCode(String errorCode) {
+			this.errorCode = errorCode;
+		}
+
+		public String getErrorDescription() {
+			return errorDescription;
+		}
+
+		public void setErrorDescription(String errorDescription) {
+			this.errorDescription = errorDescription;
+		}
 	};
 
-	@Data
+	
 	public static class SaveStatus {
 		boolean success = true;
 		List<ErrorMSG> messages = new ArrayList<>();
+		public boolean isSuccess() {
+			return success;
+		}
+		public void setSuccess(boolean success) {
+			this.success = success;
+		}
+		public List<ErrorMSG> getMessages() {
+			return messages;
+		}
+		public void setMessages(List<ErrorMSG> messages) {
+			this.messages = messages;
+		}
 	};
 
 	public RestHttpConfigurableOutputDataConsumerFactory(HttpClientOutputDataConfig cfg, RestTemplate restTemplate) {
@@ -67,5 +93,7 @@ public class RestHttpConfigurableOutputDataConsumerFactory
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

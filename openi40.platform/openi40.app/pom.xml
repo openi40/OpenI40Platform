@@ -1,9 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.platform</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.platform.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>openi40.app</artifactId>
 	<dependencies>
@@ -38,8 +40,18 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.openi40.scheduler</groupId>
-			<artifactId>angular-app</artifactId>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>openi40.dbmodel</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.platform</groupId>
+			<artifactId>openi40.dbmodel.repositories</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.ui</groupId>
+			<artifactId>openi40-scheduling-ui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -118,7 +130,12 @@
 			<scope>test</scope>
 			-->
 		</dependency>
-
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>openi40-tests-support</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -156,8 +173,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 
 				<configuration>
-					<forkCount>0</forkCount>
+					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
+					<forkMode>always</forkMode>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -172,12 +190,11 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>				
-				<configuration>					
-					<parallel>suites</parallel>
-					<threadCountSuites>1</threadCountSuites>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
-					<perCoreThreadCount>false</perCoreThreadCount>
+					<forkMode>never</forkMode>
 				</configuration>
 			</plugin>
 		</plugins>

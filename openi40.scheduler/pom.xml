@@ -4,12 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<groupId>com.openi40.scheduler</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>com.openi40.scheduler.parent</artifactId>
 	<packaging>pom</packaging>
+	<properties>
+		<ignite.version>2.15.0</ignite.version>
+	</properties>
 	<modules>
 		<module>Common</module>
 		<module>Model</module>
@@ -21,7 +24,6 @@
 		<module>Client.Model</module>		
 		<module>Model.Daos</module>
 		<module>MapperModules</module>		
-		<module>angular-app</module>
 		<module>InputChannels</module>
 		<module>Input.Model</module>
 		<module>CommonDatamodel</module>		
@@ -30,5 +32,7 @@
 		<module>InputOutputConfig</module>
 		<module>Input.IOMessages</module>
 		<module>TestUtils</module>
+		<module>openi40-ignite-config</module>
+		<module>Engine.HA.Standalone</module>
 	</modules>
 </project>

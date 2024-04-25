@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.input.model.InputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,9 +15,25 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class TimeSegmentInputDto extends InputDto {
 	Date startDateTime=null,endDateTime=null;
+
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
+	}
 
 }

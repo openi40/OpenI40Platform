@@ -1,10 +1,13 @@
 package com.openi40.scheduler.model.equipment;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,8 +18,8 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
-public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaInfo {
+
+public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaInfo,IApsResourcesDependencyTreeObject {
 	public TaskEquipmentModelInfo(ApsData context) {
 		super(context);
 		setPreparationModel(new TaskPreparationModel(context));
@@ -27,4 +30,39 @@ public class TaskEquipmentModelInfo extends AbstractApsObject implements IMetaIn
 	private TaskPreparationModel preparationModel;
 	private TaskExecutionModel executionModel;
 	private TaskProcessMetaInfo taskMetaInfo = null;
+	public String getSetupGroupCode() {
+		return setupGroupCode;
+	}
+	public void setSetupGroupCode(String setupGroupCode) {
+		this.setupGroupCode = setupGroupCode;
+	}
+	public TaskPreparationModel getPreparationModel() {
+		return preparationModel;
+	}
+	public void setPreparationModel(TaskPreparationModel preparationModel) {
+		this.preparationModel = preparationModel;
+	}
+	public TaskExecutionModel getExecutionModel() {
+		return executionModel;
+	}
+	public void setExecutionModel(TaskExecutionModel executionModel) {
+		this.executionModel = executionModel;
+	}
+	public TaskProcessMetaInfo getTaskMetaInfo() {
+		return taskMetaInfo;
+	}
+	public void setTaskMetaInfo(TaskProcessMetaInfo taskMetaInfo) {
+		this.taskMetaInfo = taskMetaInfo;
+	}
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		
+		return info;
+	}
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return aggregateChilds(List.of(preparationModel),List.of(executionModel));
+	}
 }

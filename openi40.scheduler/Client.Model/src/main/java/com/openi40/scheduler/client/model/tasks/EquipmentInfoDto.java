@@ -14,18 +14,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.openi40.scheduler.client.model.ClientDto;
-import com.openi40.scheduler.client.model.equipment.MachineDto;
-import com.openi40.scheduler.client.model.equipment.SecondaryResourceDto;
 import com.openi40.scheduler.client.model.time.TimeSegmentDto;
 
-import lombok.Data;
 
-@Data
 public class EquipmentInfoDto implements Serializable {
 	String setupGroupCode = null;
-
-	@Data
+	List<RCUse> machine = new ArrayList<>();
+	List<RCUse> secondaries = new ArrayList<>();
+	
 	public static class RCUse extends TimeSegmentDto {
 
 	}
@@ -33,6 +29,29 @@ public class EquipmentInfoDto implements Serializable {
 	public EquipmentInfoDto() {
 	}
 
-	List<RCUse> machine = new ArrayList<>();
-	List<RCUse> secondaries = new ArrayList<>();
+	public String getSetupGroupCode() {
+		return setupGroupCode;
+	}
+
+	public void setSetupGroupCode(String setupGroupCode) {
+		this.setupGroupCode = setupGroupCode;
+	}
+
+	public List<RCUse> getMachine() {
+		return machine;
+	}
+
+	public void setMachine(List<RCUse> machine) {
+		this.machine = machine;
+	}
+
+	public List<RCUse> getSecondaries() {
+		return secondaries;
+	}
+
+	public void setSecondaries(List<RCUse> secondaries) {
+		this.secondaries = secondaries;
+	}
+
+	
 }

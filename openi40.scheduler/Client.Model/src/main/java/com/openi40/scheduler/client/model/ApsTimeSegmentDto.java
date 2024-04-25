@@ -10,12 +10,21 @@
  */
 package com.openi40.scheduler.client.model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
-import lombok.Data;
-@Data
 public class ApsTimeSegmentDto extends ClientDto {
 	protected Date StartDateTime = null;
 	protected Date EndDateTime = null;
+	public Date getStartDateTime() {
+		return StartDateTime;
+	}
+	public void setStartDateTime(Date startDateTime) {
+		StartDateTime = startDateTime;
+	}
+	public Date getEndDateTime() {
+		return EndDateTime;
+	}
+	public void setEndDateTime(Date endDateTime) {
+		EndDateTime = endDateTime;
+	}
 }

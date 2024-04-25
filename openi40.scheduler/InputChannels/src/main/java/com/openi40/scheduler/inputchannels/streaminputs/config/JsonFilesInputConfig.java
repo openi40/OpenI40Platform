@@ -1,8 +1,6 @@
 package com.openi40.scheduler.inputchannels.streaminputs.config;
 
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,9 +12,17 @@ import lombok.Data;
  *
  */
 @Configuration
-@Data
+
 public class JsonFilesInputConfig  extends AbstractInputDataStreamFactoryConfig<EntityImportSetting>{
 	String baseFolder=null;
+
+	public String getBaseFolder() {
+		return baseFolder;
+	}
+
+	public void setBaseFolder(String baseFolder) {
+		this.baseFolder = baseFolder;
+	}
 	
 
 }

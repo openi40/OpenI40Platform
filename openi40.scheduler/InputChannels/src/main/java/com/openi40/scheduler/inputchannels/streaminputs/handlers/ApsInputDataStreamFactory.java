@@ -30,6 +30,7 @@ public class ApsInputDataStreamFactory implements IInputDataStreamFactory {
 	protected ApsInputData inputData = null;
 	protected Map<Class, Method> perTypeListAccessor = new HashMap();
 	protected boolean realtime = false;
+	protected boolean canBeCached=true;
 	protected boolean productionControlEnabled = false;
 	public ApsInputDataStreamFactory(ApsInputData inputData) {
 		this.inputData = inputData;
@@ -135,6 +136,14 @@ public class ApsInputDataStreamFactory implements IInputDataStreamFactory {
 
 	public void setProductionControlEnabled(boolean productionControlEnabled) {
 		this.productionControlEnabled = productionControlEnabled;
+	}
+
+	public boolean isCanBeCached() {
+		return canBeCached;
+	}
+
+	public void setCanBeCached(boolean canBeCached) {
+		this.canBeCached = canBeCached;
 	}
 
 }

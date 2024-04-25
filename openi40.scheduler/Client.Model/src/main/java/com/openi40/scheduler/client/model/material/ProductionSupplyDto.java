@@ -10,18 +10,23 @@
  */
 package com.openi40.scheduler.client.model.material;
 
-import java.util.Date;
-
-import com.openi40.scheduler.client.model.ClientDto;
-
-import lombok.Data;
-
-@Data
 public class ProductionSupplyDto extends AbstractSupplyDto {
 	private String taskCode = null;
 	private String workOrderCode = null;
 	public ProductionSupplyDto() {
 
+	}
+	public String getTaskCode() {
+		return taskCode;
+	}
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+	public String getWorkOrderCode() {
+		return workOrderCode;
+	}
+	public void setWorkOrderCode(String workOrderCode) {
+		this.workOrderCode = workOrderCode;
 	}
 
 }

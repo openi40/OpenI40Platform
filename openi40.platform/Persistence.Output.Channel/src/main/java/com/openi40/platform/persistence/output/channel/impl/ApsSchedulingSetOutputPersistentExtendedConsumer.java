@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumer;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumerFactory;
+import com.openi40.platform.persistence.output.channel.JDBCOutputTransactionWrapper;
 import com.openi40.scheduler.output.model.ApsSchedulingSetOutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
 
@@ -36,83 +37,74 @@ public class ApsSchedulingSetOutputPersistentExtendedConsumer
 	public static class ApsSchedulingSetOutputPersistentExtendedConsumerFactory
 			extends AbstractPersistentExtendedConsumerFactory<ApsSchedulingSetOutputDto> {
 
-		public ApsSchedulingSetOutputPersistentExtendedConsumerFactory(ObjectMapper mapper, JdbcTemplate jdbcTemplate) {
-			super(mapper, ApsSchedulingSetOutputDto.class, jdbcTemplate);
+		public ApsSchedulingSetOutputPersistentExtendedConsumerFactory(ObjectMapper mapper) {
+			super(mapper, ApsSchedulingSetOutputDto.class);
 
 		}
 
 		@Override
-		public IExtendedConsumer<ApsSchedulingSetOutputDto> create() {
+		public AbstractPersistentExtendedConsumer<ApsSchedulingSetOutputDto> create(
+				JDBCOutputTransactionWrapper wrapper) {
 
-			return new ApsSchedulingSetOutputPersistentExtendedConsumer(mapper, jdbcTemplate);
+			return new ApsSchedulingSetOutputPersistentExtendedConsumer(mapper, wrapper);
 		}
 
 	}
 
-	public ApsSchedulingSetOutputPersistentExtendedConsumer(ObjectMapper mapper, JdbcTemplate jdbcTemplate) {
-		super(ApsSchedulingSetOutputDto.class, mapper, jdbcTemplate);
+	public ApsSchedulingSetOutputPersistentExtendedConsumer(ObjectMapper mapper, JDBCOutputTransactionWrapper wrapper) {
+		super(ApsSchedulingSetOutputDto.class, mapper, wrapper);
 
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize() throws SQLException {
 		// here i delete every apsschedulingset and their related entities
-		ConnectionCallback<Integer> callback = new ConnectionCallback<Integer>() {
-			@Override
-			public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
-				Statement statement = con.createStatement();
-				statement.executeUpdate("delete from scheduled_wo");
-				statement.executeUpdate("delete from scheduling_set");
-				return 0;
-			}
-		};
-		jdbcTemplate.execute(callback);
+
+		Statement statement = jdbcTransactionWrapper.getConnection().createStatement();
+		statement.executeUpdate("delete from scheduled_wo");
+		statement.executeUpdate("delete from scheduling_set");
+
 	}
 
 	int setCount = 0;
 	int woCount = 0;
 
 	@Override
-	protected void save(List<ApsSchedulingSetOutputDto> list) {
+	protected void save(List<ApsSchedulingSetOutputDto> list) throws SQLException {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		ConnectionCallback<Integer> callback = new ConnectionCallback<Integer>() {
-			@Override
-			public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
-				PreparedStatement insertAS = con.prepareStatement(
-						"insert into scheduling_set (code,description,position,modified_ts,options,algo_dir,algo_type) values (?,?,?,?,?,?,?)");
-				PreparedStatement insertASWO = con.prepareStatement(
-						"insert into scheduled_wo (code,description,position,modified_ts,sched_set_code,work_order_code) values (?,?,?,?,?,?)");
-				for (ApsSchedulingSetOutputDto apss : list) {
-					setCount++;
-					String setCode = "00000" + setCount;
-					insertAS.clearParameters();
-					insertAS.setString(1, setCode);
-					insertAS.setString(2, "Scheduling set nr. " + setCount);
-					insertAS.setInt(3, setCount);
-					insertAS.setTimestamp(4, ts);
-					insertAS.setString(5, apss.getOptions());
-					insertAS.setString(6, apss.getAlgorithmDirection());
-					insertAS.setString(7, apss.getAlgorithmType());
-					insertAS.executeUpdate();
-					for (String woCode : apss.getWorkOrderCodes()) {
-						woCount++;
-						String entryCode = setCode + "-" + woCount;
-						insertASWO.clearParameters();
-						insertASWO.setString(1, entryCode);
-						insertASWO.setString(2, "work order " + woCode);
-						insertASWO.setInt(3, woCount);
-						insertASWO.setTimestamp(4, ts);
-						insertASWO.setString(5, setCode);
-						insertASWO.setString(6, woCode);
-						insertASWO.executeUpdate();
-					}
-				}
-				insertAS.close();
-				insertASWO.close();
-				return 0;
+
+		PreparedStatement insertAS = jdbcTransactionWrapper.getConnection().prepareStatement(
+				"insert into scheduling_set (code,description,position,modified_ts,options,algo_dir,algo_type) values (?,?,?,?,?,?,?)");
+		PreparedStatement insertASWO = jdbcTransactionWrapper.getConnection().prepareStatement(
+				"insert into scheduled_wo (code,description,position,modified_ts,sched_set_code,work_order_code) values (?,?,?,?,?,?)");
+		for (ApsSchedulingSetOutputDto apss : list) {
+			setCount++;
+			String setCode = "00000" + setCount;
+			insertAS.clearParameters();
+			insertAS.setString(1, setCode);
+			insertAS.setString(2, "Scheduling set nr. " + setCount);
+			insertAS.setInt(3, setCount);
+			insertAS.setTimestamp(4, ts);
+			insertAS.setString(5, apss.getOptions());
+			insertAS.setString(6, apss.getAlgorithmDirection());
+			insertAS.setString(7, apss.getAlgorithmType());
+			insertAS.executeUpdate();
+			for (String woCode : apss.getWorkOrderCodes()) {
+				woCount++;
+				String entryCode = setCode + "-" + woCount;
+				insertASWO.clearParameters();
+				insertASWO.setString(1, entryCode);
+				insertASWO.setString(2, "work order " + woCode);
+				insertASWO.setInt(3, woCount);
+				insertASWO.setTimestamp(4, ts);
+				insertASWO.setString(5, setCode);
+				insertASWO.setString(6, woCode);
+				insertASWO.executeUpdate();
 			}
-		};
-		jdbcTemplate.execute(callback);
+		}
+		insertAS.close();
+		insertASWO.close();
+
 	}
 
 	@Override

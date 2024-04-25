@@ -1,0 +1,16 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.openi40.mes.iiot</groupId>
+    <artifactId>com.openi40.mes.iiot.parent</artifactId>
+    <version>00.41.BETA-SNAPSHOT</version>
+  </parent>
+  <artifactId>openi40-mes-logicalmsg-ifaces</artifactId>
+  <dependencies>
+	  <dependency>
+		  <groupId>com.openi40.mes.iiot</groupId>
+		  <artifactId>openi40-mes-logicalmsg-model</artifactId>
+		  <version>${project.version}</version>
+	  </dependency>
+  </dependencies>
+</project>

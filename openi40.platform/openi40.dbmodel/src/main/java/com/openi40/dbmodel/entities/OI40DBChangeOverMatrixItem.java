@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -33,11 +31,41 @@ import lombok.Data;
 @AttributeOverride(name = "workCenterCode", column = @Column(name = "work_center_code")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBChangeOverMatrixItem  extends OI40DBBaseEntity implements Serializable{
 	protected String setupGroupCodeFrom = null;
 	protected String setupGroupCodeTo = null;
 	protected String machineCode = null;
 	protected String workCenterCode=null;
 	protected Double setupTime = null;
+	public String getSetupGroupCodeFrom() {
+		return setupGroupCodeFrom;
+	}
+	public void setSetupGroupCodeFrom(String setupGroupCodeFrom) {
+		this.setupGroupCodeFrom = setupGroupCodeFrom;
+	}
+	public String getSetupGroupCodeTo() {
+		return setupGroupCodeTo;
+	}
+	public void setSetupGroupCodeTo(String setupGroupCodeTo) {
+		this.setupGroupCodeTo = setupGroupCodeTo;
+	}
+	public String getMachineCode() {
+		return machineCode;
+	}
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
+	}
+	public String getWorkCenterCode() {
+		return workCenterCode;
+	}
+	public void setWorkCenterCode(String workCenterCode) {
+		this.workCenterCode = workCenterCode;
+	}
+	public Double getSetupTime() {
+		return setupTime;
+	}
+	public void setSetupTime(Double setupTime) {
+		this.setupTime = setupTime;
+	}
 }

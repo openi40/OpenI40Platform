@@ -1,0 +1,100 @@
+/*
+  This is a "Solution Style" tsconfig.json file, and is used by editors and TypeScript’s language server to improve development experience.
+  It is not intended to be used to perform a compilation.
+
+  To learn more about this file see: https://angular.io/config/solution-tsconfig.
+*/
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "ES2020",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "target": "ES2022",
+    "paths": {
+      "openi40-backoffice-api": [
+        "dist/openi40-backoffice-api"
+      ],
+      "openi40-backoffice-screens": [
+        "dist/openi40-backoffice-screens"
+      ],
+      "openi40-backoffice-services": [
+        "dist/openi40-backoffice-services"
+      ],
+      "openi40-backoffice-ui": [
+        "dist/openi40-backoffice-ui"
+      ],
+      "openi40-scheduler-screens": [
+        "dist/openi40-scheduler-screens"
+      ],
+      "openi40-scheduler-api": [
+
+        "dist/openi40-scheduler-api"
+      ],
+      "openi40-scheduler-ui": [
+
+        "dist/openi40-scheduler-ui"
+      ],
+      "openi40-scheduler-ui-model": [
+
+        "dist/openi40-scheduler-ui-model"
+      ],
+
+      "openi40-common-ui": [
+        "./dist/openi40-common-ui"
+      ],
+      "@openi40/backoffice-api": [
+        "projects/openi40-backoffice-api/src/lib"
+      ],
+      "@openi40/backoffice-services": [
+        "projects/openi40-backoffice-services/src/public-api"
+      ],
+      "@openi40/backoffice-screens": [
+        "projects/openi40-backoffice-screens/src/public-api"
+      ],
+      "@openi40/backoffice-screens-dynaload/*": [
+        "projects/openi40-backoffice-screens/src/lib/*"
+      ],
+      "@openi40/scheduler-api":["projects/openi40-scheduler-api/src/public-api"],
+      "@openi40/scheduler-ui":["projects/openi40-scheduler-ui/src/public-api"],
+      "@openi40/material-planning":["projects/openi40-material-planning/src/public-api"],
+      "@openi40/scheduler-screens":["projects/openi40-scheduler-screens/src/public-api"],
+      "@openi40/backoffice-ui": [
+        "projects/openi40-backoffice-ui/src/public-api"
+      ],
+      "@openi40/common-ui":["projects/openi40-common-ui/src/public-api"]
+  }
+    },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./projects/openi40-scheduler-api/tsconfig.lib.json"
+    },{
+      "path": "./projects/openi40-scheduler-screens/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/openi40-scheduler-ui/tsconfig.lib.json"
+    },{
+      "path": "./projects/openi40-backoffice-api/tsconfig.lib.json"
+    },{
+      "path": "./projects/openi40-backoffice-screens/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/openi40-backoffice-ui/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/openi40-backoffice-services/tsconfig.lib.json"
+    }]
+
+
+}

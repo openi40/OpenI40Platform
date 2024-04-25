@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.rules.MaterialRule;
-import com.openi40.scheduler.model.rules.MaterialRule.SupplyResolutionStrategy;
-
-import lombok.Data;
-import lombok.Getter;
+import com.openi40.scheduler.model.rules.Rule;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -20,7 +16,7 @@ import lombok.Getter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsLogicOptions {
 	boolean dependencySatisfiedTasksFirst=false;
 	public enum OnUnallocableChildTaskAction {
@@ -50,7 +46,7 @@ public class ApsLogicOptions {
 	public static enum SortDirection {
 		ASC, DESC
 	}
-	@Getter
+
 	public static class SortOption {
 		
 
@@ -67,6 +63,21 @@ public class ApsLogicOptions {
 		protected String propertyName = null;
 		protected SortDirection sortDirection = SortDirection.ASC;
 		protected String longDescription=null;
+		public String getDescription() {
+			return description;
+		}
+
+		public String getPropertyName() {
+			return propertyName;
+		}
+
+		public SortDirection getSortDirection() {
+			return sortDirection;
+		}
+
+		public String getLongDescription() {
+			return longDescription;
+		}
 
 	}
 	
@@ -83,5 +94,48 @@ public class ApsLogicOptions {
 		sb.append("ApsLogicOptions{}");
 		return sb.toString();
 
+	}
+	public boolean isDependencySatisfiedTasksFirst() {
+		return dependencySatisfiedTasksFirst;
+	}
+	public void setDependencySatisfiedTasksFirst(boolean dependencySatisfiedTasksFirst) {
+		this.dependencySatisfiedTasksFirst = dependencySatisfiedTasksFirst;
+	}
+	public Rule.ConstraintPriority getDefaultAskedDeliveryDateConstraintPriority() {
+		return DefaultAskedDeliveryDateConstraintPriority;
+	}
+	public void setDefaultAskedDeliveryDateConstraintPriority(
+			Rule.ConstraintPriority defaultAskedDeliveryDateConstraintPriority) {
+		DefaultAskedDeliveryDateConstraintPriority = defaultAskedDeliveryDateConstraintPriority;
+	}
+	public List<MaterialRule.SupplyResolutionStrategy> getSupplyResolutionStrategies() {
+		return SupplyResolutionStrategies;
+	}
+	public void setSupplyResolutionStrategies(List<MaterialRule.SupplyResolutionStrategy> supplyResolutionStrategies) {
+		SupplyResolutionStrategies = supplyResolutionStrategies;
+	}
+	public MaterialRule.CoveringConstraintType getDefaultCoveringType() {
+		return DefaultCoveringType;
+	}
+	public void setDefaultCoveringType(MaterialRule.CoveringConstraintType defaultCoveringType) {
+		DefaultCoveringType = defaultCoveringType;
+	}
+	public List<SchedulingPriorities> getSchedulingPrioritiesOptions() {
+		return SchedulingPrioritiesOptions;
+	}
+	public void setSchedulingPrioritiesOptions(List<SchedulingPriorities> schedulingPrioritiesOptions) {
+		SchedulingPrioritiesOptions = schedulingPrioritiesOptions;
+	}
+	public OnUnallocableChildTaskAction getUnallocableChildTaskAction() {
+		return UnallocableChildTaskAction;
+	}
+	public void setUnallocableChildTaskAction(OnUnallocableChildTaskAction unallocableChildTaskAction) {
+		UnallocableChildTaskAction = unallocableChildTaskAction;
+	}
+	public List<SortOption> getSortOptions() {
+		return sortOptions;
+	}
+	public void setSortOptions(List<SortOption> sortOptions) {
+		this.sortOptions = sortOptions;
 	}
 }

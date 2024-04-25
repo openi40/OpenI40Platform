@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,7 +17,15 @@ import lombok.Data;
  */
 @Configuration
 @ConfigurationProperties(prefix = "com.openi40.scheduler.apsoutputchannels")
-@Data
+
 public class ApsOutputChannelsConfig {
 	private List<HttpClientOutputDataConfig> restConfigs=new ArrayList<>();
+
+	public List<HttpClientOutputDataConfig> getRestConfigs() {
+		return restConfigs;
+	}
+
+	public void setRestConfigs(List<HttpClientOutputDataConfig> restConfigs) {
+		this.restConfigs = restConfigs;
+	}
 }

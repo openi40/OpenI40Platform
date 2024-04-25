@@ -16,9 +16,7 @@ import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.common.utils.DateUtil.Week;
 
-import lombok.Data;
 
-@Data
 public class SupplyReservationDto extends ClientDto {
 	protected Date movementDate = null;
 	protected double qtyProvided = 0.0;
@@ -35,5 +33,61 @@ public class SupplyReservationDto extends ClientDto {
 		}
 
 		return week == null ? null : week.getPeriod();
+	}
+
+	public Date getMovementDate() {
+		return movementDate;
+	}
+
+	public void setMovementDate(Date movementDate) {
+		this.movementDate = movementDate;
+	}
+
+	public double getQtyProvided() {
+		return qtyProvided;
+	}
+
+	public void setQtyProvided(double qtyProvided) {
+		this.qtyProvided = qtyProvided;
+	}
+
+	public String getSupplyType() {
+		return supplyType;
+	}
+
+	public void setSupplyType(String supplyType) {
+		this.supplyType = supplyType;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public String getDocumentCode() {
+		return documentCode;
+	}
+
+	public void setDocumentCode(String documentCode) {
+		this.documentCode = documentCode;
+	}
+
+	public String getWorkOrderCode() {
+		return workOrderCode;
+	}
+
+	public void setWorkOrderCode(String workOrderCode) {
+		this.workOrderCode = workOrderCode;
+	}
+
+	public String getTaskCode() {
+		return taskCode;
+	}
+
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
 	}
 }

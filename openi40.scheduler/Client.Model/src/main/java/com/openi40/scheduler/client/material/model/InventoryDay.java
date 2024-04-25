@@ -14,9 +14,7 @@ import java.util.Date;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
 
-@Data
 public class InventoryDay extends ClientDto {
 
 	public InventoryDay() {
@@ -25,4 +23,16 @@ public class InventoryDay extends ClientDto {
 
 	double inventoryQty = 0.0;
 	Date time = null;
+	public double getInventoryQty() {
+		return inventoryQty;
+	}
+	public void setInventoryQty(double inventoryQty) {
+		this.inventoryQty = inventoryQty;
+	}
+	public Date getTime() {
+		return time;
+	}
+	public void setTime(Date time) {
+		this.time = time;
+	}
 }

@@ -5,8 +5,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -31,11 +29,41 @@ import lombok.Data;
 @AttributeOverride(name = "producerTaskCode", column = @Column(name = "prdcr_task_code")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBPegging extends OI40DBBaseEntity{
 	private String consumerWorkOrderCode = null;
 	private String producerWorkOrderCode = null;
 	private String consumerTaskCode = null;
 	private String producerTaskCode = null;
 	Double peggingQty=null;
+	public String getConsumerWorkOrderCode() {
+		return consumerWorkOrderCode;
+	}
+	public void setConsumerWorkOrderCode(String consumerWorkOrderCode) {
+		this.consumerWorkOrderCode = consumerWorkOrderCode;
+	}
+	public String getProducerWorkOrderCode() {
+		return producerWorkOrderCode;
+	}
+	public void setProducerWorkOrderCode(String producerWorkOrderCode) {
+		this.producerWorkOrderCode = producerWorkOrderCode;
+	}
+	public String getConsumerTaskCode() {
+		return consumerTaskCode;
+	}
+	public void setConsumerTaskCode(String consumerTaskCode) {
+		this.consumerTaskCode = consumerTaskCode;
+	}
+	public String getProducerTaskCode() {
+		return producerTaskCode;
+	}
+	public void setProducerTaskCode(String producerTaskCode) {
+		this.producerTaskCode = producerTaskCode;
+	}
+	public Double getPeggingQty() {
+		return peggingQty;
+	}
+	public void setPeggingQty(Double peggingQty) {
+		this.peggingQty = peggingQty;
+	}
 }

@@ -117,7 +117,7 @@
 			"code": "INOXREEL001",
 			"description": "Inox reel",
 			"averageMinPurchaseQty": 120,
-			"canBeProducedByScheduler": true,
+			"canBeProducedByScheduler": false,
 			"canBePurchasedByScheduler": false,
 			"leadTimeDays": 7
 		},

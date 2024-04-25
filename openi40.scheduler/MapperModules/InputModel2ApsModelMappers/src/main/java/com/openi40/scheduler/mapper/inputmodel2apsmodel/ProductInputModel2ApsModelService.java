@@ -35,8 +35,8 @@ public class ProductInputModel2ApsModelService extends AbstractInputModel2ApsMod
 			Map environment, boolean recursive) throws MapperException {
 		super.copyValue(originalObject, targetObject, entityFactory, environment, recursive);
 		targetObject.setAverageMinPurchaseQty(originalObject.getAverageMinPurchaseQty());
-		targetObject.setCanBeProducedByScheduler(originalObject.isCanBeProducedByScheduler());
-		targetObject.setCanBePurchasedByScheduler(originalObject.isCanBePurchasedByScheduler());
+		targetObject.setCanBeProducedByScheduler(originalObject.getCanBeProducedByScheduler());
+		targetObject.setCanBePurchasedByScheduler(originalObject.getCanBePurchasedByScheduler());
 		targetObject.setLeadTimeDays(originalObject.getLeadTimeDays());
 	}
 }

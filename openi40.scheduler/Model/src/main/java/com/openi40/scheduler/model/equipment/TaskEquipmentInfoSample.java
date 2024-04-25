@@ -12,28 +12,68 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
 import com.openi40.scheduler.model.time.TimesheetReservation;
 
-import lombok.Data;
 
-@Data
 public class TaskEquipmentInfoSample {
 
-	@Data
+	
 	public class ResourceUse<RType extends AbstractApsReservableObject> {
 		RType resource = null;
 		Group<RType> group = null;
 		TimeSegmentsGroup timeGroup = null;
+		public RType getResource() {
+			return resource;
+		}
+		public void setResource(RType resource) {
+			this.resource = resource;
+		}
+		public Group<RType> getGroup() {
+			return group;
+		}
+		public void setGroup(Group<RType> group) {
+			this.group = group;
+		}
+		public TimeSegmentsGroup getTimeGroup() {
+			return timeGroup;
+		}
+		public void setTimeGroup(TimeSegmentsGroup timeGroup) {
+			this.timeGroup = timeGroup;
+		}
 	}
 
-	@Data
+	
 	public class ResourceUseGroup<RType extends AbstractApsReservableObject> {
 		Group<RType> group = null;
 		List<ResourceUse<RType>> resources = new ArrayList<TaskEquipmentInfoSample.ResourceUse<RType>>();
+		public Group<RType> getGroup() {
+			return group;
+		}
+		public void setGroup(Group<RType> group) {
+			this.group = group;
+		}
+		public List<ResourceUse<RType>> getResources() {
+			return resources;
+		}
+		public void setResources(List<ResourceUse<RType>> resources) {
+			this.resources = resources;
+		}
 	}
 
-	@Data
+	
 	public class EquipmentSet {
 		ResourceUse<Machine> choosedMachine = new ResourceUse<Machine>();
 		List<ResourceUseGroup<Resource>> secondaryResources = new ArrayList<TaskEquipmentInfoSample.ResourceUseGroup<Resource>>();
+		public ResourceUse<Machine> getChoosedMachine() {
+			return choosedMachine;
+		}
+		public void setChoosedMachine(ResourceUse<Machine> choosedMachine) {
+			this.choosedMachine = choosedMachine;
+		}
+		public List<ResourceUseGroup<Resource>> getSecondaryResources() {
+			return secondaryResources;
+		}
+		public void setSecondaryResources(List<ResourceUseGroup<Resource>> secondaryResources) {
+			this.secondaryResources = secondaryResources;
+		}
 	}
 
 	private TaskEquipmentModelInfo metaInfo = null;
@@ -101,6 +141,30 @@ public class TaskEquipmentInfoSample {
 				}
 			}
 		}
+	}
+
+	public TaskEquipmentModelInfo getMetaInfo() {
+		return metaInfo;
+	}
+
+	public void setMetaInfo(TaskEquipmentModelInfo metaInfo) {
+		this.metaInfo = metaInfo;
+	}
+
+	public EquipmentSet getPreparation() {
+		return preparation;
+	}
+
+	public void setPreparation(EquipmentSet preparation) {
+		this.preparation = preparation;
+	}
+
+	public EquipmentSet getExecution() {
+		return execution;
+	}
+
+	public void setExecution(EquipmentSet execution) {
+		this.execution = execution;
 	}
 
 }

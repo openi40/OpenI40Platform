@@ -6,8 +6,6 @@ import java.util.List;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -18,7 +16,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class EquipmentRule extends Rule {
 	private TaskEquipmentModelOptions equipmentModelOptions = null;
 
@@ -26,6 +24,22 @@ public class EquipmentRule extends Rule {
 
 	public EquipmentRule(ApsData context) {
 		super(context);
+	}
+
+	public TaskEquipmentModelOptions getEquipmentModelOptions() {
+		return equipmentModelOptions;
+	}
+
+	public void setEquipmentModelOptions(TaskEquipmentModelOptions equipmentModelOptions) {
+		this.equipmentModelOptions = equipmentModelOptions;
+	}
+
+	public List<TaskEquipmentInfo> getTaskEquipmentInfos() {
+		return taskEquipmentInfos;
+	}
+
+	public void setTaskEquipmentInfos(List<TaskEquipmentInfo> taskEquipmentInfos) {
+		this.taskEquipmentInfos = taskEquipmentInfos;
 	}
 
 }

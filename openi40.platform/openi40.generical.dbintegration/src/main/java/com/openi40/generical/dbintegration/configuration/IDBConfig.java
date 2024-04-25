@@ -1,6 +1,5 @@
 package com.openi40.generical.dbintegration.configuration;
 
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,13 +10,45 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class IDBConfig {
 	String jdbcDriver = null,jdbcConnectionString=null;
 	String jdbcUid = null, jdbcPwd = null;
 
 	public IDBConfig() {
 
+	}
+
+	public String getJdbcDriver() {
+		return jdbcDriver;
+	}
+
+	public void setJdbcDriver(String jdbcDriver) {
+		this.jdbcDriver = jdbcDriver;
+	}
+
+	public String getJdbcConnectionString() {
+		return jdbcConnectionString;
+	}
+
+	public void setJdbcConnectionString(String jdbcConnectionString) {
+		this.jdbcConnectionString = jdbcConnectionString;
+	}
+
+	public String getJdbcUid() {
+		return jdbcUid;
+	}
+
+	public void setJdbcUid(String jdbcUid) {
+		this.jdbcUid = jdbcUid;
+	}
+
+	public String getJdbcPwd() {
+		return jdbcPwd;
+	}
+
+	public void setJdbcPwd(String jdbcPwd) {
+		this.jdbcPwd = jdbcPwd;
 	}
 
 }

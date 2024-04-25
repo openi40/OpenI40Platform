@@ -5,8 +5,6 @@ import java.util.Date;
 import javax.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.input.model.InputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,12 +15,36 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class TimesheetMetaInfoExceptionRuleInputDto extends InputDto {
 	private Date startPeriod = null, endPeriod = null;
 	private boolean working = false;
 	private String timesheetMetaCode = null;
+	public Date getStartPeriod() {
+		return startPeriod;
+	}
+	public void setStartPeriod(Date startPeriod) {
+		this.startPeriod = startPeriod;
+	}
+	public Date getEndPeriod() {
+		return endPeriod;
+	}
+	public void setEndPeriod(Date endPeriod) {
+		this.endPeriod = endPeriod;
+	}
+	public boolean isWorking() {
+		return working;
+	}
+	public void setWorking(boolean working) {
+		this.working = working;
+	}
+	public String getTimesheetMetaCode() {
+		return timesheetMetaCode;
+	}
+	public void setTimesheetMetaCode(String timesheetMetaCode) {
+		this.timesheetMetaCode = timesheetMetaCode;
+	}
 
 
 }

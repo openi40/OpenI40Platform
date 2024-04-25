@@ -4,10 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Data;
 
 
-@Data
 public class StartSetupIOMessage extends AbstractBaseTaskIOMessage  implements Serializable{
 	private List<UsedSecondaryResourcesInfo> usedResources=new ArrayList<UsedSecondaryResourcesInfo>();
+
+	public List<UsedSecondaryResourcesInfo> getUsedResources() {
+		return usedResources;
+	}
+
+	public void setUsedResources(List<UsedSecondaryResourcesInfo> usedResources) {
+		this.usedResources = usedResources;
+	}
 }

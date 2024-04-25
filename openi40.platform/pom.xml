@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<groupId>com.openi40.platform</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>com.openi40.platform.parent</artifactId>
 	<packaging>pom</packaging>
 	<dependencies>
 		<dependency>
@@ -29,5 +29,8 @@
 		<module>Persistence.IOMessages.Spooling</module>
 		<module>Persistence.IOMessages.Controllers</module>
 		<module>IOMessages.Processing</module>
+		<module>openi40.backoffice</module>
+		<module>openi40.integration.clients</module>
+		<module>openi40.ha.app</module>
 	</modules>
 </project>

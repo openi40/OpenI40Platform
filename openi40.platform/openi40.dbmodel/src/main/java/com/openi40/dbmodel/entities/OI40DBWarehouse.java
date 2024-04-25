@@ -6,7 +6,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 /**
  * 
@@ -28,6 +27,16 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "plantCode", column = @Column(name = "plant_code")),
 		@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+
 public class OI40DBWarehouse extends OI40DBBaseTimesheetManaged implements Serializable {
+	private String plantCode=null;
+
+	public String getPlantCode() {
+		return plantCode;
+	}
+
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
 
 }

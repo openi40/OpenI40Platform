@@ -1,0 +1,57 @@
+RestApiConfig:
+  useWebSocket: false 
+com.openi40.webcfg: 
+                angularUi: true
+                swaggerUi: true    
+server:
+  port: 8080
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  servlet:
+    contextPath: /openi40
+spring:
+  profiles:    active:      - "client.rest.api"
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+hibernate.cache.use_second_level_cache: false        
+ 
+#spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.hikari.connectionTimeout: 20000
+spring.datasource.hikari.maximumPoolSize: 5
+spring.datasource.username: postgres
+spring.datasource.password: 15041973
+spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
+com.openi40.scheduler.ignite.dataset:
+                                dataSourceName: HA-DATASET
+                                dataSetName: HA-DATASET
+                                dataSetVariant: DEFAULT
+                                dataSourceDescription: Ignite cached datasource
+                                sourceDataSourceName: DB-LINK
+                                sourceDataSetName: DB-DataSet
+                                sourceDataSetVariant: DEFAULT
+                                dataLoaderNode: true
+                                dataLoadingFrequency: 30000
+
+com.openi40.platform.dbchannels:
+        useJpaStreaming: true
+        batchingSize: 1000
+        configs:
+          -            
+           dataSourceName: DB-LINK
+           dataSetName: DB-DataSet
+           dataSetVariant: DEFAULT
+           dataSourceDescription: Data loaded from db
+           realtime: false
+           productionControlEnabled: true
+
+com.openi40.platform.iomsgelaboration:
+        enableMessagesElaboration: true
+        dataSourceName: DB-LINK
+        dataSetName: DB-DataSet
+        dataSetVariant: DEFAULT           

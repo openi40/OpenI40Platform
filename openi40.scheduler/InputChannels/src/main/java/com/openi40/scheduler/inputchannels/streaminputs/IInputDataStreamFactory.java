@@ -21,6 +21,7 @@ public interface IInputDataStreamFactory {
 	String getDataSetName();
 
 	String getDataSetVariant();
+	boolean isCanBeCached();
 
 	<DtoEntityType extends InputDto> Stream<DtoEntityType> getStream(Class<DtoEntityType> requiredType)
 			throws InputDataStreamException;

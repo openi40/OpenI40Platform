@@ -16,11 +16,27 @@ import java.util.List;
 import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.client.model.orders.WorkOrderDto;
 
-import lombok.Data;
 
-@Data
 public class PlantDto extends ClientDto {
 	List<DepartmentDto> departments = new ArrayList<DepartmentDto>();
 	List<WarehouseDto> warehouses = new ArrayList<WarehouseDto>();
 	List<WorkOrderDto> WorkOrders = new ArrayList<WorkOrderDto>();
+	public List<DepartmentDto> getDepartments() {
+		return departments;
+	}
+	public void setDepartments(List<DepartmentDto> departments) {
+		this.departments = departments;
+	}
+	public List<WarehouseDto> getWarehouses() {
+		return warehouses;
+	}
+	public void setWarehouses(List<WarehouseDto> warehouses) {
+		this.warehouses = warehouses;
+	}
+	public List<WorkOrderDto> getWorkOrders() {
+		return WorkOrders;
+	}
+	public void setWorkOrders(List<WorkOrderDto> workOrders) {
+		WorkOrders = workOrders;
+	}
 }

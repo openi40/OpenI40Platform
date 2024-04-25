@@ -7,8 +7,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -34,7 +32,7 @@ import lombok.Data;
 @AttributeOverride(name = "purchased", column = @Column(name = "purchd")),
 @AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))
 })
-@Data
+
 public class OI40DBProductiveCompanyProductSetting extends OI40DBBaseEntity implements Serializable{
 	private Boolean produced = null;
 	private Boolean purchased = null;
@@ -44,4 +42,40 @@ public class OI40DBProductiveCompanyProductSetting extends OI40DBBaseEntity impl
 
 	private String productCode = null;
 	private String productiveCompanyCode = null;
+	public Boolean getProduced() {
+		return produced;
+	}
+	public void setProduced(Boolean produced) {
+		this.produced = produced;
+	}
+	public Boolean getPurchased() {
+		return purchased;
+	}
+	public void setPurchased(Boolean purchased) {
+		this.purchased = purchased;
+	}
+	public Boolean getProductionBySchedulerEnabled() {
+		return productionBySchedulerEnabled;
+	}
+	public void setProductionBySchedulerEnabled(Boolean productionBySchedulerEnabled) {
+		this.productionBySchedulerEnabled = productionBySchedulerEnabled;
+	}
+	public Boolean getPurchaseBySchedulerEnabled() {
+		return purchaseBySchedulerEnabled;
+	}
+	public void setPurchaseBySchedulerEnabled(Boolean purchaseBySchedulerEnabled) {
+		this.purchaseBySchedulerEnabled = purchaseBySchedulerEnabled;
+	}
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getProductiveCompanyCode() {
+		return productiveCompanyCode;
+	}
+	public void setProductiveCompanyCode(String productiveCompanyCode) {
+		this.productiveCompanyCode = productiveCompanyCode;
+	}
 }

@@ -2,8 +2,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.scheduler</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.scheduler.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>TestUtils</artifactId>
 	<dependencies>

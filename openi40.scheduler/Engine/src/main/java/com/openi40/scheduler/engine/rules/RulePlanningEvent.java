@@ -5,8 +5,6 @@ import java.util.EventObject;
 import com.openi40.scheduler.engine.contextualplugarch.IBusinessLogic;
 import com.openi40.scheduler.model.rules.Rule;
 import com.openi40.scheduler.model.tasks.Task;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,7 +15,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class RulePlanningEvent<ContextDataType> extends EventObject {
 	Rule rule = null;
 	Task task = null;
@@ -32,6 +30,30 @@ public class RulePlanningEvent<ContextDataType> extends EventObject {
 		this.task = task;
 		this.contextData = contextData;
 		this.eventType=eventType;
+	}
+	public Rule getRule() {
+		return rule;
+	}
+	public void setRule(Rule rule) {
+		this.rule = rule;
+	}
+	public Task getTask() {
+		return task;
+	}
+	public void setTask(Task task) {
+		this.task = task;
+	}
+	public ContextDataType getContextData() {
+		return contextData;
+	}
+	public void setContextData(ContextDataType contextData) {
+		this.contextData = contextData;
+	}
+	public RuleEventType getEventType() {
+		return eventType;
+	}
+	public void setEventType(RuleEventType eventType) {
+		this.eventType = eventType;
 	}
 
 }

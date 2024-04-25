@@ -2,20 +2,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.platform</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.platform.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>Persistence.IOMessages.Spooling</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Input.IOMessages</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Input.IOMessages</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.awaitility</groupId>
@@ -24,12 +24,12 @@
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

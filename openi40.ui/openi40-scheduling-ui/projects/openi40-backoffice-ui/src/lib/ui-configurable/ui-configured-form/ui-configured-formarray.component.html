@@ -1,0 +1,14 @@
+<div *ngIf="formArray && config">
+    <ui-configurable-editable-grid *ngIf="!config.displayMode || config.displayMode==='grid'" [formArray]="formArray" [formArrayConfig]="config" [readonly]="readonly">
+    </ui-configurable-editable-grid>
+    <div class="grid" *ngIf="config.displayMode==='forms'">
+        <div class="col-12" *ngFor="let frmGrp of formgroups;">
+            <ui-configured-form [config]="config" [formGroup]="frmGrp" [readonly]="readonly"></ui-configured-form>
+        </div>
+    </div>
+    <p-accordion *ngIf="config.displayMode==='accordion'">
+        <p-accordionTab *ngFor="let frmGrp of formgroups;" header="frmGrp?.controls?.code?.value+' '+frmGrp?.controls?.description.value">
+            <ui-configured-form [config]="config" [formGroup]="frmGrp" [readonly]="readonly"></ui-configured-form>
+        </p-accordionTab>
+    </p-accordion>
+</div>

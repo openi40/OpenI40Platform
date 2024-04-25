@@ -4,8 +4,6 @@ import com.openi40.scheduler.common.aps.IReferencingMetaInfo;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.cycle.BatchingInfo;
 import com.openi40.scheduler.model.cycle.BomItemModel;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

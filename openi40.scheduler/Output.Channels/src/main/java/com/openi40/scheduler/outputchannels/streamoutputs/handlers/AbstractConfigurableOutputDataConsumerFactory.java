@@ -1,34 +1,32 @@
 package com.openi40.scheduler.outputchannels.streamoutputs.handlers;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
+import com.openi40.scheduler.outputchannels.streamoutputs.IOutputTransactionWrapper;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.AbstractOutputDataConsumerFactoryConfig;
 import com.openi40.scheduler.outputchannels.streamoutputs.config.EntityOutputSetting;
 
-import lombok.Getter;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
-@Setter
+
 public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryType extends EntityOutputSetting, CType extends AbstractOutputDataConsumerFactoryConfig<OutputEntryType>>
 		implements IOutputDataConsumerFactory {
 	protected String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
-	@Getter
+	
 
 	protected CType config = null;
 
@@ -92,11 +90,19 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 		}
 	};
 
-	@Override
-	public <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
+	private <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
 			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
 		OutputEntryType configEntry = getOrProduceConfigurationEntry(requiredType);
 		return new ExtendedConsumer<DtoEntityType>(configEntry);
+	}
+
+	@Override
+	public <DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,
+			Class<DtoEntityType> requiredType, IOutputTransactionWrapper outputTransactionWrapper) throws OutputDataStreamException {
+		IExtendedConsumer<DtoEntityType> consumer = getConsumer(requiredType);
+		stream.forEach(consumer);
+		consumer.endReached();
+
 	}
 
 	public abstract <DtoEntityType extends OutputDto> void send(CType config, OutputEntryType cfgItem,
@@ -134,5 +140,59 @@ public abstract class AbstractConfigurableOutputDataConsumerFactory<OutputEntryT
 
 	protected abstract OutputEntryType createTemplatedEntry(Class<? extends OutputDto> requiredType,
 			String relativeString) throws OutputDataStreamException;
+	@Override
+	public IOutputTransactionWrapper createOutputTransaction() {
+		
+		return new IOutputTransactionWrapper() {
+			
+			@Override
+			public void rollback() {
+				
+				
+			}
+			
+			@Override
+			public void commit() {
+				
+				
+			}
+			
+			@Override
+			public void close() {
+				
+				
+			}
+			
+			@Override
+			public void begin() {
+				
+				
+			}
+		};
+	}
+
+	public CType getConfig() {
+		return config;
+	}
+
+	public void setConfig(CType config) {
+		this.config = config;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+
+	public void setDataSetName(String dataSetName) {
+		this.dataSetName = dataSetName;
+	}
+
+	public void setDataSetVariant(String dataSetVariant) {
+		this.dataSetVariant = dataSetVariant;
+	}
+
+	public void setDataSourceDescription(String dataSourceDescription) {
+		this.dataSourceDescription = dataSourceDescription;
+	}
 
 }

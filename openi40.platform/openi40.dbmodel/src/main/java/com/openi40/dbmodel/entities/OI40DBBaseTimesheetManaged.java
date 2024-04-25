@@ -1,8 +1,6 @@
 package com.openi40.dbmodel.entities;
 
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,12 +12,24 @@ import lombok.Data;
  *
  */
 @MappedSuperclass
-@Data
+
 public class OI40DBBaseTimesheetManaged extends OI40DBBaseEntity {
 	private String timesheetMetaInfoCode = null;
 	private Boolean infiniteCapacity=false;
 	public OI40DBBaseTimesheetManaged() {
 		
+	}
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+	public Boolean getInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+	public void setInfiniteCapacity(Boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
 	}
 
 }

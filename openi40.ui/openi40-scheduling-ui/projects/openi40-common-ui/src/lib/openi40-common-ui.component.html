@@ -1,0 +1,32 @@
+
+<p-blockUI [blocked]="loading">
+</p-blockUI>
+<div class="grid">
+  <div class="col-3"></div>
+  <div class="col-3" *ngIf="loadedConfig?.schedulerUI===true" >
+    <a [routerLink]="'/openi40-scheduler-home'">
+       <h2>Scheduler</h2>
+      </a>
+  </div>
+  <div class="col-3" *ngIf="loadedConfig?.backofficeUI===true" >
+    <a [routerLink]="'/openi40-backoffice-home'">
+    <h2>Backoffice</h2>
+  </a>
+  </div>
+  <div class="col-3"></div>
+
+</div>
+<div class="grid">
+  <div class="col-3"></div>
+  <div class="col-3" *ngIf="loadedConfig?.schedulerUI===true">
+      <a [routerLink]="'/openi40-scheduler-home'">
+          <img src="assets/scheduler-icon.jpg">
+      </a>
+  </div>
+  <div class="col-3" *ngIf="loadedConfig?.backofficeUI===true">
+    <a [routerLink]="'/openi40-backoffice-home'">
+      <img src="assets/backoffice-icon.jpg">
+   </a>
+  </div>
+  <div class="col-3"></div>
+</div>

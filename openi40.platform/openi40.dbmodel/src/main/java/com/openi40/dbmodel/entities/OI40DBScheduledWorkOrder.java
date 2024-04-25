@@ -32,5 +32,23 @@ public class OI40DBScheduledWorkOrder extends OI40DBBaseEntity implements Serial
 	Integer position = null;
 	String workOrderCode = null;
 	String apsSchedulingSetCode = null;
+	public Integer getPosition() {
+		return position;
+	}
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+	public String getWorkOrderCode() {
+		return workOrderCode;
+	}
+	public void setWorkOrderCode(String workOrderCode) {
+		this.workOrderCode = workOrderCode;
+	}
+	public String getApsSchedulingSetCode() {
+		return apsSchedulingSetCode;
+	}
+	public void setApsSchedulingSetCode(String apsSchedulingSetCode) {
+		this.apsSchedulingSetCode = apsSchedulingSetCode;
+	}
 
 }

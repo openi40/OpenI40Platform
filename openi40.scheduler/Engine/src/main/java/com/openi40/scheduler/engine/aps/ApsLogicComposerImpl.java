@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.engine.apsdata.IApsDataManager;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
@@ -34,9 +35,14 @@ import com.openi40.scheduler.model.orders.WorkOrder;
 @DefaultImplementation(implemented = IApsLogicComposer.class, entityClass = ApsData.class)
 public class ApsLogicComposerImpl extends BusinessLogic<ApsData> implements IApsLogicComposer {
 	static Logger LOGGER = LoggerFactory.getLogger(ApsLogicComposerImpl.class);
-	@Autowired(required = false)
+	
 	List<IApsComposerListener> listeners;
-
+	OpenI40MultithreadingConfig multithreadingConfig=null;
+	public ApsLogicComposerImpl( @Autowired OpenI40MultithreadingConfig multithreadingConfig,@Autowired(required = false) List<IApsComposerListener> listeners) {
+		this.multithreadingConfig=multithreadingConfig;
+		this.listeners=listeners;
+		
+	}
 	protected void onStartAlgorithms(ApsData data) {
 		if (listeners!=null) {
 			listeners.forEach((listener)->{

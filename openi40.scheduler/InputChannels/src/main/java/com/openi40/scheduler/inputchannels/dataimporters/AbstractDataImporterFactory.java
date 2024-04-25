@@ -2,7 +2,9 @@ package com.openi40.scheduler.inputchannels.dataimporters;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -14,6 +16,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.scheduler.common.aps.IApsObject;
 import com.openi40.scheduler.engine.OpenI40Exception;
+import com.openi40.scheduler.engine.contextualplugarch.BusinessLogicFactory;
+import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
+import com.openi40.scheduler.engine.customsupport.ICustomObjectSupportHandler;
 import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
 import com.openi40.scheduler.mapper.IEntitiesFactory;
@@ -24,13 +29,14 @@ import com.openi40.scheduler.model.IContextAwareObjext;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
 import com.openi40.scheduler.model.dao.IApsDataModelDao;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
@@ -42,6 +48,8 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 	protected IApsDataModelDao<MatchingData> apsDataModelDao = null;
 	protected IMapperFactory mapperFactory = null;
 	protected @Autowired ObjectMapper omapper;
+	@Autowired
+	protected IContextualBusinessLogicFactory componentsFactory;
 
 	protected AbstractDataImporterFactory(Class<ImportedData> importedType, Class<MatchingData> apsType,
 			IMapperFactory mapperFactory, IApsDataModelDao<MatchingData> apsDataModelDao) {
@@ -49,7 +57,6 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 		this.apsType = apsType;
 		this.apsDataModelDao = apsDataModelDao;
 		this.mapperFactory = mapperFactory;
-		this.omapper = omapper;
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 	}
 
 	@Override
-	public Consumer<ImportedData> create(ApsData apsData) throws DataModelDaoException, MapperException {
+	public IDataImporterConsumer<ImportedData> create(ApsData apsData) throws DataModelDaoException, MapperException {
 		final IMapper<ImportedData, MatchingData> mapper = mapperFactory.createMapper(getManagedType(),
 				getMappedType());
 		final Map<String, MatchingData> map = new HashMap<String, MatchingData>();
@@ -78,9 +85,15 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 				map.put(apsData.getCode(), apsData);
 			}
 		};
+
 		ApsEntitiesFactory factory = new ApsEntitiesFactory(apsData);
 		this.apsDataModelDao.consumeAll(consumer, apsData);
-		Consumer<ImportedData> updatingConsumer = new Consumer<ImportedData>() {
+		IDataImporterConsumer<ImportedData> updatingConsumer = new IDataImporterConsumer<ImportedData>() {
+			ICustomObjectSupportHandler customObjectHandler = null;
+			boolean customObjectSupportedType = false;
+			boolean customObjectBatchInitialization = false;
+			int batchInitializationSize = 0;
+			List<MatchingData> currentBatch = new ArrayList<MatchingData>();
 
 			@Override
 			public void accept(ImportedData importedData) {
@@ -107,6 +120,29 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 									recursive);
 							map.put(item.getCode(), item);
 							apsDataModelDao.insert(item, apsData);
+							if (customObjectHandler == null) {
+								customObjectHandler = componentsFactory.create(ICustomObjectSupportHandler.class, item,
+										apsData);
+								customObjectSupportedType = customObjectHandler
+										.isEntityWithCustomObjectSupport(apsType);
+								if (customObjectSupportedType) {
+									customObjectBatchInitialization = customObjectHandler
+											.isBatchEntryInitializationEntity(apsType);
+									if (customObjectBatchInitialization)
+										batchInitializationSize = customObjectHandler.getBatchEntriesSize(apsType);
+								}
+							}
+							if (customObjectSupportedType) {
+								if (customObjectBatchInitialization) {
+									currentBatch.add(item);
+									if ((currentBatch.size() % batchInitializationSize) == 0) {
+										customObjectHandler.initializeEntries(apsType, currentBatch);
+										currentBatch.clear();
+									}
+								} else {
+									customObjectHandler.initializeEntry(apsType, item);
+								}
+							}
 						}
 					}
 				} catch (MapperException | DataModelDaoException e) {
@@ -119,11 +155,20 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 				}
 			}
 
+			@Override
+			public void endOfStream() {
+				if (customObjectBatchInitialization && !currentBatch.isEmpty()) {
+					customObjectHandler.initializeEntries(apsType, currentBatch);
+					currentBatch.clear();
+				}
+				
+			}
+
 		};
 		return updatingConsumer;
 	}
 
-	protected static class ApsEntitiesFactory implements IEntitiesFactory,IContextAwareObjext {
+	protected static class ApsEntitiesFactory implements IEntitiesFactory, IContextAwareObjext {
 		ApsData apsData = null;
 
 		ApsEntitiesFactory(ApsData apsData) {
@@ -146,7 +191,7 @@ public abstract class AbstractDataImporterFactory<ImportedData extends InputDto,
 
 		@Override
 		public ApsData getContext() {
-			
+
 			return apsData;
 		}
 

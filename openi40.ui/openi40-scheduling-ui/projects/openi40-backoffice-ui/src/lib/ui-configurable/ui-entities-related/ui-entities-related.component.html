@@ -1,0 +1,4 @@
+<p #activeArea>
+    <p-button  [disabled]="disabled" icon="pi pi-database" [rounded]="true" [outlined]="true" title="related entities..."></p-button>
+</p>
+<p-contextMenu [target]="activeArea" [model]="contextualMenu" *ngIf="disabled===false"></p-contextMenu>

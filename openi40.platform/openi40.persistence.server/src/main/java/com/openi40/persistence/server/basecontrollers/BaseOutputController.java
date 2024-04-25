@@ -61,10 +61,9 @@ public abstract class BaseOutputController<OutputType extends OutputDto> {
 			@NotNull @PathVariable("dataSetName") String dataSetName,
 			@NotNull @PathVariable("dataSetVariant") String dataSetVariant, @RequestBody List<OutputType> data)
 			throws OutputDataStreamException {
-		IExtendedConsumer<OutputType> consumer = getFactory(dataSourceName, dataSetName, dataSetVariant)
-				.getConsumer(this.outputType);
-		data.forEach(consumer);
-		consumer.endReached();
+		IOutputDataConsumerFactory factory = getFactory(dataSourceName, dataSetName, dataSetVariant);
+		factory.<OutputType>consume(data.stream(), outputType, null);
+
 	}
 
 }

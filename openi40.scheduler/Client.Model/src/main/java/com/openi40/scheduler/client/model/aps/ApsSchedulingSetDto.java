@@ -15,11 +15,27 @@ import java.util.List;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
 
-@Data
 public class ApsSchedulingSetDto extends ClientDto {
 	String algorithmType = null;
 	List<ClientDto> workOrders = new ArrayList<ClientDto>();
 	ApsLogicOptionsDto options = null;
+	public String getAlgorithmType() {
+		return algorithmType;
+	}
+	public void setAlgorithmType(String algorithmType) {
+		this.algorithmType = algorithmType;
+	}
+	public List<ClientDto> getWorkOrders() {
+		return workOrders;
+	}
+	public void setWorkOrders(List<ClientDto> workOrders) {
+		this.workOrders = workOrders;
+	}
+	public ApsLogicOptionsDto getOptions() {
+		return options;
+	}
+	public void setOptions(ApsLogicOptionsDto options) {
+		this.options = options;
+	}
 }

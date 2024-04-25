@@ -10,14 +10,23 @@
  */
 package com.openi40.generical.dbintegration.meta.configuration;
 
-import lombok.Data;
-
-@Data
 public class EntityMetaData {
 	private String entityName=null;
 	private String tableName=null;
 	public EntityMetaData() {
 		
+	}
+	public String getEntityName() {
+		return entityName;
+	}
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+	public String getTableName() {
+		return tableName;
+	}
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}
 	
 

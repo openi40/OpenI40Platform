@@ -13,9 +13,6 @@ import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.input.model.companystructure.DepartmentInputDto;
 import com.openi40.scheduler.input.model.companystructure.PlantInputDto;
 
-import lombok.AccessLevel;
-import lombok.Setter;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

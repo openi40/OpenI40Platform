@@ -16,9 +16,7 @@ import java.util.UUID;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
 
-@Data
 public class EquipmentSpecification extends ClientDto {
 	public EquipmentSpecification() {
 		this.code = UUID.randomUUID().toString();
@@ -28,4 +26,28 @@ public class EquipmentSpecification extends ClientDto {
 	private List<SecondaryResourceUseSpecification> secondaryResourcesSpecs = new ArrayList<SecondaryResourceUseSpecification>();
 	private double machineTime = 0.0;
 	private OperationTimeCalculationSpec machineTimeSpec = OperationTimeCalculationSpec.TIME4OPERATION;
+	public double getSetupTime() {
+		return setupTime;
+	}
+	public void setSetupTime(double setupTime) {
+		this.setupTime = setupTime;
+	}
+	public List<SecondaryResourceUseSpecification> getSecondaryResourcesSpecs() {
+		return secondaryResourcesSpecs;
+	}
+	public void setSecondaryResourcesSpecs(List<SecondaryResourceUseSpecification> secondaryResourcesSpecs) {
+		this.secondaryResourcesSpecs = secondaryResourcesSpecs;
+	}
+	public double getMachineTime() {
+		return machineTime;
+	}
+	public void setMachineTime(double machineTime) {
+		this.machineTime = machineTime;
+	}
+	public OperationTimeCalculationSpec getMachineTimeSpec() {
+		return machineTimeSpec;
+	}
+	public void setMachineTimeSpec(OperationTimeCalculationSpec machineTimeSpec) {
+		this.machineTimeSpec = machineTimeSpec;
+	}
 }

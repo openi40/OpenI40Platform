@@ -21,25 +21,29 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
  * @author architectures@openi40.org
  *
  */
 @Configuration
 @EnableAsync
 public class WebConfig extends WebMvcConfigurationSupport {
+
 	ObjectMapper objectMapper = null;
 	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/resources/",
 			"classpath:/resources/", "classpath:/static/", "classpath:/public/" };
+	OpenI40WebConfig webConfig = null;
 
-	public WebConfig(@Autowired ObjectMapper objectMapper) {
+	public WebConfig(@Autowired ObjectMapper objectMapper, @Autowired(required = false) OpenI40WebConfig webConfig) {
 		this.objectMapper = objectMapper;
+		this.webConfig = webConfig;
 	}
 
 	@Override
@@ -55,40 +59,33 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-		registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
-				.addResolver(new PathResourceResolver() {
-					@Override
-					protected Resource getResource(String resourcePath, Resource location) throws IOException {
-						Resource requestedResource = location.createRelative(resourcePath);
+		if (this.webConfig == null || this.webConfig.getSwaggerUi() == null || this.webConfig.getSwaggerUi()) {
+			registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+			registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		}
+		if (this.webConfig != null && this.webConfig.getAngularUi() != null && this.webConfig.getAngularUi()) {
+			registry.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
+					.addResolver(new PathResourceResolver() {
+						@Override
+						protected Resource getResource(String resourcePath, Resource location) throws IOException {
+							Resource requestedResource = location.createRelative(resourcePath);
 
-						return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
-								: new ClassPathResource("/static/index.html");
-					}
-				});
-		/*
-		 * registry.addResourceHandler("/").addResourceLocations("classpath:/static/").
-		 * resourceChain(true) .addResolver(new PathResourceResolver() {
-		 * 
-		 * @Override protected Resource getResource(String resourcePath, Resource
-		 * location) throws IOException { Resource requestedResource =
-		 * location.createRelative(resourcePath);
-		 * 
-		 * return requestedResource.exists() && requestedResource.isReadable() ?
-		 * requestedResource : new ClassPathResource("/static/index.html"); } });
-		 */
-		registry.addResourceHandler("").addResourceLocations("classpath:/static/").resourceChain(true)
-				.addResolver(new PathResourceResolver() {
-					@Override
-					protected Resource getResource(String resourcePath, Resource location) throws IOException {
-						Resource requestedResource = location.createRelative(resourcePath);
+							return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
+									: new ClassPathResource("/static/index.html");
+						}
+					});
+			registry.addResourceHandler("").addResourceLocations("classpath:/static/").resourceChain(true)
+					.addResolver(new PathResourceResolver() {
+						@Override
+						protected Resource getResource(String resourcePath, Resource location) throws IOException {
+							Resource requestedResource = location.createRelative(resourcePath);
 
-						return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
-								: new ClassPathResource("/static/index.html");
-					}
-				});
+							return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
+									: new ClassPathResource("/static/index.html");
+						}
+					});
 
+		}
 	}
 
 	@Bean

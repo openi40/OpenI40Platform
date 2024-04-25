@@ -28,9 +28,34 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "productCode", column = @Column(name = "prd_code")),
 		@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")) ,
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))})
+
 public class OI40DBCycleModel extends OI40DBBaseEntity implements Serializable {
 	String productCode = null;
 	String plantCode = null;
 	String warehouseCode = null;
 	Boolean defaultProductCycle = null;
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getPlantCode() {
+		return plantCode;
+	}
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public Boolean getDefaultProductCycle() {
+		return defaultProductCycle;
+	}
+	public void setDefaultProductCycle(Boolean defaultProductCycle) {
+		this.defaultProductCycle = defaultProductCycle;
+	}
 }

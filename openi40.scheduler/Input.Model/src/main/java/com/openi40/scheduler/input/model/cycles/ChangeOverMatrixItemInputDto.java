@@ -7,8 +7,6 @@ import com.openi40.scheduler.input.model.ApsInputData;
 import com.openi40.scheduler.input.model.InputDto;
 import com.openi40.scheduler.input.model.companystructure.WorkCenterInputDto;
 import com.openi40.scheduler.input.model.equipment.MachineInputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

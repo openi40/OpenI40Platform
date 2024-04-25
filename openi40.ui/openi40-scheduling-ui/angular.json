@@ -1,0 +1,472 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "openi40-scheduler-angular-app": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/openi40-scheduler-angular-app",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
+
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "node_modules/primeflex/primeflex.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "node_modules/primeicons/primeicons.css",
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/chart.js/dist/chart.js"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "12mb",
+                  "maximumError": "50mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "20mb",
+                  "maximumError": "100mb"
+                }
+              ]
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "openi40-scheduler-angular-app:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "openi40-scheduler-angular-app:build:production"
+            },
+            "development": {
+              "buildTarget": "openi40-scheduler-angular-app:build:development"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "openi40-scheduler-angular-app:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.spec.json",
+            "karmaConfig": "karma.conf.js",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.css"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "tsconfig.app.json",
+              "tsconfig.spec.json",
+              "e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "openi40-scheduler-angular-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "openi40-scheduler-angular-app:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "openi40-scheduler-api": {
+      "projectType": "library",
+      "root": "projects/openi40-scheduler-api",
+      "sourceRoot": "projects/openi40-scheduler-api/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/openi40-scheduler-api/tsconfig.lib.json",
+            "project": "projects/openi40-scheduler-api/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-scheduler-api/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-scheduler-api/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openi40-scheduler-api/src/test.ts",
+            "tsConfig": "projects/openi40-scheduler-api/tsconfig.spec.json",
+            "karmaConfig": "projects/openi40-scheduler-api/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openi40-scheduler-api/tsconfig.lib.json",
+              "projects/openi40-scheduler-api/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-scheduler-ui": {
+      "projectType": "library",
+      "root": "projects/openi40-scheduler-ui",
+      "sourceRoot": "projects/openi40-scheduler-ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/openi40-scheduler-ui/tsconfig.lib.json",
+            "project": "projects/openi40-scheduler-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-scheduler-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-scheduler-ui/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openi40-scheduler-ui/src/test.ts",
+            "tsConfig": "projects/openi40-scheduler-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/openi40-scheduler-ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openi40-scheduler-ui/tsconfig.lib.json",
+              "projects/openi40-scheduler-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+
+    "openi40-material-planning": {
+      "projectType": "library",
+      "root": "projects/openi40-material-planning",
+      "sourceRoot": "projects/openi40-material-planning/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/openi40-material-planning/tsconfig.lib.json",
+            "project": "projects/openi40-material-planning/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-material-planning/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-material-planning/tsconfig.lib.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/openi40-material-planning/src/test.ts",
+            "tsConfig": "projects/openi40-material-planning/tsconfig.spec.json",
+            "karmaConfig": "projects/openi40-material-planning/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/openi40-material-planning/tsconfig.lib.json",
+              "projects/openi40-material-planning/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-scheduler-screens": {
+      "projectType": "library",
+      "root": "projects/openi40-scheduler-screens",
+      "sourceRoot": "projects/openi40-scheduler-screens/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-scheduler-screens/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-scheduler-screens/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-scheduler-screens/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-scheduler-screens/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-backoffice-api": {
+      "projectType": "library",
+      "root": "projects/openi40-backoffice-api",
+      "sourceRoot": "projects/openi40-backoffice-api/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-backoffice-api/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-backoffice-api/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-backoffice-api/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-backoffice-api/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-backoffice-screens": {
+      "projectType": "library",
+      "root": "projects/openi40-backoffice-screens",
+      "sourceRoot": "projects/openi40-backoffice-screens/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-backoffice-screens/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-backoffice-screens/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-backoffice-screens/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-backoffice-screens/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-backoffice-services": {
+      "projectType": "library",
+      "root": "projects/openi40-backoffice-services",
+      "sourceRoot": "projects/openi40-backoffice-services/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-backoffice-services/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-backoffice-services/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-backoffice-services/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-backoffice-services/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-backoffice-ui": {
+      "projectType": "library",
+      "root": "projects/openi40-backoffice-ui",
+      "sourceRoot": "projects/openi40-backoffice-ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-backoffice-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-backoffice-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-backoffice-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-backoffice-ui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    },
+    "openi40-common-ui": {
+      "projectType": "library",
+      "root": "projects/openi40-common-ui",
+      "sourceRoot": "projects/openi40-common-ui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/openi40-common-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/openi40-common-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/openi40-common-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/openi40-common-ui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

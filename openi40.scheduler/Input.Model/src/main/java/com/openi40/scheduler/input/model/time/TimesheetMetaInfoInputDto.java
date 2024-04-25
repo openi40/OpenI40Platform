@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.input.model.InputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,8 +15,20 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TimesheetMetaInfoInputDto extends InputDto implements Serializable {
 	protected List<TimesheetMetaInfoWorkingTimeRuleInputDto> workingTimeRules = new ArrayList<TimesheetMetaInfoWorkingTimeRuleInputDto>();
 	protected List<TimesheetMetaInfoExceptionRuleInputDto> exceptionRules = new ArrayList<TimesheetMetaInfoExceptionRuleInputDto>();
+	public List<TimesheetMetaInfoWorkingTimeRuleInputDto> getWorkingTimeRules() {
+		return workingTimeRules;
+	}
+	public void setWorkingTimeRules(List<TimesheetMetaInfoWorkingTimeRuleInputDto> workingTimeRules) {
+		this.workingTimeRules = workingTimeRules;
+	}
+	public List<TimesheetMetaInfoExceptionRuleInputDto> getExceptionRules() {
+		return exceptionRules;
+	}
+	public void setExceptionRules(List<TimesheetMetaInfoExceptionRuleInputDto> exceptionRules) {
+		this.exceptionRules = exceptionRules;
+	}
 }

@@ -5,34 +5,34 @@
 	<parent>
 		<groupId>com.openi40.scheduler</groupId>
 		<artifactId>MapperModules</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<artifactId>ApsModel2ClientModelMappers</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>	
+			<version>${project.version}</version>	
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>SchedulerKernelArchitecture</artifactId>
-			<version>${global.version}</version>	
+			<version>${project.version}</version>	
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
-			<version>${global.version}</version>	
+			<version>${project.version}</version>	
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Client.Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

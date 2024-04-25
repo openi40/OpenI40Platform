@@ -18,7 +18,7 @@ import com.openi40.scheduler.model.dao.DataModelDaoException;
  *
  */
 public interface IDataImporterFactory<ImportedData extends InputDto,MatchingData extends IApsObject> {
-	public Consumer<ImportedData> create(ApsData data) throws DataModelDaoException, MapperException;
+	public IDataImporterConsumer<ImportedData> create(ApsData data) throws DataModelDaoException, MapperException;
 	public Class<ImportedData> getManagedType();
 	public Class<MatchingData> getMappedType();
 	

@@ -1,17 +1,17 @@
 package com.openi40.scheduler.model.cycle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.openi40.scheduler.common.aps.IMetaInfo;
-import com.openi40.scheduler.model.TreeVisitType;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.companystructure.AbstractPlantRelatedApsObject;
 import com.openi40.scheduler.model.equipment.TaskEquipmentModelOptions;
 import com.openi40.scheduler.model.material.ItemProducedMetaInfo;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -23,7 +23,7 @@ import lombok.Data;
  *
  */
 
-public class OperationModel extends AbstractPlantRelatedApsObject implements IMetaInfo {
+public class OperationModel extends AbstractPlantRelatedApsObject implements IMetaInfo ,IApsResourcesDependencyTreeObject{
 	
 	protected String warehouseCode = null;
 	protected String cycleCode = null;
@@ -211,6 +211,31 @@ public class OperationModel extends AbstractPlantRelatedApsObject implements IMe
 
 	public void setDefaultPreceidingAlignmentType(PeriodsAlignmentType defaultPreceidingAlignmentType) {
 		this.defaultPreceidingAlignmentType = defaultPreceidingAlignmentType;
+	}
+
+
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		ResourceDepsItemMetaInfo info=new ResourceDepsItemMetaInfo(this);
+		return info;
+	}
+
+
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		List<IApsResourcesDependencyTreeObject> list=new ArrayList<IApsResourcesDependencyTreeObject>();
+		if (EquipmentModelOptions!=null) {
+			list.add(EquipmentModelOptions);
+		}
+		if (bomItems!=null) {
+			list.addAll(bomItems);
+		}
+		if (ItemProducedModel!=null) {
+			list.add(ItemProducedModel);
+		}
+		return list;
 	}
 
 }

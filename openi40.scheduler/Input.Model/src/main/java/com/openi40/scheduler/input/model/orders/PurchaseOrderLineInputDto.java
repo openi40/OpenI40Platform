@@ -3,8 +3,6 @@ package com.openi40.scheduler.input.model.orders;
 
 
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -15,7 +13,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class PurchaseOrderLineInputDto extends AbstractOrderLine {
 	

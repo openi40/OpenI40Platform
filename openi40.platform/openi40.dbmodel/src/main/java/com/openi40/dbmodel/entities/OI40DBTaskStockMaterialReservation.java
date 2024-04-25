@@ -8,8 +8,6 @@ import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -38,7 +36,7 @@ import lombok.Data;
 		@AttributeOverride(name = "nrTransfers", column = @Column(name = "nr_transfers")),
 		@AttributeOverride(name = "qtyReserved", column = @Column(name = "qty_reserved")) ,
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts"))})
-@Data
+
 public class OI40DBTaskStockMaterialReservation extends OI40DBBaseEntity implements Serializable {
 
 	String productCode=null;
@@ -52,5 +50,71 @@ public class OI40DBTaskStockMaterialReservation extends OI40DBBaseEntity impleme
 	Double batchQty = null;
 	Double nrTransfers = null;
 	Double qtyReserved = null;
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public String getTaskCode() {
+		return taskCode;
+	}
+	public void setTaskCode(String taskCode) {
+		this.taskCode = taskCode;
+	}
+	public String getMachineCode() {
+		return machineCode;
+	}
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
+	}
+	public String getWorkCenterCode() {
+		return workCenterCode;
+	}
+	public void setWorkCenterCode(String workCenterCode) {
+		this.workCenterCode = workCenterCode;
+	}
+	public Date getStartTransfer() {
+		return startTransfer;
+	}
+	public void setStartTransfer(Date startTransfer) {
+		this.startTransfer = startTransfer;
+	}
+	public Date getEndTransfer() {
+		return endTransfer;
+	}
+	public void setEndTransfer(Date endTransfer) {
+		this.endTransfer = endTransfer;
+	}
+	public String getTransferType() {
+		return transferType;
+	}
+	public void setTransferType(String transferType) {
+		this.transferType = transferType;
+	}
+	public Double getBatchQty() {
+		return batchQty;
+	}
+	public void setBatchQty(Double batchQty) {
+		this.batchQty = batchQty;
+	}
+	public Double getNrTransfers() {
+		return nrTransfers;
+	}
+	public void setNrTransfers(Double nrTransfers) {
+		this.nrTransfers = nrTransfers;
+	}
+	public Double getQtyReserved() {
+		return qtyReserved;
+	}
+	public void setQtyReserved(Double qtyReserved) {
+		this.qtyReserved = qtyReserved;
+	}
 
 }

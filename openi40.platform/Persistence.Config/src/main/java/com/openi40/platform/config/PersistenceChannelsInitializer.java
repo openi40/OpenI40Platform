@@ -13,6 +13,8 @@ package com.openi40.platform.config;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,27 +22,25 @@ import org.springframework.stereotype.Service;
 
 import com.openi40.platform.persistence.input.channel.AbstractPersistenceInputDataStream;
 import com.openi40.platform.persistence.input.channel.PersistenceInputDataStreamFactory;
-import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumer;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumerFactory;
 import com.openi40.platform.persistence.output.channel.PersistenceOutputDataConsumerFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
-
-import lombok.Data;
 
 @Service
 public class PersistenceChannelsInitializer {
 	PersistenceChannelsConfig config = null;
 	List<AbstractPersistenceInputDataStream> persistenceStreams = null;
 	List<AbstractPersistentExtendedConsumerFactory> extendedConsumers = null;
-
+	DataSource dataSource=null;
 	@Autowired
 	public PersistenceChannelsInitializer(PersistenceChannelsConfig config,
 			List<AbstractPersistenceInputDataStream> persistenceStreams,
-			List<AbstractPersistentExtendedConsumerFactory> extendedConsumers) {
+			List<AbstractPersistentExtendedConsumerFactory> extendedConsumers,DataSource dataSource) {
 		this.config = config;
 		this.persistenceStreams = persistenceStreams;
 		this.extendedConsumers = extendedConsumers;
+		this.dataSource=dataSource;
 	}
 
 	@Bean
@@ -74,7 +74,7 @@ public class PersistenceChannelsInitializer {
 		if (this.config != null && !this.config.getConfigs().isEmpty()) {
 			this.config.getConfigs().forEach(entry -> {
 
-				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory();
+				PersistenceOutputDataConsumerFactory podcf = new PersistenceOutputDataConsumerFactory(dataSource); 
 				podcf.setDataSetName(entry.getDataSetName());
 				podcf.setDataSourceName(entry.getDataSourceName());
 				podcf.setDataSetName(entry.getDataSetName());

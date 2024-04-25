@@ -2,6 +2,7 @@ package com.openi40.scheduler.model.aps;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,10 +11,6 @@ import com.openi40.scheduler.model.AbstractSchedulingEnvironmentNode;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 
 /**
  * 
@@ -25,7 +22,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 	private static final String WORK_ORDERS = "WorkOrders";
 
@@ -37,6 +34,7 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 
 	public ApsSchedulingSet(ApsData context) {
 		super(context);
+		this.code=UUID.randomUUID().toString();
 
 	}
 
@@ -47,7 +45,7 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 	protected boolean processed;
 	protected boolean userReadOnly = false;
 	private boolean scheduled = false;
-	@Setter(value = AccessLevel.NONE)
+	
 	private List<WorkOrder> workOrders = createCleanChild(this, WORK_ORDERS, WorkOrder.class);
 
 	public List<WorkOrder> getWorkOrders() {
@@ -121,5 +119,57 @@ public class ApsSchedulingSet extends AbstractSchedulingEnvironmentNode {
 
 	public boolean isUserReadOnly() {
 		return this.userReadOnly || schedulingSetType == ApsSchedulingSetType.PRODUCTION_CONTROL;
+	}
+
+	public ApsLogicDirection getAlgorithmDirection() {
+		return algorithmDirection;
+	}
+
+	public void setAlgorithmDirection(ApsLogicDirection algorithmDirection) {
+		this.algorithmDirection = algorithmDirection;
+	}
+
+	public ApsSchedulingSetType getSchedulingSetType() {
+		return schedulingSetType;
+	}
+
+	public void setSchedulingSetType(ApsSchedulingSetType schedulingSetType) {
+		this.schedulingSetType = schedulingSetType;
+	}
+
+	public String getAlgorithmType() {
+		return algorithmType;
+	}
+
+	public void setAlgorithmType(String algorithmType) {
+		this.algorithmType = algorithmType;
+	}
+
+	public ApsLogicOptions getOptions() {
+		return options;
+	}
+
+	public void setOptions(ApsLogicOptions options) {
+		this.options = options;
+	}
+
+	public boolean isProcessed() {
+		return processed;
+	}
+
+	public void setProcessed(boolean processed) {
+		this.processed = processed;
+	}
+
+	public boolean isScheduled() {
+		return scheduled;
+	}
+
+	public void setScheduled(boolean scheduled) {
+		this.scheduled = scheduled;
+	}
+
+	public void setUserReadOnly(boolean userReadOnly) {
+		this.userReadOnly = userReadOnly;
 	}
 }

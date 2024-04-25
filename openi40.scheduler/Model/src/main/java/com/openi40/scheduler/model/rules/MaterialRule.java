@@ -8,8 +8,6 @@ import com.openi40.scheduler.model.material.ISupply;
 import com.openi40.scheduler.model.material.ISupplyConsumer;
 import com.openi40.scheduler.model.material.SupplyReservation;
 import com.openi40.scheduler.model.tasks.Task;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -20,7 +18,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class MaterialRule extends Rule {
 	public enum ConsumptionMode {
 		CONTINUOUS, LOT_CONSUMPTION;
@@ -67,15 +65,15 @@ public class MaterialRule extends Rule {
 		}
 	}
 	
-	private List<SupplyReservation> ConstraintGeneratedReservations = new ArrayList<SupplyReservation>();
+	private List<SupplyReservation> constraintGeneratedReservations = new ArrayList<SupplyReservation>();
 
-	private ISupplyConsumer Consumer;
+	private ISupplyConsumer consumer;
 
-	private ConsumptionMode ConsumerMode = ConsumptionMode.values()[0];
-	private CoveringConstraintType CoveringType = CoveringConstraintType.TOTAL_COVERING_MANDATORY;
-	private MaterialContraintType MaterialContraint = MaterialContraintType.values()[0];
-	private List<ISupply> MaterialSupplies = new ArrayList<ISupply>();
-	private List<SupplyResolutionStrategy> ResolutionStrategies = new ArrayList<SupplyResolutionStrategy>();
+	private ConsumptionMode consumerMode = ConsumptionMode.values()[0];
+	private CoveringConstraintType coveringType = CoveringConstraintType.TOTAL_COVERING_MANDATORY;
+	private MaterialContraintType materialContraint = MaterialContraintType.values()[0];
+	private List<ISupply> materialSupplies = new ArrayList<ISupply>();
+	private List<SupplyResolutionStrategy> resolutionStrategies = new ArrayList<SupplyResolutionStrategy>();
 
 	public MaterialRule(ApsData context) {
 		super(context);
@@ -93,6 +91,62 @@ public class MaterialRule extends Rule {
 		setConsumerMode(getConsumer().getConsumptionMode());
 		setMaterialContraint(linkedSupply == null ? MaterialContraintType.SUPPLY_REQUIREMENT : MaterialContraintType.PRODUCTION_LINK);
 		setCoveringType(covering);
+	}
+
+	public List<SupplyReservation> getConstraintGeneratedReservations() {
+		return constraintGeneratedReservations;
+	}
+
+	public void setConstraintGeneratedReservations(List<SupplyReservation> constraintGeneratedReservations) {
+		this.constraintGeneratedReservations = constraintGeneratedReservations;
+	}
+
+	public ISupplyConsumer getConsumer() {
+		return consumer;
+	}
+
+	public void setConsumer(ISupplyConsumer consumer) {
+		this.consumer = consumer;
+	}
+
+	public ConsumptionMode getConsumerMode() {
+		return consumerMode;
+	}
+
+	public void setConsumerMode(ConsumptionMode consumerMode) {
+		this.consumerMode = consumerMode;
+	}
+
+	public CoveringConstraintType getCoveringType() {
+		return coveringType;
+	}
+
+	public void setCoveringType(CoveringConstraintType coveringType) {
+		this.coveringType = coveringType;
+	}
+
+	public MaterialContraintType getMaterialContraint() {
+		return materialContraint;
+	}
+
+	public void setMaterialContraint(MaterialContraintType materialContraint) {
+		this.materialContraint = materialContraint;
+	}
+
+	public List<ISupply> getMaterialSupplies() {
+		return materialSupplies;
+	}
+
+	public void setMaterialSupplies(List<ISupply> materialSupplies) {
+		this.materialSupplies = materialSupplies;
+	}
+
+	public List<SupplyResolutionStrategy> getResolutionStrategies() {
+		return resolutionStrategies;
+	}
+
+	public void setResolutionStrategies(List<SupplyResolutionStrategy> resolutionStrategies) {
+		this.resolutionStrategies = resolutionStrategies;
 	}
 
 }

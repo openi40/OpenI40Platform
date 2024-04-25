@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openi40.scheduler.engine.aps.ApsLogics;
 
 import io.swagger.annotations.Api;
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -26,7 +25,7 @@ import lombok.Data;
 @Api
 public class ApsAlgorithms {
 	
-	@Data
+	
 	public static class ApsAlgorithm{
 		public ApsAlgorithm() {
 			
@@ -35,6 +34,12 @@ public class ApsAlgorithms {
 			this.algorithmTypeCode=alg;
 		}
 		private String algorithmTypeCode=null;
+		public String getAlgorithmTypeCode() {
+			return algorithmTypeCode;
+		}
+		public void setAlgorithmTypeCode(String algorithmTypeCode) {
+			this.algorithmTypeCode = algorithmTypeCode;
+		}
 		
 	}
 	public ApsAlgorithms() {

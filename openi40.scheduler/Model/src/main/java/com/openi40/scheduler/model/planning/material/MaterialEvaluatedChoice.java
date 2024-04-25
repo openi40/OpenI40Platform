@@ -12,8 +12,6 @@ import com.openi40.scheduler.model.planning.PlanChoice;
 import com.openi40.scheduler.model.rules.MaterialRule;
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -24,7 +22,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class MaterialEvaluatedChoice extends PlanChoice {
 	public MaterialEvaluatedChoice(MaterialChoice materialConstraintSatisfactionPlan, TimeSegment setupTimeRange,
 			TimeSegment workTimeRange, List<IOperation> reversibleOperations,
@@ -66,5 +64,13 @@ public class MaterialEvaluatedChoice extends PlanChoice {
 			}
 		}
 
+	}
+
+	public List<SupplyReservation> getGeneratedReservations() {
+		return GeneratedReservations;
+	}
+
+	public void setGeneratedReservations(List<SupplyReservation> generatedReservations) {
+		GeneratedReservations = generatedReservations;
 	}
 }

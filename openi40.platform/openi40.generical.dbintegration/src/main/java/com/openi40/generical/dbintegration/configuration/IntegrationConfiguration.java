@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,7 +17,7 @@ import lombok.Data;
  */
 @Configuration
 @ConfigurationProperties(prefix = "com.openi40.generical.dbintegration")
-@Data
+
 public class IntegrationConfiguration {	
 	IDBConfig otherdb=new IDBConfig();
 	List<SqlEntityIntegrationConfig> sqlExtracted = new ArrayList<>();
@@ -27,6 +25,30 @@ public class IntegrationConfiguration {
 
 	public IntegrationConfiguration() {
 
+	}
+
+	public IDBConfig getOtherdb() {
+		return otherdb;
+	}
+
+	public void setOtherdb(IDBConfig otherdb) {
+		this.otherdb = otherdb;
+	}
+
+	public List<SqlEntityIntegrationConfig> getSqlExtracted() {
+		return sqlExtracted;
+	}
+
+	public void setSqlExtracted(List<SqlEntityIntegrationConfig> sqlExtracted) {
+		this.sqlExtracted = sqlExtracted;
+	}
+
+	public List<JavaEntityIntegrationConfig> getJavaExtracted() {
+		return javaExtracted;
+	}
+
+	public void setJavaExtracted(List<JavaEntityIntegrationConfig> javaExtracted) {
+		this.javaExtracted = javaExtracted;
 	}
 
 }

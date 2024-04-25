@@ -104,6 +104,24 @@ public class SchedulingAlgorithmStructureTest {
 	}
 
 	@Test
+	public void testSpearfishingHoldingLoadedFromDiskForward() throws ApsDataCacheException {
+		String dataSourceName = "SPEARFISHING-HOLDING";
+		String dataSetName = "SPEARFISHING-HOLDING";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+	}
+
+	@Test
+	public void testSpearfishingHoldingLoadedFromDiskBackward() throws ApsDataCacheException {
+		String dataSourceName = "SPEARFISHING-HOLDING";
+		String dataSetName = "SPEARFISHING-HOLDING";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		TestScheduling(ApsLogics.BACKWARD_APS, apsData);
+	}
+
+	@Test
 	public void testArbaleteLoadedFromDiskForward() throws ApsDataCacheException {
 		String dataSourceName = "ARBALETE-DEMO";
 		String dataSetName = "ARBALETE-COMPANY";
@@ -141,6 +159,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
+
 	@Test
 	public void testStainlessSteelCompanyPurchaseSimulationTestLoadedFromDiskForward() throws ApsDataCacheException {
 
@@ -150,6 +169,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
+
 	@Ignore
 	@Test
 	public void testStainlessSteelCompanyLoadedFromDiskBackwardUntillUnschedulable() throws ApsDataCacheException {
@@ -477,7 +497,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setWarehouseCode("WH002");
 				sline.setPlannedDeliveryDate(Timestamp.valueOf("2021-06-01 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(100);
+				sline.setTotalQty(100.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				plant.getSalesOrders().add(salesOrder);
@@ -508,7 +528,7 @@ public class SchedulingAlgorithmStructureTest {
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		String finalOrderProductCode = "AISI316SQUARE50x50x3mm";
 		Product product = productDao.findByCode(finalOrderProductCode, apsData); // Reset all orders
-		String complexProductCode="TRIGGER001";
+		String complexProductCode = "TRIGGER001";
 		Product complexProduct = productDao.findByCode(complexProductCode, apsData);
 		for (ProductiveCompany pc : apsData.getProductiveCompanies()) {
 			for (Plant plant : pc.getPlants()) {
@@ -533,7 +553,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-01-12 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-02-08 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				sline = new SalesOrderLine(apsData);
@@ -545,7 +565,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-18 23:59:59"));
 				sline.setProduct(product);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				sline = new SalesOrderLine(apsData);
@@ -557,7 +577,7 @@ public class SchedulingAlgorithmStructureTest {
 				sline.setMinProductionDateConstraint(Timestamp.valueOf("2021-04-09 08:59:59"));
 				sline.setMaxProductionDateConstraint(Timestamp.valueOf("2021-04-30 23:59:59"));
 				sline.setProduct(complexProduct);
-				sline.setTotalQty(1);
+				sline.setTotalQty(1.0);
 				sline.setExplodeWorkOrders(true);
 				salesOrder.getOrderLines().add(sline);
 				plant.getSalesOrders().add(salesOrder);

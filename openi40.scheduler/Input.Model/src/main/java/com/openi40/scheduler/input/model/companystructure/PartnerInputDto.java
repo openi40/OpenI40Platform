@@ -1,8 +1,6 @@
 package com.openi40.scheduler.input.model.companystructure;
 
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,12 +12,24 @@ import lombok.Data;
  *
  */
 @MappedSuperclass
-@Data
+
 public class PartnerInputDto extends AbstractCompany {
 
 	public PartnerInputDto() {
 		
 	}
 	boolean customer=false,supplier=false;
+	public boolean isCustomer() {
+		return customer;
+	}
+	public void setCustomer(boolean customer) {
+		this.customer = customer;
+	}
+	public boolean isSupplier() {
+		return supplier;
+	}
+	public void setSupplier(boolean supplier) {
+		this.supplier = supplier;
+	}
 
 }

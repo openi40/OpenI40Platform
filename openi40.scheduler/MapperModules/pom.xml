@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>com.openi40.scheduler</groupId>
-    <artifactId>parent</artifactId>
-    <version>00.00.02BC-SNAPSHOT</version>
+    <artifactId>com.openi40.scheduler.parent</artifactId>
+    <version>00.41.BETA-SNAPSHOT</version>
   </parent>
   <artifactId>MapperModules</artifactId>
   <packaging>pom</packaging>
@@ -13,5 +13,7 @@
   	<module>InputModel2ApsModelMappers</module>
   	<module>ApsModel2OutputModel</module>
   	<module>Input.IOMessages2ApsModelMappers</module>
+  	<module>InputOutputModel2IgniteBinaryObject</module>
+  	<module>OutputModel2InputModel</module>
   </modules>
 </project>

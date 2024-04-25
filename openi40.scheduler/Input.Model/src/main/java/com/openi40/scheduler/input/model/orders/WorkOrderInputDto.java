@@ -48,7 +48,7 @@ public class WorkOrderInputDto extends InputDto {
 	}
 
 	public void setDeliveryDate(Date deliveryDate) {
-		deliveryDate = deliveryDate;
+		this.deliveryDate = deliveryDate;
 	}
 
 	public Integer getIdx() {

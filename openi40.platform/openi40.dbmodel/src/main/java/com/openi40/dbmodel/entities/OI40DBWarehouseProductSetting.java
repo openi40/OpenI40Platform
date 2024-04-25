@@ -36,6 +36,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "securityStock", column = @Column(name = "security_stock")),
 		@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+
 public class OI40DBWarehouseProductSetting  extends OI40DBBaseEntity implements Serializable {
 	protected String warehouseCode = null;
 	protected Integer averageleadTimeDays = null;
@@ -51,4 +52,100 @@ public class OI40DBWarehouseProductSetting  extends OI40DBBaseEntity implements 
 	protected Boolean purchaseBySchedulerEnabled = null;
 	
 	protected String productCode=null;
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+
+	public Integer getAverageleadTimeDays() {
+		return averageleadTimeDays;
+	}
+
+	public void setAverageleadTimeDays(Integer averageleadTimeDays) {
+		this.averageleadTimeDays = averageleadTimeDays;
+	}
+
+	public Integer getAverageProductionDays() {
+		return averageProductionDays;
+	}
+
+	public void setAverageProductionDays(Integer averageProductionDays) {
+		this.averageProductionDays = averageProductionDays;
+	}
+
+	public Double getSecurityStock() {
+		return securityStock;
+	}
+
+	public void setSecurityStock(Double securityStock) {
+		this.securityStock = securityStock;
+	}
+
+	public Boolean getProduceAccordingToReorderLevel() {
+		return produceAccordingToReorderLevel;
+	}
+
+	public void setProduceAccordingToReorderLevel(Boolean produceAccordingToReorderLevel) {
+		this.produceAccordingToReorderLevel = produceAccordingToReorderLevel;
+	}
+
+	public Boolean getPurchaseAccordingToReorderLevel() {
+		return purchaseAccordingToReorderLevel;
+	}
+
+	public void setPurchaseAccordingToReorderLevel(Boolean purchaseAccordingToReorderLevel) {
+		this.purchaseAccordingToReorderLevel = purchaseAccordingToReorderLevel;
+	}
+
+	public Double getAverageMinPurchaseQty() {
+		return averageMinPurchaseQty;
+	}
+
+	public void setAverageMinPurchaseQty(Double averageMinPurchaseQty) {
+		this.averageMinPurchaseQty = averageMinPurchaseQty;
+	}
+
+	public Boolean getProduced() {
+		return produced;
+	}
+
+	public void setProduced(Boolean produced) {
+		this.produced = produced;
+	}
+
+	public Boolean getPurchased() {
+		return purchased;
+	}
+
+	public void setPurchased(Boolean purchased) {
+		this.purchased = purchased;
+	}
+
+	public Boolean getProductionBySchedulerEnabled() {
+		return productionBySchedulerEnabled;
+	}
+
+	public void setProductionBySchedulerEnabled(Boolean productionBySchedulerEnabled) {
+		this.productionBySchedulerEnabled = productionBySchedulerEnabled;
+	}
+
+	public Boolean getPurchaseBySchedulerEnabled() {
+		return purchaseBySchedulerEnabled;
+	}
+
+	public void setPurchaseBySchedulerEnabled(Boolean purchaseBySchedulerEnabled) {
+		this.purchaseBySchedulerEnabled = purchaseBySchedulerEnabled;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
 }

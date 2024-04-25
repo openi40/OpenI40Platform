@@ -14,10 +14,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.openi40.scheduler.client.model.ClientDto;
-import com.openi40.scheduler.client.model.tasks.EquipmentInfoDto;
 
-import lombok.Data;
-@Data
 public class TimeSegmentDto extends ClientDto implements Serializable {
 
 	public TimeSegmentDto() {
@@ -32,6 +29,18 @@ public class TimeSegmentDto extends ClientDto implements Serializable {
 	}
 	public long getUtcEndDateTime() {
 		return endDateTime!=null?endDateTime.getTime():0l;
+	}
+	public Date getStartDateTime() {
+		return startDateTime;
+	}
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 	
 }

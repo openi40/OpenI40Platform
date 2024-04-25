@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -32,10 +30,28 @@ import lombok.Data;
 		@AttributeOverride(name = "timesheetMetaInfoCode", column = @Column(name = "tsheet_meta_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
 		@AttributeOverride(name = "availability", column = @Column(name = "availability")) })
-@Data
+
 public class OI40DBSecondaryResource extends OI40DBBaseTimesheetManaged implements Serializable {
 	private Boolean disabled = null;
 	private String resourceGroupCode = null;
 	private String availability = null;
+	public Boolean getDisabled() {
+		return disabled;
+	}
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
+	}
+	public String getResourceGroupCode() {
+		return resourceGroupCode;
+	}
+	public void setResourceGroupCode(String resourceGroupCode) {
+		this.resourceGroupCode = resourceGroupCode;
+	}
+	public String getAvailability() {
+		return availability;
+	}
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
 
 }

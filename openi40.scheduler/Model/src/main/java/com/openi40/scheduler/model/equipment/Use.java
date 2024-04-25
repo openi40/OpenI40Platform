@@ -9,8 +9,6 @@ import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.time.TimesheetReservation;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -21,7 +19,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class Use<EquipmentType extends ITimesheetAllocableObject, EquipmentModelType extends UseModel<EquipmentGroupType, EquipmentType>, EquipmentGroupType extends Group<EquipmentType>>
 		extends AbstractApsObject implements IReferencingMetaInfo<EquipmentModelType>, ICloneable, Cloneable {
 	private List<TimesheetReservation> timesheetReservations = new ArrayList<TimesheetReservation>();
@@ -66,6 +64,62 @@ public class Use<EquipmentType extends ITimesheetAllocableObject, EquipmentModel
 			}
 		this.getChoosenEquipmentList().clear();
 		this.setChoosenEquipmentList(new ArrayList<>());
+	}
+
+	public List<TimesheetReservation> getTimesheetReservations() {
+		return timesheetReservations;
+	}
+
+	public void setTimesheetReservations(List<TimesheetReservation> timesheetReservations) {
+		this.timesheetReservations = timesheetReservations;
+	}
+
+	public EquipmentType getChoosenEquipment() {
+		return choosenEquipment;
+	}
+
+	public void setChoosenEquipment(EquipmentType choosenEquipment) {
+		this.choosenEquipment = choosenEquipment;
+	}
+
+	public List<EquipmentType> getChoosenEquipmentList() {
+		return choosenEquipmentList;
+	}
+
+	public void setChoosenEquipmentList(List<EquipmentType> choosenEquipmentList) {
+		this.choosenEquipmentList = choosenEquipmentList;
+	}
+
+	public EquipmentModelType getMetaInfo() {
+		return metaInfo;
+	}
+
+	public void setMetaInfo(EquipmentModelType metaInfo) {
+		this.metaInfo = metaInfo;
+	}
+
+	public ResourceRequiredCalculationType getResourceRequiredCalculationType() {
+		return resourceRequiredCalculationType;
+	}
+
+	public void setResourceRequiredCalculationType(ResourceRequiredCalculationType resourceRequiredCalculationType) {
+		this.resourceRequiredCalculationType = resourceRequiredCalculationType;
+	}
+
+	public int getUsedQty() {
+		return usedQty;
+	}
+
+	public void setUsedQty(int usedQty) {
+		this.usedQty = usedQty;
+	}
+
+	public double getResourceCalculatedLot() {
+		return resourceCalculatedLot;
+	}
+
+	public void setResourceCalculatedLot(double resourceCalculatedLot) {
+		this.resourceCalculatedLot = resourceCalculatedLot;
 	}
 
 }

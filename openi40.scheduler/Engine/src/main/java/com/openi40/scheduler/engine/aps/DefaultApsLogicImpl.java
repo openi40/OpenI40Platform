@@ -1,5 +1,6 @@
 package com.openi40.scheduler.engine.aps;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
 import com.openi40.scheduler.model.aps.ApsSchedulingSet;
 /**
@@ -14,5 +15,10 @@ import com.openi40.scheduler.model.aps.ApsSchedulingSet;
  */
 @DefaultImplementation(implemented = IApsLogic.class, entityClass = ApsSchedulingSet.class)
 public class DefaultApsLogicImpl extends BackwardApsLogicImpl {
+
+	public DefaultApsLogicImpl(OpenI40MultithreadingConfig multithreadingConfig, AsyncDelegateService delegateService) {
+		super(multithreadingConfig, delegateService);
+		
+	}
 
 }

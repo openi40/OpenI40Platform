@@ -7,11 +7,6 @@ import java.util.List;
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.rules.MaterialRule;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -22,7 +17,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class AbstractSupplyConsumer extends AbstractApsObject implements ISupplyConsumer {
 	private MaterialRule.ConsumptionMode consumptionMode = MaterialRule.ConsumptionMode.CONTINUOUS;
 	private double lotQty = 0;
@@ -31,8 +26,7 @@ public class AbstractSupplyConsumer extends AbstractApsObject implements ISupply
 	private Product product;
 	private double requiredQty = 0.0;
 	private String warehouseCode=null;
-	@Getter(value = AccessLevel.NONE)
-	@Setter(value = AccessLevel.NONE)
+	
 	private List<SupplyReservation> reservations = new ArrayList<SupplyReservation>();
 
 	public AbstractSupplyConsumer(ApsData context) {
@@ -67,5 +61,61 @@ public class AbstractSupplyConsumer extends AbstractApsObject implements ISupply
 	@Override
 	public void resetSchedulingData() {
 		reservations.clear();
+	}
+
+	public MaterialRule.ConsumptionMode getConsumptionMode() {
+		return consumptionMode;
+	}
+
+	public void setConsumptionMode(MaterialRule.ConsumptionMode consumptionMode) {
+		this.consumptionMode = consumptionMode;
+	}
+
+	public double getLotQty() {
+		return lotQty;
+	}
+
+	public void setLotQty(double lotQty) {
+		this.lotQty = lotQty;
+	}
+
+	public Date getRequiredDateTime() {
+		return requiredDateTime;
+	}
+
+	public void setRequiredDateTime(Date requiredDateTime) {
+		this.requiredDateTime = requiredDateTime;
+	}
+
+	public Date getSatisfiedDateTime() {
+		return satisfiedDateTime;
+	}
+
+	public void setSatisfiedDateTime(Date satisfiedDateTime) {
+		this.satisfiedDateTime = satisfiedDateTime;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public double getRequiredQty() {
+		return requiredQty;
+	}
+
+	public void setRequiredQty(double requiredQty) {
+		this.requiredQty = requiredQty;
+	}
+
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
 	}
 }

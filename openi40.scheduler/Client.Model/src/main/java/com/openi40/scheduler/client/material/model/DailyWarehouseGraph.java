@@ -15,13 +15,17 @@ import java.util.List;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
-@Data
 public class DailyWarehouseGraph extends ClientDto {
 
 	public DailyWarehouseGraph() {
 		
 	}
 	List<InventoryDay> inventoryDays=new ArrayList<>();
+	public List<InventoryDay> getInventoryDays() {
+		return inventoryDays;
+	}
+	public void setInventoryDays(List<InventoryDay> inventoryDays) {
+		this.inventoryDays = inventoryDays;
+	}
 
 }

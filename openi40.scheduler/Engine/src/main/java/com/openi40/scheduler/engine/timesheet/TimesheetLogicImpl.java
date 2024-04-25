@@ -14,11 +14,6 @@ import com.openi40.scheduler.common.utils.DateUtil;
 import com.openi40.scheduler.engine.OpenI40Exception;
 import com.openi40.scheduler.engine.contextualplugarch.BusinessLogic;
 import com.openi40.scheduler.engine.contextualplugarch.DefaultImplementation;
-import com.openi40.scheduler.engine.timesheet.AdvancedTimesheet.AdvancedCalendarReservation;
-import com.openi40.scheduler.engine.timesheet.AdvancedTimesheet.FreeSegment;
-import com.openi40.scheduler.engine.timesheet.AdvancedTimesheet.PotentialSlotRange;
-import com.openi40.scheduler.engine.timesheet.AdvancedTimesheet.Slot;
-import com.openi40.scheduler.engine.timesheet.AdvancedTimesheet.SlotIndex;
 import com.openi40.scheduler.engine.timesheet.TimeSegmentEvaluationResult.TimeSegmentEvaluationResultType;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
@@ -164,8 +159,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		// FIRST SELECT FIRST LEVEL SLOTS WITH THE CALENDAR GENERATION CRITERIA
 		Date discreteStart = null;
 		Date discreteEnd = null;
-		Slot startSlot = null;
-		Slot endSlot = null;
+		ATSlot startSlot = null;
+		ATSlot endSlot = null;
 
 		if (rangeRequirement.isLowerLimited()) {
 			Date startSearchSlot = null;
@@ -194,23 +189,23 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return reservation;
 	}
 
-	protected double countTimeUsingEfficiency(List<SlotIndex> indexes) {
+	protected double countTimeUsingEfficiency(List<ATSlotIndex> indexes) {
 		double globalTime = 0;
-		for (SlotIndex si : indexes) {
+		for (ATSlotIndex si : indexes) {
 			globalTime += si.getWorkTimeUsingEfficiency();
 		}
 		return globalTime;
 	}
 
-	protected int countTime(List<SlotIndex> indexes) {
+	protected int countTime(List<ATSlotIndex> indexes) {
 		int globalTime = 0;
-		for (SlotIndex si : indexes) {
+		for (ATSlotIndex si : indexes) {
 			globalTime += si.getWorkTime();
 		}
 		return globalTime;
 	}
 
-	protected Slot nextSlot(Slot currentSlot, ApsLogicDirection direction) {
+	protected ATSlot nextSlot(ATSlot currentSlot, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD:
 			return currentSlot.afterSlot;
@@ -222,27 +217,27 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		}
 	}
 
-	protected int findSegmentIndexContainingOffset(Slot slot, ApsLogicDirection direction, int offset) {
+	protected int findSegmentIndexContainingOffset(ATSlot slot, ApsLogicDirection direction, int offset) {
 		for (int i = 0; i < slot.freeSegments.size(); i++) {
-			FreeSegment segment = slot.freeSegments.get(i);
+			ATFreeSegment segment = slot.freeSegments.get(i);
 			if (segment.startIndex <= offset && segment.endIndex >= offset)
 				return i;
 		}
 		return -1;
 	}
 
-	protected int findSegmentIndexMoving(Slot slot, ApsLogicDirection direction, int offset) {
+	protected int findSegmentIndexMoving(ATSlot slot, ApsLogicDirection direction, int offset) {
 		return findSegmentIndexMoving(slot, direction, offset, -1);
 	}
 
-	protected int findSegmentIndexMoving(Slot slot, ApsLogicDirection direction, int offset, int startingFrom) {
+	protected int findSegmentIndexMoving(ATSlot slot, ApsLogicDirection direction, int offset, int startingFrom) {
 
 		switch (direction) {
 		case FORWARD: {
 			if (startingFrom < 0)
 				startingFrom = 0;
 			for (int i = startingFrom; i < slot.freeSegments.size(); i++) {
-				FreeSegment segment = slot.freeSegments.get(i);
+				ATFreeSegment segment = slot.freeSegments.get(i);
 				if (segment.startIndex >= offset)
 					return i;
 			}
@@ -253,7 +248,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			if (startingFrom < 0)
 				startingFrom = slot.freeSegments.size() - 1;
 			for (int i = startingFrom; i >= 0; i--) {
-				FreeSegment segment = slot.freeSegments.get(i);
+				ATFreeSegment segment = slot.freeSegments.get(i);
 				if (segment.endIndex <= offset)
 					return i;
 			}
@@ -265,7 +260,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return -1;
 	}
 
-	protected int offsetOnMarginOfSegment(FreeSegment segment, ApsLogicDirection direction) {
+	protected int offsetOnMarginOfSegment(ATFreeSegment segment, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD:
 			return segment.startIndex;
@@ -287,8 +282,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	 * @param direction
 	 * @return
 	 */
-	protected boolean assignSlotMarginAndSegmentUsingOffset(SlotIndex slotIndex, int offset, int requiredDuration,
-			FreeSegment segment, ApsLogicDirection direction) {
+	protected boolean assignSlotMarginAndSegmentUsingOffset(ATSlotIndex slotIndex, int offset, int requiredDuration,
+			ATFreeSegment segment, ApsLogicDirection direction) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin assignSlotMarginAndSegmentUsingOffset(slotIndex={}," + offset + "," + requiredDuration
 					+ "," + segment + "," + direction + ")");
@@ -357,7 +352,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return !thisSegmentIsEnough;
 	}
 
-	protected boolean isAllocatedOnSlotInitialMargin(SlotIndex slotIndex, ApsLogicDirection direction) {
+	protected boolean isAllocatedOnSlotInitialMargin(ATSlotIndex slotIndex, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD: {
 			Date date = slotIndex.getStartDate();
@@ -384,7 +379,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	 * @param direction
 	 * @return
 	 */
-	protected boolean isAllocatedOnSlotGuardMargin(SlotIndex slotIndex, ApsLogicDirection direction) {
+	protected boolean isAllocatedOnSlotGuardMargin(ATSlotIndex slotIndex, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD: {
 			Date date = slotIndex.getEndDate();
@@ -401,7 +396,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		}
 	}
 
-	protected boolean isReachedSearchAreaEnd(Slot startSlot, Slot endSlot, Slot currentSlot,
+	protected boolean isReachedSearchAreaEnd(ATSlot startSlot, ATSlot endSlot, ATSlot currentSlot,
 			ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD: {
@@ -417,7 +412,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		}
 	}
 
-	protected boolean isAllocatedEnoughTime(List<SlotIndex> slots, int requiredDuration) {
+	protected boolean isAllocatedEnoughTime(List<ATSlotIndex> slots, int requiredDuration) {
 		return countTimeUsingEfficiency(slots) >= requiredDuration;
 	}
 
@@ -432,7 +427,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return closedSegment;
 	}
 
-	protected boolean checkClosedSegmentRequirementFitsSlots(TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+	protected boolean checkClosedSegmentRequirementFitsSlots(TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		boolean closedSegment = req.isLowUpLimited() && req.getAvailabilityDuration() <= 0;
 		boolean fits = false;
 		if (closedSegment) {
@@ -461,18 +456,18 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 
 	}
 
-	protected boolean fullyFree(Slot slot) {
+	protected boolean fullyFree(ATSlot slot) {
 		boolean free = slot.freeSegments.size() == 1;
 		if (free) {
-			FreeSegment segment = slot.freeSegments.get(0);
+			ATFreeSegment segment = slot.freeSegments.get(0);
 			int maxIndex = calculateOffset(slot.getStartDateTime(), slot.getEndDateTime());
 			free = free && segment.startIndex == 0 && segment.endIndex == maxIndex;
 		}
 		return free;
 	}
 
-	protected List<SlotIndex> tryAcquireClosedSegmentContiguosFreeSegments(ITimesheetAllocableObject reservable,
-			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+	protected List<ATSlotIndex> tryAcquireClosedSegmentContiguosFreeSegments(ITimesheetAllocableObject reservable,
+			TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		if (LOGGER.isDebugEnabled())
 			LOGGER.debug("Begin tryAcquireClosedSegmentContiguosFreeSegments(" + req + "," + startSlot + "," + endSlot
 					+ ",...)");
@@ -481,19 +476,19 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		// endSlot.isInRange(req.getEndDateTime()));
 		// IN this alogrithm we go only forward
 		ApsLogicDirection direction = ApsLogicDirection.FORWARD;
-		List<SlotIndex> slots = new ArrayList<>();
+		List<ATSlotIndex> slots = new ArrayList<>();
 		int startSlotOffset = startSlot.isInRange(req.getStartDateTime())
 				? calculateOffset(req.getStartDateTime(), startSlot.getStartDateTime())
 				: 0;
 		int endSlotOffset = endSlot.isInRange(req.getEndDateTime())
 				? calculateOffset(req.getEndDateTime(), endSlot.getStartDateTime())
 				: endSlot.gridLength;
-		FreeSegment startSegment = startSlot.getFreeSegmentWichContains(startSlotOffset);
-		FreeSegment endSegment = endSlot.getFreeSegmentWichContains(endSlotOffset);
+		ATFreeSegment startSegment = startSlot.getFreeSegmentWichContains(startSlotOffset);
+		ATFreeSegment endSegment = endSlot.getFreeSegmentWichContains(endSlotOffset);
 		if (startSlot == endSlot) {
 			if (startSegment != null && endSegment != null && startSegment.startIndex == endSegment.startIndex
 					&& startSegment.endIndex == endSegment.endIndex) {
-				SlotIndex slotIndex = new SlotIndex();
+				ATSlotIndex slotIndex = new ATSlotIndex();
 				slotIndex.startIndex = startSlotOffset;
 				slotIndex.endIndex = endSlotOffset;
 				slotIndex.slot = startSlot;
@@ -503,13 +498,13 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 					LOGGER.debug("Considering single segment=>" + slotIndex);
 			}
 		} else if (startSegment != null && endSegment != null) {
-			SlotIndex startSlotIndex = new SlotIndex();
+			ATSlotIndex startSlotIndex = new ATSlotIndex();
 			startSlotIndex.startIndex = startSlotOffset;
 			startSlotIndex.endIndex = startSegment.endIndex;
 			startSlotIndex.slot = startSlot;
 			startSlotIndex.usedSegment = startSegment;
 			slots.add(startSlotIndex);
-			Slot currentSlot = startSlot;
+			ATSlot currentSlot = startSlot;
 			if (LOGGER.isDebugEnabled())
 				LOGGER.debug("Considering starting segment=>" + startSlotIndex);
 			boolean allocatedIntermediateSlots = isAllocatedOnSlotGuardMargin(startSlotIndex, direction);
@@ -521,7 +516,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 				if (LOGGER.isDebugEnabled())
 					LOGGER.debug("fullyFree returns " + allocatedIntermediateSlots);
 				if (allocatedIntermediateSlots) {
-					SlotIndex actualSlot = new SlotIndex();
+					ATSlotIndex actualSlot = new ATSlotIndex();
 					actualSlot.slot = currentSlot;
 					actualSlot.usedSegment = currentSlot.freeSegments.get(0);
 					actualSlot.startIndex = actualSlot.usedSegment.startIndex;
@@ -540,7 +535,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 				}
 			}
 			if (allocatedIntermediateSlots && currentSlot.afterSlot == endSlot) {
-				SlotIndex endSlotIndex = new SlotIndex();
+				ATSlotIndex endSlotIndex = new ATSlotIndex();
 				endSlotIndex.startIndex = 0;
 				endSlotIndex.endIndex = endSlotOffset;
 				endSlotIndex.slot = endSlot;
@@ -567,7 +562,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		return slots;
 	}
 
-	protected Slot contiguousSlot(Slot slot, ApsLogicDirection direction) {
+	protected ATSlot contiguousSlot(ATSlot slot, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD:
 			return slot.afterSlot;
@@ -578,7 +573,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		}
 	}
 
-	protected int startingBorderOffset(Slot slot, ApsLogicDirection direction) {
+	protected int startingBorderOffset(ATSlot slot, ApsLogicDirection direction) {
 		switch (direction) {
 		case FORWARD:
 			return 0;
@@ -589,8 +584,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		}
 	}
 
-	protected List<SlotIndex> tryAcquireContiguosFreeSegments(ITimesheetAllocableObject reservable,
-			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+	protected List<ATSlotIndex> tryAcquireContiguosFreeSegments(ITimesheetAllocableObject reservable,
+			TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin tryAcquireContiguosFreeSegments(" + req + "," + startSlot + "," + endSlot + ")");
 		}
@@ -599,11 +594,11 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			LOGGER.debug("Direction is " + direction);
 		}
 		// pointer to the actual slot
-		Slot actualSlot = null;
+		ATSlot actualSlot = null;
 		// offset of starting allocation on the actual slot
 		int actualSlotOffsetGuard = 0;
 		// guard slot, it means the slot that is the maximum border of the time segment
-		Slot guardSlot = null;
+		ATSlot guardSlot = null;
 		// guard offset located in the guard slot
 		int guardSlotOffsetGuard = 0;
 		switch (direction) {
@@ -648,7 +643,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			LOGGER.debug("actualSlot=>" + actualSlot);
 			LOGGER.debug("guardSlot=>" + guardSlot);
 		}
-		List<SlotIndex> slots = new ArrayList<>();
+		List<ATSlotIndex> slots = new ArrayList<>();
 		int remainingDuration = (int) Math.max(Math.round(req.getAvailabilityDuration()), 1);
 		int originalDuration = remainingDuration;
 		boolean go = true;
@@ -660,7 +655,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 				LOGGER.debug("go:" + go + ",cantAcquire=" + cantAcquire + ",goingContiguous=" + goingContiguous
 						+ ",firstLoop=" + firstLoop + ",remainingDuration=" + remainingDuration);
 			}
-			List<FreeSegment> thisSlotSegments = new ArrayList<>();
+			List<ATFreeSegment> thisSlotSegments = new ArrayList<>();
 			// if we are in contiguous mode try to go exactly on the freesegment at the
 			// offset, and after we'll check
 			// that it is at the "initial" border of the time slot
@@ -682,7 +677,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			}
 			if (go) {
 				for (int i = 0; i < thisSlotSegments.size(); i++) {
-					FreeSegment segment = thisSlotSegments.get(i);
+					ATFreeSegment segment = thisSlotSegments.get(i);
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug("Analyzing segment:" + segment);
 					}
@@ -753,7 +748,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 						slots.clear();
 						remainingDuration = originalDuration;
 					}
-					SlotIndex slotIndex = new SlotIndex();
+					ATSlotIndex slotIndex = new ATSlotIndex();
 					slotIndex.slot = actualSlot;
 					go = assignSlotMarginAndSegmentUsingOffset(slotIndex, actualSlotOffsetGuard,
 							(int) remainingDuration, segment, direction);
@@ -943,15 +938,15 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		throw new IllegalStateException("Alignment unmanaged " + req.toString());
 	}
 
-	protected List<SlotIndex> tryAcquirePreciseContiguosFreeSegments(ITimesheetAllocableObject reservable,
-			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+	protected List<ATSlotIndex> tryAcquirePreciseContiguosFreeSegments(ITimesheetAllocableObject reservable,
+			TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		ApsLogicDirection direction = getDirection(req);
 		// pointer to the actual slot
-		Slot actualSlot = null;
+		ATSlot actualSlot = null;
 		// offset of starting allocation on the actual slot
 		int actualSlotOffsetGuard = 0;
 		// guard slot, it means the slot that is the maximum border of the time segment
-		Slot guardSlot = null;
+		ATSlot guardSlot = null;
 		// guard offset located in the guard slot
 		int guardSlotOffsetGuard = 0;
 		switch (direction) {
@@ -1007,7 +1002,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			break;
 
 		}
-		List<SlotIndex> slots = new ArrayList<>();
+		List<ATSlotIndex> slots = new ArrayList<>();
 		double remainingDuration = req.getAvailabilityDuration();
 		double originalDuration = remainingDuration;
 		boolean go = true;
@@ -1015,7 +1010,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		boolean firstLoop = true;
 		boolean initialMarginOk = false;
 		while (go && remainingDuration >= 0 && actualSlot != null) {
-			FreeSegment segment = actualSlot.getFreeSegmentWichContains(actualSlotOffsetGuard);
+			ATFreeSegment segment = actualSlot.getFreeSegmentWichContains(actualSlotOffsetGuard);
 			boolean offSetInSegment = segment != null;
 			if (!offSetInSegment) {
 				go = false;
@@ -1029,7 +1024,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 				initialMarginOk = offSetInSegment;
 			}
 			if (go) {
-				SlotIndex slotIndex = new SlotIndex();
+				ATSlotIndex slotIndex = new ATSlotIndex();
 				slotIndex.slot = actualSlot;
 				go = assignSlotMarginAndSegmentUsingOffset(slotIndex, actualSlotOffsetGuard, (int) remainingDuration,
 						segment, direction);
@@ -1118,10 +1113,10 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 
 	}
 
-	protected AdvancedCalendarReservation selectContiguousFreeTime(ITimesheetAllocableObject reservable, Slot startSlot,
-			Slot endSlot, TimeSegmentRequirement req) {
-		AdvancedCalendarReservation reservation = null;
-		List<SlotIndex> slots = null;
+	protected ATCalendarReservation selectContiguousFreeTime(ITimesheetAllocableObject reservable, ATSlot startSlot,
+			ATSlot endSlot, TimeSegmentRequirement req) {
+		ATCalendarReservation reservation = null;
+		List<ATSlotIndex> slots = null;
 		if (isClosedSegmentRequirement(req)) {
 			// if startSlot and endSlot are not null and contains boundary limits than try
 			// acquiring slots
@@ -1142,16 +1137,16 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		} else
 			throw new IllegalStateException("Invalid unmanaged state of TimeRangeRequirement=>" + req);
 		if (slots != null && !slots.isEmpty()) {
-			PotentialSlotRange range = new PotentialSlotRange();
+			ATPotentialSlotRange range = new ATPotentialSlotRange();
 			range.slots = slots;
-			reservation = new AdvancedCalendarReservation(req.getType(), reservable, range, reservable, req);
+			reservation = new ATCalendarReservation(req.getType(), reservable, range, reservable, req);
 			reservation.setReservedTime(countTime(slots));
 		}
 		return reservation;
 	}
 
-	protected TimeSegmentEvaluationResult calculateContiguousTime(ITimesheetAllocableObject reservable, Slot startSlot,
-			Slot endSlot, TimeSegmentRequirement req) {
+	protected TimeSegmentEvaluationResult calculateContiguousTime(ITimesheetAllocableObject reservable, ATSlot startSlot,
+			ATSlot endSlot, TimeSegmentRequirement req) {
 		TimeSegmentEvaluationResult result = null;
 
 		if (isClosedSegmentRequirement(req)) {
@@ -1191,7 +1186,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	}
 
 	protected TimeSegmentEvaluationResult measureSegments(ITimesheetAllocableObject reservable,
-			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+			TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin tryMeasureContiguosSegments(" + req + "," + startSlot + "," + endSlot + ")");
 		}
@@ -1200,11 +1195,11 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			LOGGER.debug("Direction is " + direction);
 		}
 		// pointer to the actual slot
-		Slot actualSlot = null;
+		ATSlot actualSlot = null;
 		// offset of starting allocation on the actual slot
 		int actualSlotOffsetGuard = 0;
 		// guard slot, it means the slot that is the maximum border of the time segment
-		Slot guardSlot = null;
+		ATSlot guardSlot = null;
 		// guard offset located in the guard slot
 		int guardSlotOffsetGuard = 0;
 		TimeSegment segment = new TimeSegment(TimeSegmentType.CALENDAR_TIME, reservable);
@@ -1345,7 +1340,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	}
 
 	protected AvailableTimeSegments investigateFreeSegments(ITimesheetAllocableObject reservable,
-			TimeSegmentRequirement req, Slot startSlot, Slot endSlot) {
+			TimeSegmentRequirement req, ATSlot startSlot, ATSlot endSlot) {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Begin investigateFreeSegments(" + req + "," + startSlot + "," + endSlot + ")");
 		}
@@ -1353,11 +1348,11 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		availableTimeSegments.setResource(reservable);
 
 		// pointer to the actual slot
-		Slot actualSlot = null;
+		ATSlot actualSlot = null;
 		// offset of starting allocation on the actual slot
 		int actualSlotOffsetGuard = 0;
 		// guard slot, it means the slot that is the maximum border of the time segment
-		Slot guardSlot = null;
+		ATSlot guardSlot = null;
 		// guard offset located in the guard slot
 		int guardSlotOffsetGuard = 0;
 		TimeSegment segment = new TimeSegment(TimeSegmentType.CALENDAR_TIME, reservable);
@@ -1387,11 +1382,11 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 			}
 		}
 		WorkingTimeSegment currentTimeSegment = null;
-		Slot lastSlot = null;
-		FreeSegment lastFreeSegment = null;
+		ATSlot lastSlot = null;
+		ATFreeSegment lastFreeSegment = null;
 		int currentWorkDuration = 0;
 		while (actualSlot != null) {
-			List<FreeSegment> freeSegments = actualSlot.freeSegments;
+			List<ATFreeSegment> freeSegments = actualSlot.freeSegments;
 
 			boolean NoFreeSegment = freeSegments == null || freeSegments.isEmpty();
 			if (NoFreeSegment) {
@@ -1404,7 +1399,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 				}
 			}
 			if (freeSegments != null && !freeSegments.isEmpty()) {
-				for (FreeSegment freeSegment : freeSegments) {
+				for (ATFreeSegment freeSegment : freeSegments) {
 					boolean StartingFreeSegment = freeSegment.startIndex == 0;
 					boolean EndingFreeSegment = freeSegment.endIndex == actualSlot.gridLength;
 					boolean SpareFreeSegment = !StartingFreeSegment && !EndingFreeSegment;
@@ -1487,38 +1482,38 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		calendar.minutesTotalReserved += reservation.getReservedTime();
 		if (!ewcalendar.isInfiniteCapacity()) {
 
-			if (reservation instanceof AdvancedCalendarReservation) {
-				AdvancedCalendarReservation calendarReservation = (AdvancedCalendarReservation) reservation;
+			if (reservation instanceof ATCalendarReservation) {
+				ATCalendarReservation calendarReservation = (ATCalendarReservation) reservation;
 				// calendarReservation.
-				for (SlotIndex _element : calendarReservation.slotRange.slots) {
+				for (ATSlotIndex _element : calendarReservation.slotRange.slots) {
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug("Cutting slotIndex:" + _element);
 					}
-					Slot slot = _element.slot;
+					ATSlot slot = _element.slot;
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug("Slot=>" + slot);
 						LOGGER.debug("slot.freeSegments=>" + slot.freeSegments);
 					}
 
-					FreeSegment segment = _element.usedSegment;
+					ATFreeSegment segment = _element.usedSegment;
 					int startIndex = _element.startIndex;
 					int endIndex = _element.endIndex;
 					if (LOGGER.isDebugEnabled()) {
 						LOGGER.debug("Removing segment:" + segment + " from slot.freeSegments=>" + slot.freeSegments);
 					}
 
-					TreeMap<Integer, FreeSegment> segments = new TreeMap<>();
-					for (FreeSegment s : slot.freeSegments) {
+					TreeMap<Integer, ATFreeSegment> segments = new TreeMap<>();
+					for (ATFreeSegment s : slot.freeSegments) {
 						if (s.startIndex <= startIndex && endIndex <= s.endIndex) {
 							if (s.startIndex < startIndex) {
-								FreeSegment freeSegment = new FreeSegment();
+								ATFreeSegment freeSegment = new ATFreeSegment();
 								freeSegment.startIndex = s.startIndex;
 								freeSegment.endIndex = startIndex;
 								freeSegment.SlotId = slot.getId();
 								segments.put(freeSegment.startIndex, freeSegment);
 							}
 							if (endIndex < s.endIndex) {
-								FreeSegment freeSegment = new FreeSegment();
+								ATFreeSegment freeSegment = new ATFreeSegment();
 								// freeSegment.startIndex = endIndex + 1;
 								freeSegment.startIndex = endIndex;
 								freeSegment.endIndex = s.endIndex;
@@ -1531,7 +1526,7 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 
 					}
 
-					slot.freeSegments = new ArrayList<FreeSegment>(segments.values());
+					slot.freeSegments = new ArrayList<ATFreeSegment>(segments.values());
 					for (int i = 0; i < slot.freeSegments.size(); i++) {
 						slot.freeSegments.get(i).position = i;
 					}
@@ -1560,21 +1555,21 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 	public void removeReservation(ITimesheetAllocableObject ewcalendar, TimesheetReservation reservation) {
 		AdvancedTimesheet calendar = getCalendar(ewcalendar);
 		if (!ewcalendar.isInfiniteCapacity()) {
-			if (reservation instanceof AdvancedCalendarReservation) {
-				AdvancedCalendarReservation calendarReservation = (AdvancedCalendarReservation) reservation;
+			if (reservation instanceof ATCalendarReservation) {
+				ATCalendarReservation calendarReservation = (ATCalendarReservation) reservation;
 				// calendarReservation.
-				for (SlotIndex _element : calendarReservation.slotRange.slots) {
-					Slot slot = _element.slot;
-					FreeSegment segment = _element.usedSegment;
+				for (ATSlotIndex _element : calendarReservation.slotRange.slots) {
+					ATSlot slot = _element.slot;
+					ATFreeSegment segment = _element.usedSegment;
 					slot.reservations.remove(calendarReservation);
-					List<FreeSegment> segmentsToRemove = new ArrayList<AdvancedTimesheet.FreeSegment>();
-					for (FreeSegment s : slot.freeSegments) {
+					List<ATFreeSegment> segmentsToRemove = new ArrayList<ATFreeSegment>();
+					for (ATFreeSegment s : slot.freeSegments) {
 						if (s.startIndex >= segment.startIndex && s.endIndex <= segment.endIndex) {
 							segmentsToRemove.add(s);
 						}
 					}
 					int minIndex = 0;
-					for (FreeSegment freeSegment : segmentsToRemove) {
+					for (ATFreeSegment freeSegment : segmentsToRemove) {
 						slot.freeSegments.remove(freeSegment);
 						minIndex = Math.min(freeSegment.position, minIndex);
 					}
@@ -1634,8 +1629,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		// FIRST SELECT FIRST LEVEL SLOTS WITH THE CALENDAR GENERATION CRITERIA
 		Date discreteStart = null;
 		Date discreteEnd = null;
-		Slot startSlot = null;
-		Slot endSlot = null;
+		ATSlot startSlot = null;
+		ATSlot endSlot = null;
 
 		if (rangeRequirement.isLowerLimited()) {
 			Date startSearchSlot = null;
@@ -1687,8 +1682,8 @@ public class TimesheetLogicImpl extends BusinessLogic<ITimesheetAllocableObject>
 		TimesheetReservation reservation = null;
 		Date discreteStart = null;
 		Date discreteEnd = null;
-		Slot startSlot = null;
-		Slot endSlot = null;
+		ATSlot startSlot = null;
+		ATSlot endSlot = null;
 
 		if (rangeRequirement.isLowerLimited()) {
 			Date startSearchSlot = null;

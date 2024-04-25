@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.openi40.scheduler.common.aps.IOperation;
 import com.openi40.scheduler.model.time.TimeSegment;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,7 +15,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class PlanChoice {
 	public PlanChoice(Plan parentPlan, TimeSegment setupTimeRange, TimeSegment workTimeRange, List<IOperation> reversibleOperations) {
 		setSetup(setupTimeRange);
@@ -32,6 +30,30 @@ public class PlanChoice {
 	public void choose() {
 		parent.setChoosed(this);
 
+	}
+	public Plan getParent() {
+		return parent;
+	}
+	public void setParent(Plan parent) {
+		this.parent = parent;
+	}
+	public TimeSegment getSetup() {
+		return setup;
+	}
+	public void setSetup(TimeSegment setup) {
+		this.setup = setup;
+	}
+	public TimeSegment getWork() {
+		return work;
+	}
+	public void setWork(TimeSegment work) {
+		this.work = work;
+	}
+	public List<IOperation> getOperations() {
+		return operations;
+	}
+	public void setOperations(List<IOperation> operations) {
+		this.operations = operations;
 	}
 
 }

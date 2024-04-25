@@ -1,6 +1,5 @@
 package com.openi40.scheduler.apsdatacache.config;
 
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -11,13 +10,29 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class ApsDataCacheConfig {
 	String dataSourceName = null;
 	boolean cacheDisabled=false;
 
 	public ApsDataCacheConfig() {
 
+	}
+
+	public String getDataSourceName() {
+		return dataSourceName;
+	}
+
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+
+	public boolean isCacheDisabled() {
+		return cacheDisabled;
+	}
+
+	public void setCacheDisabled(boolean cacheDisabled) {
+		this.cacheDisabled = cacheDisabled;
 	}
 
 }

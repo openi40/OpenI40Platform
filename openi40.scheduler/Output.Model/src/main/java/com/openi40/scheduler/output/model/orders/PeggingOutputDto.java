@@ -1,8 +1,6 @@
 package com.openi40.scheduler.output.model.orders;
 
 import com.openi40.scheduler.output.model.OutputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,12 +11,42 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class PeggingOutputDto extends OutputDto {
 	private String consumerWorkOrderCode = null;
 	private String consumerTaskCode = null;
 	private String producerWorkOrderCode = null;
 	private String producerTaskCode = null;
 	double peggingQty=0;
+	public String getConsumerWorkOrderCode() {
+		return consumerWorkOrderCode;
+	}
+	public void setConsumerWorkOrderCode(String consumerWorkOrderCode) {
+		this.consumerWorkOrderCode = consumerWorkOrderCode;
+	}
+	public String getConsumerTaskCode() {
+		return consumerTaskCode;
+	}
+	public void setConsumerTaskCode(String consumerTaskCode) {
+		this.consumerTaskCode = consumerTaskCode;
+	}
+	public String getProducerWorkOrderCode() {
+		return producerWorkOrderCode;
+	}
+	public void setProducerWorkOrderCode(String producerWorkOrderCode) {
+		this.producerWorkOrderCode = producerWorkOrderCode;
+	}
+	public String getProducerTaskCode() {
+		return producerTaskCode;
+	}
+	public void setProducerTaskCode(String producerTaskCode) {
+		this.producerTaskCode = producerTaskCode;
+	}
+	public double getPeggingQty() {
+		return peggingQty;
+	}
+	public void setPeggingQty(double peggingQty) {
+		this.peggingQty = peggingQty;
+	}
 	
 }

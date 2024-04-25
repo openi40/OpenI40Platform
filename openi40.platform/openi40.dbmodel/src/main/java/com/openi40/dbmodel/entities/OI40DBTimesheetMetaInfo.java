@@ -24,6 +24,7 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "removed", column = @Column(name = "removed")),
 		@AttributeOverride(name = "modifiedTimestamp", column = @Column(name = "modified_ts")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+
 public class OI40DBTimesheetMetaInfo extends OI40DBBaseEntity implements Serializable {
 	
 }

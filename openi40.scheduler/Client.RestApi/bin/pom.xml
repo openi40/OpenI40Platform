@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.openi40.scheduler</groupId>
 		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<version>00.41.BETA-SNAPSHOT</version>
 		
 	</parent>
 	<artifactId>Client.RestApi</artifactId>
@@ -14,23 +14,23 @@
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>ApsDataCache</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Client.Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
@@ -50,7 +50,7 @@
 						<apiSource>
 							<info>
 								<title>openi40.scheduler API</title>
-								<version>${global.version}</version>
+								<version>${project.version}</version>
 							</info>
 							<locations>
 								<location>com.openi40.scheduler.client.bryntum.restapi</location>

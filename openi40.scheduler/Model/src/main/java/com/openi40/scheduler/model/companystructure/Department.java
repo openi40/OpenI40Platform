@@ -1,6 +1,5 @@
 package com.openi40.scheduler.model.companystructure;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
@@ -9,9 +8,7 @@ import com.openi40.scheduler.model.equipment.MachinesGroup;
 import com.openi40.scheduler.model.equipment.ResourceGroup;
 import com.openi40.scheduler.model.time.Timesheet;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -22,7 +19,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 
 public class Department extends AbstractPlantRelatedApsObject
 		implements ICompanyStructureNode<Plant>, ITimesheetAllocableObject {
@@ -44,11 +41,11 @@ public class Department extends AbstractPlantRelatedApsObject
 	protected String timesheetMetaInfoCode = null;
 	protected Timesheet timesheet = null;
 	protected Plant parent = null;
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<WorkCenter> workCenters = createCleanChild(this, WORK_CENTERS, WorkCenter.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<MachinesGroup> machineGroups = createCleanChild(this, MACHINES_GROUPS, MachinesGroup.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<ResourceGroup> secondaryResourceGroups = createCleanChild(this, SECONDARY_RESOURCE_GROUPS,
 			ResourceGroup.class);
 
@@ -61,6 +58,50 @@ public class Department extends AbstractPlantRelatedApsObject
 		for (WorkCenter machinesGroup : workCenters) {
 			machinesGroup.resetSchedulingData();
 		}
+	}
+
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
+
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+
+	public Timesheet getTimesheet() {
+		return timesheet;
+	}
+
+	public void setTimesheet(Timesheet timesheet) {
+		this.timesheet = timesheet;
+	}
+
+	public Plant getParent() {
+		return parent;
+	}
+
+	public void setParent(Plant parent) {
+		this.parent = parent;
+	}
+
+	public List<WorkCenter> getWorkCenters() {
+		return workCenters;
+	}
+
+	public List<MachinesGroup> getMachineGroups() {
+		return machineGroups;
+	}
+
+	public List<ResourceGroup> getSecondaryResourceGroups() {
+		return secondaryResourceGroups;
 	}
 
 }

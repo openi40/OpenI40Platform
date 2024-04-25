@@ -2,11 +2,6 @@ package com.openi40.scheduler.model.material.timeline;
 
 import com.openi40.scheduler.model.time.TimeSegment;
 import com.openi40.scheduler.model.time.TimeSegmentType;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,11 +12,11 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class InventoryTimeSegment extends TimeSegment {
-	@Setter(value = AccessLevel.PACKAGE)
+	
 	protected double inventoryQty = 0.0;
-	@Setter(value = AccessLevel.PACKAGE)
+	
 	protected double reservationsBalance = 0.0;
 
 	public InventoryTimeSegment() {
@@ -33,5 +28,37 @@ public class InventoryTimeSegment extends TimeSegment {
 
 	public String toString() {
 		return super.toString();
+	}
+
+	public double getInventoryQty() {
+		return inventoryQty;
+	}
+
+	public void setInventoryQty(double inventoryQty) {
+		this.inventoryQty = inventoryQty;
+	}
+
+	public double getReservationsBalance() {
+		return reservationsBalance;
+	}
+
+	public void setReservationsBalance(double reservationsBalance) {
+		this.reservationsBalance = reservationsBalance;
+	}
+
+	public InventoryTimeNode getStartNode() {
+		return startNode;
+	}
+
+	public void setStartNode(InventoryTimeNode startNode) {
+		this.startNode = startNode;
+	}
+
+	public InventoryTimeNode getEndNode() {
+		return endNode;
+	}
+
+	public void setEndNode(InventoryTimeNode endNode) {
+		this.endNode = endNode;
 	}
 }

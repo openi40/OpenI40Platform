@@ -4,8 +4,6 @@ import com.openi40.scheduler.common.aps.ICloneable;
 import com.openi40.scheduler.common.aps.IMetaInfo;
 import com.openi40.scheduler.common.aps.IReferencingMetaInfo;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +14,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class AbstractApsObjectReferencingMetaInfo<ModelType extends IMetaInfo> extends AbstractApsObject implements ICloneable, IReferencingMetaInfo<ModelType> {
 	protected ModelType metaInfo;
 
@@ -31,5 +29,15 @@ public class AbstractApsObjectReferencingMetaInfo<ModelType extends IMetaInfo> e
 
 	protected void finalize() throws Throwable {
 		setMetaInfo(null);
+	}
+
+
+	public ModelType getMetaInfo() {
+		return metaInfo;
+	}
+
+
+	public void setMetaInfo(ModelType metaInfo) {
+		this.metaInfo = metaInfo;
 	}
 }

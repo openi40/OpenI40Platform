@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,10 +38,12 @@ import com.openi40.scheduler.apsdatacache.config.ApsDataSourcesConfig;
 import com.openi40.scheduler.apsdatacache.config.ApsDataSourceMixerConfig.ApsDataSourceId;
 import com.openi40.scheduler.common.datamodel.IDataInputValidator;
 import com.openi40.scheduler.engine.OpenI40Exception;
+import com.openi40.scheduler.inputchannels.dataimporters.DataImporterStreamFactoryRepositoryImpl;
 import com.openi40.scheduler.inputchannels.dataimporters.IConfiguredApsDataSourcesRepository;
 import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterAgent;
 import com.openi40.scheduler.inputchannels.dataimporters.IDataImporterFactoryRepository;
 import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactory;
+import com.openi40.scheduler.inputchannels.streaminputs.IInputDataStreamFactoryRepository;
 import com.openi40.scheduler.inputchannels.streaminputs.config.ApsInputChannelsConfig;
 import com.openi40.scheduler.inputchannels.streaminputs.handlers.ApsInputMixerDataStreamFactory;
 import com.openi40.scheduler.inputchannels.streaminputs.handlers.HttpClientInputDataStreamFactory;
@@ -89,10 +92,18 @@ public class RuntimeChannelsConfiguration {
 			@Autowired(required = false) @Qualifier("persistenceInputDataStreamFactories") List<IInputDataStreamFactory> dataStreamFactories,
 			@Autowired(required = false) List<IOutputDataConsumerFactory> dataExporters,
 			@Autowired(required = false) @Qualifier("persistenceOutputDataConsumerFactory") List<IOutputDataConsumerFactory> dataStreamExporters,
+			@Autowired(required = false) @Qualifier("haInputDataStreamFactory") IInputDataStreamFactory haInputDataStreamFactory,
+			@Autowired(required = false) @Qualifier("haOutputDataConsumerFactory") IOutputDataConsumerFactory haOutputDataConsumerFactory,
 			@Autowired RestTemplate restTemplate, @Autowired TransactionalWrapper transactionalWrapper) {
 		this.transactionalWrapper = transactionalWrapper;
 		this.config = config;
 		this.inputDataStreamFactories = dataStreamFactories;
+		if (this.inputDataStreamFactories == null) {
+			this.inputDataStreamFactories = new ArrayList<>();
+		}
+		if (haInputDataStreamFactory != null)
+			this.inputDataStreamFactories.add(haInputDataStreamFactory);
+
 		if (this.config == null)
 			this.config = new ApsDataSourcesConfig();
 		this.dataCachesConfig = dataCachesConfig;
@@ -120,6 +131,9 @@ public class RuntimeChannelsConfiguration {
 		}
 		if (dataStreamExporters != null) {
 			this.dataExporters.addAll(dataStreamExporters);
+		}
+		if (haOutputDataConsumerFactory != null) {
+			this.dataExporters.add(haOutputDataConsumerFactory);
 		}
 		if (this.outputChannels == null) {
 			this.outputChannels = new ApsOutputChannelsConfig();
@@ -290,6 +304,12 @@ public class RuntimeChannelsConfiguration {
 	@Scope("singleton")
 	public List<IInputDataStreamFactory> getInputDataStreamFactories() {
 		return _inputDataStreamFactories;
+	}
+
+	@Bean
+	@Singleton
+	public IInputDataStreamFactoryRepository getInputDataStreamFactoryRepository() {
+		return new DataImporterStreamFactoryRepositoryImpl(_inputDataStreamFactories);
 	}
 
 	@Bean

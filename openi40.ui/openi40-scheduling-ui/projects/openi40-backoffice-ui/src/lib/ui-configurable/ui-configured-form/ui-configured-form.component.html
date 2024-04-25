@@ -1,0 +1,38 @@
+<div *ngIf="formGroup" [formGroup]="formGroup">
+  <!-- Template outlet if specifically managed by custom template-->
+  <ng-container
+    *ngIf="formTemplate"
+    [ngTemplateOutlet]="formTemplate"
+    [ngTemplateOutletContext]="{ formGroup: formGroup, config: config }"
+  ></ng-container>
+  <!--Automatic controls positioning otherwise -->
+  <div *ngIf="!formTemplate" [formGroup]="formGroup">
+    <div class="grid">
+      <div
+        *ngFor="let ctrlConfig of config?.controls"
+        [ngClass]="ctrlConfig?.containerCssClasses"
+      >
+        <ui-configurable-component
+          [configuration]="ctrlConfig"
+          [readonly]="
+            readonly === true ||
+            (modifyMode === true && ctrlConfig?.readOnlyOnModify === true)
+          "
+          [formGroup]="formGroup"
+        ></ui-configurable-component>
+      </div>
+    </div>
+    <div *ngFor="let fg of config?.formGroups">
+      <ui-configured-form
+        [config]="fg"
+        [formGroup]="getSubFormGroup(fg)"
+      ></ui-configured-form>
+    </div>
+    <div *ngFor="let fg of config?.formArrays">
+      <ui-configured-formarray
+        [config]="fg"
+        [formArray]="getSubFormArray(fg)"
+      ></ui-configured-formarray>
+    </div>
+  </div>
+</div>

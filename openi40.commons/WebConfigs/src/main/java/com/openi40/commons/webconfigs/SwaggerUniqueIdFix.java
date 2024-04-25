@@ -43,7 +43,7 @@ public class SwaggerUniqueIdFix implements OperationBuilderPlugin {
 		String typeName = returnType.getTypeName();
 		Class<?> type = returnType.getErasedType();
 		String typePostfix = type.getSimpleName();
-		if (ResponseEntity.class.isAssignableFrom(type)) {
+		if (ResponseEntity.class.isAssignableFrom(type) ) {
 			List<ResolvedType> typeParams = returnType.getTypeParameters();
 			if (typeParams != null && !typeParams.isEmpty()) {
 				returnType = typeParams.get(0);
@@ -52,7 +52,7 @@ public class SwaggerUniqueIdFix implements OperationBuilderPlugin {
 				typePostfix = type.getSimpleName();
 			}
 		}
-		if (Collection.class.isAssignableFrom(type)) {
+		if (Collection.class.isAssignableFrom(type) || type.getName().equals("org.springframework.data.domain.Page") ) {
 			List<ResolvedType> typeParams = returnType.getTypeParameters();
 			for (ResolvedType resolvedType : typeParams) {
 				typePostfix += "_" + resolvedType.getErasedType().getSimpleName();

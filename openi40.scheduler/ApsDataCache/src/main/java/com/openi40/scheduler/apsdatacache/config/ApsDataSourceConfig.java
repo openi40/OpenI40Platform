@@ -1,8 +1,6 @@
 package com.openi40.scheduler.apsdatacache.config;
 
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,11 +11,29 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @Configuration
 public class ApsDataSourceConfig {
 	private String dataSourceName=null;
 	private String dataImporterId=null;
 	private boolean disableUserAccess=false;
+	public String getDataSourceName() {
+		return dataSourceName;
+	}
+	public void setDataSourceName(String dataSourceName) {
+		this.dataSourceName = dataSourceName;
+	}
+	public String getDataImporterId() {
+		return dataImporterId;
+	}
+	public void setDataImporterId(String dataImporterId) {
+		this.dataImporterId = dataImporterId;
+	}
+	public boolean isDisableUserAccess() {
+		return disableUserAccess;
+	}
+	public void setDisableUserAccess(boolean disableUserAccess) {
+		this.disableUserAccess = disableUserAccess;
+	}
 	
 }

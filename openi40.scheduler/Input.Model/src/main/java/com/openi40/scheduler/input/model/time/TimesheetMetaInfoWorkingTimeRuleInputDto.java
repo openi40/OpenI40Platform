@@ -4,10 +4,7 @@ import java.sql.Time;
 
 import javax.persistence.MappedSuperclass;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.openi40.scheduler.input.model.InputDto;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

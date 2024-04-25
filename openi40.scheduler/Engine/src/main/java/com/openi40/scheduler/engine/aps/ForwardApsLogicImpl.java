@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.openi40.commons.multithreading.config.OpenI40MultithreadingConfig;
 import com.openi40.scheduler.engine.contextualplugarch.AlternativeImplementation;
 import com.openi40.scheduler.engine.rules.planner.IPlanner;
 import com.openi40.scheduler.model.aps.ApsData;
@@ -38,7 +39,12 @@ import com.openi40.scheduler.model.time.TimeSegmentType;
  */
 @AlternativeImplementation(implemented = IApsLogic.class, entityClass = ApsSchedulingSet.class, key = ApsLogics.FORWARD_APS, switchImplementationProperty = "algorithmType")
 public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardApsLogic {
+	
 	Logger LOGGER = LoggerFactory.getLogger(getClass());
+	public ForwardApsLogicImpl(OpenI40MultithreadingConfig multithreadingConfig, AsyncDelegateService delegateService) {
+		super(multithreadingConfig, delegateService);
+		
+	}
 
 	@Override
 	protected PlanGraphItem schedule(Task task, ApsSchedulingSet EntityObject, ApsLogicNotifiedObjects observer) {
@@ -49,7 +55,7 @@ public class ForwardApsLogicImpl extends AbstractApsLogic implements IForwardAps
 				LOGGER.error("Error in observer", th);
 			}
 		}
-		regenerateTaskConstraints(task);
+		//regenerateTaskConstraints(task);
 
 		boolean allChildsOk = true;
 		int nChilds = 0;

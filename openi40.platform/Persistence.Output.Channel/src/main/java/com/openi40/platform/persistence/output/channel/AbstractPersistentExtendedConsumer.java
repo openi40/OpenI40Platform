@@ -10,6 +10,7 @@
  */
 package com.openi40.platform.persistence.output.channel;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +25,18 @@ import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
 
 public abstract class AbstractPersistentExtendedConsumer<T extends OutputDto> implements IExtendedConsumer<T> {
-	Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-	Class<T> managedType = null;
+	protected Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	protected Class<T> managedType = null;
 	protected int saveClusterSize = 1000;
 	protected boolean initialized = false;
 	protected ObjectMapper mapper;
-	protected JdbcTemplate jdbcTemplate=null;
-	public AbstractPersistentExtendedConsumer(Class<T> managedType,ObjectMapper mapper,JdbcTemplate jdbcTemplate) {
+	protected JDBCOutputTransactionWrapper jdbcTransactionWrapper = null;
+
+	public AbstractPersistentExtendedConsumer(Class<T> managedType, ObjectMapper mapper,
+			JDBCOutputTransactionWrapper jdbcTW) {
 		this.managedType = managedType;
-		this.mapper=mapper;
-		this.jdbcTemplate=jdbcTemplate;
+		this.mapper = mapper;
+		this.jdbcTransactionWrapper = jdbcTW;
 	}
 
 	List<T> buffer = new ArrayList<>();
@@ -49,33 +52,41 @@ public abstract class AbstractPersistentExtendedConsumer<T extends OutputDto> im
 			}
 		}
 		buffer.add(t);
-		if ((buffer.size() % saveClusterSize) == 0) {
-			if (!initialized) {
-				initialize();
-				initialized = true;
+		try {
+			if ((buffer.size() % saveClusterSize) == 0) {
+				if (!initialized) {
+					initialize();
+					initialized = true;
+				}
+				this.save(buffer);
+				buffer = new ArrayList<>();
 			}
-			this.save(buffer);
-			buffer = new ArrayList<>();
+		} catch (SQLException exc) {
+			LOGGER.error("Exception in accept(..)", exc);
+			throw new RuntimeException("Exception in accept(..)", exc);
 		}
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("End accept(code='" + t.getCode() + "')");
 		}
 	}
 
-	protected abstract void initialize();
+	protected abstract void initialize() throws SQLException;
 
-	protected abstract void save(List<T> list);
+	protected abstract void save(List<T> list) throws SQLException;
 
-	protected abstract void disposeResources();
+	protected abstract void disposeResources() throws SQLException;
 
-	@Override
 	public synchronized void endReached() {
-		if (!initialized) {
-			initialize();
-			initialized = true;
+		try {
+			if (!initialized) {
+				initialize();
+				initialized = true;
+			}
+			this.save(buffer);
+			this.disposeResources();
+		} catch (SQLException exc) {
+			LOGGER.error("Exception in endReached(..)", exc);
 		}
-		this.save(buffer);
-		this.disposeResources();
 	}
 
 	public Class<T> getManagedType() {

@@ -10,9 +10,6 @@
  */
 package com.openi40.scheduler.client.model.orders;
 
-import lombok.Data;
-
-
 public class SalesOrderLineDto extends AbstractOrderLine {
 	
 }

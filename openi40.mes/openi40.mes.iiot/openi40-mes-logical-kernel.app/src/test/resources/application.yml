@@ -1,0 +1,58 @@
+logging.level.org.springframework.jdbc.core: TRACE
+hibernate.cache.use_second_level_cache: false        
+#spring.datasource.driver-class-name: org.postgresql.Driver
+spring.datasource.driver-class-name: org.apache.derby.jdbc.EmbeddedDriver
+spring.datasource.hikari.connectionTimeout: 20000
+spring.datasource.hikari.maximumPoolSize: 5
+spring.datasource.username: openi40mes
+spring.datasource.password: openi40mes
+spring.datasource.url: jdbc:derby:memory:local;create=true  
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+
+
+server:
+  port: 8090
+  servlet:
+    contextPath: /openi40mes
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  http2:
+    enabled: true
+  
+  
+  jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      serialization:
+          INDENT_OUTPUT: true
+
+ 
+com.openi40.mes.logical.kernel.config:
+                                  apsMsgRestConfig: 
+                                      url: http://localhost:8080/openi40      
+
+com.openi40.mes.integration:
+                      channels:
+                          -
+                            channelId: MQTT_DEFAULT_CHANNEL
+                            endpoints:
+                                 - 
+                                   canRead: true
+                                   protocolType: MQTT
+                                   readUri: mqtt_test_receive_topic
+                                     
+com.openi40.mes.io.mqtt.generic.config:
+                                  avoidInitializeOnStartup: true
+                                  integrations:
+                                     - 
+                                      channelId: MQTT_DEFAULT_CHANNEL
+                                      brokerConfig:
+                                         brokerUrl: tcp://127.0.0.1:1883
+                                         #username: openi40mqtt
+                                         #password: openi40mqtt
+                              

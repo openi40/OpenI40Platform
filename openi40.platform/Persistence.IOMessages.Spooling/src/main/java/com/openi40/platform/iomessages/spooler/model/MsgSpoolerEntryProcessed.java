@@ -10,11 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "msg_spooler_proc")
-@Data
+
 @SequenceGenerator(name = "msg_spooler_proc_seq-gen", sequenceName = "msg_spooler_proc_seq", initialValue = 1, allocationSize = 1)
 public class MsgSpoolerEntryProcessed {
 	@Id
@@ -31,4 +29,40 @@ public class MsgSpoolerEntryProcessed {
 	private String errorMessage = null;
 	@Column(name = "processed_ts")
 	private Timestamp processedTimestamp = null;
+	public long getMsgEntryProcessedId() {
+		return msgEntryProcessedId;
+	}
+	public void setMsgEntryProcessedId(long msgEntryProcessedId) {
+		this.msgEntryProcessedId = msgEntryProcessedId;
+	}
+	public long getMsgEntryId() {
+		return msgEntryId;
+	}
+	public void setMsgEntryId(long msgEntryId) {
+		this.msgEntryId = msgEntryId;
+	}
+	public boolean isProcessSuccessfully() {
+		return processSuccessfully;
+	}
+	public void setProcessSuccessfully(boolean processSuccessfully) {
+		this.processSuccessfully = processSuccessfully;
+	}
+	public String getErrorCode() {
+		return errorCode;
+	}
+	public void setErrorCode(String errorCode) {
+		this.errorCode = errorCode;
+	}
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	public Timestamp getProcessedTimestamp() {
+		return processedTimestamp;
+	}
+	public void setProcessedTimestamp(Timestamp processedTimestamp) {
+		this.processedTimestamp = processedTimestamp;
+	}
 }

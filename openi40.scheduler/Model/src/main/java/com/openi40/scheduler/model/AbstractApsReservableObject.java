@@ -4,8 +4,6 @@ import com.openi40.scheduler.common.aps.ICloneable;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.time.Timesheet;
 
-import lombok.Data;
-
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -16,7 +14,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class AbstractApsReservableObject extends AbstractApsObject
 		implements ITimesheetAllocableObject, ICloneable {
 
@@ -48,5 +46,45 @@ public abstract class AbstractApsReservableObject extends AbstractApsObject
 
 		setTimesheet(null);
 
+	}
+
+	public Timesheet getTimesheet() {
+		return Timesheet;
+	}
+
+	public void setTimesheet(Timesheet timesheet) {
+		Timesheet = timesheet;
+	}
+
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+
+	public ReservableObjectAvailability getAvailability() {
+		return availability;
+	}
+
+	public void setAvailability(ReservableObjectAvailability availability) {
+		this.availability = availability;
 	}
 }

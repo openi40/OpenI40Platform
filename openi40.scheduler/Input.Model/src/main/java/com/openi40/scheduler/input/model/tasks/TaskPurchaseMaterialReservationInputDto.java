@@ -1,8 +1,6 @@
 package com.openi40.scheduler.input.model.tasks;
 
 import javax.persistence.MappedSuperclass;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,7 +11,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 @MappedSuperclass
 public class TaskPurchaseMaterialReservationInputDto extends AbstractTaskMaterialReservationInputDto {
 	
@@ -21,6 +19,18 @@ public class TaskPurchaseMaterialReservationInputDto extends AbstractTaskMateria
 	String purchaseOrderLineCode = null;
 	public TaskPurchaseMaterialReservationInputDto() {
 		
+	}
+	public String getPurchaseOrderCode() {
+		return purchaseOrderCode;
+	}
+	public void setPurchaseOrderCode(String purchaseOrderCode) {
+		this.purchaseOrderCode = purchaseOrderCode;
+	}
+	public String getPurchaseOrderLineCode() {
+		return purchaseOrderLineCode;
+	}
+	public void setPurchaseOrderLineCode(String purchaseOrderLineCode) {
+		this.purchaseOrderLineCode = purchaseOrderLineCode;
 	}
 
 }

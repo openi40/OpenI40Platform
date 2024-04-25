@@ -12,9 +12,6 @@ package com.openi40.scheduler.client.model.companystructure;
 
 import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
-
-@Data
 public class WarehouseDto extends ClientDto {
 
 }

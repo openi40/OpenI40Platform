@@ -1,0 +1,31 @@
+<p-organizationChart
+  [value]="trees"
+  selectionMode="single"
+  [(selection)]="selectedNode"
+>
+  <ng-template let-node pTemplate="default">
+    <ng-template #tooltipContent>
+      <div class="grid">
+        <div *ngFor="let msg of node?.data?.messages;" class="col-12">
+            {{msg.messageDescription}}
+        </div>
+      </div>
+    </ng-template>
+    <div class="p-2 text-center">
+      <div
+        class="p-2"
+        *ngIf="node?.data?.successfullyScheduled !== true"
+        style="color: red"
+      >
+        {{ node.label }}
+      </div>
+      <div class="p-2" *ngIf="node?.data?.successfullyScheduled === true">
+        {{ node.label }}
+      </div>
+      <div class="p-2">
+        <button pButton [pTooltip]="tooltipContent" tooltipPosition="bottom" class="pi pi-eye" (click)="viewDetailsClicked(node?.data)"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-organizationChart>
+

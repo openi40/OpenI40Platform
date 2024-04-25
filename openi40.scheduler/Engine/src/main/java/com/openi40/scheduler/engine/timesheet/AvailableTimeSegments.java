@@ -5,10 +5,6 @@ import java.util.List;
 
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.time.WorkingTimeSegment;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,11 +15,22 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+
 public class AvailableTimeSegments {
 	ITimesheetAllocableObject resource = null;
 	List<WorkingTimeSegment> availableTimeSegments = new ArrayList<>();
+	public ITimesheetAllocableObject getResource() {
+		return resource;
+	}
+	public void setResource(ITimesheetAllocableObject resource) {
+		this.resource = resource;
+	}
+	public List<WorkingTimeSegment> getAvailableTimeSegments() {
+		return availableTimeSegments;
+	}
+	public void setAvailableTimeSegments(List<WorkingTimeSegment> availableTimeSegments) {
+		this.availableTimeSegments = availableTimeSegments;
+	}
 
 	
 }

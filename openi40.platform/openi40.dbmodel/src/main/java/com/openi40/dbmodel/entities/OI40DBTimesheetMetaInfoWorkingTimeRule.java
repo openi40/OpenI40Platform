@@ -29,11 +29,35 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "startTime", column = @Column(name = "start_time")),
 		@AttributeOverride(name = "timesheetMetaCode", column = @Column(name = "tsheet_meta_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")) })
+
 public class OI40DBTimesheetMetaInfoWorkingTimeRule extends OI40DBBaseEntity implements Serializable {
 	private Time startTime = null;
-
 	private Time endTime = null;
 	private Integer dayOfWeek = null;
 	private String timesheetMetaCode = null;
+	public Time getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+	public Time getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+	public Integer getDayOfWeek() {
+		return dayOfWeek;
+	}
+	public void setDayOfWeek(Integer dayOfWeek) {
+		this.dayOfWeek = dayOfWeek;
+	}
+	public String getTimesheetMetaCode() {
+		return timesheetMetaCode;
+	}
+	public void setTimesheetMetaCode(String timesheetMetaCode) {
+		this.timesheetMetaCode = timesheetMetaCode;
+	}
 
 }

@@ -1,5 +1,14 @@
 RestApiConfig:
   useWebSocket: false 
+com.openi40.webcfg: 
+                angularUi: true
+                swaggerUi: true  
+com.openi40.commons.multithreading.config:
+                                     useMultithreading: true
+                                     minThreads: 4
+                                     maxThreads: 12
+                                     executeQueueCapacity: 1000  
+                                     resourceGraphSplitSchedule: true                 
 server:
   port: 8080
   compression:
@@ -17,29 +26,29 @@ spring:
       serialization:
           INDENT_OUTPUT: true
   
-#com.openi40.scheduler.apsdatasources:
-#        sources:
-#          -
-#            dataSourceName: ARBALETE-DEMO
-#            dataImporterId: demosImporter
-#          -
-#            dataSourceName: SS-COMPANY-DEMO
-#            dataImporterId: demosImporter1
-        #sourceMixers:
-#          -
-#            dataSourceName: SPEARFISHING-HOLDING
-#            dataSetName: SPEARFISHING-HOLDING
-#            dataSetVariant: DEFAULT
-#            description: Spearfishing holding company
-#            joined:
-#              -
-#                dataSourceName: ARBALETE-DEMO
-#                dataSetName: ARBALETE-COMPANY
-#                dataSetVariant: DEFAULT
-#              -
-#                dataSourceName: SS-COMPANY-DEMO
-#                dataSetName: STAINLESS-STEEL-COMPANY
-#                dataSetVariant: DEFAULT                 
+com.openi40.scheduler.apsdatasources:
+        sources:
+          -
+            dataSourceName: ARBALETE-DEMO
+            dataImporterId: demosImporter
+          -
+            dataSourceName: SS-COMPANY-DEMO
+            dataImporterId: demosImporter1
+        sourceMixers:
+          -
+            dataSourceName: SPEARFISHING-HOLDING
+            dataSetName: SPEARFISHING-HOLDING
+            dataSetVariant: DEFAULT
+            description: Spearfishing holding company
+            joined:
+              -
+                dataSourceName: ARBALETE-DEMO
+                dataSetName: ARBALETE-COMPANY
+                dataSetVariant: DEFAULT
+              -
+                dataSourceName: SS-COMPANY-DEMO
+                dataSetName: STAINLESS-STEEL-COMPANY
+                dataSetVariant: DEFAULT                 
               
             
 com.openi40.scheduler.apsinputchannels:

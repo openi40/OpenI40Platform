@@ -13,12 +13,20 @@ package com.openi40.scheduler.client.graphs.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.openi40.scheduler.client.model.ClientDto;
 
-import lombok.Data;
-
-@Data
 public class GraphicContextNodeDto<GraphicContentDataType> extends GraphicContextItemDto<GraphicContentDataType> {
 	List<GraphicContextNodeDto<GraphicContentDataType>> nodes = new ArrayList<GraphicContextNodeDto<GraphicContentDataType>>();
 	List<GraphicContextItemDto<GraphicContentDataType>> leafs = new ArrayList<GraphicContextItemDto<GraphicContentDataType>>();
+	public List<GraphicContextNodeDto<GraphicContentDataType>> getNodes() {
+		return nodes;
+	}
+	public void setNodes(List<GraphicContextNodeDto<GraphicContentDataType>> nodes) {
+		this.nodes = nodes;
+	}
+	public List<GraphicContextItemDto<GraphicContentDataType>> getLeafs() {
+		return leafs;
+	}
+	public void setLeafs(List<GraphicContextItemDto<GraphicContentDataType>> leafs) {
+		this.leafs = leafs;
+	}
 }

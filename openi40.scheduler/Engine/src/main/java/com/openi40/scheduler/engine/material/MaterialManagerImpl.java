@@ -160,7 +160,7 @@ public class MaterialManagerImpl extends BusinessLogic<MaterialRule> implements 
 				}
 					break;
 				case CREATE_ODL_IF_REQUIRED: {
-					if (materialConstraint.getConsumer().getProduct().isCanBeProducedByScheduler()) {
+					if (materialConstraint.getConsumer().getProduct().getCanBeProducedByScheduler()!=null && materialConstraint.getConsumer().getProduct().getCanBeProducedByScheduler()) {
 
 						availableSupplies = new ArrayList<ISupply>(
 								productionSupplyDao.findByItem(materialConstraint.getConsumer().getProduct(),
@@ -184,7 +184,7 @@ public class MaterialManagerImpl extends BusinessLogic<MaterialRule> implements 
 				}
 					break;
 				case CREATE_PURCHASE_ORDER_IF_REQUIRED: {
-					if (materialConstraint.getConsumer().getProduct().isCanBePurchasedByScheduler()) {
+					if (materialConstraint.getConsumer().getProduct().getCanBePurchasedByScheduler()!=null && materialConstraint.getConsumer().getProduct().getCanBePurchasedByScheduler()) {
 						availableSupplies = new ArrayList<ISupply>(
 								purchaseSupplyDao.findByItem(materialConstraint.getConsumer().getProduct(),
 										constraint.getContext(), SimulatedPurchaseSupply.class));

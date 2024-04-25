@@ -3,6 +3,8 @@ package com.openi40.platform.tests;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,7 +13,7 @@ import com.openi40.platform.iomessages.spooler.services.MSGSpoolerException;
 import com.openi40.scheduler.iomessages.AbstractBaseIOMessage;
 
 public abstract class AbstractStainlessSteelCompanyDBTests extends AbstractPlatformTests {
-
+	@Autowired DataSource dataSource;
 	@Autowired
 	IMSGSpoolingService spoolingService;
 	static final int MAXWAIT = 10;
@@ -21,15 +23,15 @@ public abstract class AbstractStainlessSteelCompanyDBTests extends AbstractPlatf
 	}
 
 	protected void dropDB() throws IOException, SQLException {
-		runScript("drop-all-tables.sql", true, false);
-		runScript("drop-all-tables.sql", true, false);
-		runScript("drop-all-tables.sql", true, false);
+		runScript(dataSource,"drop-all-tables.sql", true, false);
+		runScript(dataSource,"drop-all-tables.sql", true, false);
+		runScript(dataSource,"drop-all-tables.sql", true, false);
 	}
 
 	protected void prepareDB() throws IOException, SQLException {
-		runScript("create.sql", false, true);
-		runScript("populate.sql", false, true);
-		runScript("alter.sql", false, true);
+		runScript(dataSource,"create.sql", false, true);
+		runScript(dataSource,"populate.sql", false, true);
+		runScript(dataSource,"alter.sql", false, true);
 	}
 
 	protected void spoolMessage(AbstractBaseIOMessage msg) throws MSGSpoolerException, JsonProcessingException {

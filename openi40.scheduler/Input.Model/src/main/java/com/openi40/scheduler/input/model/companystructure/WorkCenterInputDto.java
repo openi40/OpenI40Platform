@@ -1,13 +1,9 @@
 package com.openi40.scheduler.input.model.companystructure;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
 import com.openi40.scheduler.input.model.ApsInputData;
-import com.openi40.scheduler.input.model.cycles.ChangeOverMatrixItemInputDto;
 import com.openi40.scheduler.input.model.equipment.MachineInputDto;
 /**
  * 

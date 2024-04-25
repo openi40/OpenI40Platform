@@ -10,32 +10,41 @@
  */
 package com.openi40.platform.persistence.output.channel;
 
+import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Stream;
+
+import javax.sql.DataSource;
 
 import com.openi40.scheduler.output.model.OutputDto;
 import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumer;
-import com.openi40.scheduler.outputchannels.streamoutputs.IExtendedConsumerFactory;
 import com.openi40.scheduler.outputchannels.streamoutputs.IOutputDataConsumerFactory;
+import com.openi40.scheduler.outputchannels.streamoutputs.IOutputTransactionWrapper;
 import com.openi40.scheduler.outputchannels.streamoutputs.OutputDataStreamException;
 
 public class PersistenceOutputDataConsumerFactory implements IOutputDataConsumerFactory {
 	String dataSourceName = null, dataSetName = null, dataSetVariant = null, dataSourceDescription = null;
-	Map<Class<? extends OutputDto>, IExtendedConsumerFactory> consumers = new HashMap<Class<? extends OutputDto>, IExtendedConsumerFactory>();
+	Map<Class<? extends OutputDto>, AbstractPersistentExtendedConsumerFactory> consumers = new HashMap<Class<? extends OutputDto>, AbstractPersistentExtendedConsumerFactory>();
+	DataSource dataSource = null;
 
-	@Override
-	public <DtoEntityType extends OutputDto> IExtendedConsumer<DtoEntityType> getConsumer(
-			Class<DtoEntityType> requiredType) throws OutputDataStreamException {
-		IExtendedConsumerFactory outConsumer = null;
+	public PersistenceOutputDataConsumerFactory(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	private <DtoEntityType extends OutputDto> AbstractPersistentExtendedConsumer<DtoEntityType> getConsumer(
+			Class<DtoEntityType> requiredType, JDBCOutputTransactionWrapper transactionWrapper)
+			throws OutputDataStreamException {
+		AbstractPersistentExtendedConsumerFactory outConsumer = null;
 		if (consumers.containsKey(requiredType)) {
 			outConsumer = consumers.get(requiredType);
 		} else {
-			Set<Entry<Class<? extends OutputDto>, IExtendedConsumerFactory>> set = consumers.entrySet();
-			for (Entry<Class<? extends OutputDto>, IExtendedConsumerFactory> entry : set) {
+			Set<Entry<Class<? extends OutputDto>, AbstractPersistentExtendedConsumerFactory>> set = consumers
+					.entrySet();
+			for (Entry<Class<? extends OutputDto>, AbstractPersistentExtendedConsumerFactory> entry : set) {
 				if (requiredType.isAssignableFrom(entry.getKey())) {
 					outConsumer = entry.getValue();
 				}
@@ -44,7 +53,19 @@ public class PersistenceOutputDataConsumerFactory implements IOutputDataConsumer
 		if (outConsumer == null) {
 			throw new OutputDataStreamException("Cannot find IExtendedConsumer for " + requiredType.getName());
 		}
-		return outConsumer.create();
+		return outConsumer.create(transactionWrapper);
+	}
+
+	@Override
+	public <DtoEntityType extends OutputDto> void consume(Stream<DtoEntityType> stream,
+			Class<DtoEntityType> requiredType, IOutputTransactionWrapper outputTransactionWrapper)
+
+			throws OutputDataStreamException {
+		JDBCOutputTransactionWrapper tWrapper = (JDBCOutputTransactionWrapper) outputTransactionWrapper;
+		IExtendedConsumer<DtoEntityType> consumer = getConsumer(requiredType, tWrapper);
+		stream.forEach(consumer);
+		consumer.endReached();
+
 	}
 
 	public String getDataSourceName() {
@@ -82,6 +103,17 @@ public class PersistenceOutputDataConsumerFactory implements IOutputDataConsumer
 	public void setExtendedConsumers(List<AbstractPersistentExtendedConsumerFactory> extendedConsumers) {
 		for (AbstractPersistentExtendedConsumerFactory ec : extendedConsumers) {
 			this.consumers.put(ec.getManagedType(), ec);
+		}
+	}
+
+	@Override
+	public IOutputTransactionWrapper createOutputTransaction() {
+		try {
+			JDBCOutputTransactionWrapper transactionWrapper = new JDBCOutputTransactionWrapper(
+					dataSource.getConnection());
+			return transactionWrapper;
+		} catch (SQLException exc) {
+			throw new RuntimeException("Exception in createOutputTransaction()", exc);
 		}
 	}
 

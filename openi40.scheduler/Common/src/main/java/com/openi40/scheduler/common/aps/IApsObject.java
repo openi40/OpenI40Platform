@@ -48,7 +48,8 @@ public interface IApsObject {
 	void setAttribute(String name, Object value);
 
 	IApsData getContext();
-
+	public ICustomObject getCustomObject();
+	public void setCustomObject(ICustomObject c);
 	/**
 	 * This method releases all resources/scheduling results to value required
 	 * before scheduling

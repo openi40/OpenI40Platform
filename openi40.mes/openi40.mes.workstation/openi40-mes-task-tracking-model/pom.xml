@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.openi40.mes.workstation</groupId>
+		<artifactId>com.openi40.mes.workstation.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
+	</parent>
+	<artifactId>openi40-mes-task-tracking-model</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>com.openi40.mes</groupId>
+			<artifactId>openi40-mes-shared-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.commons</groupId>
+			<artifactId>persistence-datamodel-utils</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.openi40.mes.workstation</groupId>
+			<artifactId>openi40-mes-asset-workstation-support</artifactId>
+			<version>00.41.BETA-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

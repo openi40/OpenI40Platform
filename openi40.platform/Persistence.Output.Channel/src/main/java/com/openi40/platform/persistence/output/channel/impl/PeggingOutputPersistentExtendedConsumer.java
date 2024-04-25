@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumer;
 import com.openi40.platform.persistence.output.channel.AbstractPersistentExtendedConsumerFactory;
+import com.openi40.platform.persistence.output.channel.JDBCOutputTransactionWrapper;
 import com.openi40.scheduler.output.model.orders.PeggingOutputDto;
 import com.openi40.scheduler.output.model.orders.WorkOrderOutputDto;
 import com.openi40.scheduler.output.model.tasks.TaskOutputDto;
@@ -43,82 +44,73 @@ public class PeggingOutputPersistentExtendedConsumer extends AbstractPersistentE
 	public static class PeggingOutputPersistentExtendedConsumerFactory
 			extends AbstractPersistentExtendedConsumerFactory<PeggingOutputDto> {
 
-		public PeggingOutputPersistentExtendedConsumerFactory(ObjectMapper mapper, JdbcTemplate jdbcTemplate) {
-			super(mapper, PeggingOutputDto.class, jdbcTemplate);
+		public PeggingOutputPersistentExtendedConsumerFactory(ObjectMapper mapper) {
+			super(mapper, PeggingOutputDto.class);
 
 		}
 
 		@Override
-		public IExtendedConsumer<PeggingOutputDto> create() {
+		public AbstractPersistentExtendedConsumer<PeggingOutputDto> create(JDBCOutputTransactionWrapper wrapper) {
 
-			return new PeggingOutputPersistentExtendedConsumer(mapper, jdbcTemplate);
+			return new PeggingOutputPersistentExtendedConsumer(mapper, wrapper);
 		}
 
 	}
 
-	public PeggingOutputPersistentExtendedConsumer(ObjectMapper mapper, JdbcTemplate jdbcTemplate) {
-		super(PeggingOutputDto.class, mapper, jdbcTemplate);
+	public PeggingOutputPersistentExtendedConsumer(ObjectMapper mapper, JDBCOutputTransactionWrapper wrapper) {
+		super(PeggingOutputDto.class, mapper, wrapper);
 
 	}
 
-	@Override
-	protected void initialize() {
-
-	}
-	/*code varchar(253) not null,
-		description varchar(253) ,
-		removed boolean,
-		modified_ts timestamp,
-		cons_worder_code varchar(254),
-	  	cons_task_code  varchar(254),
-	  	prdcr_worder_code  varchar(254),
-	  	prdcr_task_code  varchar(254),
-	 	pegging_qty double precision,*/
+	private PreparedStatement update = null;
+	private PreparedStatement insert = null;
 	static String updateSQL = "update pegging set description=?,modified_ts=?,pegging_qty=? where cons_worder_code=? and cons_task_code=? and prdcr_worder_code=? and prdcr_task_code=?";
 	static String insertSQL = "insert into pegging (description,modified_ts,pegging_qty,cons_worder_code,cons_task_code,prdcr_worder_code,prdcr_task_code,code) values (?,?,?,?,?,?,?,?)";
 
 	@Override
-	protected void save(List<PeggingOutputDto> list) {
+	protected void initialize() throws SQLException {
+		update = jdbcTransactionWrapper.getConnection().prepareStatement(updateSQL);
+		insert = jdbcTransactionWrapper.getConnection().prepareStatement(insertSQL);
+
+	}
+
+	
+
+	@Override
+	protected void save(List<PeggingOutputDto> list) throws SQLException {
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
-		ConnectionCallback<Integer> callback = new ConnectionCallback<Integer>() {
-			@Override
-			public Integer doInConnection(Connection con) throws SQLException, DataAccessException {
-				PreparedStatement update = con.prepareStatement(updateSQL);
-				PreparedStatement insert = con.prepareStatement(insertSQL);
-				for (PeggingOutputDto dto : list) {
-					String description="Work Order "+dto.getProducerWorkOrderCode()+" to "+dto.getConsumerTaskCode();
-					update.clearParameters();
-					update.setString(1, description);
-					update.setTimestamp(2, ts);
-					update.setDouble(3, dto.getPeggingQty());
-					update.setString(4, dto.getConsumerWorkOrderCode());
-					update.setString(5, dto.getConsumerTaskCode());
-					update.setString(6, dto.getProducerWorkOrderCode());
-					update.setString(7, dto.getProducerTaskCode());
-					int howMany = update.executeUpdate();
-					if (howMany == 0) {
-						insert.clearParameters();
-						insert.setString(1, description);
-						insert.setTimestamp(2, ts);
-						insert.setDouble(3, dto.getPeggingQty());
-						insert.setString(4, dto.getConsumerWorkOrderCode());
-						insert.setString(5, dto.getConsumerTaskCode());
-						insert.setString(6, dto.getProducerWorkOrderCode());
-						insert.setString(7, dto.getProducerTaskCode());
-						insert.setString(8, UUID.randomUUID().toString());
-						insert.executeUpdate();
-					}
-				}
-				insert.close();
-				update.close();
-				return list.size();
+
+		for (PeggingOutputDto dto : list) {
+			String description = "Work Order " + dto.getProducerWorkOrderCode() + " to " + dto.getConsumerTaskCode();
+			update.clearParameters();
+			update.setString(1, description);
+			update.setTimestamp(2, ts);
+			update.setDouble(3, dto.getPeggingQty());
+			update.setString(4, dto.getConsumerWorkOrderCode());
+			update.setString(5, dto.getConsumerTaskCode());
+			update.setString(6, dto.getProducerWorkOrderCode());
+			update.setString(7, dto.getProducerTaskCode());
+			int howMany = update.executeUpdate();
+			if (howMany == 0) {
+				insert.clearParameters();
+				insert.setString(1, description);
+				insert.setTimestamp(2, ts);
+				insert.setDouble(3, dto.getPeggingQty());
+				insert.setString(4, dto.getConsumerWorkOrderCode());
+				insert.setString(5, dto.getConsumerTaskCode());
+				insert.setString(6, dto.getProducerWorkOrderCode());
+				insert.setString(7, dto.getProducerTaskCode());
+				insert.setString(8, UUID.randomUUID().toString());
+				insert.executeUpdate();
 			}
-		};
-		this.jdbcTemplate.execute(callback);
+		}
+
 	}
 
 	@Override
-	protected void disposeResources() {
+	protected void disposeResources() throws SQLException {
+		insert.close();
+		update.close();
 
 	}
 

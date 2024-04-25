@@ -45,4 +45,9 @@
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
+    <logger name="com.openi40.scheduler.engine.aps"
+		level="info" additivity="false">
+		<appender-ref ref="RollingFile" />
+		<appender-ref ref="Console" />
+	</logger>
  </configuration>

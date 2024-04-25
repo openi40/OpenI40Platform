@@ -8,6 +8,9 @@ server:
     enabled: true
   servlet:
     contextPath: /openi40-integration
+com.openi40.webcfg: 
+                angularUi: false
+                swaggerUi: true    
 spring:
   profiles:    active:      - "server.rest.api"
   jackson:
@@ -20,5 +23,5 @@ hibernate.cache.use_second_level_cache: false
 spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
 spring.datasource.username: postgres
-spring.datasource.password: <password>
+spring.datasource.password: 15041973
 spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  

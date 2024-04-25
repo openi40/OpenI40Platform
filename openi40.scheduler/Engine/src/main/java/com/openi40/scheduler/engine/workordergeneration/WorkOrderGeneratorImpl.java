@@ -75,7 +75,8 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 			int nChild = 1;
 			for (ItemConsumed requiredMaterial : currentTask.getMaterialConsumptions()) {
 				if (requiredMaterial.getProduct() != null
-						&& requiredMaterial.getProduct().isCanBeProducedByScheduler()) {
+						&& requiredMaterial.getProduct().getCanBeProducedByScheduler() != null
+						&& requiredMaterial.getProduct().getCanBeProducedByScheduler()) {
 					if (createDependencyWorkOrder) {
 						List<WorkOrder> list = createWorkOrder(requiredMaterial.getProduct(), plant,
 								parentWorkOrder.getCode() + "-" + requiredMaterial.getProduct().getCode() + "-"
@@ -246,7 +247,7 @@ public class WorkOrderGeneratorImpl extends BusinessLogic<ApsData> implements IW
 		workOrder.setColor(color);
 		workOrder.setSalesOrderLineCode(salesOrderLineCode);
 		workOrder.setDeliveryDate(deliveryDateTime);
-		workOrder.setProducedPart(new ItemProducedMetaInfo(cycleModel.getContext(),
+		workOrder.setProducedPart(new ItemProducedMetaInfo(cycleModel.getContext(), 
 				cycleModel.getRootOperation().getItemProducedModel()));
 		workOrder.setTotalQty(qty);
 		workOrder.setCycleModel(cycleModel);

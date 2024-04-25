@@ -1,8 +1,6 @@
 package com.openi40.scheduler.model.messages;
 
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -13,12 +11,18 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public abstract class AbstractMachineStatusMessage extends AbstractBaseMessage implements IMachineRelatedMessage {
 	protected String machineCode = null;
 	public AbstractMachineStatusMessage(ApsData context) {
 		super(context);
 		
+	}
+	public String getMachineCode() {
+		return machineCode;
+	}
+	public void setMachineCode(String machineCode) {
+		this.machineCode = machineCode;
 	}
 
 }

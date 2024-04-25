@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -19,7 +17,7 @@ import lombok.Data;
  */
 @Configuration
 @ConfigurationProperties(prefix = "com.openi40.scheduler.entities")
-@Data
+
 public class ApsEntitiesIntegrationListConfig {
 
 	public ApsEntitiesIntegrationListConfig() {
@@ -27,5 +25,13 @@ public class ApsEntitiesIntegrationListConfig {
 	}
 
 	List<String> additionalEntities = new ArrayList<>();
+
+	public List<String> getAdditionalEntities() {
+		return additionalEntities;
+	}
+
+	public void setAdditionalEntities(List<String> additionalEntities) {
+		this.additionalEntities = additionalEntities;
+	}
 
 }

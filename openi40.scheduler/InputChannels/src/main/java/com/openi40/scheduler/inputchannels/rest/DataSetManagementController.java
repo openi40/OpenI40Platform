@@ -25,8 +25,6 @@ import com.openi40.scheduler.inputchannels.streaminputs.handlers.ApsInputDataStr
 import com.openi40.scheduler.mapper.MapperException;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.dao.DataModelDaoException;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -50,10 +48,22 @@ public class DataSetManagementController {
 	@Autowired
 	protected IDataInputValidator inputValidator;
 
-	@Data
+	
 	public static class DataSetOperationResult {
 		boolean success = false;
 		List<ValidationMessage> validationMessages = new ArrayList<ValidationMessage>();
+		public boolean isSuccess() {
+			return success;
+		}
+		public void setSuccess(boolean success) {
+			this.success = success;
+		}
+		public List<ValidationMessage> getValidationMessages() {
+			return validationMessages;
+		}
+		public void setValidationMessages(List<ValidationMessage> validationMessages) {
+			this.validationMessages = validationMessages;
+		}
 	}
 
 	@PostMapping("createStageDataSet/{dataSourceName}/{dataSetName}/{dataSetVariant}/")

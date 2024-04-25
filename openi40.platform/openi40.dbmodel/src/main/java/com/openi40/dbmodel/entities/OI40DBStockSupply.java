@@ -29,9 +29,34 @@ import javax.persistence.Table;
 		@AttributeOverride(name = "warehouseCode", column = @Column(name = "whouse_code")),
 		@AttributeOverride(name = "integrationTs", column = @Column(name = "integration_ts")),
 		@AttributeOverride(name = "infiniteCapacity", column = @Column(name = "infinite_capacity")) })
+
 public class OI40DBStockSupply extends OI40DBBaseEntity implements Serializable {
 	private String productCode = null;
 	private String warehouseCode = null;
 	private Double physicalStockQuantity = null;
 	private Boolean infiniteCapacity;
+	public String getProductCode() {
+		return productCode;
+	}
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+	public String getWarehouseCode() {
+		return warehouseCode;
+	}
+	public void setWarehouseCode(String warehouseCode) {
+		this.warehouseCode = warehouseCode;
+	}
+	public Double getPhysicalStockQuantity() {
+		return physicalStockQuantity;
+	}
+	public void setPhysicalStockQuantity(Double physicalStockQuantity) {
+		this.physicalStockQuantity = physicalStockQuantity;
+	}
+	public Boolean getInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+	public void setInfiniteCapacity(Boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
 }

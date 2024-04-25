@@ -4,15 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 	</parent>
 	<groupId>com.openi40.commons</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>com.openi40.commons.parent</artifactId>
 	<packaging>pom</packaging>
 	
 	<modules>
 		<module>WebConfigs</module>
 		<module>Mapper</module>
+		<module>persistence-datamodel-utils</module>
+		<module>openi40-tests-support</module>
+		<module>multithreading-config</module>
 	</modules>
 </project>

@@ -10,7 +10,6 @@
  */
 package com.openi40.scheduler.client.model.companystructure;
 
-import com.openi40.scheduler.client.model.ClientDto;
 import com.openi40.scheduler.client.model.equipment.SecondaryResourceDto;
 
 public class ResourceGroupDto extends AbstractGroupDto<SecondaryResourceDto> {

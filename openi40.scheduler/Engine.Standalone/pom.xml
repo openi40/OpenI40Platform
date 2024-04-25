@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.openi40.scheduler</groupId>
-		<artifactId>parent</artifactId>
-		<version>00.00.02BC-SNAPSHOT</version>
+		<artifactId>com.openi40.scheduler.parent</artifactId>
+		<version>00.41.BETA-SNAPSHOT</version>
 
 	</parent>
 	<artifactId>Engine.Standalone</artifactId>
@@ -23,59 +23,59 @@
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Common</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Model</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Engine</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>Mapper</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Client.RestApi</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.openi40.scheduler</groupId>
-			<artifactId>angular-app</artifactId>
-			<version>${global.version}</version>
+			<groupId>com.openi40.ui</groupId>
+			<artifactId>openi40-scheduling-ui</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>com.openi40.commons</groupId>
 			<artifactId>WebConfigs</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputChannels</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>Output.Channels</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputOutputConfig</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
 			<artifactId>InputModel2ApsModelMappers</artifactId>
-			<version>${global.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.openi40.scheduler</groupId>
@@ -149,8 +149,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 
 				<configuration>
-					<forkCount>0</forkCount>
+					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
+					<forkMode>never</forkMode>
 				</configuration>
 			</plugin>
 			<plugin>

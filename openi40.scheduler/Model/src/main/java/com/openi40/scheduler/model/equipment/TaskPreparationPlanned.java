@@ -10,8 +10,6 @@ import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -22,7 +20,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TaskPreparationPlanned extends AbstractApsObject implements IReferencingMetaInfo<TaskPreparationModel> {
 	public static class SetupResourceInfos extends Use<Machine, TaskPreparationUseModel<Machine, MachinesGroup>, MachinesGroup> {
 		public SetupResourceInfos() {
@@ -46,21 +44,21 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 		}
 	}
 
-	private TimeSegmentsGroup EquipmentEventsGroup;
+	private TimeSegmentsGroup equipmentEventsGroup;
 
-	private List<TimeSegmentsGroup> ExecutionSlots = new ArrayList<TimeSegmentsGroup>();
+	private List<TimeSegmentsGroup> executionSlots = new ArrayList<TimeSegmentsGroup>();
 
-	private boolean UsingChangeOver = false;
-	private TaskPreparationModel MetaInfo;
-	private double NominalChangeOverTime = 0;
+	private boolean usingChangeOver = false;
+	private TaskPreparationModel metaInfo;
+	private double nominalChangeOverTime = 0;
 
 	private double nominalManteinanceBreakTime = 0;
 	private double nominalManteinancePeriod = 0;
-	private double NominalSetupTime = 0;
+	private double nominalSetupTime = 0;
 
-	private Task OwnerTask;
-	private SetupResourceInfos Resource = new SetupResourceInfos();
-	private List<SetupSecondaryResourceInfos> SecondaryResources = new ArrayList<SetupSecondaryResourceInfos>();
+	private Task ownerTask;
+	private SetupResourceInfos resource = new SetupResourceInfos();
+	private List<SetupSecondaryResourceInfos> secondaryResources = new ArrayList<SetupSecondaryResourceInfos>();
 
 	public TaskPreparationPlanned(ApsData context) {
 		super(context);
@@ -70,7 +68,7 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 	}
 
 	public double getNominalSetupTime() {
-		return NominalSetupTime;
+		return nominalSetupTime;
 	}
 
 	@Override
@@ -93,7 +91,7 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 	}
 
 	public double getSetupTime() {
-		return UsingChangeOver ? NominalChangeOverTime : NominalSetupTime;
+		return usingChangeOver ? nominalChangeOverTime : nominalSetupTime;
 	}
 
 	@Override
@@ -108,6 +106,90 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 
 	public String toString() {
 		return "{" + this.getCode() + "}";
+	}
+
+	public TimeSegmentsGroup getEquipmentEventsGroup() {
+		return equipmentEventsGroup;
+	}
+
+	public void setEquipmentEventsGroup(TimeSegmentsGroup equipmentEventsGroup) {
+		this.equipmentEventsGroup = equipmentEventsGroup;
+	}
+
+	public List<TimeSegmentsGroup> getExecutionSlots() {
+		return executionSlots;
+	}
+
+	public void setExecutionSlots(List<TimeSegmentsGroup> executionSlots) {
+		this.executionSlots = executionSlots;
+	}
+
+	public boolean isUsingChangeOver() {
+		return usingChangeOver;
+	}
+
+	public void setUsingChangeOver(boolean usingChangeOver) {
+		this.usingChangeOver = usingChangeOver;
+	}
+
+	public TaskPreparationModel getMetaInfo() {
+		return metaInfo;
+	}
+
+	public void setMetaInfo(TaskPreparationModel metaInfo) {
+		this.metaInfo = metaInfo;
+	}
+
+	public double getNominalChangeOverTime() {
+		return nominalChangeOverTime;
+	}
+
+	public void setNominalChangeOverTime(double nominalChangeOverTime) {
+		this.nominalChangeOverTime = nominalChangeOverTime;
+	}
+
+	public double getNominalManteinanceBreakTime() {
+		return nominalManteinanceBreakTime;
+	}
+
+	public void setNominalManteinanceBreakTime(double nominalManteinanceBreakTime) {
+		this.nominalManteinanceBreakTime = nominalManteinanceBreakTime;
+	}
+
+	public double getNominalManteinancePeriod() {
+		return nominalManteinancePeriod;
+	}
+
+	public void setNominalManteinancePeriod(double nominalManteinancePeriod) {
+		this.nominalManteinancePeriod = nominalManteinancePeriod;
+	}
+
+	public Task getOwnerTask() {
+		return ownerTask;
+	}
+
+	public void setOwnerTask(Task ownerTask) {
+		this.ownerTask = ownerTask;
+	}
+
+	public SetupResourceInfos getResource() {
+		return resource;
+	}
+
+	public void setResource(SetupResourceInfos resource) {
+		this.resource = resource;
+	}
+
+	public List<SetupSecondaryResourceInfos> getSecondaryResources() {
+		return secondaryResources;
+	}
+
+	public void setSecondaryResources(List<SetupSecondaryResourceInfos> secondaryResources) {
+		this.secondaryResources = secondaryResources;
+	}
+
+	public void setNominalSetupTime(double nominalSetupTime) {
+		this.nominalSetupTime = nominalSetupTime;
 	}
 
 }

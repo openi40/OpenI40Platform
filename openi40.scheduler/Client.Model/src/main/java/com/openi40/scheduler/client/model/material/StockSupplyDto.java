@@ -10,10 +10,6 @@
  */
 package com.openi40.scheduler.client.model.material;
 
-import com.openi40.scheduler.client.model.ClientDto;
-
-import lombok.Data;
-@Data
 public class StockSupplyDto extends AbstractSupplyDto {
 	
 	

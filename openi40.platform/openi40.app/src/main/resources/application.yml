@@ -1,5 +1,13 @@
 RestApiConfig:
   useWebSocket: false 
+com.openi40.webcfg: 
+                angularUi: true
+                swaggerUi: true  
+com.openi40.commons.multithreading.config:
+                                     useMultithreading: true
+                                     minThreads: 4
+                                     maxThreads: 12
+                                     executeQueueCapacity: 1000                   
 server:
   port: 8080
   compression:
@@ -22,8 +30,8 @@ hibernate.cache.use_second_level_cache: false
 spring.datasource.hikari.connectionTimeout: 20000
 spring.datasource.hikari.maximumPoolSize: 5
 spring.datasource.username: postgres
-spring.datasource.password: <password>
-spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40  
+spring.datasource.password: 15041973
+spring.datasource.url:  jdbc:postgresql://192.168.23.135:5432/OPENI40 
 
 com.openi40.platform.dbchannels:
         useJpaStreaming: true

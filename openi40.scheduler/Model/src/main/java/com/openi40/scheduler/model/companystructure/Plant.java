@@ -8,17 +8,12 @@ import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.ITimesheetAllocableObject;
 import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.cycle.CycleModel;
-import com.openi40.scheduler.model.cycle.OperationModel;
 import com.openi40.scheduler.model.material.configuration.PlantProductSetting;
 import com.openi40.scheduler.model.orders.ProductionOrder;
 import com.openi40.scheduler.model.orders.PurchaseOrder;
 import com.openi40.scheduler.model.orders.SalesOrder;
 import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.time.Timesheet;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -29,7 +24,7 @@ import lombok.Setter;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class Plant extends AbstractApsObject
 		implements ICompanyStructureNode<ProductiveCompany>, ITimesheetAllocableObject {
 	private static final String WORK_ORDERS = "WorkOrders";
@@ -42,21 +37,21 @@ public class Plant extends AbstractApsObject
 	private static final String PRODUCT_SETTINGS = "ProductSettings";
 	private boolean infiniteCapacity = false;
 	protected ProductiveCompany parent = null;
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<Department> departments = createCleanChild(this, DEPARTMENTS, Department.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<Warehouse> warehouses = createCleanChild(this, WAREHOUSES, Warehouse.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<CycleModel> cycleModels = createCleanChild(this, CYCLE_MODELS, CycleModel.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<SalesOrder> salesOrders = createCleanChild(this, SALES_ORDERS, SalesOrder.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<ProductionOrder> productionOrders = createCleanChild(this, PRODUCTION_ORDERS, ProductionOrder.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<PurchaseOrder> purchaseOrders = createCleanChild(this, PURCHASE_ORDERS, PurchaseOrder.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<WorkOrder> workOrders = createCleanChild(this, WORK_ORDERS, WorkOrder.class);
-	@Setter(value = AccessLevel.NONE)
+	
 	protected List<PlantProductSetting> productSettings = createCleanChild(this, PRODUCT_SETTINGS,
 			PlantProductSetting.class);
 
@@ -86,6 +81,78 @@ public class Plant extends AbstractApsObject
 		for (IApsObject iApsObject : objects) {
 			iApsObject.resetSchedulingData();
 		}
+	}
+
+	public boolean isInfiniteCapacity() {
+		return infiniteCapacity;
+	}
+
+	public void setInfiniteCapacity(boolean infiniteCapacity) {
+		this.infiniteCapacity = infiniteCapacity;
+	}
+
+	public ProductiveCompany getParent() {
+		return parent;
+	}
+
+	public void setParent(ProductiveCompany parent) {
+		this.parent = parent;
+	}
+
+	public String getProductiveCompanyCode() {
+		return productiveCompanyCode;
+	}
+
+	public void setProductiveCompanyCode(String productiveCompanyCode) {
+		this.productiveCompanyCode = productiveCompanyCode;
+	}
+
+	public String getTimesheetMetaInfoCode() {
+		return timesheetMetaInfoCode;
+	}
+
+	public void setTimesheetMetaInfoCode(String timesheetMetaInfoCode) {
+		this.timesheetMetaInfoCode = timesheetMetaInfoCode;
+	}
+
+	public Timesheet getTimesheet() {
+		return timesheet;
+	}
+
+	public void setTimesheet(Timesheet timesheet) {
+		this.timesheet = timesheet;
+	}
+
+	public List<Department> getDepartments() {
+		return departments;
+	}
+
+	public List<Warehouse> getWarehouses() {
+		return warehouses;
+	}
+
+	public List<CycleModel> getCycleModels() {
+		return cycleModels;
+	}
+
+	public List<SalesOrder> getSalesOrders() {
+		return salesOrders;
+	}
+
+	public List<ProductionOrder> getProductionOrders() {
+		return productionOrders;
+	}
+
+	public List<PurchaseOrder> getPurchaseOrders() {
+		return purchaseOrders;
+	}
+
+	public List<WorkOrder> getWorkOrders() {
+		return workOrders;
+	}
+
+	public List<PlantProductSetting> getProductSettings() {
+		return productSettings;
 	}
 
 }

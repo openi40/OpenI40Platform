@@ -2,8 +2,6 @@ package com.openi40.generical.dbintegration.configuration;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -14,7 +12,7 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class EntityIntegrationConfig {
 	private String entityName = null;
 	private boolean incrementalSync = false;
@@ -24,6 +22,46 @@ public class EntityIntegrationConfig {
 
 	public EntityIntegrationConfig() {
 
+	}
+
+	public String getEntityName() {
+		return entityName;
+	}
+
+	public void setEntityName(String entityName) {
+		this.entityName = entityName;
+	}
+
+	public boolean isIncrementalSync() {
+		return incrementalSync;
+	}
+
+	public void setIncrementalSync(boolean incrementalSync) {
+		this.incrementalSync = incrementalSync;
+	}
+
+	public boolean isHandleDeletions() {
+		return handleDeletions;
+	}
+
+	public void setHandleDeletions(boolean handleDeletions) {
+		this.handleDeletions = handleDeletions;
+	}
+
+	public String getCustomDeletionHandlerClass() {
+		return customDeletionHandlerClass;
+	}
+
+	public void setCustomDeletionHandlerClass(String customDeletionHandlerClass) {
+		this.customDeletionHandlerClass = customDeletionHandlerClass;
+	}
+
+	public Map<String, Object> getCustomParameters() {
+		return customParameters;
+	}
+
+	public void setCustomParameters(Map<String, Object> customParameters) {
+		this.customParameters = customParameters;
 	}
 
 }

@@ -1,0 +1,27 @@
+<p-table
+  [columns]="columnsConfig"
+  [value]="formgroups"
+  *ngIf="formArray && formArrayConfig"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" >
+        {{ col.header }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr>
+      <td *ngFor="let ctrlConfig of formArrayConfig?.controls">
+        <ui-configurable-component
+          [configuration]="ctrlConfig"
+          [readonly]="
+            readonly === true ||
+            (rowData?.modifyMode === true && ctrlConfig?.readOnlyOnModify === true) "
+          [formGroup]="rowData"
+          [compact]="true"
+        ></ui-configurable-component>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

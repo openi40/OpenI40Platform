@@ -20,7 +20,7 @@ import com.openi40.scheduler.common.aps.IApsObject;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(TYPE)
 public  @interface  BusinessInterface {
-
+	public boolean canBeScripted() default false;
 	public Class<? extends IApsObject> entityClass();
 
 	

@@ -1,12 +1,13 @@
 package com.openi40.scheduler.model.cycle;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.openi40.scheduler.model.AbstractApsObject;
 import com.openi40.scheduler.model.aps.ApsData;
-
-import lombok.Data;
+import com.openi40.scheduler.model.resourcesdeps.IApsResourcesDependencyTreeObject;
+import com.openi40.scheduler.model.resourcesdeps.ResourceDepsItemMetaInfo;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,8 +18,8 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
-public class CycleModel extends AbstractApsObject {
+
+public class CycleModel extends AbstractApsObject implements IApsResourcesDependencyTreeObject {
 	protected String plantCode = null;
 	protected String productCode = null;
 	protected boolean defaultProductCycle = false;
@@ -41,6 +42,58 @@ public class CycleModel extends AbstractApsObject {
 				}
 			}
 		}
+	}
+
+	public String getPlantCode() {
+		return plantCode;
+	}
+
+	public void setPlantCode(String plantCode) {
+		this.plantCode = plantCode;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
+	}
+
+	public boolean isDefaultProductCycle() {
+		return defaultProductCycle;
+	}
+
+	public void setDefaultProductCycle(boolean defaultProductCycle) {
+		this.defaultProductCycle = defaultProductCycle;
+	}
+
+	public List<OperationModel> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(List<OperationModel> operations) {
+		this.operations = operations;
+	}
+
+	public OperationModel getRootOperation() {
+		return rootOperation;
+	}
+
+	public void setRootOperation(OperationModel rootOperation) {
+		this.rootOperation = rootOperation;
+	}
+
+	@Override
+	public ResourceDepsItemMetaInfo getResourceItemInfo() {
+		
+		return ResourceDepsItemMetaInfo.of(this);
+	}
+
+	@Override
+	public Collection<IApsResourcesDependencyTreeObject> getResourceDependencyChilds() {
+		
+		return new ArrayList<IApsResourcesDependencyTreeObject>(operations);
 	}
 
 }

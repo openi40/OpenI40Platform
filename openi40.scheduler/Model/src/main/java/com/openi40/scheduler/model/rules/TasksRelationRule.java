@@ -5,8 +5,6 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
 import com.openi40.scheduler.model.time.PeriodsAlignmentType;
 import com.openi40.scheduler.model.time.TimeSegmentType;
-
-import lombok.Data;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -17,16 +15,16 @@ import lombok.Data;
  * @author architectures@openi40.org
  *
  */
-@Data
+
 public class TasksRelationRule extends Rule {
 
-	private TaskEdge Edge = null;
+	private TaskEdge edge = null;
 
-	private PeriodsAlignmentType PeriodAlignment = PeriodsAlignmentType.START_AFTER_END;
+	private PeriodsAlignmentType periodAlignment = PeriodsAlignmentType.START_AFTER_END;
 
-	private Task RelatedTask = null;
+	private Task relatedTask = null;
 
-	private TimeSegmentType TimeRangeType = com.openi40.scheduler.model.time.TimeSegmentType.WORK_TIME;
+	private TimeSegmentType timeRangeType = com.openi40.scheduler.model.time.TimeSegmentType.WORK_TIME;
 
 	public TasksRelationRule(ApsData context) {
 		super(context);
@@ -49,6 +47,38 @@ public class TasksRelationRule extends Rule {
 		setRelatedTask(relatedTask);
 		setTimeRangeType(edge.getTimeRangeType());
 		setEdge(edge);
+	}
+
+	public TaskEdge getEdge() {
+		return edge;
+	}
+
+	public void setEdge(TaskEdge edge) {
+		this.edge = edge;
+	}
+
+	public PeriodsAlignmentType getPeriodAlignment() {
+		return periodAlignment;
+	}
+
+	public void setPeriodAlignment(PeriodsAlignmentType periodAlignment) {
+		this.periodAlignment = periodAlignment;
+	}
+
+	public Task getRelatedTask() {
+		return relatedTask;
+	}
+
+	public void setRelatedTask(Task relatedTask) {
+		this.relatedTask = relatedTask;
+	}
+
+	public TimeSegmentType getTimeRangeType() {
+		return timeRangeType;
+	}
+
+	public void setTimeRangeType(TimeSegmentType timeRangeType) {
+		this.timeRangeType = timeRangeType;
 	}
 
 }
