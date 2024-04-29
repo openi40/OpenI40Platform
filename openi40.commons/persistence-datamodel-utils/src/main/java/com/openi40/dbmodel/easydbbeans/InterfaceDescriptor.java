@@ -7,7 +7,7 @@ import java.util.Vector;
 /**
  * Insert the type's description here. Creation date: (30/06/2001 17.28.50)
  * 
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class InterfaceDescriptor implements java.io.Serializable {
 	Class managedClass = null;

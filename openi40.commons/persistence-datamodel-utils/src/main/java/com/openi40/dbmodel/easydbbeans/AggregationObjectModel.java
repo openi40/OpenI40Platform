@@ -4,7 +4,7 @@ package com.openi40.dbmodel.easydbbeans;
  * Tag Interface for the implementation of an Aggregation Object Model
  * with naming standard
  * Creation date: (30/06/2001 17.34.41)
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public interface AggregationObjectModel extends java.io.Serializable {
 /**

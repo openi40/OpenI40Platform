@@ -7,7 +7,7 @@ import java.util.Hashtable;
 /**
  * Insert the type's description here. Creation date: (30/06/2001 17.43.38)
  * 
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class ONE2MANYAggregationDescriptor extends AggregationDescriptor implements java.io.Serializable {
 	private java.lang.reflect.Method _addMethod = null;

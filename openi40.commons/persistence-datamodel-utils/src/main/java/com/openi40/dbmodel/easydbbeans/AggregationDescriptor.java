@@ -3,7 +3,7 @@ package com.openi40.dbmodel.easydbbeans;
  * Describe an aggregation Path beetwen two
  * Class rappresented using the AggregatedObjectModel
  * Creation date: (30/06/2001 17.32.04)
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class AggregationDescriptor implements java.io.Serializable
 {

@@ -18,7 +18,7 @@ import com.openi40.scheduler.model.orders.WorkOrder;
  * Web site: http://openi40.org/  
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
- * @author architectures@openi40.org
+ * @author Paolo Zavalloni  architectures@openi40.org
  *
  *
  * This componente creates working orders (also in recursive way for required

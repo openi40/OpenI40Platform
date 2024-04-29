@@ -28,7 +28,7 @@ import com.google.common.base.Function;
 /**
  * DB Bean di Base Creation date: (24/04/2002 15.42.21)
  * 
- * @author: architectures@openi40.org (paolo.zavalloni@zconsultancies.com)
+ * @author Paolo Zavalloni : architectures@openi40.org (paolo.zavalloni@zconsultancies.com)
  */
 
 public class BaseDBBean extends AutoDescribingObject implements Serializable {

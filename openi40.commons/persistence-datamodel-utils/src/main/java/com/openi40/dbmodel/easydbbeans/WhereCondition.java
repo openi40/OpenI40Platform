@@ -11,7 +11,7 @@ import java.util.Vector;
 /**
  * Insert the type's description here. Creation date: (20/09/2002 13.01.47)
  * 
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class WhereCondition {
 	public String toString() {

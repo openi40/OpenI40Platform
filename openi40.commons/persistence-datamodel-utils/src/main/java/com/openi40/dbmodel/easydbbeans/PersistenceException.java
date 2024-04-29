@@ -3,7 +3,7 @@ package com.openi40.dbmodel.easydbbeans;
 /**
  * Base Exception for the EasyPersistance part of the framework
  * Creation date: (16/09/2001 17.06.59)
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class PersistenceException extends Exception {
 	Throwable nestedException=null;

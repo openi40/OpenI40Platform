@@ -32,7 +32,7 @@ import com.openi40.scheduler.model.time.TimesheetReservation;
  * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
  * hope you enjoy implementing new amazing projects with it.
  * 
- * @author architectures@openi40.org
+ * @author Paolo Zavalloni  architectures@openi40.org
  *
  */
 @DefaultImplementation(implemented = ITaskUnderProductionTimeRequirementsAnalyzer.class, entityClass = TaskEquipmentInfo.class)
