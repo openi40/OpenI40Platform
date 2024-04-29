@@ -3,7 +3,7 @@ package com.openi40.dbmodel.easydbbeans;
 /**
  * Insert the type's description here.
  * Creation date: (25/09/2002 14.15.09)
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 class TypesMapItem {
     public Class classe = null;

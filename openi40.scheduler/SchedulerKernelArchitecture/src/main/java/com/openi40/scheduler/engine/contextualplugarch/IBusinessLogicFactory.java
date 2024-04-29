@@ -10,7 +10,7 @@ import com.openi40.scheduler.common.aps.IEnvironment;
  * Web site: http://openi40.org/  
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
- * @author architectures@openi40.org
+ * @author Paolo Zavalloni  architectures@openi40.org
  *
  *Business component factory interface, this is the entry point for component architecture and component customizations.
  *The architecture of this factory is thought to be reverse controlled interrogating the factory with the method IsCanManage

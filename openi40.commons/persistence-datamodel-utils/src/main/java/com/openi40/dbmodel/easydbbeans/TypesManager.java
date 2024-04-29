@@ -17,7 +17,7 @@ import java.util.Vector;
  * Utility class for the management of Base class types convertions Creation
  * date: (30/06/2001 16.55.45)
  * 
- * @author: ZaVA
+ * @author Paolo Zavalloni : ZaVA
  */
 public class TypesManager {
 	public static String TRUE = "1";

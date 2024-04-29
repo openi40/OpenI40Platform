@@ -12,7 +12,7 @@ import com.openi40.scheduler.model.IValidable;
  * Web site: http://openi40.org/  
  * Github: https://github.com/openi40/OpenI40Platform
  * We hope you enjoy implementing new amazing projects with it.
- * @author architectures@openi40.org
+ * @author Paolo Zavalloni  architectures@openi40.org
  *
  * Rappresent a time range requirement to be used as various arguments in method
  * and data structures, can specify a upper and/or limited time interval with

@@ -3,7 +3,7 @@ package com.openi40.dbmodel.easydbbeans;
 /**
  * Insert the type's description here.
  * Creation date: (04/09/2002 15.18.24)
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class MethodSaver implements java.io.Serializable {
 	String methodName;

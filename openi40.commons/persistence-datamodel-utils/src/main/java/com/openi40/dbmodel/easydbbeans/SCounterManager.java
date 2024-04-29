@@ -9,7 +9,7 @@ import java.sql.Statement;
  * CounterManager da il servizio di management di contatore. Creation date:
  * (10/09/00 17.03.40)
  * 
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class SCounterManager implements java.io.Serializable {
 

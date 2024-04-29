@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  * Deserializer for ThreeTen temporal {@link Instant}s, {@link OffsetDateTime}, and {@link ZonedDateTime}s.
  * Adapted from the jackson threetenbp InstantDeserializer to add support for deserializing rfc822 format.
  *
- * @author Nick Williams
+ * @author Paolo Zavalloni  Nick Williams
  */
 public class CustomInstantDeserializer<T extends Temporal>
     extends ThreeTenDateTimeDeserializerBase<T> {

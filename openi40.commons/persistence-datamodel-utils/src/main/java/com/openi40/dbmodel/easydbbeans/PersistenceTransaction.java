@@ -25,7 +25,7 @@ import javax.transaction.xa.XAResource;
  * PreparedStatements and fires events on begin,successfull commit and rollback
  * Creation date: (22/09/2001 17.28.30)
  * 
- * @author: architectures@openi40.org
+ * @author Paolo Zavalloni : architectures@openi40.org
  */
 public class PersistenceTransaction  {
 	
