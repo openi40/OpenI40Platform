@@ -1,6 +1,8 @@
 package com.openi40.scheduler.model.time;
 
 import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -138,7 +140,23 @@ public class TimeSegment extends AbstractApsObject implements Cloneable, ITimeSe
 		}
 		return rv;
 	}
+	public static boolean checkOverlapping(List<TimeSegment> ranges) {
+	    Collections.sort(ranges, new Comparator<TimeSegment>() {
+	        @Override
+	        public int compare(TimeSegment o1, TimeSegment o2) {
+	            return o1.getStartDateTime().compareTo(o2.getStartDateTime());
+	        }
+	    });
 
+	    for (int i = 0; i < ranges.size() - 1; i++) {
+	        TimeSegment current = ranges.get(i);
+	        TimeSegment next = ranges.get(i + 1);
+	        if (current.getEndDateTime().after(next.getStartDateTime())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	} 
 	public boolean IsOverlapping(ITimeSegment range) {
 		if (isContiguous(range)) {
 			return false;
