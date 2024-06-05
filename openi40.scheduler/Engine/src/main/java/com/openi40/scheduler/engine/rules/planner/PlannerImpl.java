@@ -53,7 +53,7 @@ import com.openi40.scheduler.model.time.TimeSegmentRequirement;
  * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
  * hope you enjoy implementing new amazing projects with it.
  * 
- * @author Paolo Zavalloni  architectures@openi40.org
+ * @author Paolo Zavalloni architectures@openi40.org
  *
  */
 @DefaultImplementation(implemented = IPlanner.class, entityClass = ApsSchedulingSet.class)
@@ -120,8 +120,6 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			TaskEquipmentInfo equipment = task.getEquipment();
 			task.getSetupPhaseExecution().Add(equipment.getPreparation().getEquipmentEventsGroup());
 			task.getWorkPhaseExecution().Add(equipment.getExecution().getEquipmentEventsGroup());
-			allocator.reserveResources(activeCombination);
-
 			Machine machine = equipment.getExecution().getResource().getChoosenEquipment();
 			// Rotate task equipment stack for changeover evaluation
 			switch (direction) {
@@ -257,7 +255,8 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 			LOGGER.error(msg, e);
 			throw new OpenI40Exception(msg, e);
 		}
-		//if the task is under production equipmentChoices are already restricted & matching the actual used resources
+		// if the task is under production equipmentChoices are already restricted &
+		// matching the actual used resources
 		List<EquipmentChoice> equpmentChoices = filterPlansByType(plans, EquipmentChoice.class);
 
 		if (equpmentChoices.isEmpty()) {
@@ -265,7 +264,7 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 					+ "] configuration choices with actually allocated equipments (machine=" + usedMachineCode + ")");
 			return plans;
 		}
-				// Try to update each solution plan to best fitting in the from-to timerange
+		// Try to update each solution plan to best fitting in the from-to timerange
 		List<DateChoice> dateConstraintPlans = filterPlansByType(plans, DateChoice.class);
 		List<TasksRelationChoice> tasksRelationConstraintSatisfactionPlans = filterPlansByType(plans,
 				TasksRelationChoice.class);
@@ -275,15 +274,13 @@ public class PlannerImpl extends BusinessLogic<ApsSchedulingSet> implements IPla
 		// single entry
 		// specificating begin and/or end of a setup/work stage
 		IResourcesAllocator allocator = this.componentsFactory.create(IResourcesAllocator.class, task, schedulingSet);
-		activeCombination = allocator.elaborateUnderProductionAllocations(usedMachine,equpmentChoices, materialPlans, task,
-				schedulingSet, direction, constraintSolutionListener);
+		activeCombination = allocator.elaborateUnderProductionAllocation(usedMachine, equpmentChoices, materialPlans,
+				task, schedulingSet, direction, constraintSolutionListener);
 		if (activeCombination != null) {
 			task.setEquipment(activeCombination.getEquipmentAllocationOption().getPlanned());
 			TaskEquipmentInfo equipment = task.getEquipment();
 			task.getSetupPhaseExecution().Add(equipment.getPreparation().getEquipmentEventsGroup());
 			task.getWorkPhaseExecution().Add(equipment.getExecution().getEquipmentEventsGroup());
-			allocator.reserveResources(activeCombination);
-			
 			Machine machine = equipment.getExecution().getResource().getChoosenEquipment();
 			// Rotate task equipment stack for changeover evaluation
 			switch (direction) {
