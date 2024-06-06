@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.openi40.platform</groupId>
 		<artifactId>com.openi40.platform.parent</artifactId>
-		<version>00.42.BETA-SNAPSHOT</version>
+		<version>00.42.00-BETA-SNAPSHOT</version>
 	</parent>
 	<groupId>com.openi40.platform.integration</groupId>
 	<artifactId>openi40.integration.clients</artifactId>
