@@ -25,11 +25,10 @@ import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 @BusinessInterface(entityClass = Task.class)
 public interface IResourcesAllocator extends IBusinessLogic<Task> {
 		
-		void reserveResources(ResourcesCombination  combination);
-		void discardResourcesOptions(ResourcesCombination combination);
+		
 		ResourcesCombination elaborateAllocation(List<EquipmentChoice> equipmentPlans,List<MaterialChoice> materialPlans,Task task, TimeSegmentRequirement SetupTimeRange, TimeSegmentRequirement WorkTimeRange,ApsSchedulingSet action, ApsLogicDirection direction, IRuleSolutionListener constraintSolutionListener);
 
-		ResourcesCombination elaborateUnderProductionAllocations(Machine usedMachine, List<EquipmentChoice> equpmentChoices,
+		ResourcesCombination elaborateUnderProductionAllocation(Machine usedMachine, List<EquipmentChoice> equpmentChoices,
 				List<MaterialChoice> materialPlans, Task task,
 				ApsSchedulingSet schedulingSet, ApsLogicDirection direction,
 				IRuleSolutionListener constraintSolutionListener);
