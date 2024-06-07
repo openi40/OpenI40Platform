@@ -1,6 +1,6 @@
 #!/bin/bash
 export CURRENT_BRANCH=`git branch --show-current`
-if [ "$CURRENT_BRANCH" = "develop"]; then
+if [ "$CURRENT_BRANCH" = "develop" ]; then
 echo "We are correctly in develop branch"
 else
 echo "We are in the $CURRENT_BRANCH but this script can be run only from develop branch"
