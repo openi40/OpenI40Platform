@@ -21,6 +21,6 @@ if expr "$CURRENT_VERSION" : '.*-SNAPSHOT$' > /dev/null ; then
 export NEWVERSION="$NEWVERSION-SNAPSHOT"
 fi
 echo "New version is = $NEWVERSION"
-./change-version.sh $CURRENT_VERSION $NEWVERSION
+./change-version-branch.sh $CURRENT_VERSION $NEWVERSION
 
 
