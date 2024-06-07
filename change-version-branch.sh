@@ -14,7 +14,7 @@ else
 	exit 1
 fi
 echo "Changing from version $1 to $2"
-export NEW_VERSION_BRANCH="change-version-$2"
+export NEW_VERSION_BRANCH="feature/change-version-$2"
 echo "Create new version branch $NEW_VERSION_BRANCH"
 git checkout -b $NEW_VERSION_BRANCH
 find . -name pom.xml | xargs sed -i s/"$1"/"$2"/ 
