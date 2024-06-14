@@ -10,19 +10,21 @@ import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
- * @author Paolo Zavalloni  architectures@openi40.org
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
+ * @author Paolo Zavalloni architectures@openi40.org
  *
  */
 
 public class TaskPreparationPlanned extends AbstractApsObject implements IReferencingMetaInfo<TaskPreparationModel> {
-	public static class SetupResourceInfos extends Use<Machine, TaskPreparationUseModel<Machine, MachinesGroup>, MachinesGroup> {
+	public static class SetupResourceInfos
+			extends Use<Machine, TaskPreparationUseModel<Machine, MachinesGroup>, MachinesGroup> {
 		public SetupResourceInfos() {
 			super(null);
 		}
@@ -33,7 +35,8 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 		}
 	}
 
-	public static class SetupSecondaryResourceInfos extends Use<Resource, TaskPreparationUseModel<Resource, ResourceGroup>, ResourceGroup> {
+	public static class SetupSecondaryResourceInfos
+			extends Use<Resource, TaskPreparationUseModel<Resource, ResourceGroup>, ResourceGroup> {
 		public SetupSecondaryResourceInfos() {
 			super(null);
 		}
@@ -81,10 +84,13 @@ public class TaskPreparationPlanned extends AbstractApsObject implements IRefere
 		equipmentPlanned.setNominalSetupTime(getNominalSetupTime());
 		equipmentPlanned.setUsingChangeOver(isUsingChangeOver());
 		equipmentPlanned.setResource((SetupResourceInfos) getResource().cleanClone());
+		equipmentPlanned.getResource().regenerateId();
 		equipmentPlanned.setOwnerTask(getOwnerTask());
 		equipmentPlanned.owner = owner;
 		for (SetupSecondaryResourceInfos secondaryResource : getSecondaryResources()) {
-			equipmentPlanned.getSecondaryResources().add((SetupSecondaryResourceInfos) secondaryResource.cleanClone());
+			SetupSecondaryResourceInfos entry = (SetupSecondaryResourceInfos) secondaryResource.cleanClone();
+			entry.regenerateId();
+			equipmentPlanned.getSecondaryResources().add(entry);
 		}
 
 		return equipmentPlanned;

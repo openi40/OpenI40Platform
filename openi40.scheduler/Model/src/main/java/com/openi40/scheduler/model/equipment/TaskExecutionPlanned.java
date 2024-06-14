@@ -10,24 +10,27 @@ import com.openi40.scheduler.model.aps.ApsData;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.TimeSegmentsGroup;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
- * @author Paolo Zavalloni  architectures@openi40.org
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
+ * @author Paolo Zavalloni architectures@openi40.org
  *
  */
 public class TaskExecutionPlanned extends AbstractApsObject implements IReferencingMetaInfo<TaskExecutionModel> {
-	public static class WorkResourceInfos extends Use<Machine, TaskExecutionUseModel<Machine, MachinesGroup>, MachinesGroup> {
+	public static class WorkResourceInfos
+			extends Use<Machine, TaskExecutionUseModel<Machine, MachinesGroup>, MachinesGroup> {
 		public WorkResourceInfos(ApsData context) {
 			super(context);
 		}
 	}
 
-	public static class WorkSecondaryResourceInfos extends Use<Resource, TaskExecutionUseModel<Resource, ResourceGroup>, ResourceGroup> {
+	public static class WorkSecondaryResourceInfos
+			extends Use<Resource, TaskExecutionUseModel<Resource, ResourceGroup>, ResourceGroup> {
 		public WorkSecondaryResourceInfos(ApsData context) {
 			super(context);
 		}
@@ -97,11 +100,11 @@ public class TaskExecutionPlanned extends AbstractApsObject implements IReferenc
 
 	private TaskExecutionModel Model;
 
-	public  TaskExecutionModel getMetaInfo() {
+	public TaskExecutionModel getMetaInfo() {
 		return Model;
 	}
 
-	public  void setMetaInfo(TaskExecutionModel value) {
+	public void setMetaInfo(TaskExecutionModel value) {
 		Model = value;
 	}
 
@@ -132,10 +135,13 @@ public class TaskExecutionPlanned extends AbstractApsObject implements IReferenc
 		equipmentPlanned.setNominalWorkTime(getNominalWorkTime());
 
 		equipmentPlanned.setResource((WorkResourceInfos) getResource().cleanClone());
+		equipmentPlanned.getResource().regenerateId();
 		equipmentPlanned.setOwnerTask(getOwnerTask());
 		equipmentPlanned.owner = owner;
 		for (WorkSecondaryResourceInfos secondaryResource : getSecondaryResources()) {
-			equipmentPlanned.getSecondaryResources().add((WorkSecondaryResourceInfos) secondaryResource.cleanClone());
+			WorkSecondaryResourceInfos entry = (WorkSecondaryResourceInfos) secondaryResource.cleanClone();
+			entry.regenerateId();
+			equipmentPlanned.getSecondaryResources().add(entry);
 		}
 		return equipmentPlanned;
 	}
