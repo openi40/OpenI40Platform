@@ -12,10 +12,20 @@ package com.openi40.scheduler.tests;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -158,6 +168,43 @@ public class SchedulingAlgorithmStructureTest {
 		String dataSetVariant = "DEFAULT";
 		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+	}
+
+	@Test
+	public void testStainlessSteelCompanyLoadedFromDiskSerializedForward()
+			throws ApsDataCacheException, IOException, ClassNotFoundException {
+
+		String dataSourceName = "SS-COMPANY-DEMO";
+		String dataSetName = "STAINLESS-STEEL-COMPANY";
+		String dataSetVariant = "DEFAULT";
+		ApsData apsData = uncachedAccessor.loadData(dataSourceName, dataSetName, dataSetVariant);
+		verifyDuplicatedAbsence(apsData);
+		File file = File.createTempFile("test", "serialized-data.dat");
+		System.out.println("Random file:"+file.getAbsolutePath());
+		FileOutputStream fos = new FileOutputStream(file);
+		ObjectOutputStream oos = new ObjectOutputStream(fos);
+		oos.writeObject(apsData);
+		oos.flush();
+		fos.close();
+		FileInputStream fis = new FileInputStream(file);
+		ObjectInputStream ois = new ObjectInputStream(fis);
+		Object read = ois.readObject();
+		ois.close();
+		apsData = (ApsData) read;
+		verifyDuplicatedAbsence(apsData);
+		TestScheduling(ApsLogics.FORWARD_APS, apsData);
+		verifyDuplicatedAbsence(apsData);
+		fos = new FileOutputStream(file);
+		oos = new ObjectOutputStream(fos);
+		oos.writeObject(apsData);
+		oos.flush();
+		fos.close();
+		fis = new FileInputStream(file);
+		ois = new ObjectInputStream(fis);
+		read = ois.readObject();
+		ois.close();
+		apsData = (ApsData) read;
+		verifyDuplicatedAbsence(apsData);
 	}
 
 	@Test
@@ -393,6 +440,82 @@ public class SchedulingAlgorithmStructureTest {
 		TestScheduling(context);
 		// context.resetSchedulingData();
 		context = null;
+	}
+
+	public void verifyDuplicatedAbsence(ApsData context) {
+		Map duplicatesMap = new HashMap();
+		try {
+			checkDuplicateAbsence(context, duplicatesMap);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+			assertTrue("Throw exception in reflection " + e.getMessage(), false);
+		}
+	}
+	static Map<String,Boolean> UNCHECKABLE_METHODS=new HashMap<String, Boolean>();
+	static {
+		UNCHECKABLE_METHODS.put("getResourceDependencyChilds", true);
+		UNCHECKABLE_METHODS.put("getResourceTreeMetaInfo", true);
+	}
+	private void checkDuplicateAbsence(Object object, Map checkDuplicatesMap)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		if (object != null) {
+			boolean firstVisit = true;
+			Class type = object.getClass();
+			if (type.getName().startsWith("java"))
+				return;
+			Map map = (Map) checkDuplicatesMap.get(type);
+			if (map == null) {
+				checkDuplicatesMap.put(type, map = new HashMap());
+			}
+			Method[] methods = type.getMethods();
+			Map<String, Method> getters = new HashMap<String, Method>();
+			for (Method method : methods) {
+				if ((method.getParameterTypes() == null || method.getParameterTypes().length == 0)
+						&& method.getName().startsWith("get") && (!method.getName().equals("getClass"))
+						&& (!UNCHECKABLE_METHODS.containsKey(method.getName()))
+						&& (Modifier.isPublic(method.getModifiers()) && !Modifier.isStatic(method.getModifiers()))) {
+					getters.put(method.getName(), method);
+				}
+			}
+			Method getId = getters.get("getId");
+			if (getId != null) {
+				Object id = getId.invoke(object);
+				List<Object> list = (List) map.get(id);
+				if (list == null) {
+					map.put(id, list = new ArrayList<Object>());
+				}
+				if (list.isEmpty()) {
+					list.add(object);
+				} else {
+					for (Object instance : list) {
+						assertTrue("Object of class " + type.getName() + " with id=" + id + " cannot be duplicated",
+								instance == object);
+						firstVisit = false;
+					}
+				}
+			}else {
+				firstVisit=!map.containsKey(object);
+				map.put(object, object);
+			}
+			if (firstVisit) {
+				Collection<Method> gettersList = getters.values();
+				for (Method method : gettersList) {
+					if (method != getId) {
+						Object attributeValue = method.invoke(object);
+						if (attributeValue != null) {
+							if (attributeValue instanceof Collection) {
+								Collection collection = (Collection) attributeValue;
+								for (Object child : collection) {
+									checkDuplicateAbsence(child, checkDuplicatesMap);
+								}
+							} else {
+								checkDuplicateAbsence(attributeValue, checkDuplicatesMap);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Autowired
