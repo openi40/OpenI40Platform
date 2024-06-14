@@ -1,5 +1,6 @@
 package com.openi40.scheduler.common.aps;
 
+import java.io.Serializable;
 import java.util.Date;
 /**
  * 
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author Paolo Zavalloni  architectures@openi40.org
  *
  */
-public interface IApsObject {
+public interface IApsObject extends Serializable {
 
 	String getId();
 

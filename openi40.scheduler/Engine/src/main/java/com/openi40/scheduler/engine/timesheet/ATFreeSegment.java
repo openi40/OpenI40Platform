@@ -1,6 +1,8 @@
 package com.openi40.scheduler.engine.timesheet;
 
-class ATFreeSegment {
+import java.io.Serializable;
+
+class ATFreeSegment  implements Serializable{
 	String SlotId = null;
 	int endIndex = 0;
 	int position = 0;

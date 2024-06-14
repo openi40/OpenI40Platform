@@ -1,5 +1,6 @@
 package com.openi40.scheduler.model.material.timeline;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  *
  */
 
-public class InventoryTimeNode {
+public class InventoryTimeNode implements Serializable{
 	Date eventsTime = null;
 	List<AbstractMaterialMovement<?>> movements = new ArrayList<>();
 	double inventoryQty = 0;

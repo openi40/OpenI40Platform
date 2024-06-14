@@ -1,4 +1,7 @@
 package com.openi40.scheduler.model.cycle;
+
+import java.io.Serializable;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -9,7 +12,7 @@ package com.openi40.scheduler.model.cycle;
  * @author Paolo Zavalloni  architectures@openi40.org
  *
  */
-public class BatchingInfo {
+public class BatchingInfo  implements Serializable{
 	BatchTransferType batchTransferType=BatchTransferType.TRANSFER_ALL;
 	public double batchQty=1.0;
 

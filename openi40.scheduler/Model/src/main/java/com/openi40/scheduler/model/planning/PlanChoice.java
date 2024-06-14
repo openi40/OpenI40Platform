@@ -1,5 +1,6 @@
 package com.openi40.scheduler.model.planning;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import com.openi40.scheduler.model.time.TimeSegment;
  *
  */
 
-public class PlanChoice {
+public class PlanChoice implements Serializable{
 	public PlanChoice(Plan parentPlan, TimeSegment setupTimeRange, TimeSegment workTimeRange, List<IOperation> reversibleOperations) {
 		setSetup(setupTimeRange);
 		setWork(workTimeRange);

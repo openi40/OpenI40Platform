@@ -1,5 +1,6 @@
 package com.openi40.scheduler.model.material.timeline;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -15,7 +16,7 @@ import com.openi40.scheduler.common.utils.DateUtil;
  *
  */
 
-public abstract class AbstractMaterialMovement<MovementOriginType> {
+public abstract class AbstractMaterialMovement<MovementOriginType> implements Serializable{
 	protected AbstractMaterialMovement(MovementOriginType originType) {
 		this.movimentCause = originType;
 	}

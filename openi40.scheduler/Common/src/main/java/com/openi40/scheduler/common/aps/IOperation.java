@@ -1,5 +1,7 @@
 package com.openi40.scheduler.common.aps;
 
+import java.io.Serializable;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -10,7 +12,7 @@ package com.openi40.scheduler.common.aps;
  * @author Paolo Zavalloni  architectures@openi40.org
  *
  */
-public interface IOperation {
+public interface IOperation extends Serializable {
 	public void apply(IOperationActuatorFactory factory);
 
 	public void reverse(IOperationActuatorFactory factory);

@@ -1,10 +1,11 @@
 package com.openi40.scheduler.engine.timesheet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class ATPotentialSlotRange {
+class ATPotentialSlotRange  implements Serializable{
 	List<ATSlotIndex> slots = new ArrayList<ATSlotIndex>();
 
 	Date getStartDateTime() {

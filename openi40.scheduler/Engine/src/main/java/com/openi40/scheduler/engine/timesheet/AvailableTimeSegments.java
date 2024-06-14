@@ -1,5 +1,6 @@
 package com.openi40.scheduler.engine.timesheet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import com.openi40.scheduler.model.time.WorkingTimeSegment;
  *
  */
 
-public class AvailableTimeSegments {
+public class AvailableTimeSegments  implements Serializable{
 	ITimesheetAllocableObject resource = null;
 	List<WorkingTimeSegment> availableTimeSegments = new ArrayList<>();
 	public ITimesheetAllocableObject getResource() {

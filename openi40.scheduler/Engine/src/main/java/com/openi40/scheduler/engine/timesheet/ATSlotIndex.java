@@ -1,9 +1,10 @@
 package com.openi40.scheduler.engine.timesheet;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-class ATSlotIndex {
+class ATSlotIndex  implements Serializable{
 	ATSlot slot = null;
 	ATFreeSegment usedSegment = null;
 	int startIndex = 0, endIndex = 0;

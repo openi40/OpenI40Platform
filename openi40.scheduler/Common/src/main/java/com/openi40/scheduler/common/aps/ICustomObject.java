@@ -1,5 +1,7 @@
 package com.openi40.scheduler.common.aps;
 
-public interface ICustomObject {
+import java.io.Serializable;
+
+public interface ICustomObject extends Serializable {
 	public void dispose();
 }

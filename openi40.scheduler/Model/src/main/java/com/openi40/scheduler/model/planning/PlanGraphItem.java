@@ -1,5 +1,6 @@
 package com.openi40.scheduler.model.planning;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import com.openi40.scheduler.model.tasks.Task;
  *
  */
 
-public class PlanGraphItem {
+public class PlanGraphItem implements Serializable{
 	private Task task;
 	private boolean missingTask = false;
 	private boolean scheduled = false;

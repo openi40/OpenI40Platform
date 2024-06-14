@@ -1,5 +1,6 @@
 package com.openi40.scheduler.model.aps;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ import com.openi40.scheduler.model.rules.Rule;
  *
  */
 
-public class ApsLogicOptions {
+public class ApsLogicOptions implements Serializable {
 	boolean dependencySatisfiedTasksFirst=false;
 	public enum OnUnallocableChildTaskAction {
 		UNDO_ALL_TREE, LEAVE_ALLOCABLE_TASKS, LEAVE_AS_IS;

@@ -1,5 +1,7 @@
 package com.openi40.scheduler.model.planning;
 
+import java.io.Serializable;
+
 import com.openi40.scheduler.model.rules.Rule;
 /**
  * 
@@ -12,7 +14,7 @@ import com.openi40.scheduler.model.rules.Rule;
  *
  */
 
-public abstract class Plan<ConstraintRuleType extends Rule> {
+public abstract class Plan<ConstraintRuleType extends Rule> implements Serializable{
 	public Plan(ConstraintRuleType constraint) {
 		this.constraint = constraint;
 
