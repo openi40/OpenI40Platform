@@ -48,6 +48,9 @@ public abstract class AbstractApsObject implements IHyerarchyAwareNode, ICloneab
 		idxCtrl++;
 
 	}
+	public void regenerateId() {
+		id = UUID.randomUUID().toString();
+	}
 
 	public Object getAttribute(String name) {
 		return associative.get(name);
