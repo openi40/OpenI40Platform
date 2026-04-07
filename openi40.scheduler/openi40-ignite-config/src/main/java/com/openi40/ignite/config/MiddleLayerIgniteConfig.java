@@ -3,7 +3,7 @@ package com.openi40.ignite.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;

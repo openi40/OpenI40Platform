@@ -19,8 +19,8 @@ import com.openi40.dbmodel.java.client.model.OI40DBMachineEquipmentSpecification
 import com.openi40.dbmodel.java.client.model.PageInfo;
 import com.openi40.dbmodel.java.client.model.PageOI40DBMachineEquipmentSpecification;
 import com.openi40.dbmodel.java.client.model.QbeSupportOI40DBMachineEquipmentSpecification;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * API tests for Oi40DbMachineEquipmentSpecificationRepositoryApi
  */
-@Ignore
+@Disabled
 public class Oi40DbMachineEquipmentSpecificationRepositoryApiTest {
 
     private final Oi40DbMachineEquipmentSpecificationRepositoryApi api = new Oi40DbMachineEquipmentSpecificationRepositoryApi();

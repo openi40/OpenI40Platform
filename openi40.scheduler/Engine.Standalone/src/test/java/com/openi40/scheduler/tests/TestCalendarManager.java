@@ -18,16 +18,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import com.openi40.scheduler.apsdatacache.ApsDataCacheException;
 import com.openi40.scheduler.common.utils.DateUtil;
@@ -50,9 +50,10 @@ import com.openi40.scheduler.model.time.TimeSegmentRequirement;
 import com.openi40.scheduler.model.time.TimeSegmentType;
 import com.openi40.scheduler.model.time.WorkingTimeSegment;
 
-import junit.framework.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = Main.class)
 //@ComponentScan("com.openi40.scheduler")
 public class TestCalendarManager {
@@ -62,7 +63,7 @@ public class TestCalendarManager {
 	IContextualBusinessLogicFactory ComponentFactory;
 	@Autowired
 	TestsApsDataSourceUncachedFactory uncachedAccessor;
-	@BeforeClass
+	@BeforeAll
 	public static void Initialize() {
 		System.setProperty("log4j.logger.com.productionscheduler.engine.calendar", "DEBUG");
 	}
@@ -92,15 +93,15 @@ public class TestCalendarManager {
 				System.out.println("Requirement=>" + startRequirement);
 				TimesheetReservation reservation = timesheetLogic.addReservation(machine, startRequirement, sTask);
 				System.out.println(reservation);
-				Assert.assertNotNull(reservation);
-				Assert.assertEquals(REQUIRED_TIME, reservation.getReservedTime());
+				assertNotNull(reservation);
+				assertEquals(REQUIRED_TIME, reservation.getReservedTime());
 
 				if (previusReservation != null) {
 					if (edges.containsKey(previusReservation.getEndDateTime())) {
-						Assert.assertEquals(reservation.getStartDateTime(),
+						assertEquals(reservation.getStartDateTime(),
 								edges.get(previusReservation.getEndDateTime()));
 					} else {
-						Assert.assertEquals(reservation.getStartDateTime(), (previusReservation.getEndDateTime()));
+						assertEquals(reservation.getStartDateTime(), (previusReservation.getEndDateTime()));
 					}
 				}
 				previusReservation = reservation;
@@ -165,14 +166,14 @@ public class TestCalendarManager {
 				System.out.println("Requirement=>" + startRequirement);
 				TimesheetReservation reservation = timesheetLogic.addReservation(machine, startRequirement, sTask);
 				System.out.println(reservation);
-				Assert.assertNotNull(reservation);
-				Assert.assertEquals(REQUIRED_TIME, reservation.getReservedTime());
+				assertNotNull(reservation);
+				assertEquals(REQUIRED_TIME, reservation.getReservedTime());
 				if (previusReservation != null) {
 					if (edges.containsKey(previusReservation.getEndDateTime())) {
-						Assert.assertEquals(reservation.getStartDateTime(),
+						assertEquals(reservation.getStartDateTime(),
 								edges.get(previusReservation.getEndDateTime()));
 					} else {
-						Assert.assertEquals(reservation.getStartDateTime(), (previusReservation.getEndDateTime()));
+						assertEquals(reservation.getStartDateTime(), (previusReservation.getEndDateTime()));
 					}
 				}
 				previusReservation = reservation;
@@ -217,19 +218,19 @@ public class TestCalendarManager {
 				startRequirement.setAvailabilityDuration(REQUIRED_TIME);
 				LOGGER.info("Requirement=>" + startRequirement);
 				TimesheetReservation reservation = timesheetLogic.addReservation(machine, startRequirement, sTask);
-				Assert.assertNotNull(reservation);
-				Assert.assertEquals(reservation.getReservedTime(), REQUIRED_TIME);
+				assertNotNull(reservation);
+				assertEquals(reservation.getReservedTime(), REQUIRED_TIME);
 				LOGGER.info("Reserved:" + reservation);
 				if (previusReservation != null) {
 					if (edges.containsKey(reservation.getEndDateTime())) {
 						LOGGER.info("Assert.assertEquals(" + previusReservation.getStartDateTime() + ","
 								+ edges.get(reservation.getEndDateTime()) + ");");
-						Assert.assertEquals(previusReservation.getStartDateTime(),
+						assertEquals(previusReservation.getStartDateTime(),
 								edges.get(reservation.getEndDateTime()));
 					} else {
 						LOGGER.info("Assert.assertEquals(" + reservation.getEndDateTime() + ","
 								+ (previusReservation.getStartDateTime()) + ");");
-						Assert.assertEquals(reservation.getEndDateTime(), (previusReservation.getStartDateTime()));
+						assertEquals(reservation.getEndDateTime(), (previusReservation.getStartDateTime()));
 					}
 				}
 				previusReservation = reservation;
@@ -295,9 +296,9 @@ public class TestCalendarManager {
 					LOGGER.info("Requirement=>" + requirement);
 					TimesheetReservation reservation = timesheetLogic.addReservation(machine, requirement, sTask);
 					LOGGER.info("Reserved=>" + reservation);
-					Assert.assertNotNull(reservation);
-					Assert.assertEquals(reservation.getStartDateTime(), requirement.getStartDateTime());
-					Assert.assertEquals(reservation.getEndDateTime(), requirement.getEndDateTime());
+					assertNotNull(reservation);
+					assertEquals(reservation.getStartDateTime(), requirement.getStartDateTime());
+					assertEquals(reservation.getEndDateTime(), requirement.getEndDateTime());
 				}
 			}
 		}
@@ -352,10 +353,10 @@ public class TestCalendarManager {
 				System.out.println("Requirement=>" + requirement);
 				TimesheetReservation reservation = timesheetLogic.addReservation(machine, requirement, sTask);
 				System.out.println("Reserved=>" + reservation);
-				Assert.assertNotNull(reservation);
-				Assert.assertEquals(reservation.getStartDateTime(), requirement.getStartDateTime());
+				assertNotNull(reservation);
+				assertEquals(reservation.getStartDateTime(), requirement.getStartDateTime());
 				if (lastReservation != null) {
-					Assert.assertEquals(lastReservation.getEndDateTime(), reservation.getStartDateTime());
+					assertEquals(lastReservation.getEndDateTime(), reservation.getStartDateTime());
 				}
 				lastReservation = reservation;
 				start = lastReservation.getEndDateTime();

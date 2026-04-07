@@ -14,8 +14,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-json</artifactId>
 		</dependency>
-		
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -99,7 +97,6 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
-
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -151,7 +148,7 @@
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
-					<forkMode>never</forkMode>
+
 				</configuration>
 			</plugin>
 			<plugin>

@@ -13,18 +13,14 @@ import org.springframework.context.annotation.Configuration;
 //import org.springframework.data.domain.Sort;
 import org.springframework.util.StopWatch;
 
-import com.fasterxml.classmate.ResolvedType;
-import com.fasterxml.classmate.TypeResolver;
 
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger.web.UiConfigurationBuilder;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import io.swagger.v3.oas.models.ExternalDocumentation;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import com.openi40.commons.webconfigs.SwaggerAdditionalModelsProvider;
 /**
  * 
@@ -37,7 +33,6 @@ import com.openi40.commons.webconfigs.SwaggerAdditionalModelsProvider;
  *
  */
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
 	@Autowired(required = false)
 	List<SwaggerAdditionalModelsProvider> swaggerAdditionalModelsProviders;
@@ -86,46 +81,30 @@ public class SwaggerConfig {
 	private final Logger log = LoggerFactory.getLogger(SwaggerConfig.class);
 
 	@Bean
-	protected Docket swaggerApi() {
-		log.info("Begin swaggerAPI()");
-		StopWatch watch = new StopWatch();
-		watch.start();
-		Contact contact = new Contact("Openi40", "http://www.openi40.org/", "");
-		ApiInfo apiInfo = new ApiInfo("Openi40", "The open source industy 4.0 production scheduler & MES platform", "", "#Term of Services", contact, "License of API", "#API license URL", Collections.emptyList());
-
-		// view https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api
-		Docket d = new Docket(DocumentationType.SWAGGER_2).directModelSubstitute(LocalDate.class, String.class)
-				// .securitySchemes(Arrays.asList(securityScheme()))
-				//.directModelSubstitute(Sort.class, OvverridenSort.class)
-		// .securityContexts(Arrays.asList(securityContext()));
-		;
-
-		if (swaggerAdditionalModelsProviders != null) {
-			TypeResolver typeResolver = new TypeResolver();
-			for (SwaggerAdditionalModelsProvider swaggerAdditionalModelsProvider : swaggerAdditionalModelsProviders) {
-				List<Class> newModels = swaggerAdditionalModelsProvider.get();
-				for (Class newModel : newModels) {
-					ResolvedType first = typeResolver.resolve(newModel);
-					log.info("Adding custom swagger model:" + newModel.getName());
-					d = d.additionalModels(first);
-				}
-			}
-		}
-		
-		String restApiBasePackage="com.openi40";
-		d =d.select().apis(RequestHandlerSelectors.basePackage(restApiBasePackage))
-				.paths(PathSelectors.any())
-				.build()
-				.apiInfo(apiInfo);		
-		log.info("End swaggerAPI()");
-		return d;
+	public OpenAPI openi40OpenAPI() {
+		return new OpenAPI()
+				.info(new Info().title("Openi40")
+				.description("The open source industry 4.0 production scheduler & MES platform")
+				.version("v0.0.1")
+				.contact(new Contact().name("Openi40").url("http://www.openi40.org/"))
+				.license(new License().name("License of API").url("#API license URL")))
+				.externalDocs(new ExternalDocumentation()
+				.description("Term of Services")
+				.url("#Term of Services"));
 	}
-
 
 	@Bean
-	protected UiConfiguration uiConfig() {
-		return UiConfigurationBuilder.builder().build();
+	public GroupedOpenApi publicApi() {
+		return GroupedOpenApi.builder()
+				.group("openi40-public")
+				.packagesToScan("com.openi40")
+				.pathsToMatch("/**")
+				.build();
 	}
+
+
+
+
 
 
 

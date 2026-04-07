@@ -10,19 +10,18 @@
  */
 package com.openi40.scheduler.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.openi40.scheduler.apsdatacache.ApsDataCacheException;
 import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
@@ -44,7 +43,6 @@ import com.openi40.scheduler.model.material.timeline.InventoryTimeSegment;
 import com.openi40.scheduler.model.material.timeline.TimeLineException;
 import com.openi40.scheduler.model.material.timeline.WarehouseProductMaterialTimeLine;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { Main.class })
 @ComponentScan("com.openi40.scheduler")
 public class MaterialTimelineTests {
@@ -91,12 +89,14 @@ public class MaterialTimelineTests {
 		InventoryTimeNode actualNode = materialTimeLine.getInitialInventoryNode();
 		while (actualNode != null) {
 			if (actualNode.getStartingSegment() != null) {
-				assertTrue("check inventory must be " + initialInventoryQty + " start segment at "
-						+ actualNode.getEventsTime() + " but is " + actualNode.getStartingSegment().getInventoryQty(),
-						actualNode.getStartingSegment().getInventoryQty() == initialInventoryQty);
+				assertTrue(actualNode.getStartingSegment().getInventoryQty() == initialInventoryQty,
+						"check inventory must be " + initialInventoryQty + " start segment at "
+								+ actualNode.getEventsTime() + " but is "
+								+ actualNode.getStartingSegment().getInventoryQty());
 			}
-			assertTrue("check inventory must be " + initialInventoryQty + " at " + actualNode.getEventsTime()
-					+ " but is " + actualNode.getInventoryQty(), actualNode.getInventoryQty() == initialInventoryQty);
+			assertTrue(actualNode.getInventoryQty() == initialInventoryQty,
+					"check inventory must be " + initialInventoryQty + " at " + actualNode.getEventsTime() + " but is "
+							+ actualNode.getInventoryQty());
 
 			actualNode = actualNode.getStartingSegment() != null ? actualNode.getStartingSegment().getEndNode() : null;
 		}
@@ -117,24 +117,25 @@ public class MaterialTimelineTests {
 		double reservations = materialTimeLine.getReservationBalance(
 				materialTimeLine.getInitialInventoryNode().getStartingSegment().getStartDateTime(), 11, 0, 0);
 		assertTrue(
+
+				reservations == purchaseSupply.getQtyTotal(),
 				"After 11 days of beginning date time of time line the reservation balance have to be "
-						+ purchaseSupply.getQtyTotal() + " but is " + reservations,
-				reservations == purchaseSupply.getQtyTotal());
+						+ purchaseSupply.getQtyTotal() + " but is " + reservations);
 		materialTimeLine = materialTimeLineManager.getMaterialTimeLine(warehouse, product, apsData);
 		InventoryTimeSegment inventorySegment = materialTimeLine.getInventoryAt(deliveryDate);
 		actualNode = inventorySegment.getStartNode();
-		assertTrue("check inventory must be " + initialInventoryQty + " at " + actualNode.getEventsTime()
-		+ " but is " + actualNode.getInventoryQty(), actualNode.getInventoryQty() == initialInventoryQty);
+		assertTrue(actualNode.getInventoryQty() == initialInventoryQty, "check inventory must be " + initialInventoryQty
+				+ " at " + actualNode.getEventsTime() + " but is " + actualNode.getInventoryQty());
 		double matchingInventory = initialInventoryQty + purchaseSupply.getQtyTotal();
 		while (actualNode != null) {
 			if (actualNode.getStartingSegment() != null) {
-				assertTrue("check inventory must be " + (matchingInventory) + " start segment at "
-						+ actualNode.getEventsTime() + " but is " + actualNode.getStartingSegment().getInventoryQty(),
-						actualNode.getStartingSegment().getInventoryQty() == matchingInventory);
+				assertTrue(actualNode.getStartingSegment().getInventoryQty() == matchingInventory,
+						"check inventory must be " + (matchingInventory) + " start segment at "
+								+ actualNode.getEventsTime() + " but is "
+								+ actualNode.getStartingSegment().getInventoryQty());
 			}
 			actualNode = actualNode.getStartingSegment() != null ? actualNode.getStartingSegment().getEndNode() : null;
 		}
 
-		
 	}
 }

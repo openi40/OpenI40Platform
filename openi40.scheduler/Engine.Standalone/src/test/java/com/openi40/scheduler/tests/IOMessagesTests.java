@@ -4,15 +4,15 @@ import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import com.openi40.scheduler.apsdatacache.ApsDataCacheException;
 import com.openi40.scheduler.engine.aps.ApsLogics;
@@ -40,9 +40,11 @@ import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskStatus;
 
-import junit.framework.Assert;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//
 @SpringBootTest(classes = { Main.class })
 @ComponentScan("com.openi40.scheduler")
 public class IOMessagesTests {
@@ -85,50 +87,41 @@ public class IOMessagesTests {
 			LOGGER.error("Error code:" + m.getErrorCode() + " description:" + m.getErrorMsg());
 
 		}
-		Assert.assertTrue("Message correctly handled=>false", response.isMessageHandled());
+		assertTrue(response.isMessageHandled(), "Message correctly handled=>false");
 	}
 
 	private void checkMachineState(String machineCode, ApsData data, ReservableObjectAvailability state)
 			throws DataModelDaoException {
 		Machine machine = machineDao.findByCode(machineCode, data);
-		Assert.assertEquals(
+		assertEquals(state, machine.getAvailability(),
 				"Required machine state=>" + state.name() + " but is => "
-						+ (machine.getAvailability() != null ? machine.getAvailability().name() : "null"),
-				machine.getAvailability(), state);
+						+ (machine.getAvailability() != null ? machine.getAvailability().name() : "null"));
 	}
 
 	private void checkTaskState(String taskCode, ApsData data, TaskStatus state) throws DataModelDaoException {
 		Task task = taskDao.findByCode(taskCode, data);
-		Assert.assertEquals("Required task state=>" + state.name() + " but is => "
-				+ (task.getStatus() != null ? task.getStatus().name() : "null"), task.getStatus(), state);
+		assertEquals(state, task.getStatus(), "Required task state=>" + state.name() + " but is => "
+				+ (task.getStatus() != null ? task.getStatus().name() : "null"));
 	}
 
 	private void checkChoosedMachinCoherency(String taskCode, String machineCode, ApsData data)
 			throws DataModelDaoException {
 		Task task = taskDao.findByCode(taskCode, data);
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated", task.getEquipment());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getExecution());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getExecution().getResource());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getExecution().getResource().getChoosenEquipment());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated", task.getEquipment());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getPreparation());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getPreparation().getResource());
-		Assert.assertNotNull("Scheduled task machine assignment data structures not allocated",
-				task.getEquipment().getPreparation().getResource().getChoosenEquipment());
+		assertNotNull(task.getEquipment(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getExecution(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getExecution().getResource(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getExecution().getResource().getChoosenEquipment(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getPreparation(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getPreparation().getResource(), "Scheduled task machine assignment data structures not allocated");
+		assertNotNull(task.getEquipment().getPreparation().getResource().getChoosenEquipment(), "Scheduled task machine assignment data structures not allocated");
 
-		Assert.assertEquals(
+		assertEquals(machineCode, task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode(),
 				"Expected setup machine=>" + machineCode + " but found=> "
-						+ task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode(),
-				task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode(), machineCode);
-		Assert.assertEquals(
+						+ task.getEquipment().getPreparation().getResource().getChoosenEquipment().getCode());
+		assertEquals(machineCode, task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode(),
 				"Expected working machine=>" + machineCode + " but found=> "
-						+ task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode(),
-				task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode(), machineCode);
+						+ task.getEquipment().getExecution().getResource().getChoosenEquipment().getCode());
 
 	}
 

@@ -3,7 +3,7 @@ package com.openi40.platform.tests;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.openi40.scheduler.apsdatacache.ApsDataCacheException;
 import com.openi40.scheduler.apsdatacache.IApsDataCache;

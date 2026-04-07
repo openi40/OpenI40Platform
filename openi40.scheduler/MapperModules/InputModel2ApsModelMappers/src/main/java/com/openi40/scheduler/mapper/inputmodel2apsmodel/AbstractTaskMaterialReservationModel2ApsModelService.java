@@ -37,15 +37,16 @@ import com.openi40.scheduler.model.material.SupplyReservation;
 import com.openi40.scheduler.model.orders.PurchaseOrderLine;
 import com.openi40.scheduler.model.tasks.Task;
 
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
+
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
- * platform suite, have look to its licencing options.
- * Web site: http://openi40.org/  
- * Github: https://github.com/openi40/OpenI40Platform
- * We hope you enjoy implementing new amazing projects with it.
- * @author Paolo Zavalloni  architectures@openi40.org
+ * platform suite, have look to its licencing options. Web site:
+ * http://openi40.org/ Github: https://github.com/openi40/OpenI40Platform We
+ * hope you enjoy implementing new amazing projects with it.
+ * 
+ * @author Paolo Zavalloni architectures@openi40.org
  *
  */
 @Service
@@ -123,7 +124,7 @@ public class AbstractTaskMaterialReservationModel2ApsModelService
 		} catch (DataModelDaoException exc) {
 			throw new MapperException("Problem accessing datamodel", exc);
 		}
-		if (reservation==null) {
+		if (reservation == null) {
 			try {
 				LOGGER.error("Cannot create reservation for " + objectMapper.writeValueAsString(object));
 			} catch (Throwable e) {

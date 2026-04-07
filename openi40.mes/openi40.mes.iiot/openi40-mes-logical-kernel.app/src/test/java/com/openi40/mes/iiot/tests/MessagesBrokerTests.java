@@ -16,8 +16,8 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 import org.eclipse.paho.mqttv5.client.MqttClient;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.BeanFactory;
@@ -66,7 +66,7 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 		container.stop();
 	}
 	//Ignoring this test untill all environents have right docker setups
-	@Ignore
+	@Disabled
 	@Test
 	public void testMQTTMessages() throws Exception {
 		prepareDB(dataSource);

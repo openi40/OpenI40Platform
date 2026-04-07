@@ -12,13 +12,14 @@ package com.openi40.scheduler.tests;
 
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import com.openi40.scheduler.engine.contextualplugarch.IContextualBusinessLogicFactory;
 import com.openi40.scheduler.engine.equipment.configuration.IEquipmentConfigurator;
@@ -40,7 +41,7 @@ import com.openi40.scheduler.model.tasks.Task;
 /** 
  Summary description for DefaultEquipmentConfiguratorTest
 */
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = Main.class)
 public class DefaultEquipmentConfiguratorTest
 {
@@ -49,7 +50,7 @@ public class DefaultEquipmentConfiguratorTest
 	{
 
 	}
-	@BeforeClass
+	@BeforeAll
 	public static void Initialize()
 	{
 		TestsRuntimeStartup.Initialize();
@@ -140,6 +141,6 @@ public class DefaultEquipmentConfiguratorTest
 		scheduledActivity.setParentSchedulingSet(new ApsSchedulingSet(context));
 		IEquipmentConfigurator equipmentConfigurator = ComponentFactory.create(IEquipmentConfigurator.class,toConfigure, context);
 		List<TaskEquipmentInfo> list = equipmentConfigurator.calculateEquipmentConfigurations(toConfigure, apsLogicOptions, scheduledActivity, context);
-		Assert.assertEquals("The resulting planned resources must be 27!!!! But are " + list.size(),list.size(),27);
+		assertEquals(27, list.size(), "The resulting planned resources must be 27!!!! But are " + list.size());
 	}
 }

@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
+
 
 /**
  * DB Bean di Base Creation date: (24/04/2002 15.42.21)
