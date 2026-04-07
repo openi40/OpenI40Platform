@@ -3,8 +3,8 @@ package com.openi40.scheduler.input.model.cycles;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
 import com.openi40.scheduler.input.model.ApsInputData;

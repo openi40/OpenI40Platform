@@ -1,6 +1,6 @@
 package com.openi40.scheduler.input.model.companystructure;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.input.model.InputDto;
 /**

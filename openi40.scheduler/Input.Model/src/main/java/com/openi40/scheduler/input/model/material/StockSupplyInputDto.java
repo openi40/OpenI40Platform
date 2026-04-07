@@ -1,6 +1,6 @@
 package com.openi40.scheduler.input.model.material;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.common.datamodel.ObjectReferenceConstraint;
 import com.openi40.scheduler.input.model.ApsInputData;

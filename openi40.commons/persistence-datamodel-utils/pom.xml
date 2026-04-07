@@ -25,5 +25,17 @@
 			<artifactId>derby</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbyclient</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.apache.derby/derbynet -->
+		<dependency>
+			<groupId>org.apache.derby</groupId>
+			<artifactId>derbynet</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

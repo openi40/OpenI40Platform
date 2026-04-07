@@ -3,7 +3,7 @@ package com.openi40.mes.datamodel.spooler;
 import java.io.ByteArrayInputStream;
 import java.util.stream.Stream;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

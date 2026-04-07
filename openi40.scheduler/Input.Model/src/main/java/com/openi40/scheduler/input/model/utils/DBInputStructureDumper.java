@@ -239,10 +239,10 @@ public class DBInputStructureDumper {
 	}
 
 	static final String classStart = "package com.openi40.platform.persistence.input.channel.model;\r\n" + "\r\n"
-			+ "import javax.persistence.AttributeOverride;\r\n" + "import javax.persistence.AttributeOverrides;\r\n"
-			+ "import javax.persistence.Column;\r\n" + "import javax.persistence.Entity;\r\n"
-			+ "import javax.persistence.Id;\r\n" + "import javax.persistence.Table;\r\n"
-			+ "import javax.persistence.UniqueConstraint;\r\n"
+			+ "import jakarta.persistence.AttributeOverride;\r\n" + "import jakarta.persistence.AttributeOverrides;\r\n"
+			+ "import jakarta.persistence.Column;\r\n" + "import jakarta.persistence.Entity;\r\n"
+			+ "import jakarta.persistence.Id;\r\n" + "import jakarta.persistence.Table;\r\n"
+			+ "import jakarta.persistence.UniqueConstraint;\r\n"
 			+ "import com.openi40.platform.persistence.input.channel.StreamLoadRelated;\r\n"
 			+ "import com.openi40.platform.persistence.input.channel.StreamLoadRelated.RelationType;\r\n";
 

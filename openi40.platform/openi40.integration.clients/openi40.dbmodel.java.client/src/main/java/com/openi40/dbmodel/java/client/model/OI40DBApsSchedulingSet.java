@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * OI40DBApsSchedulingSet
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 public class OI40DBApsSchedulingSet {
   @JsonProperty("algorithmDirection")
   private String algorithmDirection = null;

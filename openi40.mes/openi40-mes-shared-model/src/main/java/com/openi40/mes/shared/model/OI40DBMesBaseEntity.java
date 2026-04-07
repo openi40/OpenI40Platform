@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler
@@ -59,7 +59,7 @@ public class OI40DBMesBaseEntity implements Serializable{
 		this.removed = deleted;
 	}
 
-	@javax.persistence.Transient
+	@jakarta.persistence.Transient
 	public Map<String, Object> getAttributesMap() {
 		return attributesMap;
 	}

@@ -2,7 +2,7 @@ package com.openi40.scheduler.input.model.cycles;
 
 import java.io.Serializable;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 
 import com.openi40.scheduler.input.model.InputDto;
 /**

@@ -10,7 +10,7 @@
  */
 package com.openi40.platform.persistence.input.channel.impl;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 import org.springframework.stereotype.Service;
 
