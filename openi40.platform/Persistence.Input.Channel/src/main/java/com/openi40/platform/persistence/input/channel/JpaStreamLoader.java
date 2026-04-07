@@ -77,8 +77,9 @@ public class JpaStreamLoader<InputDtoType extends InputDto, JpaType extends Inpu
 						+ relation.annotation.joinProperty() + " in ?1 "
 						+ (_orderBy != null ? " order by " + _orderBy : "");
 				Object params[] = { codes };
-				Stream<? extends InputDto> relatedStream = streamLoader.streamAndProcessQueryWithParams(query, false,
-						batchingSize, params);
+				boolean empty = codes == null || codes.isEmpty();
+				Stream<? extends InputDto> relatedStream = empty ? Stream.of()
+						: streamLoader.streamAndProcessQueryWithParams(query, false, batchingSize, params);
 
 				try {
 					BeanInfo beanInfo = Introspector.getBeanInfo(relation.annotation.loadType());

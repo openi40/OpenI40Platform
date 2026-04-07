@@ -82,7 +82,7 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
 import com.openi40.scheduler.model.tasks.TaskVisitUtil;
 
-@SpringBootTest(classes = { Main.class }, webEnvironment = WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = { Main.class })
 @ComponentScan("com.openi40.scheduler")
 public class SchedulingAlgorithmStructureTest {
 	@Autowired
