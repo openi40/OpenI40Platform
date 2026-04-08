@@ -66,9 +66,9 @@ public class JpaStreamLoader<InputDtoType extends InputDto, JpaType extends Inpu
 				if (relation.annotation.orderOptions() != null) {
 					for (String _o : relation.annotation.orderOptions()) {
 						if (_orderBy != null) {
-							_orderBy += "," + _o;
+							_orderBy += ",t." + _o;
 						} else
-							_orderBy = _o;
+							_orderBy = "t." + _o;
 					}
 				}
 				JpaStreamLoader streamLoader = new JpaStreamLoader<>(relation.annotation.loadType(),
