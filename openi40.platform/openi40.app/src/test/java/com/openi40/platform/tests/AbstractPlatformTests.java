@@ -17,10 +17,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.annotation.DirtiesContext.MethodMode;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -61,7 +59,6 @@ import com.openi40.scheduler.model.orders.WorkOrder;
 import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.tests.AbstractDBSupportTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { Main.class })
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 @AutoConfigureTestDatabase(replace = Replace.ANY)

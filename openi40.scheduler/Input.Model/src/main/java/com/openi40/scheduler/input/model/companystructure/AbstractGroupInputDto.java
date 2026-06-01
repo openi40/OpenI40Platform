@@ -3,8 +3,8 @@ package com.openi40.scheduler.input.model.companystructure;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 import com.openi40.scheduler.input.model.BaseTimesheetManagedInputDTO;
 import com.openi40.scheduler.input.model.InputDto;

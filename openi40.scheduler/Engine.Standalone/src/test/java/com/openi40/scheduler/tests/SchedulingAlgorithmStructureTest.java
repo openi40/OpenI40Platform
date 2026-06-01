@@ -10,7 +10,7 @@
  */
 package com.openi40.scheduler.tests;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,17 +22,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -82,7 +82,6 @@ import com.openi40.scheduler.model.tasks.Task;
 import com.openi40.scheduler.model.tasks.TaskEdge;
 import com.openi40.scheduler.model.tasks.TaskVisitUtil;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = { Main.class })
 @ComponentScan("com.openi40.scheduler")
 public class SchedulingAlgorithmStructureTest {
@@ -94,7 +93,7 @@ public class SchedulingAlgorithmStructureTest {
 	@Autowired
 	TestsApsDataSourceUncachedFactory uncachedAccessor;
 
-	@BeforeClass
+	@BeforeAll
 	public static void initialize() {
 
 	}
@@ -170,7 +169,7 @@ public class SchedulingAlgorithmStructureTest {
 		TestScheduling(ApsLogics.FORWARD_APS, apsData);
 	}
 
-	@Ignore
+	@Disabled
 	@Test
 	public void testStainlessSteelCompanyLoadedFromDiskBackwardUntillUnschedulable() throws ApsDataCacheException {
 
@@ -205,7 +204,7 @@ public class SchedulingAlgorithmStructureTest {
 	@Autowired
 	ISalesOrderDao salesOrderDao;
 
-	@Ignore
+	@Disabled
 	@Test
 	public void testStainlessSteelCompanyLoadedFromDiskForwardUntillUnschedulable() throws ApsDataCacheException,
 			JsonParseException, JsonMappingException, IOException, MapperException, DataModelDaoException {
@@ -413,8 +412,8 @@ public class SchedulingAlgorithmStructureTest {
 		if (!task.isSuccessfullyScheduled()) {
 			LOGGER.info("Not scheduled");
 		}
-		assertTrue(task.getCode() + " is scheduled", task.isSuccessfullyScheduled());
-		assertTrue(task.getCode() + " has scheduled subtree", task.isSubtreeSuccessfullyScheduled());
+		assertTrue(task.isSuccessfullyScheduled(), task.getCode() + " is scheduled");
+		assertTrue(task.isSubtreeSuccessfullyScheduled(), task.getCode() + " has scheduled subtree");
 		assert task.getStartDateTime() != null;
 		assert task.getStartDateTime() != null;
 		assert task.getEndDateTime() != null;

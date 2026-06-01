@@ -1,6 +1,6 @@
 package com.openi40.ignite.config;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import org.apache.ignite.Ignite;
 import org.springframework.beans.factory.annotation.Autowired;

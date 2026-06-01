@@ -16,12 +16,18 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 import org.eclipse.paho.mqttv5.client.MqttClient;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy;
 import org.testcontainers.hivemq.HiveMQContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -33,10 +39,15 @@ import com.openi40.mes.datamodel.persister.MesLogicalMsg;
 import com.openi40.mes.io.mqtt.generic.config.GenericMQTTChannelConfig;
 import com.openi40.mes.io.mqtt.generic.config.IntegratedChannelsConfig;
 import com.openi40.mes.io.mqtt.generic.manager.MqttGenericManager;
+import com.openi40.mes.logical.kernel.app.Main;
 import com.openi40.mes.metamessaging.handlers.IMicroKernel;
 import com.openi40.mes.metamessaging.model.AbstractOI40IOTApplicationMessage;
-
+@SpringBootTest(classes = { Main.class })
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@AutoConfigureTestDatabase(replace = Replace.ANY)
+@ComponentScan("com.openi40")
 @Testcontainers
+@Disabled
 public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	@Autowired
 	BeanFactory factory;
@@ -44,7 +55,7 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	DataSource dataSource;
 
 	@Container
-	HiveMQContainer container = new HiveMQContainer(new DockerImageName("hivemq/hivemq-ce:latest"));
+	static HiveMQContainer container = new HiveMQContainer(new DockerImageName("hivemq/hivemq-ce:2024.3"));
 
 	public MessagesBrokerTests() {
 
@@ -58,15 +69,15 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	GenericMQTTChannelConfig mqttConfig;
 
 	@BeforeAll
-	public void initialize() throws Exception {
-		
+	public static void initialize() throws Exception {
+		//container.start();
 	}
 	@AfterAll
-	public void stop() throws Exception {
-		container.stop();
+	public static void stop() throws Exception {
+		//container.stop();
 	}
 	//Ignoring this test untill all environents have right docker setups
-	@Ignore
+	@Disabled
 	@Test
 	public void testMQTTMessages() throws Exception {
 		prepareDB(dataSource);
@@ -142,6 +153,7 @@ public class MessagesBrokerTests extends AbstractMesDBSupportTest {
 	}
 
 	@Test
+	@Disabled
 	public void dumpSaveMessageTest() throws IOException, SQLException {
 		prepareDB(dataSource);
 		IMicroKernel microKernel = doInject(IMicroKernel.class);

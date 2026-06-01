@@ -10,19 +10,19 @@
  */
 package com.openi40.scheduler.tests;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import com.openi40.scheduler.apsdatacache.ApsDataCacheException;
 import com.openi40.scheduler.apsdatacache.IApsDataCache;
@@ -36,7 +36,7 @@ import com.openi40.scheduler.model.dao.IMachineDao;
 import com.openi40.scheduler.model.equipment.Machine;
 import com.openi40.scheduler.model.time.TimesheetAvailableTimeRange;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//
 @SpringBootTest(classes = { Main.class })
 @ComponentScan("com.openi40")
 public class InputChannelsTest {
@@ -53,14 +53,14 @@ public class InputChannelsTest {
 	@Test
 	public void testDemoDataLoading() throws ApsDataCacheException, DataModelDaoException {
 		IApsDataCache dataCache = aggregator.getDataCache(dataSourceName);
-		assertNotNull("dataCache has not been loaded",dataCache);
+		assertNotNull(dataCache,"dataCache has not been loaded");
 		ApsData apsData;
 		apsData = dataCache.getCachedData(dataSetName, dataSetVariant);
 		apsData.getSchedulingWindow().setStartDateTime(new Date(120, 11, 5, 0, 0, 0));
 		apsData.getSchedulingWindow().setEndDateTime(new Date(121, 05, 5, 24, 0, 0));
-		assertNotNull("cannot load cached data from JSON!!",apsData);
+		assertNotNull(apsData,"cannot load cached data from JSON!!");
 		Machine machine=machineDao.findByCode(sawMachine01, apsData);
-		assertTrue("custom model objects factory is not working properly",machine instanceof MyMachineSubclass);
+		assertTrue(machine instanceof MyMachineSubclass,"custom model objects factory is not working properly");
 		IAvailableTimeRangeGenerator timeRangesGenerator = factoryLoader.getComponentFactory().create(IAvailableTimeRangeGenerator.class, machine, apsData);
 		List<TimesheetAvailableTimeRange> ranges = timeRangesGenerator.generateAvailableTimeRanges(machine, apsData.getSchedulingWindow());
 		System.out.println(sawMachine01);
@@ -68,7 +68,7 @@ public class InputChannelsTest {
 			System.out.println(x.toString());
 		});
 		machine=machineDao.findByCode(heatingChamber, apsData);
-		assertTrue("custom model objects factory is not working properly",machine instanceof MyMachineSubclass);
+		assertTrue(machine instanceof MyMachineSubclass,"custom model objects factory is not working properly");
 		timeRangesGenerator = factoryLoader.getComponentFactory().create(IAvailableTimeRangeGenerator.class, machine, apsData);
 		ranges = timeRangesGenerator.generateAvailableTimeRanges(machine, apsData.getSchedulingWindow());
 		System.out.println(heatingChamber);

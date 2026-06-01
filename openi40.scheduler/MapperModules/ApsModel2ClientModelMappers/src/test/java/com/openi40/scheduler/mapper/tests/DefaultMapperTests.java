@@ -17,14 +17,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.internal.runners.JUnit4ClassRunner;
-import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import com.openi40.scheduler.client.model.aps.ApsDataDto;
 import com.openi40.scheduler.mapper.DefaultEntitiesFactory;
@@ -36,7 +36,7 @@ import com.openi40.scheduler.model.aps.ApsData;
 @ComponentScan("com.openi40.scheduler")
 @AutoConfigurationPackage
 @SpringBootTest(classes = IMapperFactory.class)
-@RunWith(SpringRunner.class)
+
 
 public class DefaultMapperTests {
 

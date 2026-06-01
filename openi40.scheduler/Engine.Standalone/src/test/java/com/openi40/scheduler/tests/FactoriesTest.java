@@ -12,13 +12,14 @@ package com.openi40.scheduler.tests;
 
 import java.util.Date;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+
 
 import com.openi40.scheduler.engine.aps.IApsLogic;
 import com.openi40.scheduler.engine.aps.IApsLogicComposer;
@@ -37,13 +38,13 @@ import com.openi40.scheduler.model.equipment.TaskEquipmentChangeOverInfo;
 import com.openi40.scheduler.model.equipment.TaskEquipmentInfo;
 import com.openi40.scheduler.model.rules.EquipmentRule;
 
-@RunWith(SpringRunner.class)
+
 @SpringBootTest(classes = Main.class)
 public class FactoriesTest {
 	@Autowired
 	IContextualBusinessLogicFactory ComponentFactory;
 
-	@BeforeClass
+	@BeforeAll
 	public static void Initialize() {
 		TestsRuntimeStartup.Initialize();
 		
@@ -62,37 +63,37 @@ public class FactoriesTest {
 		// Test EquipmentAllocator creation
 		IEquipmentAllocator equipmentAllocator = ComponentFactory.create(IEquipmentAllocator.class,
 				equipmentAllocationConstraint, context);
-		Assert.assertNotNull("IEquipmentAllocator is not allocated ", equipmentAllocator);
+		assertNotNull(equipmentAllocator, "IEquipmentAllocator is not allocated ");
 		// Test CapacityEvaluator creation
 		IWorkTimeLogic capacityEvaluationFactoryRepository = ComponentFactory.create(IWorkTimeLogic.class,
 				plannedEquipment, context);
-		Assert.assertNotNull("ICapacityEvaluator is not allocated ", capacityEvaluationFactoryRepository);
+		assertNotNull(capacityEvaluationFactoryRepository, "ICapacityEvaluator is not allocated ");
 		TaskEquipmentInfo info = new TaskEquipmentInfo(context);
 		// Test ISetupEvaluator creation
 		ISetupTimeLogic setupTimeLogic = ComponentFactory.create(ISetupTimeLogic.class, info, context);
-		Assert.assertNotNull("ISetupEvaluator is not allocated ", setupTimeLogic);
+		assertNotNull(setupTimeLogic, "ISetupEvaluator is not allocated ");
 		// Test ISetupExpiredTimeEvaluator creation
 		TaskEquipmentChangeOverInfo taskEquipmentChangeOverInfo = new TaskEquipmentChangeOverInfo(context);
 		// Test IChangeOverEvaluator creation
 		IChangeOverLogic changeOverLogic = ComponentFactory.create(IChangeOverLogic.class, taskEquipmentChangeOverInfo,
 				context);
-		Assert.assertNotNull("IChangeOverEvaluator is not allocated ", changeOverLogic);
+		assertNotNull(changeOverLogic, "IChangeOverEvaluator is not allocated ");
 
 		// Test ICalendarManager creation
 		Machine machine = new Machine(context);
 		ITimesheetLogic timesheetLogic = (ComponentFactory.create(ITimesheetLogic.class, machine, context));
-		Assert.assertNotNull("ICalendarManager is not allocated ", timesheetLogic);
+		assertNotNull(timesheetLogic, "ICalendarManager is not allocated ");
 		// Test ISchedulerEngine creation
 		IApsLogicComposer apsLogicComposer = ComponentFactory.create(IApsLogicComposer.class, context, context);
-		Assert.assertNotNull("ISchedulingEngine is not allocated ", apsLogicComposer);
+		assertNotNull(apsLogicComposer, "ISchedulingEngine is not allocated ");
 		ApsSchedulingSet apsAction = new ApsSchedulingSet(context);
 		context.getSchedulingSets().add(apsAction);
 		IApsLogic apsLogic = ComponentFactory.create(IApsLogic.class, apsAction, context);
-		Assert.assertNotNull("ISchedulingAlgorithm is not allocated ", apsLogic);
+		assertNotNull(apsLogic, "ISchedulingAlgorithm is not allocated ");
 		apsAction.setAlgorithmType(apsLogic.getImplementationKey());
 		apsAction.setOptions(apsLogic.createDefaultOptions(apsAction));
 		IApsLogicComposer engine = ComponentFactory.create(IApsLogicComposer.class, context, context);
-		Assert.assertNotNull("ISchedulingEngine is not allocated ", engine);
+		assertNotNull(engine, "ISchedulingEngine is not allocated ");
 		engine.schedule(context, null);
 
 	}

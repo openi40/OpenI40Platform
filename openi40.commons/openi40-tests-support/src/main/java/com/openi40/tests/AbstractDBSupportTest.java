@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
+import jakarta.transaction.Transactional;
+import jakarta.transaction.Transactional.TxType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

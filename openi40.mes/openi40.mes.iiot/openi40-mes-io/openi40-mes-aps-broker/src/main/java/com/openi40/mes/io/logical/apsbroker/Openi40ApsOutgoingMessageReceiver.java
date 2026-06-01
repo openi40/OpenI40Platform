@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -39,7 +40,7 @@ public class Openi40ApsOutgoingMessageReceiver implements OI40IOTMessageReceiver
 		String url = generatePostUrl(message);
 		try {
 			ResponseEntity<Void> response = restTemplate.postForEntity(url, message.getApsContent(), Void.class);
-			HttpStatus statusCode = response.getStatusCode();
+			HttpStatusCode statusCode = response.getStatusCode();
 			if (statusCode != null && statusCode.is2xxSuccessful()) {
 
 			} else {

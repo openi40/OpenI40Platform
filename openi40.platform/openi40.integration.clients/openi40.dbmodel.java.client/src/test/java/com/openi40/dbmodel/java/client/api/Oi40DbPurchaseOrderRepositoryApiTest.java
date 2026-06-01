@@ -19,8 +19,8 @@ import com.openi40.dbmodel.java.client.model.OI40DBPurchaseOrder;
 import com.openi40.dbmodel.java.client.model.PageInfo;
 import com.openi40.dbmodel.java.client.model.PageOI40DBPurchaseOrder;
 import com.openi40.dbmodel.java.client.model.QbeSupportOI40DBPurchaseOrder;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * API tests for Oi40DbPurchaseOrderRepositoryApi
  */
-@Ignore
+@Disabled
 public class Oi40DbPurchaseOrderRepositoryApiTest {
 
     private final Oi40DbPurchaseOrderRepositoryApi api = new Oi40DbPurchaseOrderRepositoryApi();

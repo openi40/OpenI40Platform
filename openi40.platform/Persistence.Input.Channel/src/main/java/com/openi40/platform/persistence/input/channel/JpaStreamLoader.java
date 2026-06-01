@@ -25,8 +25,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import com.openi40.scheduler.input.model.InputDto;
 
@@ -66,9 +66,9 @@ public class JpaStreamLoader<InputDtoType extends InputDto, JpaType extends Inpu
 				if (relation.annotation.orderOptions() != null) {
 					for (String _o : relation.annotation.orderOptions()) {
 						if (_orderBy != null) {
-							_orderBy += "," + _o;
+							_orderBy += ",t." + _o;
 						} else
-							_orderBy = _o;
+							_orderBy = "t." + _o;
 					}
 				}
 				JpaStreamLoader streamLoader = new JpaStreamLoader<>(relation.annotation.loadType(),
@@ -77,8 +77,9 @@ public class JpaStreamLoader<InputDtoType extends InputDto, JpaType extends Inpu
 						+ relation.annotation.joinProperty() + " in ?1 "
 						+ (_orderBy != null ? " order by " + _orderBy : "");
 				Object params[] = { codes };
-				Stream<? extends InputDto> relatedStream = streamLoader.streamAndProcessQueryWithParams(query, false,
-						batchingSize, params);
+				boolean empty = codes == null || codes.isEmpty();
+				Stream<? extends InputDto> relatedStream = empty ? Stream.of()
+						: streamLoader.streamAndProcessQueryWithParams(query, false, batchingSize, params);
 
 				try {
 					BeanInfo beanInfo = Introspector.getBeanInfo(relation.annotation.loadType());

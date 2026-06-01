@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 import com.openi40.scheduler.input.model.tasks.UsedSecondaryResourcesInfoInputDto;
 

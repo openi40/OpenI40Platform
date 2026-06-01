@@ -12,12 +12,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.apache.derby.jdbc.EmbeddedDriver;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 
 import com.openi40.dbmodel.easydbbeans.BaseDBBean;
 import com.openi40.dbmodel.easydbbeans.BaseDBBean.CloseablePersister;
@@ -25,7 +25,7 @@ import com.openi40.dbmodel.easydbbeans.BaseDBBeanDao;
 import com.openi40.dbmodel.easydbbeans.PersistenceException;
 import com.openi40.tests.AbstractDBSupportTest;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+
 
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 

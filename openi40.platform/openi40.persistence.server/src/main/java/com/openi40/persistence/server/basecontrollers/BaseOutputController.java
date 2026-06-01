@@ -12,7 +12,7 @@ package com.openi40.persistence.server.basecontrollers;
 
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;

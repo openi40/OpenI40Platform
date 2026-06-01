@@ -19,8 +19,8 @@ import com.openi40.dbmodel.java.client.model.OI40DBTask;
 import com.openi40.dbmodel.java.client.model.PageInfo;
 import com.openi40.dbmodel.java.client.model.PageOI40DBTask;
 import com.openi40.dbmodel.java.client.model.QbeSupportOI40DBTask;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * API tests for Oi40DbTaskRepositoryApi
  */
-@Ignore
+@Disabled
 public class Oi40DbTaskRepositoryApiTest {
 
     private final Oi40DbTaskRepositoryApi api = new Oi40DbTaskRepositoryApi();

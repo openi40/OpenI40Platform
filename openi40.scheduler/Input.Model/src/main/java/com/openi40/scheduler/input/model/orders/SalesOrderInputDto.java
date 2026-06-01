@@ -2,7 +2,7 @@ package com.openi40.scheduler.input.model.orders;
 
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.MappedSuperclass;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

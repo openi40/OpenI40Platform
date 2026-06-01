@@ -19,8 +19,8 @@ import com.openi40.dbmodel.java.client.model.OI40DBTaskPurchaseMaterialReservati
 import com.openi40.dbmodel.java.client.model.PageInfo;
 import com.openi40.dbmodel.java.client.model.PageOI40DBTaskPurchaseMaterialReservation;
 import com.openi40.dbmodel.java.client.model.QbeSupportOI40DBTaskPurchaseMaterialReservation;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +30,7 @@ import java.util.Map;
 /**
  * API tests for Oi40DbTaskPurchaseMaterialReservationRepositoryApi
  */
-@Ignore
+@Disabled
 public class Oi40DbTaskPurchaseMaterialReservationRepositoryApiTest {
 
     private final Oi40DbTaskPurchaseMaterialReservationRepositoryApi api = new Oi40DbTaskPurchaseMaterialReservationRepositoryApi();

@@ -3,8 +3,8 @@ package com.openi40.scheduler.input.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 /**
  * 
  * This code is part of the OpenI40 open source advanced production scheduler

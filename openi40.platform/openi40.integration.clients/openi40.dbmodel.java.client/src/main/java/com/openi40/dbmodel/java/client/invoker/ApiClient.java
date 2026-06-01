@@ -50,7 +50,7 @@ import com.openi40.dbmodel.java.client.invoker.auth.HttpBasicAuth;
 import com.openi40.dbmodel.java.client.invoker.auth.ApiKeyAuth;
 import com.openi40.dbmodel.java.client.invoker.auth.OAuth;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
+@jakarta.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2023-11-29T17:41:29.716+01:00")
 @Component("com.openi40.dbmodel.java.client.invoker.ApiClient")
 public class ApiClient {
     public enum CollectionFormat {

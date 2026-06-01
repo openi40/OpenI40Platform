@@ -11,7 +11,8 @@
 	<artifactId>openi40-scheduling-ui</artifactId>
 	<properties>
 		<swagger.file>${project.basedir}/Client.RestApi.Swagger/swagger.json</swagger.file>
-		<backoffice.swagger.file>${project.basedir}/Backoffice.Swagger/swagger.json</backoffice.swagger.file>
+		<backoffice.swagger.file>
+			${project.basedir}/Backoffice.Swagger/swagger.json</backoffice.swagger.file>
 		<generated-sources-path>
 			${project.basedir}/projects/openi40-scheduler-api/src/lib</generated-sources-path>
 		<generated-sources-java-path>/projects/openi40-scheduler-api/src/lib</generated-sources-java-path>
@@ -41,12 +42,12 @@
 				<version>1.7.6</version>
 				<configuration>
 					<workingDirectory>./</workingDirectory>
-					<nodeVersion>v18.16.1</nodeVersion>
-					<npmVersion>9.5.1</npmVersion>
+					<nodeVersion>v22.14.0</nodeVersion>
+					<npmVersion>10.9.2</npmVersion>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node and npm</id>
+						<id>install-node-and-compile</id>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
